@@ -17,6 +17,24 @@ public class Civilization {
     private int science ;
     private Technology currentResearch ;
 
+
+    public Civilization (String name , City capital){
+        this.name = name ;
+        this.cities = new ArrayList<City>();
+        this.cities.add(capital);
+        this.units = new ArrayList<Unit>();
+        this.knownTerrains = new ArrayList<Terrain>();
+        this.gainedTechnologies = new ArrayList<Technology>();
+        this.capital = capital;
+        this.score = 0 ;
+        this.gold = 0 ;
+        this.food = 0 ;
+        this.happiness = 0 ;
+        this.science = 0 ;
+        this.currentResearch = null ;
+    }
+
+
     /**
      * a function to add a city to arrayList of cities
      * @param city
@@ -81,4 +99,44 @@ public class Civilization {
         return this.units;
     }
 
+    /**
+     * a function to get list of knownTerrains
+     * @return
+     */
+    public ArrayList<Terrain> getKnownTerrains(){
+        return this.knownTerrains;
+    }
+
+    /**
+     * a function to get list of gainedTechnologies
+     * @return
+     */
+    public ArrayList<Technology> getGainedTechnologies(){
+        return this.getGainedTechnologies();
+    }
+
+    public int getFood() {
+        return food;
+    }
+    public int getGold() {
+        return gold;
+    }
+    public int getHappiness() {
+        return happiness;
+    }
+    public String getName() {
+        return name;
+    }
+    public int getScience() {
+        return science;
+    }
+    public Technology getCurrentResearch() {
+        return currentResearch;
+    }
+    public City getCapital() {
+        return capital;
+    }
+    public int getScore() {
+        return score;
+    }
 }
