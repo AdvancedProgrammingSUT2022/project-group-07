@@ -1,7 +1,9 @@
 package Enum;
 
+import java.util.ArrayList;
+
 public enum TypeOfImprovement {
-//    CAMP,
+//    CAMP(),
 //    FARM,
 //    LUMBERMILL,
 //    MINE,
@@ -16,16 +18,20 @@ public enum TypeOfImprovement {
     private int gold;
     private int food;
     private int production;
-    // technology
+    private TypeOfTechnology typeOfTechnology;
     private int turnsNeeded;
-    // canBeFoundOn<TypeOfTerrain>
+    private ArrayList<TypeOfTerrain> canBeFoundOn = new ArrayList<>();
 
-    TypeOfImprovement(String name, int gold, int food, int production, int turnsNeeded) {
+    TypeOfImprovement(String name, int gold, int food, int production,
+                      TypeOfTechnology typeOfTechnology, int turnsNeeded,
+                      TypeOfTerrain typeOfTerrain) {
         this.name = name;
         this.gold = gold;
         this.food = food;
         this.production = production;
+        this.typeOfTechnology = typeOfTechnology;
         this.turnsNeeded = turnsNeeded;
+        this.canBeFoundOn.add(typeOfTerrain);
     }
 
     public String getName() {
@@ -60,11 +66,27 @@ public enum TypeOfImprovement {
         this.production = production;
     }
 
+    public TypeOfTechnology getTypeOfTechnology() {
+        return typeOfTechnology;
+    }
+
+    public void setTypeOfTechnology(TypeOfTechnology typeOfTechnology) {
+        this.typeOfTechnology = typeOfTechnology;
+    }
+
     public int getTurnsNeeded() {
         return turnsNeeded;
     }
 
     public void setTurnsNeeded(int turnsNeeded) {
         this.turnsNeeded = turnsNeeded;
+    }
+
+    public ArrayList<TypeOfTerrain> getCanBeFoundOn() {
+        return canBeFoundOn;
+    }
+
+    public void setCanBeFoundOn(ArrayList<TypeOfTerrain> canBeFoundOn) {
+        this.canBeFoundOn = canBeFoundOn;
     }
 }
