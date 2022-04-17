@@ -13,6 +13,7 @@ public enum TypeOfImprovement {
 //    TRADINGPOST,
 //    MANUFACTORY
     ;
+    // turns needed
 
     private String name;
     private int gold;
@@ -21,18 +22,17 @@ public enum TypeOfImprovement {
     // typeOfTechnology
 //    private TypeOfTechnology typeOfTechnology;
     private int turnsNeeded;
-    private ArrayList<TypeOfTerrain> canBeFoundOn = new ArrayList<>();
+    private ArrayList<TypeOfTerrain> canBeFoundOn;
 
     TypeOfImprovement(String name, int gold, int food, int production,
-                      TypeOfTechnology typeOfTechnology, int turnsNeeded,
-                      TypeOfTerrain typeOfTerrain) {
+                      int turnsNeeded, ArrayList<TypeOfTerrain> canBeFoundOn) {
         this.name = name;
         this.gold = gold;
         this.food = food;
         this.production = production;
 //        this.typeOfTechnology = typeOfTechnology;
         this.turnsNeeded = turnsNeeded;
-        this.canBeFoundOn.add(typeOfTerrain);
+        this.canBeFoundOn = canBeFoundOn;
     }
 
     public String getName() {
