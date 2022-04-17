@@ -16,7 +16,6 @@ public enum TypeOfImprovement {
     private int gold;
     private int food;
     private int production;
-
     // technology
     private int turnsNeeded;
     // canBeFoundOn<TypeOfTerrain>
