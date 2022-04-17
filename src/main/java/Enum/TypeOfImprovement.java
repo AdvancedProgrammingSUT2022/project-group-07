@@ -3,55 +3,55 @@ package Enum;
 import java.util.ArrayList;
 
 public enum TypeOfImprovement {
-    CAMP("camp", 0, 0, 0, 1,
+    CAMP("camp", 0, 0, 0, null, 1,
             new ArrayList<>(){
                 {
 
                 }
             }),
-    FARM("farm", 0, 1, 0, 1,
+    FARM("farm", 0, 1, 0, null, 1,
             new ArrayList<>(){
                 {
 
                 }
             }),
-    LUMBERMILL("lumbermill", 0, 0, 1, 1,
+    LUMBERMILL("lumbermill", 0, 0, 1, null ,1,
             new ArrayList<>(){
                 {
 
                 }
             }),
-    MINE("mine", 0, 0, 1, 1,
+    MINE("mine", 0, 0, 1, null, 1,
             new ArrayList<>(){
                 {
 
                 }
             }),
-    PASTURE("pasture", 0, 0, 0 ,1,
+    PASTURE("pasture", 0, 0, 0 , null, 1,
             new ArrayList<>(){
                 {
 
                 }
             }),
-    PLANTATION("plantation", 0, 0, 0, 1,
+    PLANTATION("plantation", 0, 0, 0, null, 1,
             new ArrayList<>(){
                 {
 
                 }
             }),
-    QUARRY("quarry", 0, 0, 0, 1,
+    QUARRY("quarry", 0, 0, 0, null, 1,
             new ArrayList<>(){
                 {
 
                 }
             }),
-    TRADINGPOST("tradingpost", 1, 0, 0, 1,
+    TRADINGPOST("tradingpost", 1, 0, 0, null, 1,
             new ArrayList<>(){
                 {
 
                 }
             }),
-    MANUFACTORY("manufactory", 0, 0, 2, 1,
+    MANUFACTORY("manufactory", 0, 0, 2, null, 1,
             new ArrayList<>(){
                 {
 
@@ -65,17 +65,17 @@ public enum TypeOfImprovement {
     private int food;
     private int production;
     // typeOfTechnology
-//    private TypeOfTechnology typeOfTechnology;
+    private Object typeOfTechnology;
     private int turnsNeeded;
     private ArrayList<TypeOfTerrain> canBeFoundOn;
 
-    TypeOfImprovement(String name, int gold, int food, int production,
+    TypeOfImprovement(String name, int gold, int food, int production, Object typeOfTechnology,
                       int turnsNeeded, ArrayList<TypeOfTerrain> canBeFoundOn) {
         this.name = name;
         this.gold = gold;
         this.food = food;
         this.production = production;
-//        this.typeOfTechnology = typeOfTechnology;
+        this.typeOfTechnology = typeOfTechnology;
         this.turnsNeeded = turnsNeeded;
         this.canBeFoundOn = canBeFoundOn;
     }
@@ -113,13 +113,13 @@ public enum TypeOfImprovement {
     }
 
     // typeOfTechnology
-//    public TypeOfTechnology getTypeOfTechnology() {
-//        return typeOfTechnology;
-//    }
-//
-//    public void setTypeOfTechnology(TypeOfTechnology typeOfTechnology) {
-//        this.typeOfTechnology = typeOfTechnology;
-//    }
+    public Object getTypeOfTechnology() {
+        return typeOfTechnology;
+    }
+
+    public void setTypeOfTechnology(Object typeOfTechnology) {
+        this.typeOfTechnology = typeOfTechnology;
+    }
 
     public int getTurnsNeeded() {
         return turnsNeeded;
