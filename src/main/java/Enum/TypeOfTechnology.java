@@ -1,5 +1,4 @@
 package Enum;
 
-public class TypeOfTechnology {
-
+public enum TypeOfTechnology {
 }

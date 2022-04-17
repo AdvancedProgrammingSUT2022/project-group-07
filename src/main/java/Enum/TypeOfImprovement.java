@@ -18,7 +18,8 @@ public enum TypeOfImprovement {
     private int gold;
     private int food;
     private int production;
-    private TypeOfTechnology typeOfTechnology;
+    // typeOfTechnology
+//    private TypeOfTechnology typeOfTechnology;
     private int turnsNeeded;
     private ArrayList<TypeOfTerrain> canBeFoundOn = new ArrayList<>();
 
@@ -29,7 +30,7 @@ public enum TypeOfImprovement {
         this.gold = gold;
         this.food = food;
         this.production = production;
-        this.typeOfTechnology = typeOfTechnology;
+//        this.typeOfTechnology = typeOfTechnology;
         this.turnsNeeded = turnsNeeded;
         this.canBeFoundOn.add(typeOfTerrain);
     }
@@ -66,13 +67,14 @@ public enum TypeOfImprovement {
         this.production = production;
     }
 
-    public TypeOfTechnology getTypeOfTechnology() {
-        return typeOfTechnology;
-    }
-
-    public void setTypeOfTechnology(TypeOfTechnology typeOfTechnology) {
-        this.typeOfTechnology = typeOfTechnology;
-    }
+    // typeOfTechnology
+//    public TypeOfTechnology getTypeOfTechnology() {
+//        return typeOfTechnology;
+//    }
+//
+//    public void setTypeOfTechnology(TypeOfTechnology typeOfTechnology) {
+//        this.typeOfTechnology = typeOfTechnology;
+//    }
 
     public int getTurnsNeeded() {
         return turnsNeeded;
