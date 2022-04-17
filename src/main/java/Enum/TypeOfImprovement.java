@@ -1,76 +1,36 @@
 package Enum;
 
-import java.util.ArrayList;
-
 public enum TypeOfImprovement {
-    CAMP("camp", 0, 0, 0, null, 1,
-            new ArrayList<>(){
-                {
-
-                }
-            }),
-    FARM("farm", 0, 1, 0, null, 1,
-            new ArrayList<>(){
-                {
-
-                }
-            }),
-    LUMBERMILL("lumbermill", 0, 0, 1, null ,1,
-            new ArrayList<>(){
-                {
-
-                }
-            }),
-    MINE("mine", 0, 0, 1, null, 1,
-            new ArrayList<>(){
-                {
-
-                }
-            }),
-    PASTURE("pasture", 0, 0, 0 , null, 1,
-            new ArrayList<>(){
-                {
-
-                }
-            }),
-    PLANTATION("plantation", 0, 0, 0, null, 1,
-            new ArrayList<>(){
-                {
-
-                }
-            }),
-    QUARRY("quarry", 0, 0, 0, null, 1,
-            new ArrayList<>(){
-                {
-
-                }
-            }),
-    TRADINGPOST("tradingpost", 1, 0, 0, null, 1,
-            new ArrayList<>(){
-                {
-
-                }
-            }),
-    MANUFACTORY("manufactory", 0, 0, 2, null, 1,
-            new ArrayList<>(){
-                {
-
-                }
-            })
-    ;
+    CAMP("camp", 0, 0, 0, TypeOfTechnology.TRAPPING, 1111,
+            new String[]{"forest","tundra", "plain", "hill"}),
+    FARM("farm", 0, 1, 0, TypeOfTechnology.AGRICULTURE, 1111,
+            new String[]{"plain", "desert", "grassland"}),
+    LUMBER_MILL("lumberMill", 0, 0, 1, TypeOfTechnology.CONSTRUCTION ,1111,
+            new String[]{"forest"}),
+    MINE("mine", 0, 0, 1, TypeOfTechnology.MINING, 1111,
+            new String[]{"plain", "desert", "grassland", "tundra", "snow", "hill", "forest", "jungle", "marsh"}),
+    PASTURE("pasture", 0, 0, 0 , TypeOfTechnology.ANIMAL_HUSBANDRY, 1111,
+            new String[]{"plain", "desert", "grassland", "tundra", "hill"}),
+    PLANTATION("plantation", 0, 0, 0, TypeOfTechnology.CALENDAR, 1111,
+            new String[]{"plain", "desert", "grassland", "forest", "jungle", "marsh", "floodplains"}),
+    QUARRY("quarry", 0, 0, 0, TypeOfTechnology.MASONRY, 1111,
+            new String[]{"plain", "desert", "grassland", "tundra", "hill"}),
+    TRADING_POST("tradingPost", 1, 0, 0, TypeOfTechnology.TRAPPING, 1111,
+            new String[]{"plain", "desert", "grassland", "tundra"}),
+    MANUFACTORY("manufactory", 0, 0, 2, TypeOfTechnology.ENGINEERING, 1111,
+            new String[]{"plain", "desert", "grassland", "tundra", "snow"});
     // turns needed
 
     private String name;
     private int gold;
     private int food;
     private int production;
-    // typeOfTechnology
-    private Object typeOfTechnology;
+    private TypeOfTechnology typeOfTechnology;
     private int turnsNeeded;
-    private ArrayList<TypeOfTerrain> canBeFoundOn;
+    private String[] canBeFoundOn;
 
-    TypeOfImprovement(String name, int gold, int food, int production, Object typeOfTechnology,
-                      int turnsNeeded, ArrayList<TypeOfTerrain> canBeFoundOn) {
+    TypeOfImprovement(String name, int gold, int food, int production, TypeOfTechnology typeOfTechnology,
+                      int turnsNeeded, String[] canBeFoundOn) {
         this.name = name;
         this.gold = gold;
         this.food = food;
@@ -112,12 +72,11 @@ public enum TypeOfImprovement {
         this.production = production;
     }
 
-    // typeOfTechnology
     public Object getTypeOfTechnology() {
         return typeOfTechnology;
     }
 
-    public void setTypeOfTechnology(Object typeOfTechnology) {
+    public void setTypeOfTechnology(TypeOfTechnology typeOfTechnology) {
         this.typeOfTechnology = typeOfTechnology;
     }
 
@@ -129,11 +88,11 @@ public enum TypeOfImprovement {
         this.turnsNeeded = turnsNeeded;
     }
 
-    public ArrayList<TypeOfTerrain> getCanBeFoundOn() {
+    public String[] getCanBeFoundOn() {
         return canBeFoundOn;
     }
 
-    public void setCanBeFoundOn(ArrayList<TypeOfTerrain> canBeFoundOn) {
+    public void setCanBeFoundOn(String[] canBeFoundOn) {
         this.canBeFoundOn = canBeFoundOn;
     }
 }
