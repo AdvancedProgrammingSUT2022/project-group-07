@@ -3,15 +3,60 @@ package Enum;
 import java.util.ArrayList;
 
 public enum TypeOfImprovement {
-//    CAMP(),
-//    FARM,
-//    LUMBERMILL,
-//    MINE,
-//    PASTURE,
-//    PLANTATION,
-//    QUARRY,
-//    TRADINGPOST,
-//    MANUFACTORY
+    CAMP("camp", 0, 0, 0, 1,
+            new ArrayList<>(){
+                {
+
+                }
+            }),
+    FARM("farm", 0, 1, 0, 1,
+            new ArrayList<>(){
+                {
+
+                }
+            }),
+    LUMBERMILL("lumbermill", 0, 0, 1, 1,
+            new ArrayList<>(){
+                {
+
+                }
+            }),
+    MINE("mine", 0, 0, 1, 1,
+            new ArrayList<>(){
+                {
+
+                }
+            }),
+    PASTURE("pasture", 0, 0, 0 ,1,
+            new ArrayList<>(){
+                {
+
+                }
+            }),
+    PLANTATION("plantation", 0, 0, 0, 1,
+            new ArrayList<>(){
+                {
+
+                }
+            }),
+    QUARRY("quarry", 0, 0, 0, 1,
+            new ArrayList<>(){
+                {
+
+                }
+            }),
+    TRADINGPOST("tradingpost", 1, 0, 0, 1,
+            new ArrayList<>(){
+                {
+
+                }
+            }),
+    MANUFACTORY("manufactory", 0, 0, 2, 1,
+            new ArrayList<>(){
+                {
+
+                }
+            })
     ;
     // turns needed
 
