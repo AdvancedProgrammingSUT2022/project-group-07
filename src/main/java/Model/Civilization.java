@@ -56,7 +56,7 @@ public class Civilization {
      * @param unit
      */
     public void addUnit(Unit unit){
-
+        this.units.add(unit) ;
     }
 
     /**
@@ -64,7 +64,7 @@ public class Civilization {
      * @param unit
      */
     public void removeUnit(Unit unit){
-
+        this.units.remove(unit);
     }
 
     /**
@@ -72,7 +72,7 @@ public class Civilization {
      * @param terrain
      */
     public void addKnownTerrain(Terrain terrain){
-
+        this.knownTerrains.add(terrain);
     }
 
     /**
@@ -80,7 +80,7 @@ public class Civilization {
      * @param technology
      */
     public void addTechonolgy(Technology technology){
-
+        this.gainedTechnologies.add(technology);
     }
 
     /**
