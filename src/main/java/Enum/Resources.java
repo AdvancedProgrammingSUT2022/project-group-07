@@ -1,25 +1,25 @@
 package Enum;
 
 public enum Resources {
-    BANANA("banana", 1, 0, 0, new String[]{"jungle"}, null, null, TypeOfResource.BONUS),
+    BANANA("banana", 1, 0, 0, new String[]{"forest"}, null, null, TypeOfResource.BONUS),
     COW("cow", 1, 0, 0, new String[]{"grassland"}, null, null, TypeOfResource.BONUS),
-    GAZELLE("gazelle", 1, 0, 0, new String[]{"jungle", "tundra", "hill"}, null, null, TypeOfResource.BONUS),
-    SHEEP("sheep", 2, 0, 0, new String[]{"hill", "grassland", "jolgeh", "desert"}, null, null, TypeOfResource.BONUS),
-    WHEAT("wheat", 1, 0, 0, new String[]{"plain", "jolgeh"}, null, null, TypeOfResource.BONUS),
+    GAZELLE("gazelle", 1, 0, 0, new String[]{"forest", "tundra", "hill"}, null, null, TypeOfResource.BONUS),
+    SHEEP("sheep", 2, 0, 0, new String[]{"hill", "grassland", "", "desert"}, null, null, TypeOfResource.BONUS),
+    WHEAT("wheat", 1, 0, 0, new String[]{"plain", "floodplains"}, null, null, TypeOfResource.BONUS),
     COAL("coal", 0, 1, 0, new String[]{"plain", "hill", "grassland"}, null, null, TypeOfResource.STRATEGIC),
     HORSE("horse", 0, 1, 0, new String[]{"tundra", "plain", "grassland"}, null, null, TypeOfResource.STRATEGIC),
     IRON("iron", 0, 1, 0, new String[]{"tundra", "plain", "desert", "hill", "grassland", "snow"}, null, null, TypeOfResource.STRATEGIC),
     COTTON("cotton", 0, 0, 2, new String[]{"desert", "plain", "grassland"}, null, null, TypeOfResource.LUXURY),
-    COLOR("color", 0, 0, 2, new String[]{"jungleAnbooh", "jungle"}, null, null, TypeOfResource.LUXURY),
-    FUR("fur", 0, 0, 2, new String[]{"jungle", "tundra"}, null, null, TypeOfResource.LUXURY),
-    PRECIOUSSTONE("preciousStone", 0, 0, 3, new String[]{"jungleAnbooh", "tundra", "plain", "desert", "grassland", "hill"}, null, null, TypeOfResource.LUXURY),
+    COLOR("color", 0, 0, 2, new String[]{"jungle", "forest"}, null, null, TypeOfResource.LUXURY),
+    FUR("fur", 0, 0, 2, new String[]{"forest", "tundra"}, null, null, TypeOfResource.LUXURY),
+    PRECIOUS_STONE("preciousStone", 0, 0, 3, new String[]{"jungle", "tundra", "plain", "desert", "grassland", "hill"}, null, null, TypeOfResource.LUXURY),
     GOLD("gold", 0, 0, 2, new String[]{"desert", "plain", "hill", "grassland"}, null, null, TypeOfResource.LUXURY),
     ALOE("aloe", 0, 0, 2, new String[]{"plain", "desert"}, null, null, TypeOfResource.LUXURY),
     IVORY("ivory", 0, 0, 2, new String[]{"plain"}, null, null, TypeOfResource.LUXURY),
     MARBLE("marble", 0, 0, 2, new String[]{"tundra", "plain", "desert", "grassland", "hill"}, null, null, TypeOfResource.LUXURY),
-    SILK("silk", 0, 0, 2, new String[]{"jungle"}, null, null, TypeOfResource.LUXURY),
+    SILK("silk", 0, 0, 2, new String[]{"forest"}, null, null, TypeOfResource.LUXURY),
     SILVER("silver", 0, 0, 2, new String[]{"tundra", "desert", "hill"}, null, null, TypeOfResource.LUXURY),
-    SUGAR("sugar", 0, 0, 2, new String[]{"jolgeh", "lagoon"}, null, null, TypeOfResource.LUXURY);
+    SUGAR("sugar", 0, 0, 2, new String[]{"floodplains", "marsh"}, null, null, TypeOfResource.LUXURY);
 
 
     private String name;
