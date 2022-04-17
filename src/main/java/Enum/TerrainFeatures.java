@@ -14,10 +14,10 @@ public enum TerrainFeatures {
     private int gold;
     private int production;
     private int mp;
-    private int changeOfCombat;
+    private float changeOfCombat;
     private String[] possibleResources;
 
-    TerrainFeatures(String name, int food, int production, int gold, int changeOfCombat, int mp, String[] possibleResources) {
+    TerrainFeatures(String name, int food, int production, int gold, float changeOfCombat, int mp, String[] possibleResources) {
         this.name = name;
         this.food = food;
         this.production = production;
