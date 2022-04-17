@@ -1,5 +1,7 @@
 package Model;
 
+import Enum.TypeOfTechnology;
+
 public class Technology {
 
     private TypeOfTechnology typeOfTechnology;

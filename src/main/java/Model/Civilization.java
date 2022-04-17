@@ -40,7 +40,7 @@ public class Civilization {
      * @param city
      */
     public void addCity(City city){
-
+        this.cities.add(city) ;
     }
 
     /**
@@ -48,7 +48,7 @@ public class Civilization {
      * @param city
      */
     public void removeCity(City city){
-
+        this.cities.remove(city) ;
     }
 
     /**

@@ -5,19 +5,17 @@ public class Citizen {
 
     /**
      * a function to assign citizen to terrain
-     * @param citizen
      * @param terrain
      */
-    public void assignWork(Citizen citizen , Terrain terrain){
-
+    public void assignWork(Terrain terrain){
+        this.terrain = terrain ;
     }
 
     /**
      * a function to remove a citizen from working on a terrain
-     * @param citizen
      * @param terrain
      */
-    public void removeWork(Citizen citizen , Terrain terrain){
-
+    public void removeWork(Terrain terrain){
+        this.terrain = null ;
     }
 }
