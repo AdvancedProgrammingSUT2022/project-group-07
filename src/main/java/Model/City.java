@@ -27,6 +27,7 @@ public class City {
         this.ownership = ownership;
     }
 
+
     public String getName() {
         return name;
     }
@@ -51,6 +52,5 @@ public class City {
     public int getHp() {
         return hp;
     }
-
 
 }
