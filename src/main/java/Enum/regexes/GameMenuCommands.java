@@ -4,6 +4,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum GameMenuCommands {
+
+    // menu commands : !!!
+    EXIT("menu exit"),
+    MENU_NAVIGATION("enter menu (?<menuName>\\S+)"),
+    SHOW_CURRENT_MENU("show current menu"),
     //info commands : !!!!!
 
     INFO_RESEARCH("info research"),
