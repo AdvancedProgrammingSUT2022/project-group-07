@@ -44,55 +44,27 @@ public enum TypeOfImprovement {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getGold() {
         return gold;
-    }
-
-    public void setGold(int gold) {
-        this.gold = gold;
     }
 
     public int getFood() {
         return food;
     }
 
-    public void setFood(int food) {
-        this.food = food;
-    }
-
     public int getProduction() {
         return production;
     }
 
-    public void setProduction(int production) {
-        this.production = production;
-    }
-
-    public Object getTypeOfTechnology() {
+    public TypeOfTechnology getTypeOfTechnology() {
         return typeOfTechnology;
-    }
-
-    public void setTypeOfTechnology(TypeOfTechnology typeOfTechnology) {
-        this.typeOfTechnology = typeOfTechnology;
     }
 
     public int getTurnsNeeded() {
         return turnsNeeded;
     }
 
-    public void setTurnsNeeded(int turnsNeeded) {
-        this.turnsNeeded = turnsNeeded;
-    }
-
     public String[] getCanBeFoundOn() {
         return canBeFoundOn;
-    }
-
-    public void setCanBeFoundOn(String[] canBeFoundOn) {
-        this.canBeFoundOn = canBeFoundOn;
     }
 }
