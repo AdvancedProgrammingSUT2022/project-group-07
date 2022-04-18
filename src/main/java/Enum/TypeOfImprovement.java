@@ -19,7 +19,7 @@ public enum TypeOfImprovement {
             new String[]{"plain", "desert", "grassland", "tundra"}),
     MANUFACTORY("manufactory", 0, 0, 2, TypeOfTechnology.ENGINEERING, 1111,
             new String[]{"plain", "desert", "grassland", "tundra", "snow"});
-    // turns needed
+    // TODO check all turnsNeeded
 
     private String name;
     private int gold;
