@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum ProfileMenuCommands {
+    // TODO : -n ya -p nadashtebashim?
     EXIT("menu exit"),
     MENU_NAVIGATION("enter menu (?<menuName>\\S+)"),
     SHOW_CURRENT_MENU("menu show-current"),

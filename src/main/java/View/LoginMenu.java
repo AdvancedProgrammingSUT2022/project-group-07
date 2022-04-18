@@ -1,6 +1,6 @@
 package View;
-import Controller.menu.GameMenuController;
 import Controller.menu.LoginMenuController;
+import Controller.menu.ProfileValidation;
 import Enum.MenuName;
 import Enum.regexes.LoginMenuCommands;
 
@@ -40,7 +40,18 @@ public class LoginMenu extends Menu{
             || (matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.CREATE_USER_4)) != null
             || (matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.CREATE_USER_5)) != null
             || (matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.CREATE_USER_6)) != null) {
-
+                String username = matcher.group("username");
+                String password = matcher.group("password");
+                String nickname = matcher.group("nickname");
+                if(ProfileValidation.usernameIsValid(username)
+                        && ProfileValidation.passwordIsValid(password)
+                        && ProfileValidation.nicknameIsValid(nickname)
+                        && !ProfileValidation.usernameIsUsed(username)
+                        && !ProfileValidation.nicknameIsUsed(nickname)) {
+                    // TODO add user danial
+                } else {
+                    System.out.println("invalid command from ayoub");
+                }
             }
             // login :
 
@@ -49,7 +60,6 @@ public class LoginMenu extends Menu{
 
             }
             else System.out.println("invalid command from ayoub");
-
         }
     }
 }
