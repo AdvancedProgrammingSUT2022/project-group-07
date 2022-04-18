@@ -45,63 +45,31 @@ public enum TypeOfTerrain {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getGold() {
         return gold;
-    }
-
-    public void setGold(int gold) {
-        this.gold = gold;
     }
 
     public int getFood() {
         return food;
     }
 
-    public void setFood(int food) {
-        this.food = food;
-    }
-
     public int getProduction() {
         return production;
-    }
-
-    public void setProduction(int production) {
-        this.production = production;
     }
 
     public int getMpNeeded() {
         return mpNeeded;
     }
 
-    public void setMpNeeded(int mpNeeded) {
-        this.mpNeeded = mpNeeded;
-    }
-
     public float getChangeOfCombat() {
         return changeOfCombat;
-    }
-
-    public void setChangeOfCombat(float changeOfCombat) {
-        this.changeOfCombat = changeOfCombat;
     }
 
     public String[] getPossibleFeatures() {
         return possibleFeatures;
     }
 
-    public void setPossibleFeatures(String[] possibleFeatures) {
-        this.possibleFeatures = possibleFeatures;
-    }
-
     public String[] getPossibleResources() {
         return possibleResources;
-    }
-
-    public void setPossibleResources(String[] possibleResources) {
-        this.possibleResources = possibleResources;
     }
 }
