@@ -1,16 +1,21 @@
 package Enum;
 
+import View.LoginMenu;
+
 public enum MenuName {
-    LOGIN_MENU("loginMenu"),
-    MAIN_MENU("mainMenu"),
-    PROFILE_MENU("profileMenu"),
-    GAME_MENU("gameMenu");
+    LOGIN_MENU,
+    MAIN_MENU,
+    PROFILE_MENU,
+    GAME_MENU,
+    TERMINATE;
 
-    private String menuName;
+    private static MenuName currentMenu = LOGIN_MENU; // vase shorooe bazi!
 
-    MenuName(String menuName) { this.menuName = menuName;}
+    public static MenuName getCurrentMenu() {
+        return currentMenu;
+    }
 
-    public String getMenuName() {
-        return menuName;
+    public static void setCurrentMenu(MenuName currentMenu) {
+        MenuName.currentMenu = currentMenu;
     }
 }
