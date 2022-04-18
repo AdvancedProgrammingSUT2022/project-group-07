@@ -22,13 +22,15 @@ public class LoginMenu extends Menu{
         while (MenuName.getCurrentMenu() == MenuName.LOGIN_MENU) {
             input = scanner.nextLine();
             if (LoginMenuCommands.getMatcher(input , LoginMenuCommands.EXIT) != null) {
-
+                String result = loginMenuController.exit();
+                System.out.println(result);
             }
             else if (LoginMenuCommands.getMatcher(input , LoginMenuCommands.SHOW_CURRENT_MENU) != null){
-
+                System.out.println("Login Menu");
             }
             else if ((matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.MENU_NAVIGATION)) != null) {
-
+                String result = loginMenuController.navigateMenu(matcher);
+                System.out.println(result);
             }
             // create user :
 
