@@ -2,6 +2,7 @@ package Enum;
 
 public enum TerrainFeatures {
     // TODO type of changeOfCombat
+    // TODO check mp for RIVER
     FLOODPLAINS("floodplains", 2, 0, 0, -33/100, 1, new String[]{"wheat", "sugar"}),
     FOREST("forest", 1, 1, 0, 25/100, 2, new String[]{"uranium", "gazelle", "wool", "color", "silk"}),
     ICE("ice", 0,0,0, 0, 10000, null),
