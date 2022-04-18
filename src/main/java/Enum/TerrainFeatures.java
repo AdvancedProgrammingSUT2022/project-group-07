@@ -32,55 +32,27 @@ public enum TerrainFeatures {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getFood() {
         return food;
-    }
-
-    public void setFood(int food) {
-        this.food = food;
     }
 
     public int getGold() {
         return gold;
     }
 
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
-
     public int getProduction() {
         return production;
-    }
-
-    public void setProduction(int production) {
-        this.production = production;
     }
 
     public int getMp() {
         return mp;
     }
 
-    public void setMp(int mp) {
-        this.mp = mp;
-    }
-
     public float getChangeOfCombat() {
         return changeOfCombat;
     }
 
-    public void setChangeOfCombat(float changeOfCombat) {
-        this.changeOfCombat = changeOfCombat;
-    }
-
     public String[] getPossibleResources() {
         return possibleResources;
-    }
-
-    public void setPossibleResources(String[] possibleResources) {
-        this.possibleResources = possibleResources;
     }
 }
