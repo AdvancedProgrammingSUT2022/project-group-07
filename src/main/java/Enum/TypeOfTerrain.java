@@ -2,23 +2,31 @@ package Enum;
 
 public enum TypeOfTerrain {
     // TODO changeOfCombatType
-    DESERT("desert", 0, 0, 0, 1,-33/100, new String[]{"oasis", "floodplains"},
-            new String[]{"iron", "oil", "aluminium", "uranium", "gold", "silver", "gem", "marble", "cotton", "aloe", "sheep"}),
-    GRASSLAND("grassland", 0, 2, 0, 1, -33/100, new String[]{"forest", "marsh"},
-            new String[]{"iron", "horse", "coal", "uranium", "cow", "gold", "gem", "marble", "cotton", "wine", "sheep"}),
-    HILL("hill", 0,0, 2, 2, 25/100, new String[]{"forest", "jungle"},
-            new String[]{"iron", "coal", "aluminium", "uranium", "gazelle", "gold", "silver", "gem", "marble", "sheep"}),
-    MOUNTAIN("mountain", 0, 0, 0, 10000, 25/100, null,
+    DESERT("desert", 0, 0, 0, 1,(float) -33/100,
+            new TerrainFeatures[]{TerrainFeatures.OASIS, TerrainFeatures.FLOODPLAINS},
+            new Resources[]{Resources.IRON, Resources.GOLD, Resources.SILVER, Resources.MARBLE, Resources.COTTON,
+                    Resources.ALOE, Resources.SHEEP}),
+    GRASSLAND("grassland", 0, 2, 0, 1, (float) -33/100,
+            new TerrainFeatures[]{TerrainFeatures.FOREST, TerrainFeatures.MARSH},
+            new Resources[]{Resources.IRON, Resources.HORSE, Resources.COAL, Resources.COW, Resources.GOLD,
+                    Resources.MARBLE, Resources.COTTON, Resources.SHEEP}),
+    HILL("hill", 0,0, 2, 2, (float) 25/100,
+            new TerrainFeatures[]{TerrainFeatures.FOREST, TerrainFeatures.JUNGLE},
+            new Resources[]{Resources.IRON, Resources.COAL, Resources.GAZELLE, Resources.GOLD, Resources.SILVER,
+                    Resources.MARBLE, Resources.SHEEP}),
+    MOUNTAIN("mountain", 0, 0, 0, 10000, (float) 25/100, null,
             null),
-    OCEAN("ocean", 0, 0, 0, 10000, 25/100, null,
+    OCEAN("ocean", 0, 0, 0, 10000, (float) 25/100, null,
             null),
-    PLAIN("plain", 0, 1, 1, 1, -33/100, new String[]{"forest", "jungle"},
-            new String[]{"iron", "horse", "coal", "aluminium", "uranium", "wheat", "gold", "gem", "marble", "ivory", "cotton",
-            "wine", "aloe", "sheep"}),
-    SNOW("snow", 0, 0, 0, 1, -33/100, null,
-            new String[]{"iron", "oil", "uranium"}),
-    TUNDRA("tundra", 0, 1, 0, 1, -33/100, new String[]{"forest"},
-            new String[]{"iron", "horse", "oil", "aluminium", "uranium", "gazelle", "silver", "gem", "marble", "wool"});
+    PLAIN("plain", 0, 1, 1, 1, (float) -33/100,
+            new TerrainFeatures[]{TerrainFeatures.FOREST, TerrainFeatures.JUNGLE},
+            new Resources[]{Resources.IRON, Resources.HORSE, Resources.COAL, Resources.WHEAT, Resources.GOLD,
+                    Resources.MARBLE, Resources.IVORY, Resources.COTTON, Resources.ALOE, Resources.SHEEP}),
+    SNOW("snow", 0, 0, 0, 1, (float) -33/100, null,
+            new Resources[]{Resources.IRON}),
+    TUNDRA("tundra", 0, 1, 0, 1, (float) -33/100,
+            new TerrainFeatures[]{TerrainFeatures.FOREST},
+            new Resources[]{Resources.IRON, Resources.HORSE, Resources.GAZELLE, Resources.SILVER, Resources.MARBLE});
 
     private String name;
     private int gold;
@@ -26,11 +34,11 @@ public enum TypeOfTerrain {
     private int production;
     private int mpNeeded;
     private float changeOfCombat;
-    private String[] possibleFeatures;
-    private String[] possibleResources;
+    private TerrainFeatures[] possibleFeatures;
+    private Resources[] possibleResources;
 
     TypeOfTerrain(String name, int gold, int food, int production, int mpNeeded, float changeOfCombat,
-                  String[] possibleFeatures, String[] possibleResources) {
+                  TerrainFeatures[] possibleFeatures, Resources[] possibleResources) {
         this.name = name;
         this.gold = gold;
         this.food = food;
@@ -65,11 +73,11 @@ public enum TypeOfTerrain {
         return changeOfCombat;
     }
 
-    public String[] getPossibleFeatures() {
+    public TerrainFeatures[] getPossibleFeatures() {
         return possibleFeatures;
     }
 
-    public String[] getPossibleResources() {
+    public Resources[] getPossibleResources() {
         return possibleResources;
     }
 }

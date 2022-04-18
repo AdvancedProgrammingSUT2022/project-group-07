@@ -3,12 +3,12 @@ package Enum;
 public enum TerrainFeatures {
     // TODO type of changeOfCombat
     // TODO check mp for RIVER
-    FLOODPLAINS("floodplains", 2, 0, 0, -33/100, 1, new String[]{"wheat", "sugar"}),
-    FOREST("forest", 1, 1, 0, 25/100, 2, new String[]{"uranium", "gazelle", "wool", "color", "silk"}),
+    FLOODPLAINS("floodplains", 2, 0, 0, (float) -33/100, 1, new String[]{"wheat", "sugar"}),
+    FOREST("forest", 1, 1, 0, (float) 25/100, 2, new String[]{"uranium", "gazelle", "wool", "color", "silk"}),
     ICE("ice", 0,0,0, 0, 10000, null),
-    JUNGLE("jungle", 1, -1, 0, 25/100, 2, new String[]{"oil", "uranium", "banana", "gem", "color", "spices"}),
-    MARSH("marsh", -1, 0, 0, -33/100, 2, new String[]{"oil", "uranium", "sugar"}),
-    OASIS("oasis", 3, 0, 1, -33/100, 1, null),
+    JUNGLE("jungle", 1, -1, 0, (float) 25/100, 2, new String[]{"oil", "uranium", "banana", "gem", "color", "spices"}),
+    MARSH("marsh", -1, 0, 0, (float) -33/100, 2, new String[]{"oil", "uranium", "sugar"}),
+    OASIS("oasis", 3, 0, 1, (float) -33/100, 1, null),
     RIVER("river", 0, 0, 1, 0, 9999, null);
 
     private String name;
