@@ -16,10 +16,10 @@ public class Main {
         GameMenu gameMenu = new GameMenu(scanner , new GameMenuController());
 
         while(MenuName.getCurrentMenu() != MenuName.TERMINATE) {
-            LoginMenu.run();
-            MainMenu.run();
-            ProfileMenu.run();
-            GameMenu.run();
+            loginMenu.run();
+            mainMenu.run();
+            profileMenu.run();
+            gameMenu.run();
         }
         System.out.println("khaste nabashi ayoub jan!");
     }
