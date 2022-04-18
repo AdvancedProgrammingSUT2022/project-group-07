@@ -13,7 +13,7 @@ public class GameMenu{
 
     public GameMenu(Scanner scanner, GameMenuController gameMenuController){
         this.gameMenuController = gameMenuController;
-        this.scanner = scanner;
+        GameMenu.scanner = scanner;
     }
 
     public static void run() {

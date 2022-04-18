@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 public class ProfileMenu {
     private final ProfileMenuController profileMenuController;
-    private Scanner scanner;
+    private static Scanner scanner;
     public ProfileMenu(Scanner scanner, ProfileMenuController profileMenuController){
-        this.scanner = scanner;
+        ProfileMenu.scanner = scanner;
         this.profileMenuController = profileMenuController;
     }
 

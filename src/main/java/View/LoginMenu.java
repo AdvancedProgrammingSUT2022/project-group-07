@@ -11,7 +11,7 @@ public class LoginMenu {
     private final LoginMenuController loginMenuController;
     private static Scanner scanner;
     public LoginMenu(Scanner scanner , LoginMenuController loginMenuController) {
-        this.scanner = scanner;
+        LoginMenu.scanner = scanner;
         this.loginMenuController = loginMenuController;
     }
 
