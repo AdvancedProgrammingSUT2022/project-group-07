@@ -6,16 +6,15 @@ import Enum.MenuName;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
-public class LoginMenu {
+public class LoginMenu extends Menu{
 
     private final LoginMenuController loginMenuController;
-    private static Scanner scanner;
     public LoginMenu(Scanner scanner , LoginMenuController loginMenuController) {
-        LoginMenu.scanner = scanner;
+        super(scanner);
         this.loginMenuController = loginMenuController;
     }
 
-    public static void run() {
+    public  void run() {
         String input;
         Matcher matcher;
 

@@ -5,19 +5,19 @@ import Enum.MenuName;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
-public class MainMenu {
+public class MainMenu extends Menu{
     private final MainMenuController mainMenuController;
-    private static Scanner scanner;
+
     public MainMenu(Scanner scanner , MainMenuController mainMenuController) {
-        MainMenu.scanner = scanner;
+        super(scanner);
         this.mainMenuController = mainMenuController;
     }
 
-    public static void run() {
+    public void run() {
         String input;
         Matcher matcher;
-
         while (MenuName.getCurrentMenu() == MenuName.MAIN_MENU) {
+            input = scanner.nextLine();
             //TODO commands!
         }
     }

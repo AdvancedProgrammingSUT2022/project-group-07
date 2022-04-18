@@ -7,16 +7,15 @@ import Enum.regexes.GameMenuCommands;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
-public class GameMenu{
+public class GameMenu extends Menu{
     private final GameMenuController gameMenuController;
-    private static Scanner scanner;
 
     public GameMenu(Scanner scanner, GameMenuController gameMenuController){
+        super(scanner);
         this.gameMenuController = gameMenuController;
-        GameMenu.scanner = scanner;
     }
 
-    public static void run() {
+    public  void run() {
         String input;
         Matcher matcher;
 
