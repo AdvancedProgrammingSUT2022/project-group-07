@@ -8,7 +8,7 @@ public enum GameMenuCommands {
     // menu commands : !!!
     EXIT("menu exit"),
     MENU_NAVIGATION("enter menu (?<menuName>\\S+)"),
-    SHOW_CURRENT_MENU("show current menu"),
+    SHOW_CURRENT_MENU("menu show-current"),
     //info commands : !!!!!
 
     INFO_RESEARCH("info research"),
