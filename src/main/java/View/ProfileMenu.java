@@ -2,12 +2,14 @@ package View;
 
 import Controller.menu.ProfileMenuController;
 import Enum.MenuName;
+import Enum.regexes.ProfileMenuCommands;
+
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class ProfileMenu extends Menu{
     private final ProfileMenuController profileMenuController;
-    private static Scanner scanner;
+
     public ProfileMenu(Scanner scanner, ProfileMenuController profileMenuController){
         super(scanner);
         this.profileMenuController = profileMenuController;
@@ -18,6 +20,23 @@ public class ProfileMenu extends Menu{
         Matcher matcher;
         while (MenuName.getCurrentMenu() == MenuName.PROFILE_MENU) {
             input = scanner.nextLine();
+            if (ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.EXIT) != null) {
+
+            }
+            else if (ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.SHOW_CURRENT_MENU) != null){
+
+            }
+            else if ((matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.MENU_NAVIGATION)) != null) {
+
+            }
+            else if ((matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.CHANGE_NICKNAME)) != null) {
+
+            }
+            else if ((matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.CHANGE_PASSWORD_1)) != null
+            || (matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.CHANGE_PASSWORD_2)) != null) {
+
+            }
+            else System.out.println("invalid command from ayoub");
         }
     }
 }
