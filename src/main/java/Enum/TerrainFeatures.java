@@ -1,14 +1,17 @@
 package Enum;
 
 public enum TerrainFeatures {
-    // TODO type of changeOfCombat
     // TODO check mp for RIVER
-    FLOODPLAINS("floodplains", 2, 0, 0, -33/100, 1, new String[]{"wheat", "sugar"}),
-    FOREST("forest", 1, 1, 0, 25/100, 2, new String[]{"uranium", "gazelle", "wool", "color", "silk"}),
+    FLOODPLAINS("floodplains", 2, 0, 0, -0.33, 1,
+            new Resources[]{Resources.WHEAT, Resources.SUGAR}),
+    FOREST("forest", 1, 1, 0, 0.25, 2,
+            new Resources[]{Resources.GAZELLE, Resources.COLOR, Resources.SILK}),
     ICE("ice", 0,0,0, 0, 10000, null),
-    JUNGLE("jungle", 1, -1, 0, 25/100, 2, new String[]{"oil", "uranium", "banana", "gem", "color", "spices"}),
-    MARSH("marsh", -1, 0, 0, -33/100, 2, new String[]{"oil", "uranium", "sugar"}),
-    OASIS("oasis", 3, 0, 1, -33/100, 1, null),
+    JUNGLE("jungle", 1, -1, 0, 0.25, 2,
+            new Resources[]{Resources.BANANA,Resources.COLOR}),
+    MARSH("marsh", -1, 0, 0, -0.33, 2,
+            new Resources[]{Resources.SUGAR}),
+    OASIS("oasis", 3, 0, 1, -0.33, 1, null),
     RIVER("river", 0, 0, 1, 0, 9999, null);
 
     private String name;
@@ -16,10 +19,10 @@ public enum TerrainFeatures {
     private int gold;
     private int production;
     private int mp;
-    private float changeOfCombat;
-    private String[] possibleResources;
+    private double changeOfCombat;
+    private Resources[] possibleResources;
 
-    TerrainFeatures(String name, int food, int production, int gold, float changeOfCombat, int mp, String[] possibleResources) {
+    TerrainFeatures(String name, int food, int production, int gold, double changeOfCombat, int mp, Resources[] possibleResources) {
         this.name = name;
         this.food = food;
         this.production = production;
@@ -49,11 +52,11 @@ public enum TerrainFeatures {
         return mp;
     }
 
-    public float getChangeOfCombat() {
+    public double getChangeOfCombat() {
         return changeOfCombat;
     }
 
-    public String[] getPossibleResources() {
+    public Resources[] getPossibleResources() {
         return possibleResources;
     }
 }
