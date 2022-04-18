@@ -9,7 +9,7 @@ public class MainMenu {
     private final MainMenuController mainMenuController;
     private static Scanner scanner;
     public MainMenu(Scanner scanner , MainMenuController mainMenuController) {
-        this.scanner = scanner;
+        MainMenu.scanner = scanner;
         this.mainMenuController = mainMenuController;
     }
 
