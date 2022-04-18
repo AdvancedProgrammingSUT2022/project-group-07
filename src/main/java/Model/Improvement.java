@@ -1,7 +1,6 @@
 package Model;
 
 import Enum.TypeOfImprovement;
-import java.util.ArrayList;
 
 public class Improvement {
     private TypeOfImprovement improvement;
