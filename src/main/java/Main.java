@@ -1,3 +1,4 @@
+import Controller.UserController;
 import Controller.menu.GameMenuController;
 import Controller.menu.LoginMenuController;
 import Controller.menu.MainMenuController;
@@ -14,6 +15,7 @@ public class Main {
         MainMenu mainMenu = new MainMenu(scanner , new MainMenuController());
         ProfileMenu profileMenu = new ProfileMenu(scanner , new ProfileMenuController());
         GameMenu gameMenu = new GameMenu(scanner , new GameMenuController());
+        UserController.loadUsers();
 
         while(MenuName.getCurrentMenu() != MenuName.TERMINATE) {
             loginMenu.run();

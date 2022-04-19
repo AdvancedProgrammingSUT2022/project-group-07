@@ -10,6 +10,7 @@ public class LoginMenuController {
 
     public String exit() {
         MenuName.setCurrentMenu(MenuName.TERMINATE);
+        UserController.saveUsers();
         return "game ended!";
     }
 
