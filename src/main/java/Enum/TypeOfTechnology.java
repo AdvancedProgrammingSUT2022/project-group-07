@@ -60,10 +60,23 @@ public enum TypeOfTechnology {
         this.scienceNeeded = scienceNeeded;
     }
 
+    private final String name ;
+    private final int cost ;
+    private final TypeOfTechnology[] prerequisiteTech ;
+    private final int turnsNeeded;
+    private final int scienceNeeded;
 
-    public final String name ;
-    public final int cost ;
-    public final TypeOfTechnology[] prerequisiteTech ;
-    public final int turnsNeeded;
-    public final int scienceNeeded;
+    public String getName(){return name;}
+
+    public int getCost() {
+        return cost;
+    }
+
+    public TypeOfTechnology[] getPrerequisiteTech() {return prerequisiteTech;}
+
+    public int getTurnsNeeded() {return turnsNeeded;}
+
+    public int getScienceNeeded() {return scienceNeeded;}
+
+
 }
