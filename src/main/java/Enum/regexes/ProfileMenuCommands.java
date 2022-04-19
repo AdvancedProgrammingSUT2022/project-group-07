@@ -6,9 +6,9 @@ import java.util.regex.Pattern;
 public enum ProfileMenuCommands {
     // TODO : -n ya -p nadashtebashim?
     EXIT("menu exit"),
-    MENU_NAVIGATION("enter menu (?<menuName>\\S+)"),
+    MENU_NAVIGATION("enter menu (?<menuName>.+)"),
     SHOW_CURRENT_MENU("menu show-current"),
-    CHANGE_NICKNAME("profile change --nickname (?<nickname>\\S+)"),
+    CHANGE_NICKNAME("profile change (--nickname|-n) (?<nickname>\\S+)"),
     CHANGE_PASSWORD_1("profile change --password (--current|-c) (?<currentPassword>\\S+) (--new|-n) (?<newPassword>\\S+)"),
     CHANGE_PASSWORD_2("profile change --password (--new|-n) (?<newPassword>\\S+) (--current|-c) (?<currentPassword>\\S+)");
 

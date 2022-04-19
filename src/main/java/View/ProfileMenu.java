@@ -19,31 +19,28 @@ public class ProfileMenu extends Menu{
     public void run() {
         String input;
         Matcher matcher;
-        // TODO errors for changing pass and nickname
+
         while (MenuName.getCurrentMenu() == MenuName.PROFILE_MENU) {
             input = scanner.nextLine();
             if (ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.EXIT) != null) {
-
+                String result = profileMenuController.exit();
+                System.out.println(result);
             }
             else if (ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.SHOW_CURRENT_MENU) != null){
-
+                System.out.println("Profile Menu");
             }
             else if ((matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.MENU_NAVIGATION)) != null) {
-
+                String result = profileMenuController.menuNavigation(matcher);
+                System.out.println(result);
             }
             else if ((matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.CHANGE_NICKNAME)) != null) {
-                if (ProfileValidation.nicknameIsValid(matcher.group("nickname"))
-                        && !ProfileValidation.nicknameIsUsed(matcher.group("nickname"))) {
-                    // TODO change nickname
-                }
-                else System.out.println("invalid nickname");
+                String result = profileMenuController.changeNickname(matcher);
+                System.out.println(result);
             }
             else if ((matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.CHANGE_PASSWORD_1)) != null
             || (matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.CHANGE_PASSWORD_2)) != null) {
-                if (ProfileValidation.passwordIsValid(matcher.group("newPassword"))) {
-                    // TODO see if oldPass is correct and update
-                }
-                else System.out.println("password is not valid!");
+                String result = profileMenuController.changePassword(matcher);
+                System.out.println(result);
             }
             else System.out.println("invalid command from ayoub");
         }
