@@ -32,6 +32,7 @@ public class ProfileValidation {
 
     public static boolean usernameIsUsed(String username) {
         ArrayList<User> users = UserController.getUsers();
+        if (users == null) return false;
         for (User user : users) {
             if (user.getUsername().equals(username)) return true;
         }
@@ -40,6 +41,7 @@ public class ProfileValidation {
 
     public static boolean nicknameIsUsed(String nickname) {
         ArrayList<User> users = UserController.getUsers();
+        if (users == null) return false;
         for (User user : users) {
             if (user.getNickname().equals(nickname)) return true;
         }

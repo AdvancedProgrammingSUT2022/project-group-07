@@ -17,11 +17,12 @@ public class UserController {
     private static ArrayList<User> users = new ArrayList<>();
     private static User currentUser;
 
-
     public static void loadUsers() {
         try {
+            ArrayList<User> loadUsers = new ArrayList<>();
             String json = new String(Files.readAllBytes(Paths.get("./src/main/Database/database.json")));
-            users = new Gson().fromJson(json , new TypeToken<List<User>>(){}.getType());
+            loadUsers = new Gson().fromJson(json , new TypeToken<List<User>>(){}.getType());
+            if (loadUsers != null) users = loadUsers;
         }
         catch (IOException e){
             e.printStackTrace();
