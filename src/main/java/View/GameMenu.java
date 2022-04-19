@@ -1,5 +1,6 @@
 package View;
 
+import Controller.game.GameController;
 import Controller.menu.GameMenuController;
 import Enum.MenuName;
 import Enum.regexes.GameMenuCommands;

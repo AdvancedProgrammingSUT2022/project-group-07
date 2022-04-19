@@ -9,10 +9,11 @@ public class Technology {
 
     public Technology(TypeOfTechnology typeOfTechnology){
         this.typeOfTechnology = typeOfTechnology;
-        this.remainingTurns = typeOfTechnology.turnsNeeded ;
+        this.remainingTurns = typeOfTechnology.getTurnsNeeded() ;
     }
 
-    public int getRemainingTurns() {
-        return remainingTurns;
-    }
+    public TypeOfTechnology getTypeOfTechnology(){return typeOfTechnology;}
+
+    public int getRemainingTurns() {return remainingTurns;}
+
 }
