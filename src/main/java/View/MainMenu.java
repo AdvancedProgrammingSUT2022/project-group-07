@@ -22,19 +22,22 @@ public class MainMenu extends Menu{
             input = scanner.nextLine();
 
             if (MainMenuCommands.getMatcher(input , MainMenuCommands.EXIT) != null) {
-
+                String result = mainMenuController.exit();
+                System.out.println(result);
             }
             else if ((matcher = MainMenuCommands.getMatcher(input , MainMenuCommands.MENU_NAVIGATION)) != null) {
-
+                String result = mainMenuController.menuNavigation(matcher);
+                System.out.println(result);
             }
             else if ((matcher = MainMenuCommands.getMatcher(input , MainMenuCommands.SHOW_CURRENT_MENU)) != null) {
-
+                System.out.println("Main Menu");
             }
             else if ((matcher = MainMenuCommands.getMatcher(input , MainMenuCommands.LOGOUT)) != null) {
-
+                String result = mainMenuController.logout();
+                System.out.println(result);
             }
             else if ((matcher = MainMenuCommands.getMatcher(input , MainMenuCommands.PLAY_GAME)) != null) {
-
+                //TODO to be handled!
             }
             else System.out.println("invalid command from ayoub");
         }

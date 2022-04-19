@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public enum LoginMenuCommands {
 
     EXIT("menu exit"),
-    MENU_NAVIGATION("enter menu (?<menuName>\\S+)"),
+    MENU_NAVIGATION("enter menu (?<menuName>.+)"),
     SHOW_CURRENT_MENU("menu show-current"),
 
     // user creating commands !!!!
