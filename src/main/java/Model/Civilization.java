@@ -16,9 +16,26 @@ public class Civilization {
     private int happiness ;
     private int science ;
     private Technology currentResearch ;
+    private User owenr ;
 
+    public Civilization (String name , User owner){
+        this.owenr = owner;
+        this.name = name ;
+        this.cities = new ArrayList<City>();
+        this.units = new ArrayList<Unit>();
+        this.knownTerrains = new ArrayList<Terrain>();
+        this.gainedTechnologies = new ArrayList<Technology>();
+        this.capital = null;
+        this.score = 0 ;
+        this.gold = 0 ;
+        this.food = 0 ;
+        this.happiness = 0 ;
+        this.science = 0 ;
+        this.currentResearch = null ;
+    }
 
-    public Civilization (String name , City capital){
+    public Civilization (String name , City capital , User owner){
+        this.owenr = owner;
         this.name = name ;
         this.cities = new ArrayList<City>();
         this.cities.add(capital);
