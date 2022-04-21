@@ -154,4 +154,5 @@ public class Civilization {
     public int getScore() {
         return score;
     }
+
 }

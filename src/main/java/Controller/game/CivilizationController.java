@@ -1,7 +1,10 @@
 package Controller.game;
 
+import Model.City;
 import Model.Civilization;
 import Model.Technology;
+
+import java.util.ArrayList;
 
 public class CivilizationController {
     private Civilization civilization;
