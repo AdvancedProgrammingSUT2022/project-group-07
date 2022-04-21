@@ -56,7 +56,11 @@ public class GameController {
         return out;
     }
 
-
+    /**
+     * a function to generate type of terrain foreach cell of map based on it's area
+     * @param location location of terrain
+     * @return type of terrain thath is valid for this location
+     */
     private TypeOfTerrain generateTypeOfTerrain (final Location location){
         int x = location.getX();
         int y = location.getY();
@@ -66,14 +70,12 @@ public class GameController {
         TypeOfTerrain out = typeOfTerrains[randNum];
 
         ArrayList<TypeOfTerrain> areaTypeOfTerrains = getAreaTypeOfTerrains(location);
-        System.out.println(areaTypeOfTerrains.stream().toList());
         if (areaTypeOfTerrains.isEmpty() || areaTypeOfTerrains.contains(out))
             return out;
 
         boolean shouldChangeOut = true;
         while (shouldChangeOut){
             out = typeOfTerrains[rand.nextInt(typeOfTerrains.length)];
-            System.out.println("has choose " + out);
 
             if (out==TypeOfTerrain.OCEAN && (x>3 && x<mapWidth-3) && (y>3 && y<mapHeight-3))
                 shouldChangeOut = true;
@@ -101,27 +103,74 @@ public class GameController {
         return out;
     }
 
+    /**
+     * a function to generate terrain features based on it's type of terrain
+     * @param typeOfTerrain Type of terrain
+     * @return type of feature
+     */
+    private TerrainFeatures generateTypeOfTerrainFeature (final TypeOfTerrain typeOfTerrain){
+        Random rand = new Random();
+        TerrainFeatures[] possibleTerrainFeatures = typeOfTerrain.getPossibleFeatures();
+        if (possibleTerrainFeatures==null)
+            return null;
+        int randNum = rand.nextInt((possibleTerrainFeatures.length)+2);
+        if (randNum<possibleTerrainFeatures.length)
+            return possibleTerrainFeatures[randNum];
+        else
+            return null;
+    }
+
+    /**
+     * a function to generate random resources based on it's type of terrain and also terrain feature (if valid)
+     * @param typeOfTerrain type of the terrain
+     * @return an array list of resources int this terrain
+     */
+    private ArrayList<Resources> generateResources(final TypeOfTerrain typeOfTerrain , final TerrainFeatures terrainFeatures){
+        Random rand = new Random();
+        ArrayList<Resources> out = new ArrayList<Resources>();
+        Resources[] possibleResources = typeOfTerrain.getPossibleResources();
+        if (possibleResources!=null) {
+            for (int i = 0; i < possibleResources.length; i++) {
+                if (rand.nextInt()%4==0)
+                    out.add(possibleResources[i]);
+            }
+        }
+        if (terrainFeatures!=null && terrainFeatures.getPossibleResources()!=null){
+            Resources[] possibleTerrainFeatrueResources = terrainFeatures.getPossibleResources();
+            for (int i = 0 ; i < possibleTerrainFeatrueResources.length ; i++){
+                if (rand.nextInt()%4==0)
+                    out.add(possibleTerrainFeatrueResources[i]);
+            }
+        }
+        return out;
+    }
+
+    /**
+     * a function to initialize starting map
+     */
     private void initializeMap (){
         // TODO: iterate on array and create our map
         map = new Terrain[mapHeight][mapWidth] ;
-
         Random rand = new Random();
-
         TypeOfTerrain typeOfTerrainUsed ;
+        TerrainFeatures typeOfTerrainFeatureUsed ;
+        ArrayList<Resources> resources;
 
         for (int y=0 ; y<mapHeight ; y++){
             for (int x=0 ; x<mapWidth ; x++){
                 typeOfTerrainUsed = generateTypeOfTerrain(new Location(x,y)) ;
-                System.out.println("added " + typeOfTerrainUsed + " to location ("+x+","+y+")");
-                map[y][x] = new Terrain(typeOfTerrainUsed , null
-                        , true ,
-                        null , new Location(x,y) , null) ;
-//                TypeOfTerrain typeOfTerrain, TerrainFeatures terrainFeatures, boolean hasRiver,
-//                ArrayList<Resources> resource, Location location, Improvement improvement
+                typeOfTerrainFeatureUsed = generateTypeOfTerrainFeature(typeOfTerrainUsed);
+                resources = generateResources(typeOfTerrainUsed , typeOfTerrainFeatureUsed);
+                map[y][x] = new Terrain(typeOfTerrainUsed , typeOfTerrainFeatureUsed, true ,
+                                        resources , new Location(x,y) , null) ;
             }
         }
     }
 
+    /**
+     * a function to initialize civilizations at the very beginning of the game
+     * @param users list of logged in users who wants to play
+     */
     private void initializeCivilizations (ArrayList<User> users){
         // TODO: create list of civilizations
         this.civilizations = new ArrayList<Civilization>();
@@ -139,11 +188,14 @@ public class GameController {
     }
 
     public void printMap(){
+        String out ;
         for (int y=0 ; y<mapHeight ; y++){
             if (y%2==1)
                 System.out.print("\t");
-            for (int x=0 ; x<mapWidth ; x++)
-                System.out.printf("%10s" , map[y][x].getTypeOfTerrain());
+            for (int x=0 ; x<mapWidth ; x++){
+                out = map[y][x].getTypeOfTerrain().toString().substring(0,3) + "+" + map[y][x].getTerrainFeatures() + map[y][x].getResources() ;
+                System.out.print(out + "\t");
+            }
             System.out.println();
         }
     }

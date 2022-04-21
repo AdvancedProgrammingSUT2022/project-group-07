@@ -20,6 +20,7 @@ public class Terrain {
         this.terrainFeatures = terrainFeatures;
         this.hasRiver = hasRiver;
         this.resources = new ArrayList<Resources>();
+        this.resources = resource;
         this.location = location;
         this.improvement = improvement;
     }
@@ -42,5 +43,9 @@ public class Terrain {
 
     public Improvement getImprovement() {
         return improvement;
+    }
+
+    public ArrayList<Resources> getResources() {
+        return resources;
     }
 }
