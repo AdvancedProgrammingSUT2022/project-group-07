@@ -6,7 +6,12 @@ import Model.Unit;
 public class UnitController {
 
     public String moveUnit(Unit unit, Location location) {
+
         return "";
+    }
+
+    public static int mp(Location origin, Location destination, int mp) {
+        return 0;
     }
 
     public boolean hasOwnerShip(Unit unit) {

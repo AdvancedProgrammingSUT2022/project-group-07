@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Civilization {
 
     private ArrayList<City> cities ;
-    private ArrayList<Unit> units ;
+    private static ArrayList<Unit> units ;
     private ArrayList<Terrain> knownTerrains ;
     private ArrayList<Technology> gainedTechnologies ;
     private String name ;
@@ -22,7 +22,7 @@ public class Civilization {
         this.name = name ;
         this.cities = new ArrayList<City>();
         this.cities.add(capital);
-        this.units = new ArrayList<Unit>();
+        units = new ArrayList<Unit>();
         this.knownTerrains = new ArrayList<Terrain>();
         this.gainedTechnologies = new ArrayList<Technology>();
         this.capital = capital;
@@ -96,7 +96,7 @@ public class Civilization {
      * @return
      */
     public ArrayList<Unit> getUnits(){
-        return this.units;
+        return units;
     }
 
     /**
