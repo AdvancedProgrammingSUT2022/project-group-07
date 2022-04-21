@@ -16,4 +16,7 @@ public class Technology {
 
     public int getRemainingTurns() {return remainingTurns;}
 
+    public void setRemainingTurns(int turns){
+        this.remainingTurns = turns;
+    }
 }
