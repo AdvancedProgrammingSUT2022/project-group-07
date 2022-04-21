@@ -112,7 +112,7 @@ public class Civilization {
      * @return
      */
     public ArrayList<Technology> getGainedTechnologies(){
-        return this.getGainedTechnologies();
+        return this.gainedTechnologies;
     }
 
     public int getFood() {

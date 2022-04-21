@@ -11,21 +11,15 @@ import java.util.regex.Matcher;
 public class SelectController {
     public static Unit selectedUnit;
     public static City selectedCity;
+    // TODO : add to UML
+    public static Location currentLocation;
 
     public static String selectNonCombatUnit(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
-        Location currentLocation = new Location(x, y);
+        currentLocation = new Location(x, y);
         if (!positionIsValid(currentLocation))
-            return "NonCombatUnit's position is not valid!";
-        // TODO is this Unit for this player? --> UnitController.hasOwnerShip + mp
-        for (Civilization civilization: GameController.getCivilizations()) {
-            for (Unit unit : civilization.getUnits()) {
-                if (unit.getLocation().equals(currentLocation)) {
-                    selectedUnit = unit;
-                }
-            }
-        }
+            return "Position ( " + x + " , " + y + " ) is not valid!";
         return "NonCombatUnit selected successfully!";
     }
 
@@ -34,8 +28,15 @@ public class SelectController {
     }
 
     private static boolean positionIsValid(Location location) {
-        // TODO inja unit darim?
-        return true;
+        for (Civilization civilization: GameController.getCivilizations()) {
+            for (Unit unit : civilization.getUnits()) {
+                if (unit.getLocation().equals(location)) {
+                    selectedUnit = unit;
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private String selectCity(String name) {
