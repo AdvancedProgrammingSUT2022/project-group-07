@@ -128,9 +128,7 @@ public class Civilization {
      * a function to get list of gainedTechnologies
      * @return
      */
-    public ArrayList<Technology> getGainedTechnologies(){
-        return this.getGainedTechnologies();
-    }
+    public ArrayList<Technology> getGainedTechnologies(){ return this.gainedTechnologies; }
 
     public int getFood() {
         return food;
