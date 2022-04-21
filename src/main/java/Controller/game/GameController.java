@@ -1,11 +1,12 @@
 package Controller.game;
 
-import Model.Civilization;
-import Model.Location;
-import Model.Terrain;
-import Model.User;
+import Model.*;
 
+import Enum.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.random.*;
 
 public class GameController {
     private static final int mapWidth = 20 ;
@@ -25,6 +26,19 @@ public class GameController {
 
     private void initializeMap (){
         // TODO: iterate on array and create our map
+        map = new Terrain[mapHeight][mapWidth] ;
+        TypeOfTerrain[] typeOfTerrains = TypeOfTerrain.values() ;
+        int typeOfTerrainRandNumber = new Random().nextInt(typeOfTerrains.length);
+        int hasRivetRandNumber = new Random().nextInt(2) ;
+        for (int y=0 ; y<mapHeight ; y++){
+            for (int x=0 ; x<mapWidth ; x++){
+                map[y][x] = new Terrain(typeOfTerrains[typeOfTerrainRandNumber] , null , true ,
+                        null , new Location(x,y) , null) ;
+                typeOfTerrainRandNumber = new Random().nextInt(typeOfTerrains.length) ;
+//                TypeOfTerrain typeOfTerrain, TerrainFeatures terrainFeatures, boolean hasRiver,
+//                ArrayList<Resources> resource, Location location, Improvement improvement
+            }
+        }
     }
 
     private void initializeCivilizations (ArrayList<User> users){
@@ -36,15 +50,19 @@ public class GameController {
 
     public GameController(ArrayList<User> users) {
         initializeCivilizations(users);
-        //initializeMap();
+        initializeMap();
     }
 
     public void run(){
 
     }
 
-    public String printMap(){
-
+    public void printMap(){
+        for (int y=0 ; y<mapHeight ; y++){
+            for (int x=0 ; x<mapWidth ; x++)
+                System.out.printf("%15s" , map[y][x].getTypeOfTerrain());
+            System.out.println();
+        }
     }
 
     public void move (String direction){
