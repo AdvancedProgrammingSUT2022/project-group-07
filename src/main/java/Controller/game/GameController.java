@@ -1,14 +1,10 @@
 package Controller.game;
 
 import Model.*;
-
 import Enum.*;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
-import java.util.random.*;
 
 public class GameController {
     private static final int mapWidth = 10 ;
@@ -31,15 +27,6 @@ public class GameController {
         return mapHeight;
     }
 
-
-    private Terrain getPreviousTerrain (Location location){
-        int x = location.getX();
-        int y = location.getY();
-        if (x-1<0)
-            return null;
-        else
-            return map[y][x-1];
-    }
 
     private ArrayList<TypeOfTerrain> getAreaTypeOfTerrains (Location location){
         int x = location.getX();

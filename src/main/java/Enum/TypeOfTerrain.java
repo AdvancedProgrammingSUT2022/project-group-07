@@ -18,7 +18,6 @@ public enum TypeOfTerrain {
     OCEAN("ocean", 0, 0, 0, 10000, 0.25, null,
             null),
     PLAIN("plain", 0, 1, 1, 1, -0.33,
-
             new TerrainFeatures[]{TerrainFeatures.FOREST, TerrainFeatures.JUNGLE},
             new Resources[]{Resources.IRON, Resources.HORSE, Resources.COAL, Resources.WHEAT, Resources.GOLD,
                     Resources.MARBLE, Resources.IVORY, Resources.COTTON, Resources.ALOE, Resources.SHEEP}),
