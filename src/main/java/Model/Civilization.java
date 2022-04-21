@@ -155,4 +155,27 @@ public class Civilization {
         return score;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setFood(int food) {
+        this.food = food;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public void setHappiness(int happiness) {
+        this.happiness = happiness;
+    }
+
+    public void setScience(int science) {
+        this.science = science;
+    }
+
+    public void setCurrentResearch(Technology currentResearch) {
+        this.currentResearch = currentResearch;
+    }
 }
