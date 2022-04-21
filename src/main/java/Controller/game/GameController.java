@@ -9,13 +9,18 @@ import java.util.Random;
 import java.util.random.*;
 
 public class GameController {
-    private static final int mapWidth = 20 ;
-    private static final int mapHeight = 18 ;
+    private static final int mapWidth = 10 ;
+    private static final int mapHeight = 6 ;
     private Terrain[][] map;
     private ArrayList<Civilization> civilizations;
     private int time;
     private int turn;
     private Civilization currentCivilization ;
+
+    // these are not really important for GameController fields
+    private static TypeOfTerrain[] typeOfTerrains = TypeOfTerrain.values() ;
+    private static TerrainFeatures[] terrainFeatures = TerrainFeatures.values();
+
 
     public int getMapWidth(){
         return mapWidth;
@@ -24,17 +29,56 @@ public class GameController {
         return mapHeight;
     }
 
+
+    private Terrain getPreviousTerrain (Location location){
+        int x = location.getX();
+        int y = location.getY();
+        if (x-1<0)
+            return null;
+        else
+            return map[y][x-1];
+    }
+
+    private TypeOfTerrain generateTypeOfTerrain (Location location){
+        Random rand = new Random();
+        int randNum = rand.nextInt(typeOfTerrains.length);
+
+        TypeOfTerrain out = typeOfTerrains[randNum];
+        Terrain previousTerrain = getPreviousTerrain(location);
+
+        if (previousTerrain==null || previousTerrain.getTypeOfTerrain()==out)
+            return out;
+
+        while (true){
+            TypeOfTerrain prev = previousTerrain.getTypeOfTerrain();
+            if ((prev==TypeOfTerrain.DESERT && out==TypeOfTerrain.OCEAN) ||
+                (prev==TypeOfTerrain.OCEAN && out==TypeOfTerrain.DESERT)  )
+                out = typeOfTerrains[rand.nextInt(typeOfTerrains.length)];
+            else if ((prev==TypeOfTerrain.DESERT && (out==TypeOfTerrain.SNOW||out==TypeOfTerrain.TUNDRA)) ||
+                     (out==TypeOfTerrain.DESERT && (prev==TypeOfTerrain.SNOW||prev==TypeOfTerrain.TUNDRA)) )
+                out = typeOfTerrains[rand.nextInt(typeOfTerrains.length)];
+
+            else
+                return out;
+        }
+
+    }
+
     private void initializeMap (){
         // TODO: iterate on array and create our map
         map = new Terrain[mapHeight][mapWidth] ;
-        TypeOfTerrain[] typeOfTerrains = TypeOfTerrain.values() ;
-        int typeOfTerrainRandNumber = new Random().nextInt(typeOfTerrains.length);
-        int hasRivetRandNumber = new Random().nextInt(2) ;
+
+        Random rand = new Random();
+
+        TypeOfTerrain typeOfTerrainUsed ;
+
         for (int y=0 ; y<mapHeight ; y++){
             for (int x=0 ; x<mapWidth ; x++){
-                map[y][x] = new Terrain(typeOfTerrains[typeOfTerrainRandNumber] , null , true ,
+                typeOfTerrainUsed = generateTypeOfTerrain(new Location(x,y)) ;
+
+                map[y][x] = new Terrain(typeOfTerrainUsed , null
+                        , true ,
                         null , new Location(x,y) , null) ;
-                typeOfTerrainRandNumber = new Random().nextInt(typeOfTerrains.length) ;
 //                TypeOfTerrain typeOfTerrain, TerrainFeatures terrainFeatures, boolean hasRiver,
 //                ArrayList<Resources> resource, Location location, Improvement improvement
             }
@@ -60,7 +104,7 @@ public class GameController {
     public void printMap(){
         for (int y=0 ; y<mapHeight ; y++){
             for (int x=0 ; x<mapWidth ; x++)
-                System.out.printf("%15s" , map[y][x].getTypeOfTerrain());
+                System.out.printf("|(%d,%d) : %10s+%12s|\t" ,map[y][x].getLocation().getX() , map[y][x].getLocation().getY(), map[y][x].getTypeOfTerrain() , map[y][x].getTerrainFeatures());
             System.out.println();
         }
     }
