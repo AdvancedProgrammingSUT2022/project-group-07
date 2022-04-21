@@ -1,9 +1,11 @@
 package View;
 
 import Controller.game.GameController;
+import Controller.game.SelectController;
 import Controller.menu.GameMenuController;
 import Enum.MenuName;
 import Enum.regexes.GameMenuCommands;
+import Model.Location;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -16,7 +18,7 @@ public class GameMenu extends Menu{
         this.gameMenuController = gameMenuController;
     }
 
-    public  void run() {
+    public void run() {
         String input;
         Matcher matcher;
 
@@ -77,7 +79,8 @@ public class GameMenu extends Menu{
 
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_UNIT_NONCOMBAT)) != null){
-
+                String result = SelectController.selectNonCombatUnit(matcher);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_CITY)) != null){
 

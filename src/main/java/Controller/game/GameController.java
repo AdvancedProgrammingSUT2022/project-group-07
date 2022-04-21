@@ -10,7 +10,7 @@ public class GameController {
     private static final int mapWidth = 10 ;
     private static final int mapHeight = 12 ;
     private Terrain[][] map;
-    private ArrayList<Civilization> civilizations;
+    private static ArrayList<Civilization> civilizations;
     private int time;
     private int turn;
     private Civilization currentCivilization ;
@@ -172,6 +172,10 @@ public class GameController {
 
     public void run(){
 
+    }
+
+    public static ArrayList<Civilization> getCivilizations() {
+        return civilizations;
     }
 
     public void printMap(){
