@@ -1,8 +1,12 @@
 package Controller.menu;
 
 import Controller.UserController;
+import Controller.game.GameController;
 import Enum.MenuName;
+import Model.User;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 
 public class MainMenuController {
@@ -35,5 +39,40 @@ public class MainMenuController {
         MenuName.setCurrentMenu(MenuName.LOGIN_MENU);
         UserController.getCurrentUser().setLoggedIn(false);
         return "user logged out successfully!";
+    }
+
+    public String playGame(Matcher matcher) {
+        String input = matcher.toString();
+        String[] listOfAllPlayers = input.split("--");
+        HashMap<Integer , String> getPlayers = getPlayers(listOfAllPlayers);
+        ArrayList<String> playerUsernames = sortPlayers(getPlayers);
+        if (playerUsernames == null) return "entered wrong player numbers!";
+        ArrayList<User> playerUsers = new ArrayList<>();
+        for (String playerUsername : playerUsernames) {
+            if (UserController.getUserByUsername(playerUsername) == null)
+                return "user with username " + playerUsername + " does not exist!";
+            playerUsers.add(UserController.getUserByUsername(playerUsername));
+        }
+        GameController.setPlayers(playerUsers);
+        MenuName.setCurrentMenu(MenuName.GAME_MENU);
+        return "entered Game!";
+    }
+
+
+    private ArrayList<String> sortPlayers(HashMap<Integer, String> getPlayers) {
+        ArrayList<String> sortPlayers = new ArrayList<>();
+        for (int i = 1; i <= getPlayers.size(); i++) {
+            if (getPlayers.get(i) == null) return null;
+            sortPlayers.add(getPlayers.get(i));
+        }
+        return sortPlayers;
+    }
+
+    private HashMap<Integer, String> getPlayers(String[] listOfAllPlayers) {
+        HashMap<Integer , String> getPlayers = new HashMap<>();
+        for (int i = 1; i <= listOfAllPlayers.length; i++) {
+            getPlayers.put(Integer.parseInt(listOfAllPlayers[i].substring(6 , 7)) , listOfAllPlayers[i].substring(8));
+        }
+        return getPlayers;
     }
 }

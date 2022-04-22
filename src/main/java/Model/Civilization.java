@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Civilization {
 
+    private User user;
     private ArrayList<City> cities ;
     private static ArrayList<Unit> units ;
     private ArrayList<Terrain> knownTerrains ;
@@ -18,7 +19,8 @@ public class Civilization {
     private Technology currentResearch ;
 
 
-    public Civilization (String name , City capital){
+    public Civilization (User user , String name , City capital){
+        this.user = user;
         this.name = name ;
         this.cities = new ArrayList<City>();
         this.cities.add(capital);
@@ -79,7 +81,7 @@ public class Civilization {
      * a function to add a technology to arrayList of knownTechnologies
      * @param technology
      */
-    public void addTechonolgy(Technology technology){
+    public void addTechnology(Technology technology){
         this.gainedTechnologies.add(technology);
     }
 
@@ -112,9 +114,11 @@ public class Civilization {
      * @return
      */
     public ArrayList<Technology> getGainedTechnologies(){
-        return this.getGainedTechnologies();
+        return this.gainedTechnologies;
     }
-
+    public User getUser() {
+        return user;
+    }
     public int getFood() {
         return food;
     }
@@ -139,4 +143,5 @@ public class Civilization {
     public int getScore() {
         return score;
     }
+
 }
