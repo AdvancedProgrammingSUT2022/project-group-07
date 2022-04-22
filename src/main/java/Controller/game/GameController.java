@@ -10,7 +10,8 @@ public class GameController {
     private static final int mapWidth = 10 ;
     private static final int mapHeight = 12 ;
     private Terrain[][] map;
-    private static ArrayList<Civilization> civilizations;
+    private static ArrayList<User> players = new ArrayList<>();
+    private static ArrayList<Civilization> civilizations = new ArrayList<>();
     private int time;
     private int turn;
     private Civilization currentCivilization ;
@@ -163,6 +164,15 @@ public class GameController {
         this.civilizations = new ArrayList<Civilization>();
         for (int i = 0; i < users.size(); i++)
             civilizations.add(new Civilization("c"+Integer.toString(i+1) , users.get(i))) ;
+    }
+
+
+    public static ArrayList<User> getPlayers() {
+        return players;
+    }
+
+    public static void setPlayers(ArrayList<User> players) {
+        GameController.players = players;
     }
 
     public GameController(ArrayList<User> users) {

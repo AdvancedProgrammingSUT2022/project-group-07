@@ -65,6 +65,13 @@ public class UserController {
         return null;
     }
 
+    public static User getUserByUsername(String username) {
+        for (User user : users) {
+            if (user.getUsername().equals(username))
+                return user;
+        }
+        return null;
+    }
     public static void login(User user) {
         user.setLoggedIn(true);
     }
