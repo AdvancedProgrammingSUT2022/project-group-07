@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Civilization {
 
-    private User user;
     private ArrayList<City> cities ;
     private static ArrayList<Unit> units ;
     private ArrayList<Terrain> knownTerrains ;
@@ -17,10 +16,26 @@ public class Civilization {
     private int happiness ;
     private int science ;
     private Technology currentResearch ;
+    private User owenr ;
 
+    public Civilization (String name , User owner){
+        this.owenr = owner;
+        this.name = name ;
+        this.cities = new ArrayList<City>();
+        this.units = new ArrayList<Unit>();
+        this.knownTerrains = new ArrayList<Terrain>();
+        this.gainedTechnologies = new ArrayList<Technology>();
+        this.capital = null;
+        this.score = 0 ;
+        this.gold = 0 ;
+        this.food = 0 ;
+        this.happiness = 0 ;
+        this.science = 0 ;
+        this.currentResearch = null ;
+    }
 
-    public Civilization (User user , String name , City capital){
-        this.user = user;
+    public Civilization (String name , City capital , User owner){
+        this.owenr = owner;
         this.name = name ;
         this.cities = new ArrayList<City>();
         this.cities.add(capital);
@@ -81,7 +96,7 @@ public class Civilization {
      * a function to add a technology to arrayList of knownTechnologies
      * @param technology
      */
-    public void addTechnology(Technology technology){
+    public void addTechonolgy(Technology technology){
         this.gainedTechnologies.add(technology);
     }
 
@@ -113,12 +128,8 @@ public class Civilization {
      * a function to get list of gainedTechnologies
      * @return
      */
-    public ArrayList<Technology> getGainedTechnologies(){
-        return this.gainedTechnologies;
-    }
-    public User getUser() {
-        return user;
-    }
+    public ArrayList<Technology> getGainedTechnologies(){ return this.gainedTechnologies; }
+
     public int getFood() {
         return food;
     }
@@ -144,4 +155,27 @@ public class Civilization {
         return score;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setFood(int food) {
+        this.food = food;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public void setHappiness(int happiness) {
+        this.happiness = happiness;
+    }
+
+    public void setScience(int science) {
+        this.science = science;
+    }
+
+    public void setCurrentResearch(Technology currentResearch) {
+        this.currentResearch = currentResearch;
+    }
 }
