@@ -1,6 +1,7 @@
 package Controller.game;
 
 import Model.*;
+import Enum.* ;
 
 import java.util.ArrayList;
 
@@ -82,10 +83,48 @@ public class CivilizationController {
         // TODO: 4/21/2022 update civilization total science
     }
 
-    public void updateFogOfWar(){
+
+    private ArrayList<Terrain> getNeighbourTerrainsByRadius1
+            (Location location , Terrain[][]map , int mapWidth , int mapHeight){
+
+        ArrayList<Terrain> out = new ArrayList<Terrain>();
+        int x = location.getX();
+        int y = location.getY();
+        int upperRow = Math.max(0,y-1);
+        int lowerRow = Math.min(mapHeight ,y+1) ;
+        int leftCol = Math.max(0,x-1);
+        int rightCol = Math.max(mapWidth ,x+1) ;
+        for (int row=upperRow ; row<=lowerRow ; row++){
+            for (int col=leftCol ; col<=rightCol ; col++){
+                if (row!=y || col!=x)
+                    out.add(map[y][x]);
+            }
+        }
+        return out ;
+    }
+
+    public void updateFogOfWar(Terrain[][] map , int mapWidth , int mapHeight){
         // TODO: update civilization fog of war using it's owned units across the whole map
-        // to do this , we first iterate on this civilization units and add radius 2 of
-        // neighbouring cells to field (knowTerrains) of this civilization
+        // to do this , we first iterate on this civilization units and add first layer neighbours
+        // every unit can see all 6 neighbours of itself , we add these 6 neighbours to an array
+        // now we iterate on each of these 6 neighbours and find their neighbours again
+        // if terrain is not mountain we add all of it's neighbours to an arrayList
+        // at the end , we add contents of array list to knownTerrains of our civilization
+        ArrayList<Unit> units = civilization.getUnits();
+        ArrayList<Terrain> shouldBeAdd = new ArrayList<Terrain>();
+
+        for (Unit unit : units) {
+            ArrayList<Terrain> firstLayerNeighbours = getNeighbourTerrainsByRadius1(unit.getLocation() , map , mapWidth , mapHeight) ;
+            for (Terrain firstLayerNeighbour : firstLayerNeighbours) {
+                ArrayList<Terrain> secondLayerNeighbours = getNeighbourTerrainsByRadius1(firstLayerNeighbour.getLocation() , map , mapWidth , mapHeight) ;
+                if (firstLayerNeighbour.getTypeOfTerrain()!= TypeOfTerrain.MOUNTAIN) {
+                    shouldBeAdd.addAll(secondLayerNeighbours);
+                }
+            }
+        }
+
+        for (Terrain terrain : shouldBeAdd)
+            civilization.addKnownTerrain(terrain);
     }
 
 
