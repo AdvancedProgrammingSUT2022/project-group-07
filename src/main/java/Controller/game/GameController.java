@@ -7,8 +7,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GameController {
-    private static final int mapWidth = 10 ;
-    private static final int mapHeight = 12 ;
+    private int mapWidth ;
+    private int mapHeight ;
+    private MapDimension mapDimension ;
     private Terrain[][] map;
     private static ArrayList<User> players = new ArrayList<>();
     private static ArrayList<Civilization> civilizations = new ArrayList<>();
@@ -176,6 +177,9 @@ public class GameController {
     }
 
     public GameController(ArrayList<User> users) {
+        mapDimension = MapDimension.STANDARD ;
+        mapWidth = mapDimension.getX() ;
+        mapHeight = mapDimension.getY() ;
         initializeCivilizations(users);
         initializeMap();
     }
