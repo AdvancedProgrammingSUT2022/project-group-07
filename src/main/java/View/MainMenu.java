@@ -37,7 +37,8 @@ public class MainMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = MainMenuCommands.getMatcher(input , MainMenuCommands.PLAY_GAME)) != null) {
-                //TODO to be handled!
+                String result = mainMenuController.playGame(matcher);
+                System.out.println(result);
             }
             else System.out.println("invalid command from ayoub");
         }

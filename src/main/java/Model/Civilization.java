@@ -89,7 +89,8 @@ public class Civilization {
      * @param terrain
      */
     public void addKnownTerrain(Terrain terrain){
-        this.knownTerrains.add(terrain);
+        if (!knownTerrains.contains(terrain))
+            this.knownTerrains.add(terrain);
     }
 
     /**
