@@ -20,7 +20,15 @@ public class SelectController {
         currentLocation = new Location(x, y);
         if (!positionIsValid(currentLocation))
             return "Position ( " + x + " , " + y + " ) is not valid!";
-        return "NonCombatUnit selected successfully!";
+        if (!hasNonCombatUnit(currentLocation))
+            return "There isn't any nonCombatUnit in position ( " + x + " , " + y + " )!";
+        return "NonCombatUnit selected successfully! \n Info : \n"
+                + "-type of unit : " + selectedUnit.getTypeOfUnit()
+                + "-unit status : " + selectedUnit.getUnitStatus()
+                + "-location : ( " + selectedUnit.getLocation().getX()
+                + " , " + selectedUnit.getLocation().getY() + " )"
+                + "-hp : " + selectedUnit.getHp()
+                + "-civilization name : " + selectedUnit.getCivilization().getName();
     }
 
     private String selectCombatUnit(Location location) {
@@ -28,6 +36,13 @@ public class SelectController {
     }
 
     private static boolean positionIsValid(Location location) {
+        return (location.getY() <= 10
+                && location.getY() >= 0
+                && location.getX() <= 12
+                && location.getX() >= 0);
+    }
+     // TODO UML
+    private static boolean hasNonCombatUnit(Location location) {
         for (Civilization civilization: GameController.getCivilizations()) {
             for (Unit unit : civilization.getUnits()) {
                 if (unit.getLocation().equals(location)) {

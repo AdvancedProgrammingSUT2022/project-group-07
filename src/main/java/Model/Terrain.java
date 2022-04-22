@@ -13,6 +13,7 @@ public class Terrain {
     private ArrayList<Resources> resources = new ArrayList<>();
     private Location location;
     private Improvement improvement;
+    private int mp;
 
     public Terrain(TypeOfTerrain typeOfTerrain, TerrainFeatures terrainFeatures, boolean hasRiver,
                    ArrayList<Resources> resource, Location location, Improvement improvement) {

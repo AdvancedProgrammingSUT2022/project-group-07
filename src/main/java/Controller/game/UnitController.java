@@ -21,23 +21,16 @@ public class UnitController {
     }
 
     public static int minimumMp(Location origin, Location destination, int mp) {
-//        int mp1, mp2;
-//        if (origin.getX() <= destination.getX()) {
-//            Location newLocation = new Location(origin.getX()+1, origin.getY());
-//            mp2 = mp + getTerrainByLocation(newLocation).getMp + ;
-//            mp(newLocation, destination, mp2);
-//        }
-        // y
 
         return 0;
     }
 
     // TODO add currentCivilization to GameController
     public static boolean hasOwnerShip(Unit currentUnit) {
-        for (Unit Unit : GameController.currentCivilization.getUnits) {
-            if (currentUnit.getLocation().equals(unit.getLocation))
-                return true;
-        }
+//        for (Unit Unit : GameController.currentCivilization.getUnits) {
+//            if (currentUnit.getLocation().equals(unit.getLocation))
+//                return true;
+//        }
         return false;
     }
 
