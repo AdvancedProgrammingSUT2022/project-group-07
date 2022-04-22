@@ -122,7 +122,6 @@ public class CivilizationController {
                 }
             }
         }
-
         for (Terrain terrain : shouldBeAdd)
             civilization.addKnownTerrain(terrain);
     }
