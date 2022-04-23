@@ -17,7 +17,44 @@ public class TheShortestPath {
     }
 
     private static void initialiseMpMap() {
+        // getMapHeight static shod!!!!!!!!
+        // TODO maMp never read ??
+        Terrain[][] terrain = GameController.map;
+        Terrain left, upLeft, upRight, right, downRight, downLeft;
+        int k, s;
 
+        for (int i = 1; i <= height * width; i++) {
+            for (int j = 0; j < height * width; j++) {
+                mpMap[i - 1][j] = Integer.MAX_VALUE;
+            }
+            k = i / height;
+            s = i % height - 1;
+            mpMap[i - 1][i - 1] = 0;
+            if (k > 0) {
+                left = terrain[k - 1][s];
+                mpMap[i - 1][i - 2] = left.getMp();
+            }
+            if (s > 0 && k > 0) {
+                upLeft = terrain[k - 1][s - 1];
+                mpMap[i - 1][i - height - 1] = upLeft.getMp();
+            }
+            if (s > 0) {
+                upRight = terrain[k][s - 1];
+                mpMap[i - 1][i - height] = upRight.getMp();
+            }
+            if (k < height) {
+                right = terrain[k + 1][s];
+                mpMap[i - 1][i] = right.getMp();
+            }
+            if (k > 0 && s < width) {
+                downLeft = terrain[k - 1][s + 1];
+                mpMap[i - 1][i + height - 1] = downLeft.getMp();
+            }
+            if (s < width) {
+                downRight = terrain[k][s + 1];
+                mpMap[i - 1][i + height] = downRight.getMp();
+            }
+        }
     }
 
 
