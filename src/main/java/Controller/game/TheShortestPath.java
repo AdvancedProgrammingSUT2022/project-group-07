@@ -11,12 +11,12 @@ public class TheShortestPath {
     private static int[][] nextTerrain = new int[height * width][height * width];
 
     public static void run() {
-        initialiseMpMap();
-        initialiseDistances();
+        initializeDistances();
         findTheShortestPath();
     }
 
-    private static void initialiseMpMap() {
+    // TODO public?
+    public static void initializeMpMap() {
         // getMapHeight static shod!!!!!!!!
         // TODO maMp never read ??
         Terrain[][] terrain = GameController.map;
@@ -58,7 +58,7 @@ public class TheShortestPath {
     }
 
 
-    private static void initialiseDistances() {
+    private static void initializeDistances() {
         for (int i = 0; i < height * width; i++) {
             for (int j = 0; j < height * width; j++) {
                 distance[i][j] = mpMap[i][j];
