@@ -1,18 +1,15 @@
 package Controller.game;
 
-import Model.Civilization;
 import Model.Location;
-import Model.Terrain;
 import Model.Unit;
 
-import java.util.IllegalFormatCodePointException;
 import java.util.regex.Matcher;
 
 public class UnitController {
 
     public static String moveUnit(Matcher matcher) {
         // TODO handle the shortest path
-
+        // TODO niyaz nist too move to origin ro bege ?
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
         Location origin = SelectController.currentLocation;
@@ -28,7 +25,7 @@ public class UnitController {
         if (!SelectController.positionIsValid(destination))
             return "Destination ( " + x + " , " + y + " ) is not valid!";
 
-        return "Selected unit moved to position + ( " + destination.getX() + " , " + destination.getY() + " ) successfully!";
+        return "Selected unit moved to position ( " + destination.getX() + " , " + destination.getY() + " ) successfully!";
     }
 
     public static boolean hasOwnerShip(Unit currentUnit) {

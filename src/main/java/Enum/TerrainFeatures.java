@@ -6,7 +6,7 @@ public enum TerrainFeatures {
             new Resources[]{Resources.WHEAT, Resources.SUGAR}),
     FOREST("forest", 1, 1, 0, 0.25, 2,
             new Resources[]{Resources.GAZELLE, Resources.COLOR, Resources.SILK}),
-    ICE("ice", 0,0,0, 0, 10000, null),
+    ICE("ice", 0,0,0, 0, Integer.MAX_VALUE, null),
     JUNGLE("jungle", 1, -1, 0, 0.25, 2,
             new Resources[]{Resources.BANANA,Resources.COLOR}),
     MARSH("marsh", -1, 0, 0, -0.33, 2,

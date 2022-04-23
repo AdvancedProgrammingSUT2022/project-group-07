@@ -3,6 +3,8 @@ package Controller.game;
 import Model.Location;
 import Model.Terrain;
 
+import java.util.Vector;
+
 public class TheShortestPath {
     // TODO type fields
     static int height = GameController.getMapHeight();
@@ -93,7 +95,28 @@ public class TheShortestPath {
         }
     }
 
-    public void handleFogOfWar(Location origin, Location destination) {
-
+    public Vector<Integer> fogOfWar(Location origin, Location destination) {
+        Terrain[][] terrain = GameController.map;
+        int start;
+        int end;
+        for (int i = 0; i < height * width; i++) {
+            for (int j = 0; j < height * width; j++) {
+                if (terrain[i][j].getLocation().getX() == origin.getX()
+                        && terrain[i][j].getLocation().getY() == origin.getY())
+                    start = ;
+                if (terrain[i][j].getLocation().getX() == destination.getX()
+                        && terrain[i][j].getLocation().getY() == destination.getY())
+                    end = ;
+            }
+        }
+        if (nextTerrain[start][end] == -1)
+            return null;
+        Vector<Integer> knownTerrains = new Vector<>();
+        knownTerrains.add(start);
+        while (start != end) {
+            start = nextTerrain[start][end];
+            knownTerrains.add(start);
+        }
+        return knownTerrains;
     }
 }
