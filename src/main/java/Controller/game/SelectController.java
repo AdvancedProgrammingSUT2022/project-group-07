@@ -4,6 +4,7 @@ import Model.City;
 import Model.Civilization;
 import Model.Location;
 import Model.Unit;
+import Enum.MapDimension;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -35,17 +36,19 @@ public class SelectController {
         return "";
     }
 
+    // TODO Map size !!
     private static boolean positionIsValid(Location location) {
-        return (location.getY() <= 10
+        return (location.getY() <= GameController.getMapHeight()
                 && location.getY() >= 0
-                && location.getX() <= 12
+                && location.getX() <= GameController.getMapWidth()
                 && location.getX() >= 0);
     }
      // TODO UML
     private static boolean hasNonCombatUnit(Location location) {
         for (Civilization civilization: GameController.getCivilizations()) {
             for (Unit unit : civilization.getUnits()) {
-                if (unit.getLocation().equals(location)) {
+                if (unit.getLocation().getX() == location.getX()
+                        && unit.getLocation().getY() == location.getY()) {
                     selectedUnit = unit;
                     return true;
                 }

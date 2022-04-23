@@ -1,8 +1,11 @@
 package Controller.game;
 
+import Model.Civilization;
 import Model.Location;
+import Model.Terrain;
 import Model.Unit;
 
+import java.util.IllegalFormatCodePointException;
 import java.util.regex.Matcher;
 
 public class UnitController {
@@ -16,21 +19,17 @@ public class UnitController {
         Location destination = new Location(x, y);
         if (!hasOwnerShip(SelectController.selectedUnit))
             return "This unit does not belong to you!";
-
+        ////////////////////////// find the shortest path ////////////////////////////
+        TheShortestPath.run();
         return "Selected unit moved to position + ( " + destination.getX() + " , " + destination.getY() + " ) successfully!";
     }
 
-    public static int minimumMp(Location origin, Location destination, int mp) {
-
-        return 0;
-    }
-
-    // TODO add currentCivilization to GameController
     public static boolean hasOwnerShip(Unit currentUnit) {
-//        for (Unit Unit : GameController.currentCivilization.getUnits) {
-//            if (currentUnit.getLocation().equals(unit.getLocation))
-//                return true;
-//        }
+        for (Unit unit : GameController.getCurrentCivilization().getUnits()) {
+            if (currentUnit.getLocation().getX() == unit.getLocation().getX()
+                    && currentUnit.getLocation().getY() == unit.getLocation().getY())
+                return true;
+        }
         return false;
     }
 
