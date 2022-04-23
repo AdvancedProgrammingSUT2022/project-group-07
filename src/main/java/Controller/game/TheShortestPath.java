@@ -71,6 +71,23 @@ public class TheShortestPath {
     }
 
     private static void findTheShortestPath() {
+        int infinite = Integer.MAX_VALUE;
 
+        for (int i = 0; i < height * width; i++) {
+            for (int j = 0; j < height * width; j++) {
+                for (int k = 0; k < height * width; k++) {
+
+                    if (distance[j][i] == infinite
+                            || distance[i][k] == infinite)
+                        continue;
+
+                    if (distance[j][k]
+                            > distance[j][i] + distance[i][k]) {
+                        distance[j][k] = distance[j][i] + distance[i][k];
+                        nextTerrain[j][k] = nextTerrain[j][i];
+                    }
+                }
+            }
+        }
     }
 }
