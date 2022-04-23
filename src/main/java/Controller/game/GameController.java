@@ -185,7 +185,7 @@ public class GameController {
         mapHeight = mapDimension.getY() ;
         initializeCivilizations(users);
         initializeMap();
-        TheShortestPath.initializeMpMap();
+        TheShortestPath.run();
     }
 
     public void run(){

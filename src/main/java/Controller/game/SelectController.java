@@ -36,15 +36,15 @@ public class SelectController {
         return "";
     }
 
-    // TODO Map size !!
-    private static boolean positionIsValid(Location location) {
+    // TODO UML
+    public static boolean positionIsValid(Location location) {
         return (location.getY() <= GameController.getMapHeight()
                 && location.getY() >= 0
                 && location.getX() <= GameController.getMapWidth()
                 && location.getX() >= 0);
     }
-     // TODO UML
-    private static boolean hasNonCombatUnit(Location location) {
+     // TODO UML + inverted ??
+    public static boolean hasNonCombatUnit(Location location) {
         for (Civilization civilization: GameController.getCivilizations()) {
             for (Unit unit : civilization.getUnits()) {
                 if (unit.getLocation().getX() == location.getX()

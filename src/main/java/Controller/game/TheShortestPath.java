@@ -1,5 +1,6 @@
 package Controller.game;
 
+import Model.Location;
 import Model.Terrain;
 
 public class TheShortestPath {
@@ -11,6 +12,7 @@ public class TheShortestPath {
     private static int[][] nextTerrain = new int[height * width][height * width];
 
     public static void run() {
+        initializeMpMap();
         initializeDistances();
         findTheShortestPath();
     }
@@ -89,5 +91,9 @@ public class TheShortestPath {
                 }
             }
         }
+    }
+
+    public void handleFogOfWar(Location origin, Location destination) {
+
     }
 }
