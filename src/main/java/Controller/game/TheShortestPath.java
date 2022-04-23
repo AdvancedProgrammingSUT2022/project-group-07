@@ -59,7 +59,15 @@ public class TheShortestPath {
 
 
     private static void initialiseDistances() {
-
+        for (int i = 0; i < height * width; i++) {
+            for (int j = 0; j < height * width; j++) {
+                distance[i][j] = mpMap[i][j];
+                if (mpMap[i][j] != Integer.MAX_VALUE)
+                    nextTerrain[i][j] = j;
+                else
+                    nextTerrain[i][j] = -1;
+            }
+        }
     }
 
     private static void findTheShortestPath() {
