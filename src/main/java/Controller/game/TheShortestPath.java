@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class TheShortestPath {
     // TODO check in removing later
-    static int height = GameController.getMapHeight();
-    static int width = GameController.getMapWidth();
+    private static int height = GameController.getMapHeight();
+    private static int width = GameController.getMapWidth();
     private static int[][] mpMap = new int[height * width][height * width];
     private static int[][] distance = new int[height * width][height * width];
     private static int[][] nextTerrain = new int[height * width][height * width];
