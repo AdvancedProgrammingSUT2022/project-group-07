@@ -31,6 +31,13 @@ public class MapController {
         return out;
     }
 
+    private static boolean areAllNeighboursOcean(ArrayList<TypeOfTerrain> areaTypeOfTerrains){
+        for (TypeOfTerrain areaTypeOfTerrain : areaTypeOfTerrains) {
+            if (areaTypeOfTerrain!=TypeOfTerrain.OCEAN)
+                return false;
+        }
+        return true;
+    }
     /**
      * a function to generate type of terrain foreach cell of map based on it's area
      * @param location location of terrain
@@ -42,9 +49,11 @@ public class MapController {
         Random rand = new Random();
         int randNum = rand.nextInt(typeOfTerrains.length);
         TypeOfTerrain out = typeOfTerrains[randNum];
-        if ( (x<3 || x>mapWidth-3) && (y<3 || y>mapHeight-3) && rand.nextInt(5)!=2 )
-            return TypeOfTerrain.OCEAN ;
+
         ArrayList<TypeOfTerrain> areaTypeOfTerrains = getAreaTypeOfTerrains(location);
+
+        if (areAllNeighboursOcean(areaTypeOfTerrains) && (x<3 || x>mapWidth-3) && (y<3 || y>mapHeight-3))
+            return TypeOfTerrain.OCEAN ;
         if (areaTypeOfTerrains.isEmpty() || areaTypeOfTerrains.contains(out))
             return out;
 

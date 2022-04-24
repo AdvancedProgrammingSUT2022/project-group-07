@@ -55,9 +55,11 @@ public class MapFrame extends JFrame {
                 g2d.setColor(Color.BLACK);
                 g2d.drawPolyline(xs , ys , 6);
                 String loc = "(" + Integer.toString(col) + "," + Integer.toString(row) + ")" ;
+                String feature = map[row][col].getTerrainFeatures()!=null ? map[row][col].getTerrainFeatures().toString().substring(0,3) : "" ;
                 g2d.setColor(Color.BLACK);
                 Font myFont = new Font ("Sans Serif", Font.BOLD, 10);
                 g2d.setFont(myFont);
+                g2d.drawString(feature , x-a/2 , y-a/3);
                 g2d.drawString(loc, x-a/2, y+a/3);
                 x += rad3over2*2 ;
             }
