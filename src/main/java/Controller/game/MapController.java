@@ -6,6 +6,7 @@ import Enum.Resources ;
 import Enum.TypeOfTerrain ;
 import Enum.TerrainFeatures ;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -41,6 +42,8 @@ public class MapController {
         Random rand = new Random();
         int randNum = rand.nextInt(typeOfTerrains.length);
         TypeOfTerrain out = typeOfTerrains[randNum];
+        if ( (x<3 || x>mapWidth-3) && (y<3 || y>mapHeight-3) && rand.nextInt(5)!=2 )
+            return TypeOfTerrain.OCEAN ;
         ArrayList<TypeOfTerrain> areaTypeOfTerrains = getAreaTypeOfTerrains(location);
         if (areaTypeOfTerrains.isEmpty() || areaTypeOfTerrains.contains(out))
             return out;
@@ -62,6 +65,10 @@ public class MapController {
             else if (out== TypeOfTerrain.DESERT && areaTypeOfTerrains.contains(TypeOfTerrain.GRASSLAND))
                 shouldChangeOut = true;
 
+            else if (out== TypeOfTerrain.SNOW && areaTypeOfTerrains.contains(TypeOfTerrain.DESERT))
+                shouldChangeOut = true;
+            else if (out== TypeOfTerrain.SNOW && (x>5 && x<mapWidth-5) && (y>5 && y<mapHeight-5))
+                shouldChangeOut = true;
             else if (out== TypeOfTerrain.TUNDRA && areaTypeOfTerrains.contains(TypeOfTerrain.DESERT))
                 shouldChangeOut = true;
 

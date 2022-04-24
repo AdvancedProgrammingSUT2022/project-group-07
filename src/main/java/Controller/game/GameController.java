@@ -51,7 +51,7 @@ public class GameController {
         initializeCivilizations(users);
         map = new Terrain[mapHeight][mapWidth] ;
         map = MapController.createMap(mapWidth , mapHeight) ;
-        TheShortestPath.run();
+//        TheShortestPath.run();
     }
 
     public void run(){
@@ -63,16 +63,7 @@ public class GameController {
     }
 
     public void printMap(){
-        String out ;
-        for (int y=0 ; y<mapHeight ; y++){
-            if (y%2==1)
-                System.out.print("\t");
-            for (int x=0 ; x<mapWidth ; x++){
-                out = map[y][x].getTypeOfTerrain().toString().substring(0,3) + "+" + map[y][x].getTerrainFeatures() + map[y][x].getResources() ;
-                System.out.print(out + "\t");
-            }
-            System.out.println();
-        }
+        new MapFrame(50 , 80 , 22 , mapWidth , mapHeight , map) ;
     }
 
     public void move (String direction){
