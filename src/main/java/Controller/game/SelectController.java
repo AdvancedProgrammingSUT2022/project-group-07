@@ -10,7 +10,6 @@ import java.util.regex.Matcher;
 public class SelectController {
     public static Unit selectedUnit;
     public static City selectedCity;
-    // TODO : add to UML
     public static Location currentLocation;
 
     public static String selectNonCombatUnit(Matcher matcher) {
@@ -21,7 +20,7 @@ public class SelectController {
         if (!positionIsValid(currentLocation))
             return "Position ( " + x + " , " + y + " ) is not valid!";
 
-        if (!hasNonCombatUnit(currentLocation))
+        if (!hasUnit(currentLocation))
             return "There isn't any nonCombatUnit in position ( " + x + " , " + y + " )!";
 
         return "NonCombatUnit selected successfully! \n Info : \n"
@@ -37,15 +36,14 @@ public class SelectController {
         return "";
     }
 
-    // TODO UML + inverted ?
     public static boolean positionIsValid(Location location) {
         return (location.getY() <= GameController.getMapHeight()
                 && location.getY() >= 0
                 && location.getX() <= GameController.getMapWidth()
                 && location.getX() >= 0);
     }
-     // TODO UML
-    public static boolean hasNonCombatUnit(Location location) {
+
+    private static boolean hasUnit(Location location) {
         for (Civilization civilization: GameController.getCivilizations()) {
             for (Unit unit : civilization.getUnits()) {
                 if (unit.getLocation().getX() == location.getX()
