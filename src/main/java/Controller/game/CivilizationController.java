@@ -83,7 +83,6 @@ public class CivilizationController {
         // TODO: 4/21/2022 update civilization total science
     }
 
-
     private ArrayList<Terrain> getNeighbourTerrainsByRadius1
             (Location location , Terrain[][]map , int mapWidth , int mapHeight){
 
@@ -117,9 +116,8 @@ public class CivilizationController {
             ArrayList<Terrain> firstLayerNeighbours = getNeighbourTerrainsByRadius1(unit.getLocation() , map , mapWidth , mapHeight) ;
             for (Terrain firstLayerNeighbour : firstLayerNeighbours) {
                 ArrayList<Terrain> secondLayerNeighbours = getNeighbourTerrainsByRadius1(firstLayerNeighbour.getLocation() , map , mapWidth , mapHeight) ;
-                if (firstLayerNeighbour.getTypeOfTerrain()!= TypeOfTerrain.MOUNTAIN) {
+                if (firstLayerNeighbour.getTypeOfTerrain()!= TypeOfTerrain.MOUNTAIN)
                     shouldBeAdd.addAll(secondLayerNeighbours);
-                }
             }
         }
         for (Terrain terrain : shouldBeAdd)
