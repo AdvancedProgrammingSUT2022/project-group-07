@@ -7,25 +7,24 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GameController {
-    private int mapWidth ;
-    private int mapHeight ;
+    private static int mapWidth ;
+    private static int mapHeight ;
     private MapDimension mapDimension ;
-    private Terrain[][] map;
+    public static Terrain[][] map;
     private static ArrayList<User> players = new ArrayList<>();
     private static ArrayList<Civilization> civilizations = new ArrayList<>();
     private int time;
     private int turn;
-    private Civilization currentCivilization ;
+    private static Civilization currentCivilization ;
 
     // these are not really important for GameController fields
     private static TypeOfTerrain[] typeOfTerrains = TypeOfTerrain.values() ;
     private static TerrainFeatures[] terrainFeatures = TerrainFeatures.values();
 
-
-    public int getMapWidth(){
+    public static int getMapWidth(){
         return mapWidth;
     }
-    public int getMapHeight(){
+    public static int getMapHeight(){
         return mapHeight;
     }
 
@@ -182,6 +181,7 @@ public class GameController {
         mapHeight = mapDimension.getY() ;
         initializeCivilizations(users);
         initializeMap();
+        TheShortestPath.run();
     }
 
     public void run(){
@@ -218,5 +218,11 @@ public class GameController {
     }
 
 
+    public static Civilization getCurrentCivilization() {
+        return currentCivilization;
+    }
 
+    public void setCurrentCivilization(Civilization currentCivilization) {
+        GameController.currentCivilization = currentCivilization;
+    }
 }

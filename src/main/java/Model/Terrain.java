@@ -13,6 +13,7 @@ public class Terrain {
     private ArrayList<Resources> resources = new ArrayList<>();
     private Location location;
     private Improvement improvement;
+    private int mp;
 
     public Terrain(TypeOfTerrain typeOfTerrain, TerrainFeatures terrainFeatures, boolean hasRiver,
                    ArrayList<Resources> resource, Location location, Improvement improvement) {
@@ -23,6 +24,9 @@ public class Terrain {
         this.resources = resource;
         this.location = location;
         this.improvement = improvement;
+        this.mp = typeOfTerrain.getMpNeeded();
+        if (terrainFeatures != null)
+            this.mp += terrainFeatures.getMp();
     }
 
     public TypeOfTerrain getTypeOfTerrain() {
@@ -47,5 +51,13 @@ public class Terrain {
 
     public ArrayList<Resources> getResources() {
         return resources;
+    }
+
+    public int getMp() {
+        return mp;
+    }
+
+    public void setMp(int mp) {
+        this.mp = mp;
     }
 }

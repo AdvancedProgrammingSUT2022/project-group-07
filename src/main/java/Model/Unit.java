@@ -9,6 +9,7 @@ public class Unit {
     private int hp;
     private Civilization civilization;
     private int turn;
+    private int mp;
 
     public UnitStatus getUnitStatus() {
         return unitStatus;
@@ -21,6 +22,7 @@ public class Unit {
         this.hp = hp;
         this.civilization = civilization;
         this.turn = turn;
+        this.mp = typeOfUnit.getMp();
     }
 
     public TypeOfUnit getTypeOfUnit() {
@@ -57,5 +59,13 @@ public class Unit {
 
     public void setCivilization(Civilization civilization) {
         this.civilization = civilization;
+    }
+
+    public int getMp() {
+        return mp;
+    }
+
+    public void setMp(int mp) {
+        this.mp = mp;
     }
 }

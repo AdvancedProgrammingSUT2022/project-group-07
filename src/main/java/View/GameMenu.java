@@ -2,6 +2,7 @@ package View;
 
 import Controller.game.GameController;
 import Controller.game.SelectController;
+import Controller.game.UnitController;
 import Controller.menu.GameMenuController;
 import Enum.MenuName;
 import Enum.regexes.GameMenuCommands;
@@ -89,7 +90,8 @@ public class GameMenu extends Menu{
             // unit commands ::
 
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_MOVE_TO)) != null){
-
+                String result = UnitController.moveUnit(matcher);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_SLEEP)) != null){
 
