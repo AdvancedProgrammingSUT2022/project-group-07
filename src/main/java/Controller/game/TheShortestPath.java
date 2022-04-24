@@ -3,7 +3,7 @@ package Controller.game;
 import Model.Location;
 import Model.Terrain;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class TheShortestPath {
     // TODO type fields
@@ -95,28 +95,32 @@ public class TheShortestPath {
         }
     }
 
-    public Vector<Integer> fogOfWar(Location origin, Location destination) {
+    public static ArrayList<Terrain> showPath(Location origin, Location destination) {
         Terrain[][] terrain = GameController.map;
-        int start;
-        int end;
-        for (int i = 0; i < height * width; i++) {
-            for (int j = 0; j < height * width; j++) {
+        int start = -1;
+        int end = -1;
+        /////////////////////////////////////////////
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
                 if (terrain[i][j].getLocation().getX() == origin.getX()
                         && terrain[i][j].getLocation().getY() == origin.getY())
-                    start = ;
+                    start = height * j + i + 1;
                 if (terrain[i][j].getLocation().getX() == destination.getX()
                         && terrain[i][j].getLocation().getY() == destination.getY())
-                    end = ;
+                    end = height * j + i + 1;
             }
         }
-        if (nextTerrain[start][end] == -1)
-            return null;
-        Vector<Integer> knownTerrains = new Vector<>();
-        knownTerrains.add(start);
-        while (start != end) {
-            start = nextTerrain[start][end];
-            knownTerrains.add(start);
+        ArrayList<Terrain> knownTerrains = new ArrayList<>();
+        if (start != -1 && end != -1) {
+            if (nextTerrain[start][end] == -1)
+                return null;
+            knownTerrains.add(terrain[start / height][start % height - 1]);
+            while (start != end) {
+                start = nextTerrain[start][end];
+                knownTerrains.add(terrain[start / height][start % height - 1]);
+            }
         }
         return knownTerrains;
+
     }
 }

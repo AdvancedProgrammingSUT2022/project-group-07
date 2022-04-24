@@ -1,30 +1,43 @@
 package Controller.game;
 
 import Model.Location;
+import Model.Terrain;
 import Model.Unit;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class UnitController {
 
     public static String moveUnit(Matcher matcher) {
-        // TODO handle the shortest path
-        // TODO niyaz nist too move to origin ro bege ?
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
         Location origin = SelectController.currentLocation;
         Location destination = new Location(x, y);
         if (!hasOwnerShip(SelectController.selectedUnit))
             return "This unit does not belong to you!";
-
-        // TODO niyaze?
-        if (!SelectController.hasNonCombatUnit(origin))
+        if (SelectController.selectedUnit == null)
             return "There isn't any nonCombatUnit in position ( " + x + " , " + y + " )!";
-
-        // TODO check origin validation?
         if (!SelectController.positionIsValid(destination))
             return "Destination ( " + x + " , " + y + " ) is not valid!";
+        //////////////////////////////////////////////////////
 
+        Unit selectedUnit = SelectController.selectedUnit;
+        int mp = selectedUnit.getMp();
+        ArrayList<Terrain> path = TheShortestPath.showPath(origin, destination);
+        ArrayList<Terrain> goThrough = new ArrayList<>();
+        assert path != null;
+        for (Terrain terrain : path) {
+            mp -= terrain.getMp();
+            goThrough.add(terrain);
+            if (mp < 0) {
+                selectedUnit.setLocation(terrain.getLocation());
+                // TODO update fog of war
+                return "Unit moved to ( " + terrain.getLocation().getX() + " , " + terrain.getLocation().getY() + " )!";
+            }
+        }
+        selectedUnit.setLocation(destination);
+        selectedUnit = null;
         return "Selected unit moved to position ( " + destination.getX() + " , " + destination.getY() + " ) successfully!";
     }
 
