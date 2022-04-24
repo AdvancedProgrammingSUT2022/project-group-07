@@ -4,9 +4,7 @@ import Model.City;
 import Model.Civilization;
 import Model.Location;
 import Model.Unit;
-import Enum.MapDimension;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class SelectController {
@@ -19,10 +17,13 @@ public class SelectController {
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
         currentLocation = new Location(x, y);
+
         if (!positionIsValid(currentLocation))
             return "Position ( " + x + " , " + y + " ) is not valid!";
+
         if (!hasNonCombatUnit(currentLocation))
             return "There isn't any nonCombatUnit in position ( " + x + " , " + y + " )!";
+
         return "NonCombatUnit selected successfully! \n Info : \n"
                 + "-type of unit : " + selectedUnit.getTypeOfUnit()
                 + "-unit status : " + selectedUnit.getUnitStatus()
@@ -36,14 +37,14 @@ public class SelectController {
         return "";
     }
 
-    // TODO UML
+    // TODO UML + inverted ?
     public static boolean positionIsValid(Location location) {
         return (location.getY() <= GameController.getMapHeight()
                 && location.getY() >= 0
                 && location.getX() <= GameController.getMapWidth()
                 && location.getX() >= 0);
     }
-     // TODO UML + inverted ??
+     // TODO UML
     public static boolean hasNonCombatUnit(Location location) {
         for (Civilization civilization: GameController.getCivilizations()) {
             for (Unit unit : civilization.getUnits()) {

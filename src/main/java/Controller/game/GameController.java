@@ -7,24 +7,20 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GameController {
-    // TODO static
     private static int mapWidth ;
     private static int mapHeight ;
     private MapDimension mapDimension ;
-    // TODO static
     public static Terrain[][] map;
     private static ArrayList<User> players = new ArrayList<>();
     private static ArrayList<Civilization> civilizations = new ArrayList<>();
     private int time;
     private int turn;
-    // TODO show in UML
     private static Civilization currentCivilization ;
 
     // these are not really important for GameController fields
     private static TypeOfTerrain[] typeOfTerrains = TypeOfTerrain.values() ;
     private static TerrainFeatures[] terrainFeatures = TerrainFeatures.values();
 
-    // TODO static
     public static int getMapWidth(){
         return mapWidth;
     }
