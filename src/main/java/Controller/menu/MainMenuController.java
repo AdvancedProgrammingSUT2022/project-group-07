@@ -48,6 +48,7 @@ public class MainMenuController {
         ArrayList<String> playerUsernames = sortPlayers(getPlayers);
         if (playerUsernames == null) return "entered wrong player numbers!";
         ArrayList<User> playerUsers = new ArrayList<>();
+        playerUsers.add(UserController.getCurrentUser());
         for (String playerUsername : playerUsernames) {
             if (UserController.getUserByUsername(playerUsername) == null)
                 return "user with username " + playerUsername + " does not exist!";

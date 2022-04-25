@@ -3,10 +3,15 @@ package Model;
 import javax.swing.*;
 import java.awt.* ;
 import java.lang.Math ;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import Controller.game.GameController;
+=======
+import java.util.HashMap;
+
+>>>>>>> main
 import Enum.TypeOfTerrain ;
 
 public class MapFrame extends JFrame {
@@ -41,11 +46,14 @@ public class MapFrame extends JFrame {
     }
 
     public void paint(Graphics g){
+<<<<<<< HEAD
         // getting all units of the game
         ArrayList<Unit> allUnits = new ArrayList<>();
         for (Civilization civilization : GameController.getCivilizations())
             allUnits.addAll(civilization.getUnits());
 
+=======
+>>>>>>> main
         Graphics2D g2d = (Graphics2D) g ;
         int rad3over2 = (int) (((double)a)*Math.sqrt(3)/2 );
         int y = startingY ;
