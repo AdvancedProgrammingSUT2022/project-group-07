@@ -18,9 +18,11 @@ public class MapFrame extends JFrame {
     private HashMap<TypeOfTerrain,Color> colors ;
     private int width ;
     private int height ;
+    private ArrayList<Civilization> civilizations ;
 
-    public MapFrame(int startingX , int startingY , int a , int mapWidth , int mapHeight , Terrain[][] map){
+    public MapFrame(int startingX , int startingY , int a , int mapWidth , int mapHeight , Terrain[][] map , ArrayList<Civilization> civilizations){
         this.map = map ;
+        this.civilizations = civilizations ;
         this.setSize(1080,720) ;
         this.setVisible(true);
         this.setResizable(true);
@@ -44,7 +46,7 @@ public class MapFrame extends JFrame {
     public void paint(Graphics g){
         // getting all units of the game
         ArrayList<Unit> allUnits = new ArrayList<>();
-        for (Civilization civilization : GameController.getCivilizations())
+        for (Civilization civilization : civilizations)
             allUnits.addAll(civilization.getUnits());
         Graphics2D g2d = (Graphics2D) g ;
         int rad3over2 = (int) (((double)a)*Math.sqrt(3)/2 );

@@ -90,7 +90,7 @@ public class GameController {
     }
 
     public void printMap(){
-        new MapFrame(50 , 80 , 23 , mapWidth , mapHeight , map) ;
+        new MapFrame(50 , 80 , 23 , mapWidth , mapHeight , map , civilizations) ;
     }
 
     public void move (String direction){
