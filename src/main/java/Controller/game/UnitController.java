@@ -6,6 +6,7 @@ import Model.Unit;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
+import Enum.TerrainFeatures;
 
 public class UnitController {
 
@@ -45,8 +46,8 @@ public class UnitController {
         for (Terrain terrain : path) {
             mp -= terrain.getMp();
             goThrough.add(terrain);
-            if (mp <= 0
-                    || terrain.getTerrainFeatures().getName().equals("river")) {
+            if (terrain.getTerrainFeatures() != null && (mp <= 0
+                    || terrain.getTerrainFeatures() == TerrainFeatures.RIVER)) {
                 selectedUnit.setLocation(terrain.getLocation());
                 // updating fog of war using static method of CivilizationController
                 CivilizationController.updateFogOfWar(selectedUnit.getCivilization() , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight());
@@ -59,7 +60,6 @@ public class UnitController {
       
         SelectController.selectedUnit.setLocation(destination);
         SelectController.currentLocation = destination;
-        SelectController.selectedUnit = null;
         return "Selected unit moved to position ( " + destination.getX() + " , " + destination.getY() + " ) successfully!";
     }
 
@@ -90,7 +90,8 @@ public class UnitController {
                         && terrainLocation.getY() == destination.getY())
                     return typeOfTerrain;
 
-                if (terrain[i][j].getTerrainFeatures().getName().equals("ice")
+                if (terrain[i][j].getTerrainFeatures() != null
+                        && terrain[i][j].getTerrainFeatures() == TerrainFeatures.ICE
                         && terrainLocation.getX() == destination.getX()
                         && terrainLocation.getY() == destination.getY())
                     return "ice";

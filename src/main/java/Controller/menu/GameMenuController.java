@@ -1,6 +1,8 @@
 package Controller.menu;
 
 import Controller.game.GameController;
+import Controller.game.SelectController;
+import Controller.game.UnitController;
 import Model.User;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class GameMenuController {
         if (index == gameController.getCivilizations().size() - 1) {
             gameController.setTurn(gameController.getTurn() + 1);
             gameController.setCurrentCivilization(gameController.getCivilizations().get(0));
+            SelectController.selectedUnit = null;
             return "next player!\nnew turn!";
         }
         else {

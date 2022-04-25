@@ -25,11 +25,11 @@ public class SelectController {
 
         return "NonCombatUnit selected successfully! \n Info : \n"
                 + "-type of unit : " + selectedUnit.getTypeOfUnit()
-                + "-unit status : " + selectedUnit.getUnitStatus()
-                + "-location : ( " + selectedUnit.getLocation().getX()
+                + "\n-unit status : " + selectedUnit.getUnitStatus()
+                + "\n-location : ( " + selectedUnit.getLocation().getX()
                 + " , " + selectedUnit.getLocation().getY() + " )"
-                + "-hp : " + selectedUnit.getHp()
-                + "-civilization name : " + selectedUnit.getCivilization().getName();
+                + "\n-hp : " + selectedUnit.getHp()
+                + "\n-civilization name : " + selectedUnit.getCivilization().getName();
     }
 
     private String selectCombatUnit(Location location) {
