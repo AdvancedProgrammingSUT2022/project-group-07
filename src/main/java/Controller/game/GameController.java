@@ -56,7 +56,7 @@ public class GameController {
         initializeCivilizations(players);
         map = new Terrain[mapHeight][mapWidth] ;
         map = MapController.createMap(mapWidth , mapHeight) ;
-        //TheShortestPath.run();
+        TheShortestPath.run();
     }
 
     public void run(){
