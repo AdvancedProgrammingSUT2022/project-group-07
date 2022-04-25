@@ -52,7 +52,10 @@ public enum GameMenuCommands {
     // map commands : !!!!
 
     MAP_SHOW("map show (?<cityName>[a-zA-Z]+)|((?<X>)\\d+ (?<Y>\\d+))"), // ham mishe city ham location ro neshoon dad!
-    MAP_MOVE("map move (?<direction>[RLUD])");
+    MAP_MOVE("map move (?<direction>[RLUD])"),
+
+    // next turn : !!
+    NEXT_TURN("next turn");
 
     private String regex;
 

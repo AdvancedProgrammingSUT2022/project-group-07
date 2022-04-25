@@ -1,6 +1,5 @@
 package Controller.game;
 
-import Model.Civilization;
 import Model.Location;
 import Model.Terrain;
 import Model.Unit;
@@ -10,7 +9,7 @@ import java.util.regex.Matcher;
 
 public class UnitController {
 
-    public static String moveUnit(Matcher matcher) {
+    public static String moveUnit(Matcher matcher, GameController gameController) {
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
         Unit selectedUnit = SelectController.selectedUnit;
@@ -21,7 +20,7 @@ public class UnitController {
         if (SelectController.selectedUnit == null)
             return "There isn't any selected unit!";
 
-        if (!hasOwnerShip(selectedUnit))
+        if (!hasOwnerShip(selectedUnit , gameController))
             return "This unit does not belong to you!";
 
         if (!SelectController.positionIsValid(destination))
@@ -64,8 +63,8 @@ public class UnitController {
         return "Selected unit moved to position ( " + destination.getX() + " , " + destination.getY() + " ) successfully!";
     }
 
-    public static boolean hasOwnerShip(Unit currentUnit) {
-        for (Unit unit : GameController.getCurrentCivilization().getUnits()) {
+    public static boolean hasOwnerShip(Unit currentUnit, GameController gameController) {
+        for (Unit unit : gameController.getCurrentCivilization().getUnits()) {
             if (currentUnit.getLocation().getX() == unit.getLocation().getX()
                     && currentUnit.getLocation().getY() == unit.getLocation().getY())
                 return true;

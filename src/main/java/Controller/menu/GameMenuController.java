@@ -16,5 +16,17 @@ public class GameMenuController {
         GameMenuController.users = users;
     }
 
-    GameController gameController = new GameController(users);
+
+    public String nextTurn(GameController gameController) {
+        int index = gameController.getCivilizations().indexOf(gameController.getCurrentCivilization());
+        if (index == gameController.getCivilizations().size() - 1) {
+            gameController.setTurn(gameController.getTurn() + 1);
+            gameController.setCurrentCivilization(gameController.getCivilizations().get(0));
+            return "next player!\nnew turn!";
+        }
+        else {
+            gameController.setCurrentCivilization(gameController.getCivilizations().get(index + 1));
+            return "next player!";
+        }
+    }
 }
