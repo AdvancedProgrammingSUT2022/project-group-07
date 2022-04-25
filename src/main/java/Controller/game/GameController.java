@@ -44,6 +44,8 @@ public class GameController {
         GameController.players = players;
     }
 
+    public static Terrain[][] getMap() {return map; }
+
     public GameController(ArrayList<User> users) {
         mapDimension = MapDimension.STANDARD ;
         mapWidth = mapDimension.getX() ;
@@ -63,7 +65,7 @@ public class GameController {
     }
 
     public void printMap(){
-        new MapFrame(50 , 80 , 22 , mapWidth , mapHeight , map) ;
+        new MapFrame(50 , 80 , 23 , mapWidth , mapHeight , map) ;
     }
 
     public void move (String direction){
