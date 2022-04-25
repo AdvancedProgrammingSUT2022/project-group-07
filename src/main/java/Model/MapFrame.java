@@ -3,8 +3,10 @@ package Model;
 import javax.swing.*;
 import java.awt.* ;
 import java.lang.Math ;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import Controller.game.GameController;
 import Enum.TypeOfTerrain ;
 
 public class MapFrame extends JFrame {
@@ -39,6 +41,11 @@ public class MapFrame extends JFrame {
     }
 
     public void paint(Graphics g){
+        // getting all units of the game
+        ArrayList<Unit> allUnits = new ArrayList<>();
+        for (Civilization civilization : GameController.getCivilizations())
+            allUnits.addAll(civilization.getUnits());
+
         Graphics2D g2d = (Graphics2D) g ;
         int rad3over2 = (int) (((double)a)*Math.sqrt(3)/2 );
         int y = startingY ;
@@ -61,6 +68,10 @@ public class MapFrame extends JFrame {
                 g2d.setFont(myFont);
                 g2d.drawString(feature , x-a/2 , y-a/3);
                 g2d.drawString(loc, x-a/2, y+a/3);
+                for (Unit oneUnit : allUnits) {
+                    if (oneUnit.getLocation().getY()==row && oneUnit.getLocation().getX()==col)
+                        g2d.fillOval(x , y , a/4 , a/4);
+                }
                 x += rad3over2*2 ;
             }
             y += 1.5 * a ;
