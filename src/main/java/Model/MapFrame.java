@@ -3,15 +3,11 @@ package Model;
 import javax.swing.*;
 import java.awt.* ;
 import java.lang.Math ;
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import Controller.game.GameController;
-=======
 import java.util.HashMap;
-
->>>>>>> main
 import Enum.TypeOfTerrain ;
 
 public class MapFrame extends JFrame {
