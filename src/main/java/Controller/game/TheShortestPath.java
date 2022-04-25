@@ -28,13 +28,19 @@ public class TheShortestPath {
         }
     }
 
+    // TODO i not a good name
     private static void initializeNeighbors(int i) {
         Terrain[][] terrain = GameController.map;
         Terrain left, upLeft, upRight, right, downRight, downLeft;
         int k, s;
         k = i / height;
-        s = i % height - 1;
+        if (i % height - 1 == 0)
+            s = height - 1;
+        else
+            s = i % height - 1;
+
         mpMap[i - 1][i - 1] = 0;
+
         if (k > 0) {
             left = terrain[k - 1][s];
             mpMap[i - 1][i - 2] = left.getMp();
@@ -43,7 +49,7 @@ public class TheShortestPath {
             upLeft = terrain[k - 1][s - 1];
             mpMap[i - 1][i - height - 1] = upLeft.getMp();
         }
-        if (s > 0) {
+        if (s > 0 && k > 0) {
             upRight = terrain[k][s - 1];
             mpMap[i - 1][i - height] = upRight.getMp();
         }
