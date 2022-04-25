@@ -70,9 +70,10 @@ public class MapFrame extends JFrame {
                 g2d.setFont(myFont);
                 g2d.drawString(feature , x-a/2 , y-a/3);
                 g2d.drawString(loc, x-a/2, y+a/3);
+                g2d.setColor(Color.RED);
                 for (Unit oneUnit : allUnits) {
                     if (oneUnit.getLocation().getY()==row && oneUnit.getLocation().getX()==col)
-                        g2d.fillOval(x , y , a/4 , a/4);
+                        g2d.fillOval(x , y , a/2 , a/2);
                 }
                 x += rad3over2*2 ;
             }
