@@ -9,7 +9,7 @@ public enum MainMenuCommands {
     MENU_NAVIGATION("enter menu (?<menuName>.+)"),
     SHOW_CURRENT_MENU("menu show-current"),
     LOGOUT("user logout"),
-    PLAY_GAME("play game (--player\\d+ \\S+)+");
+    PLAY_GAME("play game( --player\\d+ \\S+)+");
 
     private String regex;
 

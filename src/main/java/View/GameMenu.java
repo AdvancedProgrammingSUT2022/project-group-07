@@ -6,17 +6,17 @@ import Controller.game.UnitController;
 import Controller.menu.GameMenuController;
 import Enum.MenuName;
 import Enum.regexes.GameMenuCommands;
-import Model.Location;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class GameMenu extends Menu{
     private final GameMenuController gameMenuController;
-
-    public GameMenu(Scanner scanner, GameMenuController gameMenuController){
+    private GameController gameController;
+    public GameMenu(Scanner scanner, GameMenuController gameMenuController, GameController gameController){
         super(scanner);
         this.gameMenuController = gameMenuController;
+        this.gameController = gameController;
     }
 
     public void run() {
@@ -24,9 +24,9 @@ public class GameMenu extends Menu{
         Matcher matcher;
 
         while (MenuName.getCurrentMenu() == MenuName.GAME_MENU) {
+            gameController.printMap();
             input = scanner.nextLine();
             // menu commands ::::
-
             if (GameMenuCommands.getMatcher(input , GameMenuCommands.EXIT) != null) {
 
             }
@@ -80,7 +80,7 @@ public class GameMenu extends Menu{
 
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_UNIT_NONCOMBAT)) != null){
-                String result = SelectController.selectNonCombatUnit(matcher);
+                String result = SelectController.selectNonCombatUnit(matcher , gameController);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_CITY)) != null){
@@ -90,7 +90,7 @@ public class GameMenu extends Menu{
             // unit commands ::
 
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_MOVE_TO)) != null){
-                String result = UnitController.moveUnit(matcher);
+                String result = UnitController.moveUnit(matcher , gameController);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_SLEEP)) != null){
@@ -144,6 +144,10 @@ public class GameMenu extends Menu{
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_MOVE)) != null){
 
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.NEXT_TURN)) != null) {
+                String result = gameMenuController.nextTurn(gameController);
+                System.out.println(result);
             }
             else System.out.println("invalid command ayoub");
         }
