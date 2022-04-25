@@ -83,10 +83,8 @@ public class CivilizationController {
         // TODO: 4/21/2022 update civilization total science
     }
 
-
-    private ArrayList<Terrain> getNeighbourTerrainsByRadius1
+    private static ArrayList<Terrain> getNeighbourTerrainsByRadius1
             (Location location , Terrain[][]map , int mapWidth , int mapHeight){
-
         ArrayList<Terrain> out = new ArrayList<Terrain>();
         int x = location.getX();
         int y = location.getY();
@@ -103,7 +101,7 @@ public class CivilizationController {
         return out ;
     }
 
-    public void updateFogOfWar(Terrain[][] map , int mapWidth , int mapHeight){
+    public static void updateFogOfWar(Civilization civilization , Terrain[][] map , int mapWidth , int mapHeight){
         // TODO: update civilization fog of war using it's owned units across the whole map
         // to do this , we first iterate on this civilization units and add first layer neighbours
         // every unit can see all 6 neighbours of itself , we add these 6 neighbours to an array
@@ -117,9 +115,8 @@ public class CivilizationController {
             ArrayList<Terrain> firstLayerNeighbours = getNeighbourTerrainsByRadius1(unit.getLocation() , map , mapWidth , mapHeight) ;
             for (Terrain firstLayerNeighbour : firstLayerNeighbours) {
                 ArrayList<Terrain> secondLayerNeighbours = getNeighbourTerrainsByRadius1(firstLayerNeighbour.getLocation() , map , mapWidth , mapHeight) ;
-                if (firstLayerNeighbour.getTypeOfTerrain()!= TypeOfTerrain.MOUNTAIN) {
+                if (firstLayerNeighbour.getTypeOfTerrain()!= TypeOfTerrain.MOUNTAIN)
                     shouldBeAdd.addAll(secondLayerNeighbours);
-                }
             }
         }
         for (Terrain terrain : shouldBeAdd)
