@@ -41,8 +41,8 @@ public class MainMenuController {
         return "user logged out successfully!";
     }
 
-    public String playGame(Matcher matcher) {
-        String input = matcher.toString();
+    public String playGame(Matcher matcher, GameController gameController) {
+        String input = matcher.group();
         String[] listOfAllPlayers = input.split("--");
         HashMap<Integer , String> getPlayers = getPlayers(listOfAllPlayers);
         ArrayList<String> playerUsernames = sortPlayers(getPlayers);
@@ -54,7 +54,8 @@ public class MainMenuController {
                 return "user with username " + playerUsername + " does not exist!";
             playerUsers.add(UserController.getUserByUsername(playerUsername));
         }
-        GameController.setPlayers(playerUsers);
+        gameController.setPlayers(playerUsers);
+        gameController.initialize();
         MenuName.setCurrentMenu(MenuName.GAME_MENU);
         return "entered Game!";
     }
@@ -71,7 +72,7 @@ public class MainMenuController {
 
     private HashMap<Integer, String> getPlayers(String[] listOfAllPlayers) {
         HashMap<Integer , String> getPlayers = new HashMap<>();
-        for (int i = 1; i <= listOfAllPlayers.length; i++) {
+        for (int i = 1; i < listOfAllPlayers.length; i++) {
             getPlayers.put(Integer.parseInt(listOfAllPlayers[i].substring(6 , 7)) , listOfAllPlayers[i].substring(8));
         }
         return getPlayers;

@@ -1,5 +1,6 @@
 package View;
 
+import Controller.game.GameController;
 import Controller.menu.MainMenuController;
 import Enum.MenuName;
 import Enum.regexes.MainMenuCommands;
@@ -9,10 +10,11 @@ import java.util.regex.Matcher;
 
 public class MainMenu extends Menu{
     private final MainMenuController mainMenuController;
-
-    public MainMenu(Scanner scanner , MainMenuController mainMenuController) {
+    private GameController gameController;
+    public MainMenu(Scanner scanner, MainMenuController mainMenuController, GameController gameController) {
         super(scanner);
         this.mainMenuController = mainMenuController;
+        this.gameController = gameController;
     }
 
     public void run() {
@@ -37,7 +39,7 @@ public class MainMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = MainMenuCommands.getMatcher(input , MainMenuCommands.PLAY_GAME)) != null) {
-                String result = mainMenuController.playGame(matcher);
+                String result = mainMenuController.playGame(matcher , gameController);
                 System.out.println(result);
             }
             else System.out.println("invalid command from ayoub");

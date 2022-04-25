@@ -1,4 +1,5 @@
 import Controller.UserController;
+import Controller.game.GameController;
 import Controller.menu.GameMenuController;
 import Controller.menu.LoginMenuController;
 import Controller.menu.MainMenuController;
@@ -12,9 +13,10 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         LoginMenu loginMenu = new LoginMenu(scanner , new LoginMenuController());
-        MainMenu mainMenu = new MainMenu(scanner , new MainMenuController());
+        GameController gameController = new GameController();
+        MainMenu mainMenu = new MainMenu(scanner , new MainMenuController() , gameController);
         ProfileMenu profileMenu = new ProfileMenu(scanner , new ProfileMenuController());
-        GameMenu gameMenu = new GameMenu(scanner , new GameMenuController());
+        GameMenu gameMenu = new GameMenu(scanner , new GameMenuController() , gameController);
         UserController.loadUsers();
 
         while(MenuName.getCurrentMenu() != MenuName.TERMINATE) {
