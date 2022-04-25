@@ -28,6 +28,20 @@ public class GameController {
         return mapHeight;
     }
 
+    /**
+     * a function to generate settler units locations while initializing civilizations
+     * @param locations all used locations
+     * @return
+     */
+    private Location generateSettlerUnitLocation (ArrayList<Location> locations){
+        Random rand = new Random();
+        int x=rand.nextInt(mapWidth) , y=rand.nextInt(mapHeight) ;
+        while (locations.contains(new Location(x,y)) || map[y][x].getTypeOfTerrain()==TypeOfTerrain.OCEAN){
+            x = rand.nextInt(mapWidth) ;
+            y = rand.nextInt(mapHeight) ;
+        }
+        return new Location(x,y);
+    }
 
     /**
      * a function to initialize civilizations at the very beginning of the game
@@ -36,7 +50,15 @@ public class GameController {
     private void initializeCivilizations (ArrayList<User> users){
         // TODO: create some real civilization names
         for (int i = 0; i < users.size(); i++)
-            civilizations.add(new Civilization("c"+Integer.toString(i+1) , users.get(i))) ;
+            civilizations.add(new Civilization("c" + Integer.toString(i + 1), users.get(i)));
+        Random rand = new Random();
+        ArrayList<Location> locations = new ArrayList<>();
+        Location newUnitLocation ;
+        for (Civilization civilization : civilizations) {
+            newUnitLocation = generateSettlerUnitLocation(locations);
+            locations.add(newUnitLocation);
+            civilization.addUnit(new Unit(TypeOfUnit.SETTLER , UnitStatus.ACTIVE , newUnitLocation , TypeOfUnit.SETTLER.getHp() , civilization , 0));
+        }
     }
 
     public  ArrayList<User> getPlayers() {
@@ -68,7 +90,7 @@ public class GameController {
     }
 
     public void printMap(){
-        new MapFrame(50 , 80 , 23 , mapWidth , mapHeight , map) ;
+        new MapFrame(50 , 80 , 23 , mapWidth , mapHeight , map , civilizations) ;
     }
 
     public void move (String direction){
