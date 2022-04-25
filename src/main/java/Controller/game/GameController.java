@@ -75,10 +75,11 @@ public class GameController {
         mapDimension = MapDimension.STANDARD ;
         mapWidth = mapDimension.getX() ;
         mapHeight = mapDimension.getY() ;
-        initializeCivilizations(players);
         map = new Terrain[mapHeight][mapWidth] ;
         map = MapController.createMap(mapWidth , mapHeight) ;
-        //TheShortestPath.run();
+        initializeCivilizations(players);
+        TheShortestPath.run();
+        setCurrentCivilization(civilizations.get(0));
     }
 
     public void run(){
