@@ -1,5 +1,6 @@
 package Controller.game;
 
+import Model.Civilization;
 import Model.Location;
 import Model.Terrain;
 import Model.Unit;
@@ -48,11 +49,15 @@ public class UnitController {
             if (mp <= 0
                     || terrain.getTerrainFeatures().getName().equals("river")) {
                 selectedUnit.setLocation(terrain.getLocation());
-                // TODO update fog of war
+                // updating fog of war using static method of CivilizationController
+                CivilizationController.updateFogOfWar(selectedUnit.getCivilization() , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight());
                 return "Unit moved to ( " + terrain.getLocation().getX() + " , " + terrain.getLocation().getY() + " )!";
             }
         }
-        // TODO update fog of war
+
+        // updating fog of war using static method of CivilizationController
+        CivilizationController.updateFogOfWar(selectedUnit.getCivilization() , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight());
+      
         SelectController.selectedUnit.setLocation(destination);
         SelectController.currentLocation = destination;
         SelectController.selectedUnit = null;
