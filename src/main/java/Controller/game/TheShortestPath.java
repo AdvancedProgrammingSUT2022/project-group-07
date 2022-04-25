@@ -28,42 +28,52 @@ public class TheShortestPath {
         }
     }
 
-    // TODO i not a good name
     private static void initializeNeighbors(int i) {
         Terrain[][] terrain = GameController.map;
         Terrain left, upLeft, upRight, right, downRight, downLeft;
         int k, s;
-        k = i / height;
-        if (i % height - 1 == 0)
-            s = height - 1;
-        else
-            s = i % height - 1;
-
+        if (i % width == 0) {
+            s = width - 1;
+            k = i / width - 1;
+        }
+        else {
+            s = i % width - 1;
+            k = i / width;
+        }
         mpMap[i - 1][i - 1] = 0;
-
-        if (k > 0) {
-            left = terrain[k - 1][s];
+        if (s > 0) {
+            left = terrain[k][s - 1];
             mpMap[i - 1][i - 2] = left.getMp();
         }
-        if (s > 0 && k > 0) {
-            upLeft = terrain[k - 1][s - 1];
+        if (k > 0) {
+            if (k % 2  == 0 && s > 0) upLeft = terrain[k - 1][s - 1];
+            else upLeft = terrain[k - 1][s];
             mpMap[i - 1][i - height - 1] = upLeft.getMp();
         }
-        if (s > 0 && k > 0) {
-            upRight = terrain[k][s - 1];
-            mpMap[i - 1][i - height] = upRight.getMp();
+        if (k > 0) {
+            if (k % 2 == 0) upRight = terrain[k - 1][s];
+            else {
+                if (s != width - 1) upRight = terrain[k - 1][s + 1];
+                else upRight = null;
+            }
+            if (upRight != null) mpMap[i - 1][i - height] = upRight.getMp();
         }
-        if (k < height) {
-            right = terrain[k + 1][s];
+        if (s < width - 1) {
+            right = terrain[k][s + 1];
             mpMap[i - 1][i] = right.getMp();
         }
-        if (k > 0 && s < width) {
-            downLeft = terrain[k - 1][s + 1];
+        if (k < height - 1) {
+            if (k % 2 == 0 && s != 0) downLeft = terrain[k + 1][s - 1];
+            else downLeft = terrain[k + 1][s];
             mpMap[i - 1][i + height - 1] = downLeft.getMp();
         }
-        if (s < width) {
-            downRight = terrain[k][s + 1];
-            mpMap[i - 1][i + height] = downRight.getMp();
+        if (k < height - 1) {
+            if (k % 2 == 0 ) downRight = terrain[k + 1][s];
+            else {
+                if (s != width - 1) downRight = terrain[k + 1][s + 1];
+                else downRight = null;
+            }
+            if (downRight != null) mpMap[i - 1][i + height] = downRight.getMp(); // map[height][width]
         }
     }
 
