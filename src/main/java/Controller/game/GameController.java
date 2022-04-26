@@ -16,6 +16,7 @@ public class GameController {
     private int time;
     private int turn;
     private Civilization currentCivilization ;
+    private static MapFrame frame = null ;
 
     public GameController() {
 
@@ -36,7 +37,9 @@ public class GameController {
     private Location generateSettlerUnitLocation (ArrayList<Location> locations){
         Random rand = new Random();
         int x=rand.nextInt(mapWidth) , y=rand.nextInt(mapHeight) ;
-        while (locations.contains(new Location(x,y)) || map[y][x].getTypeOfTerrain()==TypeOfTerrain.OCEAN){
+        while (locations.contains(new Location(x,y))
+                || map[y][x].getTypeOfTerrain()==TypeOfTerrain.OCEAN
+                || map[y][x].getTypeOfTerrain()==TypeOfTerrain.MOUNTAIN){
             x = rand.nextInt(mapWidth) ;
             y = rand.nextInt(mapHeight) ;
         }
@@ -91,7 +94,9 @@ public class GameController {
     }
 
     public void printMap(){
-        new MapFrame(50 , 80 , 23 , mapWidth , mapHeight , map , civilizations) ;
+        if (frame!=null)
+            frame.dispose();
+        frame = new MapFrame(50 , 80 , 23 , mapWidth , mapHeight , map , civilizations) ;
     }
 
     public void move (String direction){
