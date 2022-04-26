@@ -15,7 +15,7 @@ public class MapFrame extends JFrame {
     private int startingX ;
     private int startingY ;
     private int a ;
-    private HashMap<TypeOfTerrain,Color> colors ;
+    private Color[] colors ;
     private int width ;
     private int height ;
     private ArrayList<Civilization> civilizations ;
@@ -32,15 +32,7 @@ public class MapFrame extends JFrame {
         this.a = a ;
         this.width = mapWidth ;
         this.height = mapHeight ;
-        colors = new HashMap<TypeOfTerrain, Color>() ;
-        colors.put(TypeOfTerrain.PLAIN , Color.GREEN) ;
-        colors.put(TypeOfTerrain.DESERT , Color.ORANGE) ;
-        colors.put(TypeOfTerrain.MOUNTAIN , new Color(0x4B521C)) ;
-        colors.put(TypeOfTerrain.OCEAN , Color.BLUE) ;
-        colors.put(TypeOfTerrain.SNOW , Color.WHITE) ;
-        colors.put(TypeOfTerrain.TUNDRA , Color.CYAN) ;
-        colors.put(TypeOfTerrain.GRASSLAND , new Color(0x32A844)) ;
-        colors.put(TypeOfTerrain.HILL , new Color(0xF0E68C)) ;
+        colors = new Color[]{Color.RED , Color.BLUE , Color.GREEN , Color.YELLOW , Color.cyan , Color.orange} ;
     }
 
     public void paint(Graphics g){
@@ -59,21 +51,24 @@ public class MapFrame extends JFrame {
                 int[] xs = {x-rad3over2 , x-rad3over2 , x , x+rad3over2 , x+rad3over2 , x} ;
                 int[] ys = {y+a/2 , y-a/2 , y-a , y-a/2 , y+a/2 , y+a} ;
                 Polygon p = new Polygon(xs,ys,6);
-                g2d.setColor(colors.get(map[row][col].getTypeOfTerrain()));
+                g2d.setColor(Color.WHITE);
                 g2d.fillPolygon(p);
                 g2d.setColor(Color.BLACK);
                 g2d.drawPolyline(xs , ys , 6);
                 String loc = "(" + Integer.toString(col) + "," + Integer.toString(row) + ")" ;
                 String feature = map[row][col].getTerrainFeatures()!=null ? map[row][col].getTerrainFeatures().toString().substring(0,3) : "" ;
+                String terrainType = map[row][col].getTypeOfTerrain().getName().substring(0,3) ;
                 g2d.setColor(Color.BLACK);
                 Font myFont = new Font ("Sans Serif", Font.BOLD, 10);
                 g2d.setFont(myFont);
-                g2d.drawString(feature , x-a/2 , y-a/3);
-                g2d.drawString(loc, x-a/2, y+a/3);
-                g2d.setColor(Color.RED);
+                g2d.drawString( terrainType, x-a/4 , y-a/2);
+                g2d.drawString(feature , x-a/2 , y);
+                g2d.drawString(loc, x-a/2, y+a/2);
                 for (Unit oneUnit : allUnits) {
-                    if (oneUnit.getLocation().getY()==row && oneUnit.getLocation().getX()==col)
-                        g2d.fillOval(x , y , a/2 , a/2);
+                    if (oneUnit.getLocation().getY()==row && oneUnit.getLocation().getX()==col) {
+                        g2d.setColor(colors[civilizations.indexOf(oneUnit.getCivilization())]);
+                        g2d.fillOval(x, y, a / 2, a / 2);
+                    }
                 }
                 x += rad3over2*2 ;
             }
