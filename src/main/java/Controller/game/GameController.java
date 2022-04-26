@@ -37,7 +37,9 @@ public class GameController {
     private Location generateSettlerUnitLocation (ArrayList<Location> locations){
         Random rand = new Random();
         int x=rand.nextInt(mapWidth) , y=rand.nextInt(mapHeight) ;
-        while (locations.contains(new Location(x,y)) || map[y][x].getTypeOfTerrain()==TypeOfTerrain.OCEAN){
+        while (locations.contains(new Location(x,y))
+                || map[y][x].getTypeOfTerrain()==TypeOfTerrain.OCEAN
+                || map[y][x].getTypeOfTerrain()==TypeOfTerrain.MOUNTAIN){
             x = rand.nextInt(mapWidth) ;
             y = rand.nextInt(mapHeight) ;
         }

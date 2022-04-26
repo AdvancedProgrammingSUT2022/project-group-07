@@ -8,7 +8,11 @@ public class mapTest {
         System.out.println("salam ayoub");
         ArrayList<User> users = new ArrayList<User>() ;
         users.add(new User("mahan" , "mahan1234" , "aqa mahan")) ;
+        users.add(new User("na mahan" , "mahan4321" , "kie")) ;
         GameController gameController = new GameController() ;
-        gameController.printMap();
+        gameController.setPlayers(users);
+        gameController.initialize();
+        for (int i=0 ; i<10 ; i++)
+            gameController.printMap();
     }
 }
