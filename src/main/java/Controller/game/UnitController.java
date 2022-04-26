@@ -14,7 +14,7 @@ public class UnitController {
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
         Unit selectedUnit = SelectController.selectedUnit;
-        Location origin = SelectController.currentLocation;
+        Location origin = selectedUnit.getLocation();
         Location destination = new Location(x, y);
         String placeName;
 
@@ -41,17 +41,19 @@ public class UnitController {
         ArrayList<Terrain> goThrough = new ArrayList<>();
         int mp = selectedUnit.getMp();
 
-        assert path != null;
+        if (path == null) return "";
         // TODO river to pass
-        for (Terrain terrain : path) {
+        ArrayList<Terrain> path2 = new ArrayList<>(path);
+        path2.remove(0);
+        for (Terrain terrain : path2) {
             mp -= terrain.getMp();
             goThrough.add(terrain);
-            if (terrain.getTerrainFeatures() != null && (mp <= 0
-                    || terrain.getTerrainFeatures() == TerrainFeatures.RIVER)) {
+            if (mp <= 0) {
                 selectedUnit.setLocation(terrain.getLocation());
+                SelectController.currentLocation = terrain.getLocation();
                 // updating fog of war using static method of CivilizationController
                 CivilizationController.updateFogOfWar(selectedUnit.getCivilization() , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight());
-                return "Unit moved to ( " + terrain.getLocation().getX() + " , " + terrain.getLocation().getY() + " )!";
+                return "Selected unit moved to ( " + terrain.getLocation().getX() + " , " + terrain.getLocation().getY() + " )!";
             }
         }
 

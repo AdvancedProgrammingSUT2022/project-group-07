@@ -48,7 +48,7 @@ public class TheShortestPath {
         if (k > 0) {
             if (k % 2  == 0 && s > 0) upLeft = terrain[k - 1][s - 1];
             else upLeft = terrain[k - 1][s];
-            mpMap[i - 1][i - height - 1] = upLeft.getMp();
+            mpMap[i - 1][i - width - 1] = upLeft.getMp();
         }
         if (k > 0) {
             if (k % 2 == 0) upRight = terrain[k - 1][s];
@@ -56,7 +56,7 @@ public class TheShortestPath {
                 if (s != width - 1) upRight = terrain[k - 1][s + 1];
                 else upRight = null;
             }
-            if (upRight != null) mpMap[i - 1][i - height] = upRight.getMp();
+            if (upRight != null) mpMap[i - 1][i - width] = upRight.getMp();
         }
         if (s < width - 1) {
             right = terrain[k][s + 1];
@@ -65,15 +65,19 @@ public class TheShortestPath {
         if (k < height - 1) {
             if (k % 2 == 0 && s != 0) downLeft = terrain[k + 1][s - 1];
             else downLeft = terrain[k + 1][s];
-            mpMap[i - 1][i + height - 1] = downLeft.getMp();
+            mpMap[i - 1][i + width - 1] = downLeft.getMp();
         }
         if (k < height - 1) {
-            if (k % 2 == 0 ) downRight = terrain[k + 1][s];
-            else {
-                if (s != width - 1) downRight = terrain[k + 1][s + 1];
-                else downRight = null;
+            if (k % 2 == 0 ) {
+                downRight = terrain[k + 1][s];
+                mpMap[i - 1][i + width - 1] = downRight.getMp();
             }
-            if (downRight != null) mpMap[i - 1][i + height] = downRight.getMp(); // map[height][width]
+            else {
+                if (s != width - 1) {
+                    downRight = terrain[k + 1][s + 1];
+                    mpMap[i - 1][i + width] = downRight.getMp();
+                }
+            }
         }
     }
 
@@ -120,10 +124,12 @@ public class TheShortestPath {
         if (start != -1 && end != -1) {
             if (nextTerrain[start][end] == -1)
                 return null;
-            knownTerrains.add(terrain[start / height][start % height - 1]);
+            if (start % width == 0) knownTerrains.add(terrain[start / width - 1][width - 1]);
+            else knownTerrains.add(terrain[start / width][start % width - 1]);
             while (start != end) {
                 start = nextTerrain[start][end];
-                knownTerrains.add(terrain[start / height][start % height - 1]);
+                if (start % width == 0) knownTerrains.add(terrain[start / width - 1][width - 1]);
+                else knownTerrains.add(terrain[start / width][start % width - 1]);
             }
         }
         return knownTerrains;
@@ -136,7 +142,7 @@ public class TheShortestPath {
             for (int j = 0; j < width; j++) {
                 if (terrain[i][j].getLocation().getX() == location.getX()
                         && terrain[i][j].getLocation().getY() == location.getY())
-                    return height * j + i + 1;
+                    return width * i + j + 1;
             }
         }
         return -1;
