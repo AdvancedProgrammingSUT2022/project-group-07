@@ -12,7 +12,7 @@ public enum TerrainFeatures {
     MARSH("marsh", -1, 0, 0, -0.33, 2,
             new Resources[]{Resources.SUGAR}),
     OASIS("oasis", 3, 0, 1, -0.33, 1, null),
-    RIVER("river", 0, 0, 1, 0, 9999, null);
+    RIVER("river", 0, 0, 1, 0, 10, null);
 
     private String name;
     private int food;
