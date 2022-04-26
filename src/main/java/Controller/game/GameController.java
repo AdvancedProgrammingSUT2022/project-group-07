@@ -16,6 +16,7 @@ public class GameController {
     private int time;
     private int turn;
     private Civilization currentCivilization ;
+    private static MapFrame frame = null ;
 
     public GameController() {
 
@@ -90,7 +91,9 @@ public class GameController {
     }
 
     public void printMap(){
-        new MapFrame(50 , 80 , 23 , mapWidth , mapHeight , map , civilizations) ;
+        if (frame!=null)
+            frame.dispose();
+        frame = new MapFrame(50 , 80 , 23 , mapWidth , mapHeight , map , civilizations) ;
     }
 
     public void move (String direction){
