@@ -1,12 +1,14 @@
 package Controller.game;
 
+import Model.Civilization;
 import Model.Location;
+import Model.MapFrame;
 import Model.Terrain;
 import Enum.Resources ;
 import Enum.TypeOfTerrain ;
 import Enum.TerrainFeatures ;
+import Enum.MapDimension;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -15,6 +17,8 @@ public class MapController {
     private static final TypeOfTerrain[] typeOfTerrains = TypeOfTerrain.values() ;
     private static int mapHeight ;
     private static int mapWidth ;
+    private static MapFrame frame = null ;
+    private static Location mapCenter = null ;
 
     private static ArrayList<TypeOfTerrain> getAreaTypeOfTerrains (Location location){
         int x = location.getX();
@@ -147,5 +151,18 @@ public class MapController {
         return map ;
     }
 
+    public static void printMap (Civilization currentCivilization , ArrayList<Civilization> civilizations){
+        if (frame!=null)
+            frame.dispose();
+        frame = new MapFrame(MapDimension.STANDARD , map , mapCenter , civilizations ,currentCivilization);
+    }
+
+    public static void setMapCenter(Location location){
+        mapCenter = location ;
+    }
+
+    public static void setMap(Terrain[][] gameMap){
+        map = gameMap ;
+    }
 }
 

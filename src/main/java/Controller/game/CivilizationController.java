@@ -89,13 +89,13 @@ public class CivilizationController {
         int x = location.getX();
         int y = location.getY();
         int upperRow = Math.max(0,y-1);
-        int lowerRow = Math.min(mapHeight ,y+1) ;
+        int lowerRow = Math.min(mapHeight-1 ,y+1) ;
         int leftCol = Math.max(0,x-1);
-        int rightCol = Math.max(mapWidth ,x+1) ;
+        int rightCol = Math.min(mapWidth-1 ,x+1) ;
         for (int row=upperRow ; row<=lowerRow ; row++){
             for (int col=leftCol ; col<=rightCol ; col++){
                 if (row!=y || col!=x)
-                    out.add(map[y][x]);
+                    out.add(map[row][col]);
             }
         }
         return out ;
@@ -109,6 +109,7 @@ public class CivilizationController {
         // if terrain is not mountain we add all of it's neighbours to an arrayList
         // at the end , we add contents of array list to knownTerrains of our civilization
         ArrayList<Unit> units = civilization.getUnits();
+        System.out.println("num of units are " + units.size());
         ArrayList<Terrain> shouldBeAdd = new ArrayList<Terrain>();
 
         for (Unit unit : units) {

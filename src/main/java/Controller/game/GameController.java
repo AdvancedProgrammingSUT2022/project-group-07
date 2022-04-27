@@ -94,9 +94,10 @@ public class GameController {
     }
 
     public void printMap(){
-        if (frame!=null)
-            frame.dispose();
-        frame = new MapFrame(50 , 80 , 23 , mapWidth , mapHeight , map , civilizations) ;
+        MapController.setMap(map);
+        MapController.setMapCenter(currentCivilization.getUnits().get(0).getLocation());
+        CivilizationController.updateFogOfWar(currentCivilization , map , mapWidth , mapHeight);
+        MapController.printMap(currentCivilization , civilizations);
     }
 
     public void move (String direction){
