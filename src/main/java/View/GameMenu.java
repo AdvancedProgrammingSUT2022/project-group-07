@@ -1,6 +1,7 @@
 package View;
 
 import Controller.game.GameController;
+import Controller.game.MapController;
 import Controller.game.SelectController;
 import Controller.game.UnitController;
 import Controller.menu.GameMenuController;
@@ -24,7 +25,7 @@ public class GameMenu extends Menu{
         Matcher matcher;
 
         while (MenuName.getCurrentMenu() == MenuName.GAME_MENU) {
-            gameController.printMap();
+            MapController.printMap(gameController.getCurrentCivilization() , gameController.getCivilizations());
             input = scanner.nextLine();
             // menu commands ::::
             if (GameMenuCommands.getMatcher(input , GameMenuCommands.EXIT) != null) {

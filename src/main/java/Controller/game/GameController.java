@@ -55,7 +55,7 @@ public class GameController {
         for (int i = 0; i < users.size(); i++)
             civilizations.add(new Civilization("c" + Integer.toString(i + 1), users.get(i)));
         Random rand = new Random();
-        ArrayList<Location> locations = new ArrayList<>();
+        ArrayList<Location> locations = new ArrayList<Location>();
         Location newUnitLocation ;
         for (Civilization civilization : civilizations) {
             newUnitLocation = generateSettlerUnitLocation(locations);
@@ -83,6 +83,8 @@ public class GameController {
         initializeCivilizations(players);
         TheShortestPath.run();
         setCurrentCivilization(civilizations.get(0));
+        MapController.setMap(map);
+        MapController.setMapCenter(currentCivilization.getUnits().get(0).getLocation());
     }
 
     public void run(){
@@ -91,13 +93,6 @@ public class GameController {
 
     public ArrayList<Civilization> getCivilizations() {
         return this.civilizations;
-    }
-
-    public void printMap(){
-        MapController.setMap(map);
-        MapController.setMapCenter(currentCivilization.getUnits().get(0).getLocation());
-        CivilizationController.updateFogOfWar(currentCivilization , map , mapWidth , mapHeight);
-        MapController.printMap(currentCivilization , civilizations);
     }
 
     public void move (String direction){

@@ -12,6 +12,6 @@ public class mapTest {
         GameController gameController = new GameController() ;
         gameController.setPlayers(users);
         gameController.initialize();
-        gameController.printMap();
+//        gameController.printMap();
     }
 }

@@ -11,8 +11,8 @@ import Enum.TypeOfTerrain ;
 
 public class MapFrame extends JFrame {
     private Terrain[][] map ;
-    private static int startingX = 50 ;
-    private static int startingY = 80 ;
+    private static int startingX = 100 ;
+    private static int startingY = 100 ;
     private int hexagonA ;
     private int rad3over2 ;
     private static Color[] colors = new Color[]{Color.RED , Color.BLUE , Color.GREEN , Color.YELLOW , Color.CYAN , Color.ORANGE} ;

@@ -152,6 +152,7 @@ public class MapController {
     }
 
     public static void printMap (Civilization currentCivilization , ArrayList<Civilization> civilizations){
+        CivilizationController.updateFogOfWar(currentCivilization , map , mapWidth , mapHeight);
         if (frame!=null)
             frame.dispose();
         frame = new MapFrame(MapDimension.STANDARD , map , mapCenter , civilizations ,currentCivilization);
@@ -164,5 +165,6 @@ public class MapController {
     public static void setMap(Terrain[][] gameMap){
         map = gameMap ;
     }
+
 }
 

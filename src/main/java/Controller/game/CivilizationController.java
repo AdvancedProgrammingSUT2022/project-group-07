@@ -92,24 +92,19 @@ public class CivilizationController {
         int lowerRow = Math.min(mapHeight-1 ,y+1) ;
         int leftCol = Math.max(0,x-1);
         int rightCol = Math.min(mapWidth-1 ,x+1) ;
-        if (y%2==1) {
-            out.add(map[upperRow][x]);
+
+        out.add(map[upperRow][x]);
+        if (y%2==1)
             out.add(map[upperRow][rightCol]);
-        }
-        else{
+        else
             out.add(map[upperRow][leftCol]);
-            out.add(map[upperRow][x]) ;
-        }
         for (int col=leftCol ; col<=rightCol ; col++)
             out.add(map[y][col]) ;
-        if (y%2==1) {
-            out.add(map[lowerRow][x]);
+        out.add(map[lowerRow][x]);
+        if (y%2==1)
             out.add(map[lowerRow][rightCol]);
-        }
-        else{
+        else
             out.add(map[lowerRow][leftCol]);
-            out.add(map[lowerRow][x]);
-        }
         return out ;
     }
 
