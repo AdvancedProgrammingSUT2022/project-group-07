@@ -123,5 +123,8 @@ public class CivilizationController {
             civilization.addKnownTerrain(terrain);
     }
 
+    public static void updateMovingUnitFogOfWar (Civilization civilization , Terrain[][] map , int mapWidth , int mapHeight){
+
+    }
 
 }
