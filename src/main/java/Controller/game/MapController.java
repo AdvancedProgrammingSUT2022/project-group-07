@@ -167,7 +167,7 @@ public class MapController {
         map = gameMap ;
     }
 
-    public static void moveMap (Matcher matcher){
+    public static String moveMap (Matcher matcher){
         String direction = matcher.group("direction") ;
         int upperRow = Math.max(mapCenter.getY()-1 , 0) ;
         int lowerRow = Math.min(mapCenter.getY()+1 , mapHeight-1) ;
@@ -179,6 +179,7 @@ public class MapController {
             case "U" -> mapCenter.setY(upperRow);
             case "D" -> mapCenter.setY(lowerRow);
         }
+        return "moved map to direction " + direction ;
     }
 
 

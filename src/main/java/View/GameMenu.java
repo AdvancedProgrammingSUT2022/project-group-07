@@ -7,6 +7,8 @@ import Controller.game.UnitController;
 import Controller.menu.GameMenuController;
 import Enum.MenuName;
 import Enum.regexes.GameMenuCommands;
+import Model.Civilization;
+import Model.Unit;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -144,7 +146,8 @@ public class GameMenu extends Menu{
 
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_MOVE)) != null){
-                MapController.moveMap(matcher);
+                String result = MapController.moveMap(matcher);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.NEXT_TURN)) != null) {
                 String result = gameMenuController.nextTurn(gameController);

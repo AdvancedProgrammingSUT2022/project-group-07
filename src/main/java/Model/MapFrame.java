@@ -105,12 +105,11 @@ public class MapFrame extends JFrame {
         int x = centerLocation.getX() ;
         int y = centerLocation.getY() ;
         for (Unit unit : units) {
-            if (unit.getLocation().getY()==row && unit.getLocation().getX()==col) {
-                System.out.printf("we have a unit with location of (%d,%d)\n" , unit.getLocation().getX() , unit.getLocation().getY());
+            if (unit.getLocation()!=null
+                    && unit.getLocation().getY()==row
+                    && unit.getLocation().getX()==col) {
                 g2d.setColor(colors[civilizations.indexOf(unit.getCivilization())]);
                 g2d.fillOval(x-hexagonA/2, y, hexagonA / 2, hexagonA / 2);
-                System.out.printf("drew unit with location of (%d,%d) in cell (%d,%d)\n"
-                        , unit.getLocation().getX() , unit.getLocation().getY() , col , row);
                 x += hexagonA/2 ;
             }
         }

@@ -11,8 +11,8 @@ public class GameController {
     private static int mapHeight ;
     private static MapDimension mapDimension ;
     public static Terrain[][] map;
-    private  ArrayList<User> players = new ArrayList<>();
-    private  ArrayList<Civilization> civilizations = new ArrayList<>();
+    private ArrayList<User> players = new ArrayList<>();
+    private ArrayList<Civilization> civilizations ;
     private int time;
     private int turn;
     private Civilization currentCivilization ;
@@ -51,6 +51,7 @@ public class GameController {
      */
     private void initializeCivilizations (ArrayList<User> users){
         // TODO: create some real civilization names
+        civilizations = new ArrayList<Civilization>();
         for (int i = 0; i < users.size(); i++)
             civilizations.add(new Civilization("c" + Integer.toString(i + 1), users.get(i)));
         Random rand = new Random();
