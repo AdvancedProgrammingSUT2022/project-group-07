@@ -6,6 +6,7 @@ import Model.Unit;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
+
 import Enum.TerrainFeatures;
 
 public class UnitController {
@@ -21,7 +22,7 @@ public class UnitController {
         if (SelectController.selectedUnit == null)
             return "There isn't any selected unit!";
 
-        if (!hasOwnerShip(selectedUnit , gameController))
+        if (!hasOwnerShip(selectedUnit, gameController))
             return "This unit does not belong to you!";
 
         if (!SelectController.positionIsValid(destination))
@@ -52,14 +53,14 @@ public class UnitController {
                 selectedUnit.setLocation(terrain.getLocation());
                 SelectController.currentLocation = terrain.getLocation();
                 // updating fog of war using static method of CivilizationController
-                CivilizationController.updateFogOfWar(selectedUnit.getCivilization() , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight());
+                CivilizationController.updateFogOfWar(selectedUnit.getCivilization(), GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
                 return "Selected unit moved to ( " + terrain.getLocation().getX() + " , " + terrain.getLocation().getY() + " )!";
             }
         }
 
         // updating fog of war using static method of CivilizationController
-        CivilizationController.updateFogOfWar(selectedUnit.getCivilization() , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight());
-      
+        CivilizationController.updateFogOfWar(selectedUnit.getCivilization(), GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
+
         SelectController.selectedUnit.setLocation(destination);
         SelectController.currentLocation = destination;
         return "Selected unit moved to position ( " + destination.getX() + " , " + destination.getY() + " ) successfully!";

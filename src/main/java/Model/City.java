@@ -63,4 +63,8 @@ public class City {
     public void setBuildings(ArrayList<Building> buildings) {
         this.buildings = buildings;
     }
+
+    public void addCitizen(Citizen citizen) {
+        citizens.add(citizen);
+    }
 }

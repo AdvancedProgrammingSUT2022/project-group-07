@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Civilization {
 
     private ArrayList<City> cities ;
-    private static ArrayList<Unit> units ;
+    private ArrayList<Unit> units ;
     private ArrayList<Terrain> knownTerrains ;
     private ArrayList<Technology> gainedTechnologies ;
     private String name ;
@@ -178,5 +178,9 @@ public class Civilization {
 
     public void setCurrentResearch(Technology currentResearch) {
         this.currentResearch = currentResearch;
+    }
+
+    public void setCapital(City capital) {
+        this.capital = capital;
     }
 }
