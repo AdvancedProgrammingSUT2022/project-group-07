@@ -16,7 +16,6 @@ public class GameController {
     private int time;
     private int turn;
     private Civilization currentCivilization ;
-    private static MapFrame frame = null ;
 
     public GameController() {
 
@@ -32,7 +31,7 @@ public class GameController {
     /**
      * a function to generate settler units locations while initializing civilizations
      * @param locations all used locations
-     * @return
+     * @return random available location
      */
     private Location generateSettlerUnitLocation (ArrayList<Location> locations){
         Random rand = new Random();
@@ -95,13 +94,6 @@ public class GameController {
         return this.civilizations;
     }
 
-    public void move (String direction){
-
-    }
-
-    public void move (Location location){
-
-    }
 
     public void showCity (String cityName){
 

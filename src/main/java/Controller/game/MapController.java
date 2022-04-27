@@ -11,6 +11,7 @@ import Enum.MapDimension;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Matcher;
 
 public class MapController {
     private static Terrain[][] map ;
@@ -165,6 +166,21 @@ public class MapController {
     public static void setMap(Terrain[][] gameMap){
         map = gameMap ;
     }
+
+    public static void moveMap (Matcher matcher){
+        String direction = matcher.group("direction") ;
+        int upperRow = Math.max(mapCenter.getY()-1 , 0) ;
+        int lowerRow = Math.min(mapCenter.getY()+1 , mapHeight-1) ;
+        int leftCol = Math.max(mapCenter.getX()-1 , 0) ;
+        int rightCol = Math.min(mapCenter.getX()+1 , mapWidth-1) ;
+        switch (direction) {
+            case "R" -> mapCenter.setX(rightCol);
+            case "L" -> mapCenter.setX(leftCol);
+            case "U" -> mapCenter.setY(upperRow);
+            case "D" -> mapCenter.setY(lowerRow);
+        }
+    }
+
 
 }
 

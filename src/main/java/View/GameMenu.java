@@ -144,7 +144,7 @@ public class GameMenu extends Menu{
 
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_MOVE)) != null){
-
+                MapController.moveMap(matcher);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.NEXT_TURN)) != null) {
                 String result = gameMenuController.nextTurn(gameController);

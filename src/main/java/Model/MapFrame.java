@@ -6,8 +6,6 @@ import java.lang.Math ;
 import java.util.ArrayList;
 import Enum.MapDimension;
 
-import Controller.game.GameController;
-import Enum.TypeOfTerrain ;
 
 public class MapFrame extends JFrame {
     private Terrain[][] map ;
@@ -95,13 +93,24 @@ public class MapFrame extends JFrame {
         g2d.drawString(loc, x-hexagonA/2, y+hexagonA/2);
     }
 
+    /**
+     * a function to draw units on map
+     * @param g2d graphics2d object
+     * @param centerLocation center location of hexagon
+     * @param row row
+     * @param col col
+     * @param units all units of the game
+     */
     private void drawUnits (Graphics2D g2d , Location centerLocation , int row , int col , ArrayList<Unit> units ){
         int x = centerLocation.getX() ;
         int y = centerLocation.getY() ;
         for (Unit unit : units) {
             if (unit.getLocation().getY()==row && unit.getLocation().getX()==col) {
+                System.out.printf("we have a unit with location of (%d,%d)\n" , unit.getLocation().getX() , unit.getLocation().getY());
                 g2d.setColor(colors[civilizations.indexOf(unit.getCivilization())]);
                 g2d.fillOval(x-hexagonA/2, y, hexagonA / 2, hexagonA / 2);
+                System.out.printf("drew unit with location of (%d,%d) in cell (%d,%d)\n"
+                        , unit.getLocation().getX() , unit.getLocation().getY() , col , row);
                 x += hexagonA/2 ;
             }
         }

@@ -116,7 +116,6 @@ public class CivilizationController {
         // if terrain is not mountain we add all of it's neighbours to an arrayList
         // at the end , we add contents of array list to knownTerrains of our civilization
         ArrayList<Unit> units = civilization.getUnits();
-        System.out.println("num of units are " + units.size());
         ArrayList<Terrain> shouldBeAdd = new ArrayList<Terrain>();
 
         for (Unit unit : units) {
