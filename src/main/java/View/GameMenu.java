@@ -4,6 +4,7 @@ import Controller.game.GameController;
 import Controller.game.MapController;
 import Controller.game.SelectController;
 import Controller.game.UnitController;
+import Controller.game.units.Settler;
 import Controller.menu.GameMenuController;
 import Enum.MenuName;
 import Enum.regexes.GameMenuCommands;
@@ -115,7 +116,8 @@ public class GameMenu extends Menu{
 
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_FOUND_CITY)) != null){
-
+                String result = Settler.foundCity(matcher , gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_CANCEL_MISSION))!= null){
 

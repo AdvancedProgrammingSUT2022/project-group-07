@@ -179,4 +179,8 @@ public class Civilization {
     public void setCurrentResearch(Technology currentResearch) {
         this.currentResearch = currentResearch;
     }
+
+    public void setCapital(City capital) {
+        this.capital = capital;
+    }
 }
