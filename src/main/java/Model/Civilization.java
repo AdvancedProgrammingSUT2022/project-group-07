@@ -114,7 +114,7 @@ public class Civilization {
      * @return
      */
     public ArrayList<Unit> getUnits(){
-        return units;
+        return this.units;
     }
 
     /**

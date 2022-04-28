@@ -1,20 +1,22 @@
 package Controller.game;
 
-import Model.Location;
-import Model.Terrain;
+import Model.*;
 import Enum.Resources ;
 import Enum.TypeOfTerrain ;
 import Enum.TerrainFeatures ;
+import Enum.MapDimension;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Matcher;
 
 public class MapController {
     private static Terrain[][] map ;
     private static final TypeOfTerrain[] typeOfTerrains = TypeOfTerrain.values() ;
     private static int mapHeight ;
     private static int mapWidth ;
+    private static MapFrame frame = null ;
+    private static Location mapCenter = null ;
 
     private static ArrayList<TypeOfTerrain> getAreaTypeOfTerrains (Location location){
         int x = location.getX();
@@ -146,6 +148,38 @@ public class MapController {
         }
         return map ;
     }
+
+    public static void setMapCenter(Location location){
+        if (mapCenter==null)
+            mapCenter = new Location(location.getX() , location.getY()) ;
+        else {
+            mapCenter.setX(location.getX());
+            mapCenter.setY(location.getY());
+        }
+    }
+
+    public static String moveMap (Matcher matcher){
+        String direction = matcher.group("direction") ;
+        int upperRow = Math.max(mapCenter.getY()-1 , 0) ;
+        int lowerRow = Math.min(mapCenter.getY()+1 , mapHeight-1) ;
+        int leftCol = Math.max(mapCenter.getX()-1 , 0) ;
+        int rightCol = Math.min(mapCenter.getX()+1 , mapWidth-1) ;
+        switch (direction) {
+            case "R" -> mapCenter.setX(rightCol);
+            case "L" -> mapCenter.setX(leftCol);
+            case "U" -> mapCenter.setY(upperRow);
+            case "D" -> mapCenter.setY(lowerRow);
+        }
+        return "moved map to direction " + direction ;
+    }
+
+    public static void printMap (Terrain[][] map , Civilization currentCivilization , ArrayList<Civilization> civilizations){
+        CivilizationController.updateFogOfWar(currentCivilization , map , mapWidth , mapHeight);
+        if (frame!=null)
+            frame.dispose();
+        frame = new MapFrame(MapDimension.STANDARD , map , mapCenter , civilizations ,currentCivilization);
+    }
+
 
 }
 

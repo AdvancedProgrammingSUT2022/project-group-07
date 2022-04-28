@@ -11,12 +11,11 @@ public class GameController {
     private static int mapHeight ;
     private static MapDimension mapDimension ;
     public static Terrain[][] map;
-    private  ArrayList<User> players = new ArrayList<>();
-    private  ArrayList<Civilization> civilizations = new ArrayList<>();
+    private ArrayList<User> players = new ArrayList<>();
+    private ArrayList<Civilization> civilizations ;
     private int time;
     private int turn;
     private Civilization currentCivilization ;
-    private static MapFrame frame = null ;
 
     public GameController() {
 
@@ -32,7 +31,7 @@ public class GameController {
     /**
      * a function to generate settler units locations while initializing civilizations
      * @param locations all used locations
-     * @return
+     * @return random available location
      */
     private Location generateSettlerUnitLocation (ArrayList<Location> locations){
         Random rand = new Random();
@@ -52,10 +51,11 @@ public class GameController {
      */
     private void initializeCivilizations (ArrayList<User> users){
         // TODO: create some real civilization names
+        civilizations = new ArrayList<Civilization>();
         for (int i = 0; i < users.size(); i++)
             civilizations.add(new Civilization("c" + Integer.toString(i + 1), users.get(i)));
         Random rand = new Random();
-        ArrayList<Location> locations = new ArrayList<>();
+        ArrayList<Location> locations = new ArrayList<Location>();
         Location newUnitLocation ;
         for (Civilization civilization : civilizations) {
             newUnitLocation = generateSettlerUnitLocation(locations);
@@ -83,6 +83,7 @@ public class GameController {
         initializeCivilizations(players);
         TheShortestPath.run();
         setCurrentCivilization(civilizations.get(0));
+        MapController.setMapCenter(currentCivilization.getUnits().get(0).getLocation());
     }
 
     public void run(){
@@ -93,19 +94,6 @@ public class GameController {
         return this.civilizations;
     }
 
-    public void printMap(){
-        if (frame!=null)
-            frame.dispose();
-        frame = new MapFrame(50 , 80 , 23 , mapWidth , mapHeight , map , civilizations) ;
-    }
-
-    public void move (String direction){
-
-    }
-
-    public void move (Location location){
-
-    }
 
     public void showCity (String cityName){
 
@@ -135,4 +123,5 @@ public class GameController {
     public void setTurn(int turn) {
         this.turn = turn;
     }
+
 }
