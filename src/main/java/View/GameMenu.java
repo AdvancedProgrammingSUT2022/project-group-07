@@ -1,12 +1,15 @@
 package View;
 
 import Controller.game.GameController;
+import Controller.game.MapController;
 import Controller.game.SelectController;
 import Controller.game.UnitController;
 import Controller.game.units.Settler;
 import Controller.menu.GameMenuController;
 import Enum.MenuName;
 import Enum.regexes.GameMenuCommands;
+import Model.Civilization;
+import Model.Unit;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -25,7 +28,7 @@ public class GameMenu extends Menu{
         Matcher matcher;
 
         while (MenuName.getCurrentMenu() == MenuName.GAME_MENU) {
-            gameController.printMap();
+            MapController.printMap(GameController.getMap() , gameController.getCurrentCivilization() , gameController.getCivilizations());
             input = scanner.nextLine();
             // menu commands ::::
             if (GameMenuCommands.getMatcher(input , GameMenuCommands.EXIT) != null) {
@@ -145,7 +148,8 @@ public class GameMenu extends Menu{
 
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_MOVE)) != null){
-
+                String result = MapController.moveMap(matcher);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.NEXT_TURN)) != null) {
                 String result = gameMenuController.nextTurn(gameController);

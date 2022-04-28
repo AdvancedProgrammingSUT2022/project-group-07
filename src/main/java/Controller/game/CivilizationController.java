@@ -89,19 +89,26 @@ public class CivilizationController {
         int x = location.getX();
         int y = location.getY();
         int upperRow = Math.max(0,y-1);
-        int lowerRow = Math.min(mapHeight ,y+1) ;
+        int lowerRow = Math.min(mapHeight-1 ,y+1) ;
         int leftCol = Math.max(0,x-1);
-        int rightCol = Math.max(mapWidth ,x+1) ;
-        for (int row=upperRow ; row<=lowerRow ; row++){
-            for (int col=leftCol ; col<=rightCol ; col++){
-                if (row!=y || col!=x)
-                    out.add(map[y][x]);
-            }
-        }
+        int rightCol = Math.min(mapWidth-1 ,x+1) ;
+
+        out.add(map[upperRow][x]);
+        if (y%2==1)
+            out.add(map[upperRow][rightCol]);
+        else
+            out.add(map[upperRow][leftCol]);
+        for (int col=leftCol ; col<=rightCol ; col++)
+            out.add(map[y][col]) ;
+        out.add(map[lowerRow][x]);
+        if (y%2==1)
+            out.add(map[lowerRow][rightCol]);
+        else
+            out.add(map[lowerRow][leftCol]);
         return out ;
     }
 
-    public static void updateFogOfWar(Civilization civilization , Terrain[][] map , int mapWidth , int mapHeight){
+    public static void updateFogOfWar(final Civilization civilization , final Terrain[][] map , int mapWidth , int mapHeight){
         // TODO: update civilization fog of war using it's owned units across the whole map
         // to do this , we first iterate on this civilization units and add first layer neighbours
         // every unit can see all 6 neighbours of itself , we add these 6 neighbours to an array
@@ -113,6 +120,7 @@ public class CivilizationController {
 
         for (Unit unit : units) {
             ArrayList<Terrain> firstLayerNeighbours = getNeighbourTerrainsByRadius1(unit.getLocation() , map , mapWidth , mapHeight) ;
+            shouldBeAdd.addAll(firstLayerNeighbours);
             for (Terrain firstLayerNeighbour : firstLayerNeighbours) {
                 ArrayList<Terrain> secondLayerNeighbours = getNeighbourTerrainsByRadius1(firstLayerNeighbour.getLocation() , map , mapWidth , mapHeight) ;
                 if (firstLayerNeighbour.getTypeOfTerrain()!= TypeOfTerrain.MOUNTAIN)
@@ -123,5 +131,8 @@ public class CivilizationController {
             civilization.addKnownTerrain(terrain);
     }
 
+    public static void updateMovingUnitFogOfWar (Civilization civilization , Terrain[][] map , int mapWidth , int mapHeight){
+
+    }
 
 }
