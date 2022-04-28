@@ -16,23 +16,6 @@ public class CivilizationController {
         return civilization;
     }
 
-    /**
-     * a function to add or replace current research with a new technology
-     * @param research the new research
-     * @return result of the command (set successfully , replaced successfully , already being researched)
-     */
-    public String research(Technology research){
-        Technology currentResearch = civilization.getCurrentResearch();
-        civilization.setCurrentResearch(research);
-
-        if (currentResearch==null)
-            return "research set successfully";
-        else if (currentResearch.getTypeOfTechnology() == research.getTypeOfTechnology())
-            return "you are already researching for this technology";
-        else
-            return "research "+currentResearch+" replaced with " + research;
-    }
-
     public void nextTurn(){
         // TODO: update all information and go to the next civilization
     }

@@ -49,6 +49,14 @@ public enum GameMenuCommands {
     UNIT_REMOVE_ROUTE("unit remove route"),
     UNIT_REPAIR("unit repair"),
 
+    // research commands : !!!
+    RESEARCH_TECHNOLOGY("research technology (?<technologyName>\\w+)") ,
+    RESEARCH_SHOW_CURRENT("research show current") ,
+    RESEARCH_SHOW_AVAILABLE("research show available") ,
+    RESEARCH_SHOW_OWNED("research show owned") ,
+
+
+
     // map commands : !!!!
 
     MAP_SHOW("map show (?<cityName>[a-zA-Z]+)|((?<X>)\\d+ (?<Y>\\d+))"), // ham mishe city ham location ro neshoon dad!

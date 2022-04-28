@@ -1,9 +1,6 @@
 package View;
 
-import Controller.game.GameController;
-import Controller.game.MapController;
-import Controller.game.SelectController;
-import Controller.game.UnitController;
+import Controller.game.*;
 import Controller.game.units.Settler;
 import Controller.menu.GameMenuController;
 import Enum.MenuName;
@@ -141,8 +138,27 @@ public class GameMenu extends Menu{
 
             }
 
-            // map commands :::
+            // research commands :::
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_SHOW_CURRENT)) != null){
+                String result = ResearchController.showCurrentResearch(gameController.getCurrentCivilization());
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_SHOW_AVAILABLE)) != null) {
+                String result = ResearchController.showAvailableResearch(gameController.getCurrentCivilization());
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_SHOW_OWNED)) != null) {
+                String result = ResearchController.showOwnedResearch(gameController.getCurrentCivilization());
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_TECHNOLOGY)) != null) {
+                String result = ResearchController.researchTechnology(matcher , gameController.getCurrentCivilization());
+                System.out.println(result);
+            }
 
+
+
+                // map commands :::
 
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_SHOW)) != null){
 
