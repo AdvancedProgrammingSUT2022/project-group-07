@@ -65,7 +65,8 @@ public class UnitController {
 
         if (selectedUnit.getTypeOfUnit() == TypeOfUnit.WORKER
                 || selectedUnit.getTypeOfUnit() == TypeOfUnit.SETTLER)
-            return "Selected-unit's type should be combat for this action!";
+            return "The selected unit is " + selectedUnit.getTypeOfUnit().getName()
+                    + ". It should be a combatUnit for this action!";
 
         // TODO HEAL and main things to do!
         return "";

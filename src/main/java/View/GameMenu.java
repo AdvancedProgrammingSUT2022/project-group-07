@@ -4,6 +4,7 @@ import Controller.game.GameController;
 import Controller.game.SelectController;
 import Controller.game.UnitController;
 import Controller.game.units.Settler;
+import Controller.game.units.Worker;
 import Controller.menu.GameMenuController;
 import Enum.MenuName;
 import Enum.regexes.GameMenuCommands;
@@ -135,10 +136,12 @@ public class GameMenu extends Menu{
 
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REMOVE_JUNGLE)) != null){
-
+                String result = Worker.removeJungle(matcher, gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REMOVE_ROUTE)) != null){
-
+                String result = Worker.removeRoute(matcher, gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REPAIR)) != null){
 

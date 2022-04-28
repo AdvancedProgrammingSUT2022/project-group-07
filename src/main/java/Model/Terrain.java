@@ -7,6 +7,8 @@ import Enum.Resources;
 import java.util.ArrayList;
 
 public class Terrain {
+    // TODO static stuff !
+    // TODO setter and also this. for terrainFeature !
     private TypeOfTerrain typeOfTerrain;
     private TerrainFeatures terrainFeatures;
     private boolean hasRiver;
@@ -14,9 +16,10 @@ public class Terrain {
     private Location location;
     private Improvement improvement;
     private int mp;
+    private Technology technology;
 
     public Terrain(TypeOfTerrain typeOfTerrain, TerrainFeatures terrainFeatures, boolean hasRiver,
-                   ArrayList<Resources> resource, Location location, Improvement improvement) {
+                   ArrayList<Resources> resource, Location location, Improvement improvement, Technology technology) {
         this.typeOfTerrain = typeOfTerrain;
         this.terrainFeatures = terrainFeatures;
         this.hasRiver = hasRiver;
@@ -27,6 +30,7 @@ public class Terrain {
         this.mp = typeOfTerrain.getMpNeeded();
         if (terrainFeatures != null)
             this.mp += terrainFeatures.getMp();
+        this.technology = technology;
     }
 
     public TypeOfTerrain getTypeOfTerrain() {
@@ -59,5 +63,17 @@ public class Terrain {
 
     public void setMp(int mp) {
         this.mp = mp;
+    }
+
+    public void setTerrainFeatures(TerrainFeatures terrainFeatures) {
+        this.terrainFeatures = terrainFeatures;
+    }
+
+    public Technology getTechnology() {
+        return technology;
+    }
+
+    public void setTechnology(Technology technology) {
+        this.technology = technology;
     }
 }

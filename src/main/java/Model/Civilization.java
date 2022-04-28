@@ -16,10 +16,10 @@ public class Civilization {
     private int happiness ;
     private int science ;
     private Technology currentResearch ;
-    private User owenr ;
+    private User owner ;
 
     public Civilization (String name , User owner){
-        this.owenr = owner;
+        this.owner = owner;
         this.name = name ;
         this.cities = new ArrayList<City>();
         this.units = new ArrayList<Unit>();
@@ -35,7 +35,7 @@ public class Civilization {
     }
 
     public Civilization (String name , City capital , User owner){
-        this.owenr = owner;
+        this.owner = owner;
         this.name = name ;
         this.cities = new ArrayList<City>();
         this.cities.add(capital);

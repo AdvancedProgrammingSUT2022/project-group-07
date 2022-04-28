@@ -45,8 +45,8 @@ public enum GameMenuCommands {
 
                    // az inja male kargaras !!!
     UNIT_BUILD_IMPROVEMENT("unit build (?<improvement>[a-zA-Z]+)"), // baraye zirbakhsh be khode typeOfImrpovement morajeE shavad!
-    UNIT_REMOVE_JUNGLE("unit remove jungle"),
-    UNIT_REMOVE_ROUTE("unit remove route"),
+    UNIT_REMOVE_JUNGLE("unit remove jungle (?<X>\\d+) (?<Y>\\d+)"),
+    UNIT_REMOVE_ROUTE("unit remove route  (?<X>\\d+) (?<Y>\\d+)"),
     UNIT_REPAIR("unit repair"),
 
     // map commands : !!!!

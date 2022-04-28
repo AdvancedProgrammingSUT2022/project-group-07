@@ -21,9 +21,9 @@ public class CombatUnitController {
         return "";
     }
 
-    private City getCurrentCity(Unit unit, ArrayList<City> cities) {
-
-    }
+//    private City getCurrentCity(Unit unit, ArrayList<City> cities) {
+//
+//    }
 
     private String garrison(Unit Unit, City City) {
         return "";
@@ -41,13 +41,13 @@ public class CombatUnitController {
         return true;
     }
 
-    private City getCityByLocation(Location location) {
-
-    }
-
-    private Unit getUnitByLocation(Location location) {
-
-    }
+//    private City getCityByLocation(Location location) {
+//
+//    }
+//
+//    private Unit getUnitByLocation(Location location) {
+//
+//    }
 
     private String attack(Unit unit, City city) {
         return "";
