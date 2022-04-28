@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.* ;
 import java.lang.Math ;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import Enum.MapDimension;
 
 
@@ -63,8 +65,18 @@ public class MapFrame extends JFrame {
      * @param g2d graphics2d component
      * @param polygon hexagon shape
      */
-    private void drawHexagon (Graphics2D g2d , Polygon polygon){
+    private void drawHexagon (Graphics2D g2d , Polygon polygon , int row , int col){
+        HashMap<Terrain , Civilization> civilizationsTerrains = new HashMap<>();
+        for (Civilization civilization : civilizations) {
+            for (City city : civilization.getCities()) {
+                for (Terrain terrain : city.getTerrains())
+                    civilizationsTerrains.put(terrain , civilization) ;
+            }
+        }
         g2d.setColor(Color.WHITE);
+        Civilization owner = civilizationsTerrains.get(map[row][col]);
+        if (owner!=null)
+            g2d.setColor(colors[civilizations.indexOf(owner)]);
         g2d.fillPolygon(polygon);
         g2d.setColor(Color.BLACK);
         g2d.drawPolyline(polygon.xpoints , polygon.ypoints , 6);
@@ -110,6 +122,8 @@ public class MapFrame extends JFrame {
                     && unit.getLocation().getX()==col) {
                 g2d.setColor(colors[civilizations.indexOf(unit.getCivilization())]);
                 g2d.fillOval(x-hexagonA/2, y, hexagonA / 2, hexagonA / 2);
+                g2d.setColor(Color.BLACK);
+                g2d.drawOval(x-hexagonA/2, y, hexagonA / 2, hexagonA / 2);
                 x += hexagonA/2 ;
             }
         }
@@ -129,7 +143,7 @@ public class MapFrame extends JFrame {
                 x += rad3over2 ;
             for (int col=firstCol ; col<=lastCol ; col++){
                 Polygon p = generateHexagon(x , y);
-                drawHexagon(g2d,p);
+                drawHexagon(g2d,p , row , col);
                 drawInformationOnHexagon(g2d , new Location(x,y) , row , col);
                 drawUnits(g2d , new Location(x,y) , row , col , units);
                 x += rad3over2*2 ;
