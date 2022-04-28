@@ -78,7 +78,8 @@ public class GameMenu extends Menu{
             // selection commands :::::
 
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_UNIT_COMBAT)) != null){
-
+                String result = SelectController.selectCombatUnit(matcher, gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_UNIT_NONCOMBAT)) != null){
                 String result = SelectController.selectNonCombatUnit(matcher , gameController);
@@ -95,13 +96,15 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_SLEEP)) != null){
-
+                String result = UnitController.sleep(gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_ALERT)) != null){
 
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_FORTIFY)) != null){
-
+                String result = UnitController.fortifyUnit(gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_GARRISON)) != null){
 
@@ -117,13 +120,16 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_CANCEL_MISSION))!= null){
-
+                String result = UnitController.cancelMission(gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_WAKE))!= null){
-
+                String result = UnitController.wake(gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_DELETE)) != null){
-
+                String result = UnitController.deleteUnit(gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_BUILD_IMPROVEMENT)) != null){
 

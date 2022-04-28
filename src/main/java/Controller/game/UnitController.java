@@ -1,16 +1,15 @@
 package Controller.game;
 
 import Model.Location;
-import Model.Terrain;
 import Model.Unit;
+import Enum.UnitStatus;
+import Enum.TypeOfUnit;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
-
-import Enum.TerrainFeatures;
 
 public class UnitController {
 
+    // TODO the first two errors are the same in all methods --> handle
     public static String moveUnit(Matcher matcher, GameController gameController) {
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
@@ -28,42 +27,10 @@ public class UnitController {
         if (!SelectController.positionIsValid(destination))
             return "Destination ( " + x + " , " + y + " ) is not valid!";
 
-        if ((placeName = destinationIsValid(destination)) != null)
-            return "Your destination is a " + placeName + " so you can not go to it!";
+        if ((placeName = TheShortestPath.destinationIsValid(destination)) != null)
+            return "Your destination is " + placeName + " so you can not go to it!";
 
-        return checkNeededMpForMove(origin, destination);
-    }
-
-    private static String checkNeededMpForMove(Location origin, Location destination) {
-        // TODO check if it needs to continue in other turns
-
-        Unit selectedUnit = SelectController.selectedUnit;
-        ArrayList<Terrain> path = TheShortestPath.showPath(origin, destination);
-        ArrayList<Terrain> goThrough = new ArrayList<>();
-        int mp = selectedUnit.getMp();
-
-        if (path == null) return "";
-        // TODO river to pass
-        ArrayList<Terrain> path2 = new ArrayList<>(path);
-        path2.remove(0);
-        for (Terrain terrain : path2) {
-            mp -= terrain.getMp();
-            goThrough.add(terrain);
-            if (mp <= 0) {
-                selectedUnit.setLocation(terrain.getLocation());
-                SelectController.currentLocation = terrain.getLocation();
-                // updating fog of war using static method of CivilizationController
-                CivilizationController.updateFogOfWar(selectedUnit.getCivilization(), GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
-                return "Selected unit moved to ( " + terrain.getLocation().getX() + " , " + terrain.getLocation().getY() + " )!";
-            }
-        }
-
-        // updating fog of war using static method of CivilizationController
-        CivilizationController.updateFogOfWar(selectedUnit.getCivilization(), GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
-
-        SelectController.selectedUnit.setLocation(destination);
-        SelectController.currentLocation = destination;
-        return "Selected unit moved to position ( " + destination.getX() + " , " + destination.getY() + " ) successfully!";
+        return TheShortestPath.checkNeededMpForMove(origin, destination);
     }
 
     public static boolean hasOwnerShip(Unit currentUnit, GameController gameController) {
@@ -75,54 +42,81 @@ public class UnitController {
         return false;
     }
 
-    // check if destination is mountain, ocean or river which are impassable
-    // TODO river for destination ?!
-    private static String destinationIsValid(Location destination) {
-        Terrain[][] terrain = GameController.map;
-        String typeOfTerrain;
-        Location terrainLocation;
+    public static String sleep(GameController gameController) {
+        // show errors just when you select the unit
+        if (SelectController.selectedUnit == null)
+            return "There isn't any selected unit!";
 
-        for (int i = 0; i < GameController.getMapHeight(); i++) {
-            for (int j = 0; j < GameController.getMapWidth(); j++) {
-                terrainLocation = terrain[i][j].getLocation();
-                typeOfTerrain = terrain[i][j].getTypeOfTerrain().getName();
+        if (!hasOwnerShip(SelectController.selectedUnit, gameController))
+            return "This unit does not belong to you!";
 
-                if ((typeOfTerrain.equals("mountain")
-                        || typeOfTerrain.equals("ocean"))
-                        && terrainLocation.getX() == destination.getX()
-                        && terrainLocation.getY() == destination.getY())
-                    return typeOfTerrain;
-
-                if (terrain[i][j].getTerrainFeatures() != null
-                        && terrain[i][j].getTerrainFeatures() == TerrainFeatures.ICE
-                        && terrainLocation.getX() == destination.getX()
-                        && terrainLocation.getY() == destination.getY())
-                    return "ice";
-            }
-        }
-        return null;
+        SelectController.selectedUnit.setUnitStatus(UnitStatus.SLEEP);
+        return "Selected unit has slept successfully!";
     }
 
-    public String sleep(Unit unit) {
+    public static String fortifyUnit(GameController gameController) {
+        Unit selectedUnit = SelectController.selectedUnit;
+
+        if (selectedUnit == null)
+            return "There isn't any selected unit!";
+
+        if (!hasOwnerShip(selectedUnit, gameController))
+            return "This unit does not belong to you!";
+
+        if (selectedUnit.getTypeOfUnit() == TypeOfUnit.WORKER
+                || selectedUnit.getTypeOfUnit() == TypeOfUnit.SETTLER)
+            return "Selected-unit's type should be combat for this action!";
+
+        // TODO HEAL and main things to do!
         return "";
     }
 
     public void healUnit(Unit unit) {
-
     }
 
-    public String cancelMission(Unit unit) {
-        return "";
+    public static String cancelMission(GameController gameController) {
+        if (SelectController.selectedUnit == null)
+            return "There isn't any selected unit!";
+
+        if (!hasOwnerShip(SelectController.selectedUnit, gameController))
+            return "This unit does not belong to you!";
+        // TODO handle unit's movements first!
+        // TODO remove all movements!
+        return "All of the missions of the selected unit have been canceled!";
     }
 
-    public String wake(Unit unit) {
-        return "";
+    public static String wake(GameController gameController) {
+        if (SelectController.selectedUnit == null)
+            return "There isn't any selected unit!";
+
+        if (!hasOwnerShip(SelectController.selectedUnit, gameController))
+            return "This unit does not belong to you!";
+
+        SelectController.selectedUnit.setUnitStatus(UnitStatus.ACTIVE);
+        return "Selected unit is awake!";
     }
 
-    public String deleteUnit(Unit unit) {
-        return "";
+    public static String deleteUnit(GameController gameController) {
+        Unit selectedUnit = SelectController.selectedUnit;
+
+        if (selectedUnit == null)
+            return "There isn't any selected unit!";
+
+        if (!hasOwnerShip(selectedUnit, gameController))
+            return "This unit does not belong to you!";
+
+        // find the selected unit in current civilization and remove it.
+        for (Unit unit : gameController.getCurrentCivilization().getUnits()) {
+            if (unit.getLocation().getX() == selectedUnit.getLocation().getX()
+                    && unit.getLocation().getY() == selectedUnit.getLocation().getY()) {
+                gameController.getCurrentCivilization().getUnits().remove(unit);
+                break;
+            }
+        }
+        return "Unit deleted successfully!";
     }
 
+    // TODO what is this ?
     public String upgrade(Unit unit) {
         return "";
     }
