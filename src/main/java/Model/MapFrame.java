@@ -8,19 +8,16 @@ import java.util.HashMap;
 
 import Enum.MapDimension;
 
-
 public class MapFrame extends JFrame {
-    private Terrain[][] map ;
-    private final int startingX = 100 ;
-    private final int startingY = 100 ;
-    private int hexagonA ;
-    private int rad3over2 ;
+    private final Terrain[][] map ;
+    private final int hexagonA ;
+    private final int rad3over2 ;
     private final Color[] colors = new Color[]{Color.RED , Color.BLUE , Color.GREEN , Color.YELLOW , Color.CYAN , Color.ORANGE} ;
-    private int width ;
-    private int height ;
+    private final int width ;
+    private final int height ;
     private final ArrayList<Civilization> civilizations ;
     private final Civilization currentCivilization ;
-    private Location center ;
+    private final Location center ;
 
     public MapFrame(MapDimension mapDimension,Terrain[][] map,Location mapCenter , ArrayList<Civilization> civilizations , Civilization currentCivilization){
         this.width = mapDimension.getX() ;
@@ -42,7 +39,7 @@ public class MapFrame extends JFrame {
      * @return all units of the game
      */
     private ArrayList<Unit> getUnits() {
-        ArrayList<Unit> allUnits = new ArrayList<Unit>();
+        ArrayList<Unit> allUnits = new ArrayList<>();
         for (Civilization civilization : civilizations)
             allUnits.addAll(civilization.getUnits());
         return allUnits;
@@ -129,16 +126,6 @@ public class MapFrame extends JFrame {
         }
     }
 
-    private ArrayList<Unit> unitsInThisLocation(int row , int col){
-        ArrayList<Unit> out = new ArrayList<>();
-        for (Civilization civilization : civilizations) {
-            for (Unit unit : civilization.getUnits())
-                if (unit.getLocation().getY()==row && unit.getLocation().getX()==col)
-                    out.add(unit);
-        }
-        return out;
-    }
-
     public void paint(Graphics g){
         Graphics2D g2d = (Graphics2D) g ;
         int firstRow = center.getY()>=3 ? center.getY()-3 : 0 ;
@@ -146,9 +133,9 @@ public class MapFrame extends JFrame {
         int firstCol = center.getX()>=3 ? center.getX()-3 : 0 ;
         int lastCol = center.getX()+3<width ? center.getX()+3 : width-1 ;
         ArrayList<Unit> units = getUnits();
-        int y = startingY ;
+        int y = 100;
         for (int row=firstRow ; row<=lastRow ; row++){
-            int x = startingX ;
+            int x = 100;
             if (row%2==1)
                 x += rad3over2 ;
             for (int col=firstCol ; col<=lastCol ; col++){

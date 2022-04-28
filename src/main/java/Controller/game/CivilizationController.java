@@ -27,7 +27,6 @@ public class CivilizationController {
 
         if (currentResearch==null)
             return "research set successfully";
-
         else if (currentResearch.getTypeOfTechnology() == research.getTypeOfTechnology())
             return "you are already researching for this technology";
         else
@@ -76,7 +75,12 @@ public class CivilizationController {
      */
     public void updateResearch(){
         Technology currentResearch = civilization.getCurrentResearch();
-        currentResearch.setRemainingTurns(currentResearch.getRemainingTurns()-1);
+        if (currentResearch.getRemainingTurns()==0) {
+            civilization.addTechonolgy(currentResearch);
+            civilization.setCurrentResearch(null);
+        }
+        else
+            currentResearch.setRemainingTurns(currentResearch.getRemainingTurns()-1);
     }
 
     public void updateScience(){
@@ -129,10 +133,6 @@ public class CivilizationController {
         }
         for (Terrain terrain : shouldBeAdd)
             civilization.addKnownTerrain(terrain);
-    }
-
-    public static void updateMovingUnitFogOfWar (Civilization civilization , Terrain[][] map , int mapWidth , int mapHeight){
-
     }
 
 }

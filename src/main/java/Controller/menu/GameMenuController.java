@@ -1,6 +1,7 @@
 package Controller.menu;
 
 import Controller.game.GameController;
+import Controller.game.MapController;
 import Controller.game.SelectController;
 import Controller.game.UnitController;
 import Model.User;
@@ -25,10 +26,12 @@ public class GameMenuController {
             gameController.setTurn(gameController.getTurn() + 1);
             gameController.setCurrentCivilization(gameController.getCivilizations().get(0));
             SelectController.selectedUnit = null;
+            MapController.setMapCenter(gameController.getCurrentCivilization().getUnits().get(0).getLocation());
             return "next player!\nnew turn!";
         }
         else {
             gameController.setCurrentCivilization(gameController.getCivilizations().get(index + 1));
+            MapController.setMapCenter(gameController.getCurrentCivilization().getUnits().get(0).getLocation());
             return "next player!";
         }
     }
