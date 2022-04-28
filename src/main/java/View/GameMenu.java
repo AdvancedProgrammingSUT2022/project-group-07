@@ -28,7 +28,7 @@ public class GameMenu extends Menu{
         Matcher matcher;
 
         while (MenuName.getCurrentMenu() == MenuName.GAME_MENU) {
-            MapController.printMap(gameController.getCurrentCivilization() , gameController.getCivilizations());
+            MapController.printMap(GameController.getMap() , gameController.getCurrentCivilization() , gameController.getCivilizations());
             input = scanner.nextLine();
             // menu commands ::::
             if (GameMenuCommands.getMatcher(input , GameMenuCommands.EXIT) != null) {

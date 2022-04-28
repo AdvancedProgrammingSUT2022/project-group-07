@@ -129,6 +129,16 @@ public class MapFrame extends JFrame {
         }
     }
 
+    private ArrayList<Unit> unitsInThisLocation(int row , int col){
+        ArrayList<Unit> out = new ArrayList<>();
+        for (Civilization civilization : civilizations) {
+            for (Unit unit : civilization.getUnits())
+                if (unit.getLocation().getY()==row && unit.getLocation().getX()==col)
+                    out.add(unit);
+        }
+        return out;
+    }
+
     public void paint(Graphics g){
         Graphics2D g2d = (Graphics2D) g ;
         int firstRow = center.getY()>=3 ? center.getY()-3 : 0 ;

@@ -150,7 +150,12 @@ public class MapController {
     }
 
     public static void setMapCenter(Location location){
-        mapCenter = location ;
+        if (mapCenter==null)
+            mapCenter = new Location(location.getX() , location.getY()) ;
+        else {
+            mapCenter.setX(location.getX());
+            mapCenter.setY(location.getY());
+        }
     }
 
     public static String moveMap (Matcher matcher){
@@ -168,7 +173,7 @@ public class MapController {
         return "moved map to direction " + direction ;
     }
 
-    public static void printMap (Civilization currentCivilization , ArrayList<Civilization> civilizations){
+    public static void printMap (Terrain[][] map , Civilization currentCivilization , ArrayList<Civilization> civilizations){
         CivilizationController.updateFogOfWar(currentCivilization , map , mapWidth , mapHeight);
         if (frame!=null)
             frame.dispose();
