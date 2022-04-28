@@ -1,9 +1,6 @@
 package Controller.game;
 
-import Model.Civilization;
-import Model.Location;
-import Model.MapFrame;
-import Model.Terrain;
+import Model.*;
 import Enum.Resources ;
 import Enum.TypeOfTerrain ;
 import Enum.TerrainFeatures ;
@@ -152,19 +149,8 @@ public class MapController {
         return map ;
     }
 
-    public static void printMap (Civilization currentCivilization , ArrayList<Civilization> civilizations){
-        CivilizationController.updateFogOfWar(currentCivilization , map , mapWidth , mapHeight);
-        if (frame!=null)
-            frame.dispose();
-        frame = new MapFrame(MapDimension.STANDARD , map , mapCenter , civilizations ,currentCivilization);
-    }
-
     public static void setMapCenter(Location location){
         mapCenter = location ;
-    }
-
-    public static void setMap(Terrain[][] gameMap){
-        map = gameMap ;
     }
 
     public static String moveMap (Matcher matcher){
@@ -180,6 +166,13 @@ public class MapController {
             case "D" -> mapCenter.setY(lowerRow);
         }
         return "moved map to direction " + direction ;
+    }
+
+    public static void printMap (Civilization currentCivilization , ArrayList<Civilization> civilizations){
+        CivilizationController.updateFogOfWar(currentCivilization , map , mapWidth , mapHeight);
+        if (frame!=null)
+            frame.dispose();
+        frame = new MapFrame(MapDimension.STANDARD , map , mapCenter , civilizations ,currentCivilization);
     }
 
 

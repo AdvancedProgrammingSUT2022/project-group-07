@@ -83,7 +83,6 @@ public class GameController {
         initializeCivilizations(players);
         TheShortestPath.run();
         setCurrentCivilization(civilizations.get(0));
-        MapController.setMap(map);
         MapController.setMapCenter(currentCivilization.getUnits().get(0).getLocation());
     }
 

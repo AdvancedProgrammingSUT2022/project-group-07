@@ -9,15 +9,15 @@ import Enum.MapDimension;
 
 public class MapFrame extends JFrame {
     private Terrain[][] map ;
-    private static int startingX = 100 ;
-    private static int startingY = 100 ;
+    private final int startingX = 100 ;
+    private final int startingY = 100 ;
     private int hexagonA ;
     private int rad3over2 ;
-    private static Color[] colors = new Color[]{Color.RED , Color.BLUE , Color.GREEN , Color.YELLOW , Color.CYAN , Color.ORANGE} ;
+    private final Color[] colors = new Color[]{Color.RED , Color.BLUE , Color.GREEN , Color.YELLOW , Color.CYAN , Color.ORANGE} ;
     private int width ;
     private int height ;
-    private ArrayList<Civilization> civilizations ;
-    private Civilization currentCivilization ;
+    private final ArrayList<Civilization> civilizations ;
+    private final Civilization currentCivilization ;
     private Location center ;
 
     public MapFrame(MapDimension mapDimension,Terrain[][] map,Location mapCenter , ArrayList<Civilization> civilizations , Civilization currentCivilization){
@@ -40,7 +40,7 @@ public class MapFrame extends JFrame {
      * @return all units of the game
      */
     private ArrayList<Unit> getUnits() {
-        ArrayList<Unit> allUnits = new ArrayList<>();
+        ArrayList<Unit> allUnits = new ArrayList<Unit>();
         for (Civilization civilization : civilizations)
             allUnits.addAll(civilization.getUnits());
         return allUnits;
@@ -80,7 +80,7 @@ public class MapFrame extends JFrame {
     private void drawInformationOnHexagon (Graphics2D g2d , Location centerLocation , int row , int col){
         int x = centerLocation.getX() ;
         int y = centerLocation.getY() ;
-        String loc = "(" + Integer.toString(col) + "," + Integer.toString(row) + ")" ;
+        String loc = "(" + col + "," + row + ")" ;
         String typeOfTerrain = map[row][col].getTypeOfTerrain().getName().substring(0,3) ;
         String typeOfTerrainFeature = map[row][col].getTerrainFeatures()!=null ? map[row][col].getTerrainFeatures().toString().substring(0,3) : "" ;
         g2d.setColor(Color.BLACK);
@@ -101,10 +101,10 @@ public class MapFrame extends JFrame {
      * @param col col
      * @param units all units of the game
      */
-    private void drawUnits (Graphics2D g2d , Location centerLocation , int row , int col , ArrayList<Unit> units ){
+    private void drawUnits (final Graphics2D g2d , final Location centerLocation , final int row , final int col , final ArrayList<Unit> units ){
         int x = centerLocation.getX() ;
         int y = centerLocation.getY() ;
-        for (Unit unit : units) {
+        for (final Unit unit : units) {
             if (unit.getLocation()!=null
                     && unit.getLocation().getY()==row
                     && unit.getLocation().getX()==col) {

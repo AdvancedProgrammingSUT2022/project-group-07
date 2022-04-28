@@ -108,7 +108,7 @@ public class CivilizationController {
         return out ;
     }
 
-    public static void updateFogOfWar(Civilization civilization , Terrain[][] map , int mapWidth , int mapHeight){
+    public static void updateFogOfWar(final Civilization civilization , final Terrain[][] map , int mapWidth , int mapHeight){
         // TODO: update civilization fog of war using it's owned units across the whole map
         // to do this , we first iterate on this civilization units and add first layer neighbours
         // every unit can see all 6 neighbours of itself , we add these 6 neighbours to an array
