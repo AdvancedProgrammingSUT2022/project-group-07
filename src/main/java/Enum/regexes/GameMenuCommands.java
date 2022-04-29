@@ -59,7 +59,8 @@ public enum GameMenuCommands {
 
     // map commands : !!!!
 
-    MAP_SHOW("map show (?<cityName>[a-zA-Z]+)|((?<X>)\\d+ (?<Y>\\d+))"), // ham mishe city ham location ro neshoon dad!
+    MAP_SHOW_CITY("map show (?<cityName>[a-zA-Z]+)"), // ham mishe city ham location ro neshoon dad!
+    MAP_SHOW_LOCATION("map show (?<X>\\d+) (?<Y>\\d+)") ,
     MAP_MOVE("map move (?<direction>[RLUD])"),
 
     // next turn : !!

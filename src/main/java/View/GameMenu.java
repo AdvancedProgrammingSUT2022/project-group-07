@@ -157,10 +157,14 @@ public class GameMenu extends Menu{
             }
 
 
-                // map commands :::
-
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_SHOW)) != null){
-
+            // map commands :::
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_SHOW_LOCATION)) != null){
+                String result = MapController.showMapOnLocation(matcher) ;
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_SHOW_CITY)) != null){
+                String result = MapController.showMapOnCity(matcher , gameController.getCivilizations()) ;
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_MOVE)) != null){
                 String result = MapController.moveMap(matcher);

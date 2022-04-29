@@ -165,6 +165,35 @@ public class MapController {
         frame = new MapFrame(MapDimension.STANDARD , map , mapCenter , civilizations ,currentCivilization);
     }
 
+    public static String  showMapOnLocation(Matcher matcher){
+        String out = "" ;
+        int x = Integer.parseInt(matcher.group("X")) ;
+        int y = Integer.parseInt(matcher.group("Y")) ;
+        if (x<mapWidth && x>=0 && y<mapHeight && y>=0) {
+            setMapCenter(new Location(x, y));
+            out = "map set to " + x + " , " + y ;
+        }
+        else
+            out = "invalid location" ;
+        return out ;
+    }
+
+    public static String showMapOnCity(Matcher matcher , ArrayList<Civilization> civilizations){
+        String cityName = matcher.group("cityName") ;
+        String out = "no city with name " + cityName ;
+        ArrayList<City> cities = new ArrayList<>();
+        for (Civilization civilization : civilizations)
+            cities.addAll(civilization.getCities());
+        for (City city : cities) {
+            if (city.getName().equalsIgnoreCase(cityName)) {
+                setMapCenter(new Location(city.getTerrains().get(0).getLocation().getX()
+                        , city.getTerrains().get(0).getLocation().getY()));
+                out = "map set to city " + cityName;
+                break;
+            }
+        }
+        return out;
+    }
 
 }
 
