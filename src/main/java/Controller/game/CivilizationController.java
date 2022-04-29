@@ -70,7 +70,7 @@ public class CivilizationController {
         // TODO: 4/21/2022 update civilization total science
     }
 
-    private static ArrayList<Terrain> getNeighbourTerrainsByRadius1
+    public static ArrayList<Terrain> getNeighbourTerrainsByRadius1
             (Location location , Terrain[][]map , int mapWidth , int mapHeight){
         ArrayList<Terrain> out = new ArrayList<Terrain>();
         int x = location.getX();

@@ -84,9 +84,27 @@ public class GameMenu extends Menu{
                 String result = SelectController.selectNonCombatUnit(matcher , gameController);
                 System.out.println(result);
             }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_CITY)) != null){
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_CITY_BY_LOCATION)) != null){
+                String result = CityController.selectCityByLocation(matcher , gameController.getCivilizations()) ;
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_CITY_BY_NAME)) != null){
 
             }
+
+            // city command ::
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_SHOW_TILES_OWNED)) != null){
+                String result = CityController.showTilesOwned() ;
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_SHOW_TILES_AVAILABLE)) != null){
+                String result = CityController.showTilesAvailable(GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()) ;
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_BUY_TILE)) != null){
+
+            }
+
 
             // unit commands ::
 
