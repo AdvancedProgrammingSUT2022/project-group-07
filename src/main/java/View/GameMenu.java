@@ -102,7 +102,8 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_BUY_TILE)) != null){
-
+                String result = CityController.buyTile(matcher , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()) ;
+                System.out.println(result);
             }
 
 
