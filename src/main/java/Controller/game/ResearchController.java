@@ -31,18 +31,13 @@ public class ResearchController {
             TypeOfTechnology[] neededTechnologies = value.getPrerequisiteTech() ;
             if (neededTechnologies==null)
                 out.append(value.getName()).append("\n");
-            else{
-                boolean condition = true;
-                for (TypeOfTechnology neededTechnology : neededTechnologies)
-                    condition &= !gainedTypeOfTechnologies.contains(neededTechnology) ;
-                if (condition)
-                    out.append(value.getName()).append("\n");
-            }
+            else if (gainedTypeOfTechnologies.containsAll(Arrays.asList(neededTechnologies)))
+                out.append(value.getName()).append("\n");
         }
         return out.toString();
     }
 
-    public static String showOwnedResearch(Civilization civilization){
+    public static String showOwnedResearch(final Civilization civilization){
         ArrayList<Technology> gainedTechnologies = civilization.getGainedTechnologies() ;
         if (gainedTechnologies.isEmpty())
             return "no research yet";

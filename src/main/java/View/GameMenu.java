@@ -157,7 +157,6 @@ public class GameMenu extends Menu{
             }
 
 
-
                 // map commands :::
 
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_SHOW)) != null){
