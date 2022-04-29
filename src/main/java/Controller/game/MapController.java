@@ -165,6 +165,7 @@ public class MapController {
         frame = new MapFrame(MapDimension.STANDARD , map , mapCenter , civilizations ,currentCivilization);
     }
 
+
     public static String  showMapOnLocation(Matcher matcher){
         String out = "" ;
         int x = Integer.parseInt(matcher.group("X")) ;
