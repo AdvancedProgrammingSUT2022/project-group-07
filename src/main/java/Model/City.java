@@ -67,4 +67,9 @@ public class City {
     public void addCitizen(Citizen citizen) {
         citizens.add(citizen);
     }
+
+    public void addTerrain(Terrain terrain){
+        if (!this.terrains.contains(terrain))
+            this.terrains.add(terrain);
+    }
 }

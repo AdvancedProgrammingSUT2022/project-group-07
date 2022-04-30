@@ -1,9 +1,6 @@
 package View;
 
-import Controller.game.GameController;
-import Controller.game.MapController;
-import Controller.game.SelectController;
-import Controller.game.UnitController;
+import Controller.game.*;
 import Controller.game.units.Settler;
 import Controller.game.units.Worker;
 import Controller.menu.GameMenuController;
@@ -89,9 +86,28 @@ public class GameMenu extends Menu{
                 String result = SelectController.selectNonCombatUnit(matcher , gameController);
                 System.out.println(result);
             }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_CITY)) != null){
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_CITY_BY_LOCATION)) != null){
+                String result = CityController.selectCityByLocation(matcher , gameController.getCivilizations()) ;
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_CITY_BY_NAME)) != null){
 
             }
+
+            // city command ::
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_SHOW_TILES_OWNED)) != null){
+                String result = CityController.showTilesOwned() ;
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_SHOW_TILES_AVAILABLE)) != null){
+                String result = CityController.showTilesAvailable(GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()) ;
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_BUY_TILE)) != null){
+                String result = CityController.buyTile(matcher , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()) ;
+                System.out.println(result);
+            }
+
 
             // unit commands ::
 
@@ -150,11 +166,33 @@ public class GameMenu extends Menu{
 
             }
 
+            // research commands :::
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_SHOW_CURRENT)) != null){
+                String result = ResearchController.showCurrentResearch(gameController.getCurrentCivilization());
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_SHOW_AVAILABLE)) != null) {
+                String result = ResearchController.showAvailableResearch(gameController.getCurrentCivilization());
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_SHOW_OWNED)) != null) {
+                String result = ResearchController.showOwnedResearch(gameController.getCurrentCivilization());
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_TECHNOLOGY)) != null) {
+                String result = ResearchController.researchTechnology(matcher , gameController.getCurrentCivilization());
+                System.out.println(result);
+            }
+
+
             // map commands :::
-
-
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_SHOW)) != null){
-
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_SHOW_LOCATION)) != null){
+                String result = MapController.showMapOnLocation(matcher) ;
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_SHOW_CITY)) != null){
+                String result = MapController.showMapOnCity(matcher , gameController.getCivilizations()) ;
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_MOVE)) != null){
                 String result = MapController.moveMap(matcher);

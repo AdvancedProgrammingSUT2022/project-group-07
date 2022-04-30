@@ -51,9 +51,7 @@ public class MapController {
         Random rand = new Random();
         int randNum = rand.nextInt(typeOfTerrains.length);
         TypeOfTerrain out = typeOfTerrains[randNum];
-
         ArrayList<TypeOfTerrain> areaTypeOfTerrains = getAreaTypeOfTerrains(location);
-
         if (areAllNeighboursOcean(areaTypeOfTerrains) && (x<3 || x>mapWidth-3) && (y<3 || y>mapHeight-3))
             return TypeOfTerrain.OCEAN ;
         if (areaTypeOfTerrains.isEmpty() || areaTypeOfTerrains.contains(out))
@@ -62,28 +60,15 @@ public class MapController {
         boolean shouldChangeOut = true;
         while (shouldChangeOut){
             out = typeOfTerrains[rand.nextInt(typeOfTerrains.length)];
-            if (out== TypeOfTerrain.OCEAN && (x>3 && x<mapWidth-3) && (y>3 && y<mapHeight-3))
-                shouldChangeOut = true;
-            else if (out== TypeOfTerrain.OCEAN && areaTypeOfTerrains.contains(TypeOfTerrain.DESERT))
-                shouldChangeOut = true;
-
-            else if (out== TypeOfTerrain.DESERT && areaTypeOfTerrains.contains(TypeOfTerrain.OCEAN) )
-                shouldChangeOut = true;
-            else if (out== TypeOfTerrain.DESERT && areaTypeOfTerrains.contains(TypeOfTerrain.SNOW))
-                shouldChangeOut = true;
-            else if (out== TypeOfTerrain.DESERT && areaTypeOfTerrains.contains(TypeOfTerrain.TUNDRA))
-                shouldChangeOut = true;
-            else if (out== TypeOfTerrain.DESERT && areaTypeOfTerrains.contains(TypeOfTerrain.GRASSLAND))
-                shouldChangeOut = true;
-
-            else if (out== TypeOfTerrain.SNOW && areaTypeOfTerrains.contains(TypeOfTerrain.DESERT))
-                shouldChangeOut = true;
-            else if (out== TypeOfTerrain.SNOW && (x>5 && x<mapWidth-5) && (y>5 && y<mapHeight-5))
-                shouldChangeOut = true;
-            else if (out== TypeOfTerrain.TUNDRA && areaTypeOfTerrains.contains(TypeOfTerrain.DESERT))
-                shouldChangeOut = true;
-
-            else shouldChangeOut = out == TypeOfTerrain.SNOW && areaTypeOfTerrains.contains(TypeOfTerrain.DESERT);
+            shouldChangeOut = (out == TypeOfTerrain.OCEAN && (x > 3 && x < mapWidth - 3) && (y > 3 && y < mapHeight - 3))
+                    || (out == TypeOfTerrain.OCEAN && areaTypeOfTerrains.contains(TypeOfTerrain.DESERT))
+                    || (out == TypeOfTerrain.DESERT && areaTypeOfTerrains.contains(TypeOfTerrain.OCEAN))
+                    || (out == TypeOfTerrain.DESERT && areaTypeOfTerrains.contains(TypeOfTerrain.SNOW))
+                    || (out == TypeOfTerrain.DESERT && areaTypeOfTerrains.contains(TypeOfTerrain.TUNDRA))
+                    || (out == TypeOfTerrain.DESERT && areaTypeOfTerrains.contains(TypeOfTerrain.GRASSLAND))
+                    || (out == TypeOfTerrain.SNOW && areaTypeOfTerrains.contains(TypeOfTerrain.DESERT))
+                    || (out == TypeOfTerrain.SNOW && (x > 5 && x < mapWidth - 5) && (y > 5 && y < mapHeight - 5))
+                    || (out == TypeOfTerrain.TUNDRA && areaTypeOfTerrains.contains(TypeOfTerrain.DESERT));
         }
         return out;
     }
@@ -180,6 +165,36 @@ public class MapController {
         frame = new MapFrame(MapDimension.STANDARD , map , mapCenter , civilizations ,currentCivilization);
     }
 
+
+    public static String  showMapOnLocation(Matcher matcher){
+        String out = "" ;
+        int x = Integer.parseInt(matcher.group("X")) ;
+        int y = Integer.parseInt(matcher.group("Y")) ;
+        if (x<mapWidth && x>=0 && y<mapHeight && y>=0) {
+            setMapCenter(new Location(x, y));
+            out = "map set to " + x + " , " + y ;
+        }
+        else
+            out = "invalid location" ;
+        return out ;
+    }
+
+    public static String showMapOnCity(Matcher matcher , ArrayList<Civilization> civilizations){
+        String cityName = matcher.group("cityName") ;
+        String out = "no city with name " + cityName ;
+        ArrayList<City> cities = new ArrayList<>();
+        for (Civilization civilization : civilizations)
+            cities.addAll(civilization.getCities());
+        for (City city : cities) {
+            if (city.getName().equalsIgnoreCase(cityName)) {
+                setMapCenter(new Location(city.getTerrains().get(0).getLocation().getX()
+                        , city.getTerrains().get(0).getLocation().getY()));
+                out = "map set to city " + cityName;
+                break;
+            }
+        }
+        return out;
+    }
 
 }
 

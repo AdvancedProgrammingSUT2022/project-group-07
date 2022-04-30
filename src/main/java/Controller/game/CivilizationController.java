@@ -16,24 +16,6 @@ public class CivilizationController {
         return civilization;
     }
 
-    /**
-     * a function to add or replace current research with a new technology
-     * @param research the new research
-     * @return result of the command (set successfully , replaced successfully , already being researched)
-     */
-    public String research(Technology research){
-        Technology currentResearch = civilization.getCurrentResearch();
-        civilization.setCurrentResearch(research);
-
-        if (currentResearch==null)
-            return "research set successfully";
-
-        else if (currentResearch.getTypeOfTechnology() == research.getTypeOfTechnology())
-            return "you are already researching for this technology";
-        else
-            return "research "+currentResearch+" replaced with " + research;
-    }
-
     public void nextTurn(){
         // TODO: update all information and go to the next civilization
     }
@@ -76,14 +58,19 @@ public class CivilizationController {
      */
     public void updateResearch(){
         Technology currentResearch = civilization.getCurrentResearch();
-        currentResearch.setRemainingTurns(currentResearch.getRemainingTurns()-1);
+        if (currentResearch.getRemainingTurns()==0) {
+            civilization.addTechonolgy(currentResearch);
+            civilization.setCurrentResearch(null);
+        }
+        else
+            currentResearch.setRemainingTurns(currentResearch.getRemainingTurns()-1);
     }
 
     public void updateScience(){
         // TODO: 4/21/2022 update civilization total science
     }
 
-    private static ArrayList<Terrain> getNeighbourTerrainsByRadius1
+    public static ArrayList<Terrain> getNeighbourTerrainsByRadius1
             (Location location , Terrain[][]map , int mapWidth , int mapHeight){
         ArrayList<Terrain> out = new ArrayList<Terrain>();
         int x = location.getX();
@@ -131,8 +118,5 @@ public class CivilizationController {
             civilization.addKnownTerrain(terrain);
     }
 
-    public static void updateMovingUnitFogOfWar (Civilization civilization , Terrain[][] map , int mapWidth , int mapHeight){
-
-    }
 
 }
