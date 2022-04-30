@@ -43,11 +43,8 @@ public class Settler {
         int numberOfCities = civilization.getCities().size();
         City city = new City("city" + (numberOfCities + 1) + " Of" + civilization.getName(), civilization);
         city.getTerrains().add(TerrainController.getTerrainByLocation(settler.getLocation()));
-        Citizen citizen = new Citizen();
-        city.addCitizen(citizen);
-        citizen.assignWork(TerrainController.getTerrainByLocation(settler.getLocation()));
+        city.addCitizen(new Citizen());
         civilization.addCity(city);
-        civilization.removeUnit(settler);
         if (numberOfCities == 0) civilization.setCapital(city);
         return "found new city!";
     }

@@ -60,4 +60,12 @@ public class Terrain {
     public void setMp(int mp) {
         this.mp = mp;
     }
+
+    public int getPrice(){
+        int price = terrainFeatures!=null ? 5 : 0 ;
+        price += hasRiver ? 5 : 0 ;
+        price += resources.size()*5 ;
+        price += 5 ;
+        return price ;
+    }
 }
