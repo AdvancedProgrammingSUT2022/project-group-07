@@ -3,11 +3,10 @@ package View;
 import Controller.cheat.Cheat;
 import Controller.game.*;
 import Controller.game.units.Settler;
+import Controller.game.units.Worker;
 import Controller.menu.GameMenuController;
 import Enum.MenuName;
 import Enum.regexes.GameMenuCommands;
-import Model.Civilization;
-import Model.Unit;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -80,7 +79,8 @@ public class GameMenu extends Menu{
             // selection commands :::::
 
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_UNIT_COMBAT)) != null){
-
+                String result = SelectController.selectCombatUnit(matcher, gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_UNIT_NONCOMBAT)) != null){
                 String result = SelectController.selectNonCombatUnit(matcher , gameController);
@@ -111,19 +111,24 @@ public class GameMenu extends Menu{
 
 
             // unit commands ::
-
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CREATE_UNIT)) != null){
+                String result = UnitController.checkRequiredTechsAndResourcesToCreateUnit(matcher, gameController);
+                System.out.println(result);
+            }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_MOVE_TO)) != null){
                 String result = UnitController.moveUnit(matcher , gameController);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_SLEEP)) != null){
-
+                String result = UnitController.sleep(gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_ALERT)) != null){
 
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_FORTIFY)) != null){
-
+                String result = UnitController.fortifyUnit(gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_GARRISON)) != null){
 
@@ -139,25 +144,44 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_CANCEL_MISSION))!= null){
-
+                String result = UnitController.cancelMission(gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_WAKE))!= null){
-
+                String result = UnitController.wake(gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_DELETE)) != null){
-
+                String result = UnitController.deleteUnit(gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_BUILD_IMPROVEMENT)) != null){
-
+                String result = Worker.buildImprovement(matcher, gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REMOVE_JUNGLE)) != null){
-
+                String result = Worker.removeJungle(matcher, gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REMOVE_ROUTE)) != null){
-
+                String result = Worker.removeRoute(matcher, gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REPAIR)) != null){
-
+                String result = Worker.repair(matcher, gameController);
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_BUILD_ROAD)) != null){
+                String result = Worker.buildRoad(matcher, gameController);
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_BUILD_RAILROAD)) != null){
+                String result = Worker.buildRailRoad(matcher, gameController);
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REMOVE_MARSH)) != null){
+                String result = Worker.removeMarsh(matcher, gameController);
+                System.out.println(result);
             }
 
             // research commands :::
