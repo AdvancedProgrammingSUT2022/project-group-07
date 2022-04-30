@@ -77,6 +77,7 @@ public class UnitController {
     }
 
     public void healUnit(Unit unit) {
+        // TODO heal!
     }
 
     public static String cancelMission(GameController gameController) {
@@ -127,46 +128,26 @@ public class UnitController {
     }
 
     public static String checkRequiredTechsAndResourcesToCreateUnit(Matcher matcher, GameController gameController) {
-
         if (selectedCity == null)
             return "Select a city first!";
 
         String unitName = matcher.group("unit");
         Civilization currentCivilization = gameController.getCurrentCivilization();
-        ArrayList<Technology> ownedTechs = currentCivilization.getGainedTechnologies();
         Terrain cityCenter = selectedCity.getTerrains().get(0);
 
-        // TODO handle turns + saf
+        // TODO saf
         for (TypeOfUnit typeOfUnit : TypeOfUnit.values()) {
             if (typeOfUnit.getName().equals(unitName)) {
                 if (selectedCity.getProduction() >= typeOfUnit.getCost()) {
                     TypeOfTechnology requiredTech = typeOfUnit.getTechnologyRequired();
 
-                    if (requiredTech == null) {
-                        Resources requiredResource = typeOfUnit.getResources();
+                    if (requiredTech == null)
+                        return checkRequiredResourceWhenTechIsNull(currentCivilization, typeOfUnit, cityCenter);
 
-                        if (requiredResource == null)
-                            return createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
-                        else if (cityHasRequiredResource(requiredResource))
-                            return createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
-                        else
-                            return "Your city doesn't have the required resource to create this unit!";
-                    } else {
-                        for (Technology ownedTech : ownedTechs) {
-                            if (ownedTech.getTypeOfTechnology() == requiredTech) {
-                                Resources requiredResource = typeOfUnit.getResources();
-                                if (requiredResource == null)
-                                    return createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
-                                else if (cityHasRequiredResource(requiredResource))
-                                    createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
-                                else
-                                    return "Your city doesn't have the required resource to create this unit!";
-                            }
-                        }
-                        return "Your civilization doesn't have the required tech to create this unit!";
-                    }
+                    return checkTechAndResource(currentCivilization, typeOfUnit, cityCenter);
                 }
                 else
+                    // TODO handle turns
                     return "Unit will be created in next turns!";
             }
         }
@@ -186,5 +167,37 @@ public class UnitController {
         Unit newUnit = new Unit(typeOfUnit, UnitStatus.ACTIVE, location, typeOfUnit.getHp(), currentCivilization, 0);
         currentCivilization.addUnit(newUnit);
         return "Unit has been added successfully!";
+    }
+
+    private static String checkTechAndResource(Civilization currentCivilization, TypeOfUnit typeOfUnit, Terrain cityCenter) {
+        ArrayList<Technology> ownedTechs = currentCivilization.getGainedTechnologies();
+        TypeOfTechnology requiredTech = typeOfUnit.getTechnologyRequired();
+
+        for (Technology ownedTech : ownedTechs) {
+            if (ownedTech.getTypeOfTechnology() == requiredTech) {
+                Resources requiredResource = typeOfUnit.getResources();
+
+                if (requiredResource == null)
+                    return createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
+
+                if (cityHasRequiredResource(requiredResource))
+                    createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
+
+                return "Your city doesn't have the required resource to create this unit!";
+            }
+        }
+        return "Your civilization doesn't have the required tech to create this unit!";
+    }
+
+    private static String checkRequiredResourceWhenTechIsNull(Civilization currentCivilization, TypeOfUnit typeOfUnit, Terrain cityCenter) {
+        Resources requiredResource = typeOfUnit.getResources();
+
+        if (requiredResource == null)
+            return createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
+
+        if (cityHasRequiredResource(requiredResource))
+            return createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
+
+        return "Your city doesn't have the required resource to create this unit!";
     }
 }
