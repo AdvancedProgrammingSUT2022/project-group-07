@@ -6,8 +6,6 @@ import Controller.game.units.Worker;
 import Controller.menu.GameMenuController;
 import Enum.MenuName;
 import Enum.regexes.GameMenuCommands;
-import Model.Civilization;
-import Model.Unit;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -111,7 +109,7 @@ public class GameMenu extends Menu{
 
             // unit commands ::
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CREATE_UNIT)) != null){
-                String result = UnitController.createUnit(matcher, gameController);
+                String result = UnitController.checkRequiredTechsAndResourcesToCreateUnit(matcher, gameController);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_MOVE_TO)) != null){

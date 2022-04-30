@@ -1,15 +1,16 @@
 package Controller.game;
 
-import Model.City;
-import Model.Civilization;
-import Model.Location;
-import Model.Unit;
+import Model.*;
 import Enum.UnitStatus;
 import Enum.TypeOfUnit;
+import Enum.TypeOfTechnology;
+import Enum.Resources;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 public class UnitController {
+    private static City selectedCity = SelectController.selectedCity;
 
     // TODO the first two errors are the same in all methods --> handle
     // TODO handle this --> age unit khab bashe, nemitoone darkhaste jadid dashte bashe ta vaghti behesh dastoor jadid bedan
@@ -125,33 +126,65 @@ public class UnitController {
         return "";
     }
 
-    public static String createUnit(Matcher matcher, GameController gameController) {
-        String unitName = matcher.group("unit");
-        int x = Integer.parseInt(matcher.group("X"));
-        int y = Integer.parseInt(matcher.group("Y"));
-        Civilization currentCivilization = gameController.getCurrentCivilization();
-        City selectedCity = SelectController.selectedCity;
+    public static String checkRequiredTechsAndResourcesToCreateUnit(Matcher matcher, GameController gameController) {
 
         if (selectedCity == null)
             return "Select a city first!";
 
-        // TODO what was turn in Unit?
+        String unitName = matcher.group("unit");
+        Civilization currentCivilization = gameController.getCurrentCivilization();
+        ArrayList<Technology> ownedTechs = currentCivilization.getGainedTechnologies();
+        Terrain cityCenter = selectedCity.getTerrains().get(0);
+
+        // TODO handle turns + saf
         for (TypeOfUnit typeOfUnit : TypeOfUnit.values()) {
             if (typeOfUnit.getName().equals(unitName)) {
-                if (selectedCity.getGold() >= typeOfUnit.getCost()) {
-                    Unit newUnit = new Unit(typeOfUnit, UnitStatus.ACTIVE, new Location(x, y),
-                            typeOfUnit.getHp(), currentCivilization, 0);
+                if (selectedCity.getProduction() >= typeOfUnit.getCost()) {
+                    TypeOfTechnology requiredTech = typeOfUnit.getTechnologyRequired();
 
-                    selectedCity.setGold(-1 * typeOfUnit.getCost());
-                    currentCivilization.setGold(-1 * typeOfUnit.getCost());
-                    currentCivilization.addUnit(newUnit);
-                    return "Unit has been added successfully!";
+                    if (requiredTech == null) {
+                        Resources requiredResource = typeOfUnit.getResources();
+
+                        if (requiredResource == null)
+                            return createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
+                        else if (cityHasRequiredResource(requiredResource))
+                            return createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
+                        else
+                            return "Your city doesn't have the required resource to create this unit!";
+                    } else {
+                        for (Technology ownedTech : ownedTechs) {
+                            if (ownedTech.getTypeOfTechnology() == requiredTech) {
+                                Resources requiredResource = typeOfUnit.getResources();
+                                if (requiredResource == null)
+                                    return createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
+                                else if (cityHasRequiredResource(requiredResource))
+                                    createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
+                                else
+                                    return "Your city doesn't have the required resource to create this unit!";
+                            }
+                        }
+                        return "Your civilization doesn't have the required tech to create this unit!";
+                    }
                 }
                 else
-                    return "You don't have enough gold to create this unit!";
+                    return "Unit will be created in next turns!";
             }
         }
+        return "Unit name is not valid!";
+    }
 
-        return "";
+    private static boolean cityHasRequiredResource(Resources requiredResource) {
+        ArrayList<Resources> ownedResources = new ArrayList<>();
+
+        for (Terrain terrain : selectedCity.getTerrains()) {
+            ownedResources.addAll(terrain.getResources());
+        }
+        return ownedResources.contains(requiredResource);
+    }
+
+    private static String createUnit(Civilization currentCivilization, TypeOfUnit typeOfUnit, Location location) {
+        Unit newUnit = new Unit(typeOfUnit, UnitStatus.ACTIVE, location, typeOfUnit.getHp(), currentCivilization, 0);
+        currentCivilization.addUnit(newUnit);
+        return "Unit has been added successfully!";
     }
 }
