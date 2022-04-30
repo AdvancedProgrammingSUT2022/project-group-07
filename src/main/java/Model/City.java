@@ -72,4 +72,12 @@ public class City {
         if (!this.terrains.contains(terrain))
             this.terrains.add(terrain);
     }
+
+    public void setGold(int gold) {
+        this.gold += gold;
+    }
+
+    public int getProduction() {
+        return production;
+    }
 }
