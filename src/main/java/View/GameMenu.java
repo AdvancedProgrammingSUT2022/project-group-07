@@ -110,7 +110,10 @@ public class GameMenu extends Menu{
 
 
             // unit commands ::
-
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CREATE_UNIT)) != null){
+                String result = UnitController.createUnit(matcher, gameController);
+                System.out.println(result);
+            }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_MOVE_TO)) != null){
                 String result = UnitController.moveUnit(matcher , gameController);
                 System.out.println(result);

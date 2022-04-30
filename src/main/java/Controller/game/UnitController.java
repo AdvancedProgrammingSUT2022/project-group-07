@@ -1,5 +1,7 @@
 package Controller.game;
 
+import Model.City;
+import Model.Civilization;
 import Model.Location;
 import Model.Unit;
 import Enum.UnitStatus;
@@ -123,5 +125,33 @@ public class UnitController {
         return "";
     }
 
+    public static String createUnit(Matcher matcher, GameController gameController) {
+        String unitName = matcher.group("unit");
+        int x = Integer.parseInt(matcher.group("X"));
+        int y = Integer.parseInt(matcher.group("Y"));
+        Civilization currentCivilization = gameController.getCurrentCivilization();
+        City selectedCity = SelectController.selectedCity;
 
+        if (selectedCity == null)
+            return "Select a city first!";
+
+        // TODO what was turn in Unit?
+        for (TypeOfUnit typeOfUnit : TypeOfUnit.values()) {
+            if (typeOfUnit.getName().equals(unitName)) {
+                if (selectedCity.getGold() >= typeOfUnit.getCost()) {
+                    Unit newUnit = new Unit(typeOfUnit, UnitStatus.ACTIVE, new Location(x, y),
+                            typeOfUnit.getHp(), currentCivilization, 0);
+
+                    selectedCity.setGold(-1 * typeOfUnit.getCost());
+                    currentCivilization.setGold(-1 * typeOfUnit.getCost());
+                    currentCivilization.addUnit(newUnit);
+                    return "Unit has been added successfully!";
+                }
+                else
+                    return "You don't have enough gold to create this unit!";
+            }
+        }
+
+        return "";
+    }
 }
