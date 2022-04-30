@@ -54,6 +54,9 @@ public enum GameMenuCommands {
     MAP_SHOW("map show (?<cityName>[a-zA-Z]+)|((?<X>)\\d+ (?<Y>\\d+))"), // ham mishe city ham location ro neshoon dad!
     MAP_MOVE("map move (?<direction>[RLUD])"),
 
+    // cheats : !!
+    INCREASE_TURN("increase turn (?<amount>\\d+)"),
+    INCREASE_GOLD("increase gold (?<amount>\\d+)"),
     // next turn : !!
     NEXT_TURN("next turn");
 
