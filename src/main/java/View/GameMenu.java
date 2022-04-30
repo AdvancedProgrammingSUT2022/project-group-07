@@ -85,7 +85,7 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_CITY_BY_LOCATION)) != null){
-                String result = CityController.selectCityByLocation(matcher , gameController.getCivilizations()) ;
+                String result = SelectController.selectCityByLocation(matcher , gameController.getCivilizations()) ;
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_CITY_BY_NAME)) != null){

@@ -29,9 +29,9 @@ public class ResearchController {
         ArrayList<TypeOfTechnology> gainedTypeOfTechnologies = getGainedTypeOfTechnologies(civilization);
         for (TypeOfTechnology value : TypeOfTechnology.values()) {
             TypeOfTechnology[] neededTechnologies = value.getPrerequisiteTech() ;
-            if (neededTechnologies==null)
+            if (neededTechnologies==null && !gainedTypeOfTechnologies.contains(value))
                 out.append(value.getName()).append("\n");
-            else if (gainedTypeOfTechnologies.containsAll(Arrays.asList(neededTechnologies)))
+            else if (gainedTypeOfTechnologies.containsAll(Arrays.asList(neededTechnologies)) && !gainedTypeOfTechnologies.contains(value))
                 out.append(value.getName()).append("\n");
         }
         return out.toString();
