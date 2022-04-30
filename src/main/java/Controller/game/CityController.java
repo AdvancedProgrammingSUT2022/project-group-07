@@ -67,8 +67,15 @@ public class CityController {
         for (Terrain availableTerrain : availableTerrains) {
             if (availableTerrain.getLocation().getY()==y
              && availableTerrain.getLocation().getX()==x){
-                SelectController.selectedCity.addTerrain(availableTerrain);
-                return "terrain added to city : although we haven't checked your gold yet ayoub" ;
+                if (SelectController.selectedCity.getOwnership().getGold()<availableTerrain.getPrice())
+                    return "you don't have enough gold to buy this tile" ;
+                else {
+                    SelectController.selectedCity.getOwnership().setGold(
+                            SelectController.selectedCity.getOwnership().getGold()-availableTerrain.getPrice()
+                    );
+                    SelectController.selectedCity.addTerrain(availableTerrain);
+                    return "terrain added to city";
+                }
             }
         }
         return "you can't buy this tile" ;

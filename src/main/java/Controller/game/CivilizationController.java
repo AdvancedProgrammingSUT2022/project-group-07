@@ -6,24 +6,34 @@ import Enum.* ;
 import java.util.ArrayList;
 
 public class CivilizationController {
-    private Civilization civilization;
+    private static Civilization civilization;
 
-    public void setCivilization(Civilization civilization){
-        this.civilization=civilization;
+    public static void setCivilization(Civilization currentCivilization){
+        civilization=currentCivilization;
     }
 
     public Civilization getCivilization() {
         return civilization;
     }
 
-    public void nextTurn(){
+    /**
+     * a function to update all resources of a civilization
+     * @param civilization current civilizatio to update
+     */
+    public static void updateAll(Civilization civilization){
         // TODO: update all information and go to the next civilization
+        setCivilization(civilization);
+        updateScience();
+        updateGold();
+        updateResearch();
+        updateFood();
+        updateHappiness();
     }
 
     /**
      * a function to update whole happiness of a civilization
      */
-    public void updateHappiness(){
+    public static void updateHappiness(){
         ArrayList<City> cities = civilization.getCities();
         int sum = 0 ;
         for (City city : cities)
@@ -34,7 +44,7 @@ public class CivilizationController {
     /**
      * a function to update whole food of a civilization
      */
-    public void updateFood(){
+    public static void updateFood(){
         ArrayList<City> cities = civilization.getCities();
         int sum = 0 ;
         for (City city : cities)
@@ -45,7 +55,7 @@ public class CivilizationController {
     /**
      *  a function to update whole gold of a civilization
      */
-    public void updateGold(){
+    public static void updateGold(){
         ArrayList<City> cities = civilization.getCities();
         int sum = 0 ;
         for (City city : cities)
@@ -56,8 +66,10 @@ public class CivilizationController {
     /**
      * a function to update status of a current research
      */
-    public void updateResearch(){
+    public static void updateResearch(){
         Technology currentResearch = civilization.getCurrentResearch();
+        if (currentResearch==null)
+            return;
         if (currentResearch.getRemainingTurns()==0) {
             civilization.addTechonolgy(currentResearch);
             civilization.setCurrentResearch(null);
@@ -66,7 +78,7 @@ public class CivilizationController {
             currentResearch.setRemainingTurns(currentResearch.getRemainingTurns()-1);
     }
 
-    public void updateScience(){
+    public static void updateScience(){
         // TODO: 4/21/2022 update civilization total science
     }
 
