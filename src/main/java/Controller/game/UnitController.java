@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 public class UnitController {
 
     // TODO the first two errors are the same in all methods --> handle
+    // TODO handle this --> age unit khab bashe, nemitoone darkhaste jadid dashte bashe ta vaghti behesh dastoor jadid bedan
     public static String moveUnit(Matcher matcher, GameController gameController) {
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));

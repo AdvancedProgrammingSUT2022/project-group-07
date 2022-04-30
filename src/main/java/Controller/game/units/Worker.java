@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
 
 public class Worker {
 
-    // TODO handle same errors
+    // TODO handle the same errors
     // TODO handle statics!
     public static String removeJungle(Matcher matcher, GameController gameController) {
         int x = Integer.parseInt(matcher.group("X"));
@@ -62,6 +62,8 @@ public class Worker {
         // TODO remove route
         return "";
     }
+
+
 
     private String repair(Location location) {
         return "";

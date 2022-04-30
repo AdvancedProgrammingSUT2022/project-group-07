@@ -9,17 +9,17 @@ public class NonCombatUnitController {
     // TODO type of improvement?
     // TODO handle statics
 
-    private boolean isSettlerUnit(Unit unit) {
-        return true;
-    }
-
-    private String foundCity(Location location) {
-        return "";
-    }
-
-    private boolean isWorker(Unit unit) {
-        return true;
-    }
+//    private boolean isSettlerUnit(Unit unit) {
+//        return true;
+//    }
+//
+//    private String foundCity(Location location) {
+//        return "";
+//    }
+//
+//    private boolean isWorker(Unit unit) {
+//        return true;
+//    }
 
     private String hasImprovement(Improvement improvement, Location location) {
         return "";
