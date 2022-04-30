@@ -55,6 +55,9 @@ public enum GameMenuCommands {
     UNIT_REMOVE_JUNGLE("unit remove jungle (?<X>\\d+) (?<Y>\\d+)"),
     UNIT_REMOVE_ROUTE("unit remove route  (?<X>\\d+) (?<Y>\\d+)"),
     UNIT_REPAIR("unit repair"),
+    UNIT_BUILD_ROAD("unit build road (?<X>\\d+) (?<Y>\\d+)"),
+    UNIT_BUILD_RAILROAD("unit build railroad (?<X>\\d+) (?<Y>\\d+)"),
+    UNIT_REMOVE_MARSH("unit remove marsh (?<X>\\d+) (?<Y>\\d+)"),
 
     // research commands : !!!
     RESEARCH_TECHNOLOGY("research technology (?<technologyName>\\w+)") ,

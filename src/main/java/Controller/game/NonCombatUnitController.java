@@ -78,4 +78,18 @@ public class NonCombatUnitController {
         }
         return false;
     }
+
+    public static Terrain isMarshHere(Location location) {
+        Terrain[][] terrain = GameController.map;
+
+        for (int i = 0; i < GameController.getMapHeight(); i++) {
+            for (int j = 0; j < GameController.getMapWidth(); j++) {
+                if (terrain[i][j].getLocation().getX() == location.getX()
+                        && terrain[i][j].getLocation().getY() == location.getY()
+                        && terrain[i][j].getTerrainFeatures() == TerrainFeatures.MARSH)
+                    return terrain[i][j];
+            }
+        }
+        return null;
+    }
 }
