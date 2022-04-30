@@ -1,5 +1,6 @@
-package Controller.game;
+package Controller.game.movement;
 
+import Controller.game.GameController;
 import Model.Location;
 import Model.Terrain;
 

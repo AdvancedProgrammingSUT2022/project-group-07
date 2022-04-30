@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 public class CityController {
     private static City selectedCity = null ;
 
-    public static String selectCityByLocation(Matcher matcher , final ArrayList<Civilization> civilizations){
+    public static String selectCityByLocation(Matcher matcher , final ArrayList<Civilization> civilizations) {
         int x = Integer.parseInt(matcher.group("X")) ;
         int y = Integer.parseInt(matcher.group("Y")) ;
         int width = GameController.getMapWidth() ;

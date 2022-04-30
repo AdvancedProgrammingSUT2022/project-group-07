@@ -1,6 +1,6 @@
 package Controller.game.citizen;
 
-import Controller.game.city.CityController;
+import Controller.game.CityController;
 import Model.Citizen;
 import Model.City;
 

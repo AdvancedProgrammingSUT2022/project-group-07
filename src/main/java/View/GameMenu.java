@@ -1,5 +1,6 @@
 package View;
 
+import Controller.cheat.Cheat;
 import Controller.game.*;
 import Controller.game.units.Settler;
 import Controller.menu.GameMenuController;
@@ -29,7 +30,8 @@ public class GameMenu extends Menu{
             input = scanner.nextLine();
             // menu commands ::::
             if (GameMenuCommands.getMatcher(input , GameMenuCommands.EXIT) != null) {
-
+                String result = gameMenuController.exit();
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MENU_NAVIGATION)) != null){
 
@@ -191,6 +193,15 @@ public class GameMenu extends Menu{
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.NEXT_TURN)) != null) {
                 String result = gameMenuController.nextTurn(gameController);
+                System.out.println(result);
+            }
+            // cheats :::
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INCREASE_TURN)) != null) {
+                String result = Cheat.turnCheat(matcher , gameController);
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INCREASE_GOLD)) != null) {
+                String result = Cheat.goldCheat(matcher , gameController);
                 System.out.println(result);
             }
             else System.out.println("invalid command ayoub");
