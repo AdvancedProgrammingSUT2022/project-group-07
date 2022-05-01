@@ -25,9 +25,7 @@ public class GameMenuController {
         if (index == gameController.getCivilizations().size() - 1) {
             gameController.setTurn(gameController.getTurn() + 1);
             gameController.setCurrentCivilization(gameController.getCivilizations().get(0));
-            SelectController.selectedUnit = null;
-            MapController.setMapCenter(gameController.getCurrentCivilization().getUnits().get(0).getLocation());
-            return "next player!\nnew turn!";
+            output = "next player!\nnew turn!";
         }
         else {
             gameController.setCurrentCivilization(gameController.getCivilizations().get(index + 1));
@@ -35,7 +33,7 @@ public class GameMenuController {
         }
         SelectController.selectedUnit = null;
         MapController.setMapCenter(gameController.getCurrentCivilization().getUnits().get(0).getLocation());
-        CivilizationController.updateCivilizationElements(gameController.getCurrentCivilization());
+        CivilizationController.updateCivilizationElements(gameController);
 
         return output;
     }

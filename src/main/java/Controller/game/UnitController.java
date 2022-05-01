@@ -11,6 +11,7 @@ import Model.Location;
 import Model.Terrain;
 import Model.Unit;
 import Enum.TypeOfUnit;
+
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
@@ -21,39 +22,39 @@ import static Controller.game.movement.Move.*;
 public class UnitController {
     private static City selectedCity = SelectController.selectedCity;
 
-    public static String moveUnit(Matcher matcher, GameController gameController) {
+
+    public static String moveUnit(Matcher matcher, GameController gameController , Unit unit) {
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
-        Unit selectedUnit = SelectController.selectedUnit;
-
-
-        if (SelectController.selectedUnit == null)
+        if (unit == null)
             return "There isn't any selected unit!";
-
-        Location origin = selectedUnit.getLocation();
+        Location origin = unit.getLocation();
         Location destination = new Location(x, y);
-        String placeName;
-
-        if (!hasOwnerShip(selectedUnit, gameController))
+        if (!hasOwnerShip(unit, gameController))
             return "This unit does not belong to you!";
-
         if (!SelectController.positionIsValid(destination))
-            return "Destination ( " + x + " , " + y + " ) is not valid!";
+            return "Destination ( " + destination.getX() + " , " + destination.getY() + " ) is not valid!";
+        ArrayList<Terrain> path = TheShortestPath.showPath(origin, destination);
+        unit.setPathToGo(path);
+        return moveUnit(path ,  gameController , unit , destination);
+    }
 
+    public static String moveUnit(ArrayList<Terrain> path , GameController gameController , Unit unit , Location destination) {
+        String placeName;
         if ((placeName = destinationIsValid(destination)) != null)
             return "Your destination is a " + placeName + " so you can not go to it!";
-
-        if (isEnemyUnitInDestination(destination , gameController))
+        if (isEnemyUnitInDestination(destination, gameController))
             return "an enemy unit is in your destination at the moment!";
-        if (SameHomeUnitInDestination(destination , gameController))
+        if (SameHomeUnitInDestination(destination, gameController))
             return "another unit with same military status is in the destination selected!";
-
-        return checkNeededMpForMove(origin, destination);
+        if (unit.getTimesMovedThisTurn() >= 2)
+            return "unit is out of move!";
+        return checkNeededMpForMove(path , unit);
     }
 
     public static int isCombatUnit(Unit unit) {
         if (unit.getTypeOfUnit() == TypeOfUnit.SETTLER
-        || unit.getTypeOfUnit() == TypeOfUnit.WORKER)
+                || unit.getTypeOfUnit() == TypeOfUnit.WORKER)
             return 0;
         return 1;
     }
@@ -100,6 +101,7 @@ public class UnitController {
     public void healUnit(Unit unit) {
         // TODO heal!
     }
+
     public static String cancelMission(GameController gameController) {
         if (SelectController.selectedUnit == null)
             return "There isn't any selected unit!";
@@ -142,6 +144,7 @@ public class UnitController {
         }
         return "Unit deleted successfully!";
     }
+
     public String upgrade(Unit unit) {
         return "";
     }
@@ -164,8 +167,7 @@ public class UnitController {
                         return checkRequiredResourceWhenTechIsNull(currentCivilization, typeOfUnit, cityCenter);
 
                     return checkTechAndResource(currentCivilization, typeOfUnit, cityCenter);
-                }
-                else
+                } else
                     // TODO handle turns
                     return "Unit will be created in next turns!";
             }
