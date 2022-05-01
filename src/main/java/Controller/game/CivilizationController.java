@@ -130,5 +130,13 @@ public class CivilizationController {
             civilization.addKnownTerrain(terrain);
     }
 
+    public static void updateCivilizationElements(Civilization currentCivilization) {
+        //TODO update multi turn moves
+        //TODO update creating units
+        //TODO update research
+        //TODO update food, gold and production
+        //TODO update citizens food consumption
+        //TODO harchidige ke moond!
+    }
 
 }

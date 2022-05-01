@@ -1,9 +1,6 @@
 package Controller.menu;
 
-import Controller.game.GameController;
-import Controller.game.MapController;
-import Controller.game.SelectController;
-import Controller.game.UnitController;
+import Controller.game.*;
 import Controller.game.movement.Move;
 import Model.User;
 import Enum.MenuName;
@@ -35,8 +32,8 @@ public class GameMenuController {
         }
         SelectController.selectedUnit = null;
         MapController.setMapCenter(gameController.getCurrentCivilization().getUnits().get(0).getLocation());
-        Move.multiTurnMovesUpdate(gameController.getCurrentCivilization());//TODO update the multi-turn moves!
-        //TODO update food , production and gold in cities and whole civilization !
+        CivilizationController.updateCivilizationElements(gameController.getCurrentCivilization());
+
         return output;
     }
 
