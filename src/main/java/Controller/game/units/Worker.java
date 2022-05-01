@@ -14,7 +14,6 @@ import java.util.regex.Matcher;
 
 public class Worker {
 
-    // TODO handle the same errors
     // TODO handle statics!
     public static String buildImprovement(Matcher matcher, GameController gameController) {
         return "";
@@ -34,6 +33,13 @@ public class Worker {
     }
 
     public static String buildRailRoad(Matcher matcher, GameController gameController) {
+        int x = Integer.parseInt(matcher.group("X"));
+        int y = Integer.parseInt(matcher.group("Y"));
+        Location selectedLocation = new Location(x, y);
+
+        if (!SelectController.positionIsValid(selectedLocation))
+            return "Position ( " + x + " , " + y + " ) is not valid!";
+        // TODO build
         return "";
     }
 
@@ -47,9 +53,11 @@ public class Worker {
         if (error != null)
             return error;
 
-        Location currentLocation = new Location(x, y);
+        Location selectedLocation = new Location(x, y);
 
-        if ((currentTerrain = NonCombatUnitController.isJungleOrForestHere(currentLocation)) == null)
+        if (!SelectController.positionIsValid(selectedLocation))
+            return "Position ( " + x + " , " + y + " ) is not valid!";
+        if ((currentTerrain = NonCombatUnitController.isJungleOrForestHere(selectedLocation)) == null)
             return "There isn't any forest or jungle in this location!";
 
         feature = currentTerrain.getTerrainFeatures();

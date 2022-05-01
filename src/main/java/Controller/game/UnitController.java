@@ -5,16 +5,13 @@ import Enum.UnitStatus;
 import Enum.TypeOfUnit;
 import Enum.TypeOfTechnology;
 import Enum.Resources;
-import Controller.game.movement.TheShortestPath;
 import Model.Civilization;
 import Model.Location;
 import Model.Terrain;
 import Model.Unit;
-import Enum.TypeOfUnit;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
-import Enum.TerrainFeatures;
 
 import static Controller.game.movement.Move.*;
 
@@ -144,79 +141,5 @@ public class UnitController {
     }
     public String upgrade(Unit unit) {
         return "";
-    }
-
-    public static String checkRequiredTechsAndResourcesToCreateUnit(Matcher matcher, GameController gameController) {
-        if (selectedCity == null)
-            return "Select a city first!";
-
-        String unitName = matcher.group("unit");
-        Civilization currentCivilization = gameController.getCurrentCivilization();
-        Terrain cityCenter = selectedCity.getTerrains().get(0);
-
-        // TODO saf
-        for (TypeOfUnit typeOfUnit : TypeOfUnit.values()) {
-            if (typeOfUnit.getName().equals(unitName)) {
-                if (selectedCity.getProduction() >= typeOfUnit.getCost()) {
-                    TypeOfTechnology requiredTech = typeOfUnit.getTechnologyRequired();
-
-                    if (requiredTech == null)
-                        return checkRequiredResourceWhenTechIsNull(currentCivilization, typeOfUnit, cityCenter);
-
-                    return checkTechAndResource(currentCivilization, typeOfUnit, cityCenter);
-                }
-                else
-                    // TODO handle turns
-                    return "Unit will be created in next turns!";
-            }
-        }
-        return "Unit name is not valid!";
-    }
-
-    private static boolean cityHasRequiredResource(Resources requiredResource) {
-        ArrayList<Resources> ownedResources = new ArrayList<>();
-
-        for (Terrain terrain : selectedCity.getTerrains()) {
-            ownedResources.addAll(terrain.getResources());
-        }
-        return ownedResources.contains(requiredResource);
-    }
-
-    private static String createUnit(Civilization currentCivilization, TypeOfUnit typeOfUnit, Location location) {
-        Unit newUnit = new Unit(typeOfUnit, UnitStatus.ACTIVE, location, typeOfUnit.getHp(), currentCivilization, 0);
-        currentCivilization.addUnit(newUnit);
-        return "Unit has been added successfully!";
-    }
-
-    private static String checkTechAndResource(Civilization currentCivilization, TypeOfUnit typeOfUnit, Terrain cityCenter) {
-        ArrayList<Technology> ownedTechs = currentCivilization.getGainedTechnologies();
-        TypeOfTechnology requiredTech = typeOfUnit.getTechnologyRequired();
-
-        for (Technology ownedTech : ownedTechs) {
-            if (ownedTech.getTypeOfTechnology() == requiredTech) {
-                Resources requiredResource = typeOfUnit.getResources();
-
-                if (requiredResource == null)
-                    return createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
-
-                if (cityHasRequiredResource(requiredResource))
-                    createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
-
-                return "Your city doesn't have the required resource to create this unit!";
-            }
-        }
-        return "Your civilization doesn't have the required tech to create this unit!";
-    }
-
-    private static String checkRequiredResourceWhenTechIsNull(Civilization currentCivilization, TypeOfUnit typeOfUnit, Terrain cityCenter) {
-        Resources requiredResource = typeOfUnit.getResources();
-
-        if (requiredResource == null)
-            return createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
-
-        if (cityHasRequiredResource(requiredResource))
-            return createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation());
-
-        return "Your city doesn't have the required resource to create this unit!";
     }
 }
