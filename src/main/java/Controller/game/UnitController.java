@@ -5,25 +5,34 @@ import Enum.UnitStatus;
 import Enum.TypeOfUnit;
 import Enum.TypeOfTechnology;
 import Enum.Resources;
-
+import Controller.game.movement.TheShortestPath;
+import Model.Civilization;
+import Model.Location;
+import Model.Terrain;
+import Model.Unit;
+import Enum.TypeOfUnit;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
+
+import Enum.TerrainFeatures;
+
+import static Controller.game.movement.Move.*;
 
 public class UnitController {
     private static City selectedCity = SelectController.selectedCity;
 
-    // TODO the first two errors are the same in all methods --> handle
-    // TODO handle this --> age unit khab bashe, nemitoone darkhaste jadid dashte bashe ta vaghti behesh dastoor jadid bedan
     public static String moveUnit(Matcher matcher, GameController gameController) {
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
         Unit selectedUnit = SelectController.selectedUnit;
-        Location origin = selectedUnit.getLocation();
-        Location destination = new Location(x, y);
-        String placeName;
+
 
         if (SelectController.selectedUnit == null)
             return "There isn't any selected unit!";
+
+        Location origin = selectedUnit.getLocation();
+        Location destination = new Location(x, y);
+        String placeName;
 
         if (!hasOwnerShip(selectedUnit, gameController))
             return "This unit does not belong to you!";
@@ -31,11 +40,24 @@ public class UnitController {
         if (!SelectController.positionIsValid(destination))
             return "Destination ( " + x + " , " + y + " ) is not valid!";
 
-        if ((placeName = TheShortestPath.destinationIsValid(destination)) != null)
-            return "Your destination is " + placeName + " so you can not go to it!";
+        if ((placeName = destinationIsValid(destination)) != null)
+            return "Your destination is a " + placeName + " so you can not go to it!";
 
-        return TheShortestPath.checkNeededMpForMove(origin, destination);
+        if (isEnemyUnitInDestination(destination , gameController))
+            return "an enemy unit is in your destination at the moment!";
+        if (SameHomeUnitInDestination(destination , gameController))
+            return "another unit with same military status is in the destination selected!";
+
+        return checkNeededMpForMove(origin, destination);
     }
+
+    public static int isCombatUnit(Unit unit) {
+        if (unit.getTypeOfUnit() == TypeOfUnit.SETTLER
+        || unit.getTypeOfUnit() == TypeOfUnit.WORKER)
+            return 0;
+        return 1;
+    }
+
 
     public static boolean hasOwnerShip(Unit currentUnit, GameController gameController) {
         for (Unit unit : gameController.getCurrentCivilization().getUnits()) {
@@ -45,6 +67,7 @@ public class UnitController {
         }
         return false;
     }
+
 
     public static String sleep(GameController gameController) {
         // show errors just when you select the unit
@@ -60,10 +83,8 @@ public class UnitController {
 
     public static String fortifyUnit(GameController gameController) {
         Unit selectedUnit = SelectController.selectedUnit;
-
         if (selectedUnit == null)
             return "There isn't any selected unit!";
-
         if (!hasOwnerShip(selectedUnit, gameController))
             return "This unit does not belong to you!";
 
@@ -79,7 +100,6 @@ public class UnitController {
     public void healUnit(Unit unit) {
         // TODO heal!
     }
-
     public static String cancelMission(GameController gameController) {
         if (SelectController.selectedUnit == null)
             return "There isn't any selected unit!";
@@ -89,6 +109,7 @@ public class UnitController {
         // TODO handle unit's movements first!
         // TODO remove all movements!
         return "All of the missions of the selected unit have been canceled!";
+
     }
 
     public static String wake(GameController gameController) {
@@ -121,8 +142,6 @@ public class UnitController {
         }
         return "Unit deleted successfully!";
     }
-
-    // TODO what is this ?
     public String upgrade(Unit unit) {
         return "";
     }
