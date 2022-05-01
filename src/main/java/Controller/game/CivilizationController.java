@@ -1,5 +1,6 @@
 package Controller.game;
 
+import Controller.game.movement.Move;
 import Model.*;
 import Enum.* ;
 
@@ -130,8 +131,9 @@ public class CivilizationController {
             civilization.addKnownTerrain(terrain);
     }
 
-    public static void updateCivilizationElements(Civilization currentCivilization) {
-        //TODO update multi turn moves
+    public static void updateCivilizationElements(GameController gameController) {
+        Civilization civilization = gameController.getCurrentCivilization();
+        Move.UnitMovementsUpdate(civilization , gameController); //TODO update multi turn moves
         //TODO update creating units
         //TODO update research
         //TODO update food, gold and production

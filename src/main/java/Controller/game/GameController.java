@@ -19,7 +19,7 @@ public class GameController {
     private Civilization currentCivilization ;
 
     public GameController() {
-
+        this.turn = 0;
     }
 
     public static int getMapWidth(){

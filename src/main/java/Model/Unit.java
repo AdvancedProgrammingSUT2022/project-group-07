@@ -13,7 +13,7 @@ public class Unit {
     private int turn;
     private int mp;
     private ArrayList<Terrain> pathToGo;
-
+    private int timesMovedThisTurn;
 
     public UnitStatus getUnitStatus() {
         return unitStatus;
@@ -27,6 +27,8 @@ public class Unit {
         this.civilization = civilization;
         this.turn = turn;
         this.mp = typeOfUnit.getMp();
+        this.timesMovedThisTurn = 0;
+        this.pathToGo = new ArrayList<>();
     }
 
     public TypeOfUnit getTypeOfUnit() {
@@ -79,5 +81,12 @@ public class Unit {
 
     public void setPathToGo(ArrayList<Terrain> pathToGo) {
         this.pathToGo = pathToGo;
+    }
+    public int getTimesMovedThisTurn() {
+        return timesMovedThisTurn;
+    }
+
+    public void setTimesMovedThisTurn(int timesMovedThisTurn) {
+        this.timesMovedThisTurn = timesMovedThisTurn;
     }
 }

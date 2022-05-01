@@ -3,6 +3,7 @@ package Controller.game.movement;
 import Controller.game.CivilizationController;
 import Controller.game.GameController;
 import Controller.game.SelectController;
+import Controller.game.TerrainController;
 import Model.Civilization;
 import Model.Location;
 import Model.Terrain;
@@ -56,36 +57,39 @@ public class Move {
         return false;
     }
 
-    public static String checkNeededMpForMove(Location origin, Location destination) {
+    public static String checkNeededMpForMove(ArrayList<Terrain> path , Unit unit) {
         // TODO check if it needs to continue in other turns
-
-        Unit selectedUnit = SelectController.selectedUnit;
-        ArrayList<Terrain> path = TheShortestPath.showPath(origin, destination);
-        ArrayList<Terrain> goThrough = new ArrayList<>();
-        int mp = selectedUnit.getMp();
-
         if (path == null) return "";
+        Location destination = path.get(path.size() - 1).getLocation();
+        ArrayList<Terrain> goThrough = new ArrayList<>();
+        int mp = unit.getMp();
         // TODO river to pass
-        ArrayList<Terrain> path2 = new ArrayList<>(path);
-        path2.remove(0);
-        for (Terrain terrain : path2) {
+        path.remove(0);
+        for (Terrain terrain : path) {
             mp -= terrain.getMp();
             goThrough.add(terrain);
             if (mp <= 0) {
-                selectedUnit.setLocation(terrain.getLocation());
-                SelectController.currentLocation = terrain.getLocation();
-                // updating fog of war using static method of CivilizationController
-                CivilizationController.updateFogOfWar(selectedUnit.getCivilization(), GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
+                unit.setLocation(terrain.getLocation());
+                CivilizationController.updateFogOfWar(unit.getCivilization(), GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
+                unit.setTimesMovedThisTurn(10);
+                updateGonePath(unit , goThrough);
                 return "Selected unit moved to ( " + terrain.getLocation().getX() + " , " + terrain.getLocation().getY() + " )!";
             }
         }
 
         // updating fog of war using static method of CivilizationController
-        CivilizationController.updateFogOfWar(selectedUnit.getCivilization(), GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
+        CivilizationController.updateFogOfWar(unit.getCivilization(), GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
 
-        SelectController.selectedUnit.setLocation(destination);
-        SelectController.currentLocation = destination;
+        unit.setLocation(destination);
+        unit.setTimesMovedThisTurn(unit.getTimesMovedThisTurn() + 1);
+        updateGonePath(unit , goThrough);
         return "Selected unit moved to position ( " + destination.getX() + " , " + destination.getY() + " ) successfully!";
+    }
+
+    private static void updateGonePath(Unit unit, ArrayList<Terrain> goThrough) {
+        for (Terrain terrain : goThrough) {
+            unit.getPathToGo().remove(terrain);
+        }
     }
 
     public static boolean SameHomeUnitInDestination(Location destination, GameController gameController) {
@@ -99,10 +103,13 @@ public class Move {
         return false;
     }
 
-    public static void multiTurnMovesUpdate(Civilization civilization) {
+    public static void UnitMovementsUpdate(Civilization civilization, GameController gameController) {
+        for (Unit unit : civilization.getUnits()) {unit.setTimesMovedThisTurn(0);}
         for (Unit unit : civilization.getUnits()) {
-            //if (!unit.getPathToGo().isEmpty())
-
+            if (!unit.getPathToGo().isEmpty()) {
+                moveUnit(unit.getPathToGo() , gameController , unit
+                , unit.getPathToGo().get(unit.getPathToGo().size() - 1).getLocation());
+            }
         }
     }
 }
