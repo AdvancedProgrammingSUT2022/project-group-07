@@ -1,5 +1,6 @@
 package Controller.menu;
 
+
 import Controller.game.*;
 import Controller.game.movement.Move;
 import Model.User;
@@ -33,7 +34,6 @@ public class GameMenuController {
         SelectController.selectedUnit = null;
         MapController.setMapCenter(gameController.getCurrentCivilization().getUnits().get(0).getLocation());
         CivilizationController.updateCivilizationElements(gameController.getCurrentCivilization());
-
         return output;
     }
 
