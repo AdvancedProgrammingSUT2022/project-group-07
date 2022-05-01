@@ -1,5 +1,6 @@
 package Controller.menu;
 
+
 import Controller.game.*;
 import Controller.game.movement.Move;
 import Model.User;
@@ -24,7 +25,9 @@ public class GameMenuController {
         if (index == gameController.getCivilizations().size() - 1) {
             gameController.setTurn(gameController.getTurn() + 1);
             gameController.setCurrentCivilization(gameController.getCivilizations().get(0));
-            output = "next player!\nnew turn!";
+            SelectController.selectedUnit = null;
+            MapController.setMapCenter(gameController.getCurrentCivilization().getUnits().get(0).getLocation());
+            return "next player!\nnew turn!";
         }
         else {
             gameController.setCurrentCivilization(gameController.getCivilizations().get(index + 1));
