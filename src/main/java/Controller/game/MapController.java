@@ -18,7 +18,7 @@ public class MapController {
     private static MapFrame frame = null ;
     private static Location mapCenter = null ;
 
-    private static ArrayList<TypeOfTerrain> getAreaTypeOfTerrains (Location location){
+    private static ArrayList<TypeOfTerrain> getAreaTypeOfTerrains (Location location) {
         int x = location.getX();
         int y = location.getY();
         ArrayList<TypeOfTerrain> out = new ArrayList<>() ;
