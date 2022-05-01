@@ -2,6 +2,8 @@ package Model;
 import Enum.TypeOfUnit;
 import Enum.UnitStatus;
 
+import java.util.ArrayList;
+
 public class Unit {
     private TypeOfUnit typeOfUnit;
     private UnitStatus unitStatus;
@@ -10,6 +12,8 @@ public class Unit {
     private Civilization civilization;
     private int turn;
     private int mp;
+    private ArrayList<Terrain> pathToGo;
+
 
     public UnitStatus getUnitStatus() {
         return unitStatus;
@@ -67,5 +71,13 @@ public class Unit {
 
     public void setMp(int mp) {
         this.mp = mp;
+    }
+
+    public ArrayList<Terrain> getPathToGo() {
+        return pathToGo;
+    }
+
+    public void setPathToGo(ArrayList<Terrain> pathToGo) {
+        this.pathToGo = pathToGo;
     }
 }

@@ -74,6 +74,9 @@ public enum GameMenuCommands {
     MAP_SHOW_LOCATION("map show (?<X>\\d+) (?<Y>\\d+)") ,
     MAP_MOVE("map move (?<direction>[RLUD])"),
 
+    // cheats : !!
+    INCREASE_TURN("increase turn (?<amount>\\d+)"),
+    INCREASE_GOLD("increase gold (?<amount>\\d+)"),
     // next turn : !!
     NEXT_TURN("next turn");
 
