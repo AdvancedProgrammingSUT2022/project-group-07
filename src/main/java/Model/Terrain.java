@@ -14,6 +14,7 @@ public class Terrain {
     private Location location;
     private Improvement improvement;
     private int mp;
+    private Technology technology;
 
     public Terrain(TypeOfTerrain typeOfTerrain, TerrainFeatures terrainFeatures, boolean hasRiver,
                    ArrayList<Resources> resource, Location location, Improvement improvement) {
@@ -67,5 +68,17 @@ public class Terrain {
         price += resources.size()*5 ;
         price += 5 ;
         return price ;
+    }
+
+    public void setTerrainFeatures(TerrainFeatures terrainFeatures) {
+        this.terrainFeatures = terrainFeatures;
+    }
+
+    public Technology getTechnology() {
+        return technology;
+    }
+
+    public void setTechnology(Technology technology) {
+        this.technology = technology;
     }
 }

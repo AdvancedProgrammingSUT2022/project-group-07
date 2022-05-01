@@ -19,7 +19,6 @@ import Enum.TerrainFeatures;
 import static Controller.game.movement.Move.*;
 
 public class UnitController {
-
     private static City selectedCity = SelectController.selectedCity;
 
     public static String moveUnit(Matcher matcher, GameController gameController) {
@@ -69,6 +68,7 @@ public class UnitController {
         return false;
     }
 
+
     public static String sleep(GameController gameController) {
         // show errors just when you select the unit
         if (SelectController.selectedUnit == null)
@@ -83,10 +83,8 @@ public class UnitController {
 
     public static String fortifyUnit(GameController gameController) {
         Unit selectedUnit = SelectController.selectedUnit;
-
         if (selectedUnit == null)
             return "There isn't any selected unit!";
-
         if (!hasOwnerShip(selectedUnit, gameController))
             return "This unit does not belong to you!";
 
@@ -94,12 +92,14 @@ public class UnitController {
                 || selectedUnit.getTypeOfUnit() == TypeOfUnit.SETTLER)
             return "The selected unit is " + selectedUnit.getTypeOfUnit().getName()
                     + ". It should be a combatUnit for this action!";
+
+        // TODO HEAL and main things to do!
         return "";
     }
+
     public void healUnit(Unit unit) {
         // TODO heal!
     }
-
     public static String cancelMission(GameController gameController) {
         if (SelectController.selectedUnit == null)
             return "There isn't any selected unit!";
@@ -109,6 +109,7 @@ public class UnitController {
         // TODO handle unit's movements first!
         // TODO remove all movements!
         return "All of the missions of the selected unit have been canceled!";
+
     }
 
     public static String wake(GameController gameController) {
@@ -141,7 +142,6 @@ public class UnitController {
         }
         return "Unit deleted successfully!";
     }
-
     public String upgrade(Unit unit) {
         return "";
     }
