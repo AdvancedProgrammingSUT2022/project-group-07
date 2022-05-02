@@ -98,10 +98,6 @@ public class GameMenu extends Menu{
             }
 
             // unit commands ::
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CREATE_UNIT)) != null){
-                String result = UnitController.checkRequiredTechsAndResourcesToCreateUnit(matcher, gameController);
-                System.out.println(result);
-            }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_MOVE_TO)) != null){
                 String result = UnitController.moveUnit(matcher , gameController , SelectController.selectedUnit);
                 System.out.println(result);
@@ -159,11 +155,11 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_BUILD_ROAD)) != null){
-                String result = Worker.buildRoad(matcher, gameController);
+                String result = Worker.checkToBuildRoad(matcher, gameController);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_BUILD_RAILROAD)) != null){
-                String result = Worker.buildRailRoad(matcher, gameController);
+                String result = Worker.checkToBuildRailRoad(matcher, gameController);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REMOVE_MARSH)) != null){

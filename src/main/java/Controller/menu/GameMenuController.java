@@ -20,7 +20,6 @@ public class GameMenuController {
         GameMenuController.users = users;
     }
 
-
     public String nextTurn(GameController gameController) {
         int index = gameController.getCivilizations().indexOf(gameController.getCurrentCivilization());
         String output;

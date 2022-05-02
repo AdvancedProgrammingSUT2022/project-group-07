@@ -15,6 +15,8 @@ public class Terrain {
     private Improvement improvement;
     private int mp;
     private Technology technology;
+    private boolean hasRailRoad;
+    private boolean hasRoad;
     private ArrayList<RiverSide> riverSides ;
 
     public Terrain(TypeOfTerrain typeOfTerrain, TerrainFeatures terrainFeatures,
@@ -77,6 +79,21 @@ public class Terrain {
         this.technology = technology;
     }
 
+    public boolean isHasRailRoad() {
+        return hasRailRoad;
+    }
+
+    public void setHasRailRoad(boolean hasRailRoad) {
+        this.hasRailRoad = hasRailRoad;
+    }
+
+    public boolean isHasRoad() {
+        return hasRoad;
+    }
+
+    public void setHasRoad(boolean hasRoad) {
+        this.hasRoad = hasRoad;
+    }
 
     public void setRiverSides(ArrayList<RiverSide> terrainRiverSides){
         for (RiverSide terrainRiverSide : terrainRiverSides) {

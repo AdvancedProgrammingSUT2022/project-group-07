@@ -1,8 +1,11 @@
 package View;
 
+import Controller.game.City.CreateUnit;
+import Controller.game.CityController;
 import Controller.game.CityController;
 import Controller.game.GameController;
 import Controller.game.SelectController;
+import Controller.game.UnitController;
 import Controller.game.citizen.CitizenController;
 import Enum.regexes.CityMenuCommands;
 import Enum.regexes.GameMenuCommands;
@@ -30,9 +33,11 @@ public class CityMenu extends Menu {
             if (CityMenuCommands.getMatcher(input, CityMenuCommands.EXIT) != null)
                 break;
             else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.CREATE_UNIT)) != null) {
-
+                String result = CreateUnit.checkRequiredTechsAndResourcesToCreateUnit(matcher, gameController);
+                System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.BUY_UNIT_WITH_GOLD)) != null) {
-
+                String result = CreateUnit.buyUnitWithGold(gameController);
+                System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.EMPLOY_CITIZEN_TO_TILE)) != null) {
                 String result = CitizenController.lock(city , matcher , gameController);
                 System.out.println(result);

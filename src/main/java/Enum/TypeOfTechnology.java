@@ -48,8 +48,7 @@ public enum TypeOfTechnology {
     RAILROAD("Railroad" , 1900 , new TypeOfTechnology[]{STEAM_POWER} , 14 , 2) ,
     REPLACEABLE_PARTS("Replaceable Parts" , 1900 , new TypeOfTechnology[]{STEAM_POWER} , 14 , 2) ,
     COMBUSTION("Combustion" , 2200 , new TypeOfTechnology[]{REPLACEABLE_PARTS , RAILROAD , DYNAMITE} , 14 , 2) ,
-    TELEGRAPH("Telegraph" , 2200 , new TypeOfTechnology[]{ELECTRICITY} , 14 , 2) ;
-
+    TELEGRAPH("Telegraph" , 2200 , new TypeOfTechnology[]{ELECTRICITY} , 14 , 2);
 
     TypeOfTechnology(String name , int cost , TypeOfTechnology[] prerequisiteTech,
                      int turnsNeeded , int scienceNeeded){

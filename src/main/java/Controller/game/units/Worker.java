@@ -1,40 +1,113 @@
 package Controller.game.units;
 
-import Controller.game.GameController;
-import Controller.game.NonCombatUnitController;
-import Controller.game.SelectController;
-import Controller.game.UnitController;
-import Model.Location;
-import Model.Terrain;
-import Model.Unit;
+import Controller.game.*;
+import Model.*;
 import Enum.TypeOfUnit;
 import Enum.TerrainFeatures;
+import Enum.TypeOfTechnology;
+import Enum.TypeOfTerrain;
 
+import java.lang.reflect.Type;
+import java.util.Scanner;
+import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 
 public class Worker {
 
-    // TODO handle the same errors
     // TODO handle statics!
+    // TODO x, y
     public static String buildImprovement(Matcher matcher, GameController gameController) {
         return "";
     }
 
-    public static String buildRoad(Matcher matcher, GameController gameController) {
+    public static String checkToBuildRoad(Matcher matcher, GameController gameController) {
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
+        Location currentLocation = new Location(x, y);
         String error = findError(gameController);
+        Terrain terrain;
+        String forbidden;
 
         if (error != null)
             return error;
-
-        Location currentLocation = new Location(x, y);
-        // TODO build road --> what is road?
-        return "";
+        if ((terrain = TerrainController.getTerrainByLocation(currentLocation)) == null)
+            return "Position ( " + x + " , " + y + " ) is not valid!";
+        if (!hasRequiredTech(gameController.getCurrentCivilization(), TypeOfTechnology.THE_WHEEL))
+            return "Your civilization doesn't have wheel to build road!";
+        if ((forbidden = hasForbiddenFeatures(terrain)) != null)
+            return "You can't build road in this location because there is " + forbidden + " here!";
+        SelectController.selectedUnit.addRoadsAboutToBeBuilt(new Road(3, currentLocation));
+        return "Road will be created in next 3 turns!";
     }
 
-    public static String buildRailRoad(Matcher matcher, GameController gameController) {
-        return "";
+    public static String checkToBuildRailRoad(Matcher matcher, GameController gameController) {
+        int x = Integer.parseInt(matcher.group("X"));
+        int y = Integer.parseInt(matcher.group("Y"));
+        Location selectedLocation = new Location(x, y);
+        String error = findError(gameController);
+        String forbidden;
+        Terrain terrain;
+
+        if (error != null)
+            return error;
+        if ((terrain = TerrainController.getTerrainByLocation(selectedLocation)) == null)
+            return "Position ( " + x + " , " + y + " ) is not valid!";
+        if (!hasEnoughGoldToBuy(gameController, TypeOfTechnology.RAILROAD))
+            return "You don't have enough gold to build railroad!";
+        if ((forbidden = hasForbiddenFeatures(terrain)) != null)
+            return "You can't build railroad in this location because there is " + forbidden + " here!";
+        if (!hasRequiredTech(gameController.getCurrentCivilization(), TypeOfTechnology.STEAM_POWER))
+            return "Your civilization doesn't have steam-power to build railroad!";
+        // TODO turns needed to build railroad!!
+        Technology railRoad = new Technology(TypeOfTechnology.RAILROAD);
+        railRoad.setLocation(selectedLocation);
+        SelectController.selectedUnit.addRailroadsAboutToBeBuilt(railRoad);
+        return "Road will be created in next " + TypeOfTechnology.RAILROAD.getTurnsNeeded() + " turns!";
+    }
+
+    private static boolean hasEnoughGoldToBuy(GameController gameController, TypeOfTechnology technology) {
+        return (gameController.getCurrentCivilization().getGold() >= technology.getCost());
+    }
+
+    public static String buildRoad(Location location, Road road, Civilization civilization) {
+        // TODO any money?!
+        SelectController.selectedUnit.getRoadsAboutToBeBuilt().remove(road);
+        Terrain terrain = TerrainController.getTerrainByLocation(location);
+        assert terrain != null;
+        terrain.setHasRoad(true);
+        civilization.setNumberOfRailroadsAndRoads(1);
+        return "Road created successfully in location ( "
+                + location.getX() + " , " + location.getY() + " ) !";
+    }
+
+    public static String buildRailRoad(Location location, Technology railRoad, Civilization civilization) {
+        SelectController.selectedUnit.getRailroadsAboutToBeBuilt().remove(railRoad);
+        Terrain terrain = TerrainController.getTerrainByLocation(location);
+        assert terrain != null;
+        civilization.addTechonolgy(railRoad);
+        terrain.setHasRailRoad(true);
+        civilization.setNumberOfRailroadsAndRoads(1);
+        // TODO money
+        return "Railroad created successfully in location ( "
+                + location.getX() + " , " + location.getY() + " ) !";
+    }
+
+    private static String hasForbiddenFeatures(Terrain currentTerrain) {
+        if (currentTerrain.getTypeOfTerrain() == TypeOfTerrain.MOUNTAIN
+                || currentTerrain.getTypeOfTerrain() == TypeOfTerrain.OCEAN)
+            return currentTerrain.getTypeOfTerrain().getName();
+        if (currentTerrain.getTerrainFeatures() == TerrainFeatures.ICE)
+            return "ice";
+        return null;
+    }
+
+    private static boolean hasRequiredTech(Civilization civilization, TypeOfTechnology typeOfTech) {
+        for (Technology technology : civilization.getGainedTechnologies()) {
+            if (technology.getTypeOfTechnology() == typeOfTech) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static String removeJungle(Matcher matcher, GameController gameController) {
@@ -47,9 +120,11 @@ public class Worker {
         if (error != null)
             return error;
 
-        Location currentLocation = new Location(x, y);
+        Location selectedLocation = new Location(x, y);
 
-        if ((currentTerrain = NonCombatUnitController.isJungleOrForestHere(currentLocation)) == null)
+        if (!SelectController.positionIsValid(selectedLocation))
+            return "Position ( " + x + " , " + y + " ) is not valid!";
+        if ((currentTerrain = NonCombatUnitController.isJungleOrForestHere(selectedLocation)) == null)
             return "There isn't any forest or jungle in this location!";
 
         feature = currentTerrain.getTerrainFeatures();

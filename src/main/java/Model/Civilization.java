@@ -22,6 +22,7 @@ public class Civilization {
     private int science ;
     private Technology currentResearch ;
     private User owner ;
+    private int numberOfRailroadsAndRoads;
 
     public Civilization (String name , User owner){
         this.owner = owner;
@@ -38,6 +39,7 @@ public class Civilization {
         this.science = 0 ;
         this.currentResearch = null ;
     }
+
     public Civilization (String name , City capital , User owner){
         this.owner = owner;
         this.name = name ;
@@ -186,6 +188,14 @@ public class Civilization {
 
     public void setCapital(City capital) {
         this.capital = capital;
+    }
+
+    public int getNumberOfRailroadsAndRoads() {
+        return numberOfRailroadsAndRoads;
+    }
+
+    public void setNumberOfRailroadsAndRoads(int numberOfRailroadsAndRoads) {
+        this.numberOfRailroadsAndRoads += numberOfRailroadsAndRoads;
     }
 
     public void setVisibleTerrains (ArrayList<Terrain> visibleTerrains){

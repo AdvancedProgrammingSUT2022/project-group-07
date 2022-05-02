@@ -1,6 +1,8 @@
 package Controller.game;
 
 import Controller.game.movement.Move;
+import Controller.game.units.Worker;
+import Controller.game.update.UpdateCityElements;
 import Model.*;
 import Enum.* ;
 
@@ -74,7 +76,8 @@ public class CivilizationController {
             out.add(map[upperRow][rightCol]);
         else
             out.add(map[upperRow][leftCol]);
-        out.addAll(Arrays.asList(map[y]).subList(leftCol, rightCol + 1));
+        for (int col=leftCol ; col<=rightCol ; col++)
+            out.add(map[y][col]) ;
         out.add(map[lowerRow][x]);
         if (y%2==1)
             out.add(map[lowerRow][rightCol]);
@@ -124,6 +127,14 @@ public class CivilizationController {
 
     public static void updateCivilizationElements(GameController gameController) {
         Civilization civilization = gameController.getCurrentCivilization();
+        Move.UnitMovementsUpdate(civilization , gameController);
+        // maintenance
+        UpdateCityElements.maintenance(civilization);
+        UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
+        UpdateCityElements.updateRoadsAboutToBeCreated(civilization);
+        UpdateCityElements.updateRailRoadsAboutToBeCreated(civilization);
+        //TODO update multi turn moves
+        //TODO update research
         Move.UnitMovementsUpdate(civilization , gameController); //TODO update multi turn moves
         //TODO update creating units
         updateResearch(civilization);
