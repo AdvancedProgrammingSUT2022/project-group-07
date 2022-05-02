@@ -28,7 +28,7 @@ public enum GameMenuCommands {
     SELECT_UNIT_COMBAT("select unit combat (?<X>\\d+) (?<Y>\\d+)"),
     SELECT_UNIT_NONCOMBAT("select unit noncombat (?<X>\\d+) (?<Y>\\d+)"),
     SELECT_CITY_BY_LOCATION("select city (?<X>\\d+) (?<Y>\\d+)"), // ham mitoone ba esm ham ba location select kone!
-    SELECT_CITY_BY_NAME("select city (?<cityName>[a-zA-Z]+)") ,
+    SELECT_CITY_BY_NAME("select city (?<cityName>[a-zA-Z0-9\\s]+)") ,
 
     // city commands : !!!
     CITY_BUY_TILE("city buy tile (?<X>\\d+) (?<Y>\\d+)") ,

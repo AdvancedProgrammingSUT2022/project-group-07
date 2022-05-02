@@ -101,7 +101,9 @@ public class CivilizationController {
         // now we iterate on each of these 6 neighbours and find their neighbours again
         // if terrain is not mountain we add all of it's neighbours to an arrayList
         // at the end , we add contents of array list to knownTerrains of our civilization
+        // also after buying a tile , radius 2 of it should become known
         ArrayList<Unit> units = civilization.getUnits();
+        ArrayList<City> cities = civilization.getCities();
         ArrayList<Terrain> shouldBeAdd = new ArrayList<Terrain>();
         ArrayList<Terrain> visibleTerrains = new ArrayList<Terrain>();
         for (Unit unit : units) {
@@ -113,21 +115,28 @@ public class CivilizationController {
                     shouldBeAdd.addAll(secondLayerNeighbours);
             }
         }
+        for (City city : cities) {
+            for (Terrain terrain : city.getTerrains()) {
+                ArrayList<Terrain> firstLayerNeighbours = getNeighbourTerrainsByRadius1(terrain.getLocation() , map , mapWidth , mapHeight) ;
+                shouldBeAdd.addAll(firstLayerNeighbours);
+                for (Terrain firstLayerNeighbour : firstLayerNeighbours) {
+                    ArrayList<Terrain> secondLayerNeighbours = getNeighbourTerrainsByRadius1(firstLayerNeighbour.getLocation() , map , mapWidth , mapHeight) ;
+                    shouldBeAdd.addAll(secondLayerNeighbours);
+                }
+            }
+        }
         for (Terrain terrain : shouldBeAdd) {
             civilization.addKnownTerrain(terrain);
             if (!visibleTerrains.contains(terrain))
                 visibleTerrains.add(terrain);
         }
         civilization.setVisibleTerrains(visibleTerrains);
-        System.out.println("number of visible terrains are : " + civilization.getVisibleTerrains().size());
-        System.out.println("number of revealed terrains are : " + civilization.getKnownTerrains().size());
     }
 
     public static void updateCivilizationElements(GameController gameController) {
         Civilization civilization = gameController.getCurrentCivilization();
         Move.UnitMovementsUpdate(civilization , gameController); //TODO update multi turn moves
         //TODO update creating units
-        // update research
         updateResearch(civilization);
         //TODO update food, gold and production
         //TODO update citizens food consumption

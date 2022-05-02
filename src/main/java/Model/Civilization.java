@@ -9,8 +9,8 @@ public class Civilization {
     // known terrain is a revealed tile , a civilization can see it's typeOfTerrain all the times
     // but it may not see it's improvements or ownership
     private ArrayList<Terrain> knownTerrains ;
-    // visible terrain is a tile very close to a unit , a civilization can always see all of
-    // it's improvements and ownership while a unit is near this tile
+    // visible terrain is a tile very close to a unit or a terrain of civilization
+    // a civilization can always see all improvements and ownership while a unit is near this tile
     private ArrayList<Terrain> visibleTerrains ;
     private ArrayList<Technology> gainedTechnologies ;
     private String name ;
