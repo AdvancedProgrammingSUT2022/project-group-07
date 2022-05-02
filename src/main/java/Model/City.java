@@ -89,9 +89,6 @@ public class City {
     public int getProduction() {
         return production;
     }
-    public int setProduction(int production) {
-        return this.production += production;
-    }
 
     public ArrayList<TypeOfUnit> getWantedUnits() {
         return wantedUnits;

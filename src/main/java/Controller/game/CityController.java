@@ -1,7 +1,12 @@
 package Controller.game;
 
 import Model.City;
+import Model.Civilization;
 import Model.Terrain;
+import Model.Unit;
+import Enum.TypeOfUnit;
+import Enum.UnitStatus;
+import Model.Location;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -105,7 +110,7 @@ public class CityController {
         Unit newUnit = new Unit(typeOfUnit, UnitStatus.ACTIVE, location, typeOfUnit.getHp(), currentCivilization, turn);
         currentCivilization.addUnit(newUnit);
         city.getWantedUnits().remove(typeOfUnit);
-        city.setProduction(-1 * typeOfUnit.getCost());
+        city.setProduction(city.getProduction() - typeOfUnit.getCost());
         return typeOfUnit + " has been added successfully in location ( "
                 + location.getX() + " , " + location.getY() + " ) !";
     }

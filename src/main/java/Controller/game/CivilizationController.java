@@ -152,7 +152,7 @@ public class CivilizationController {
                 unit.setTurnsNeededToCreate(unit.getCost() / city.getProduction());
                 if (city.getProduction() >= unit.getCost()) {
                     Terrain cityCenter = city.getTerrains().get(0);
-                    city.setProduction(-1 * unit.getCost());
+                    city.setProduction(city.getProduction() - unit.getCost());
                     CityController.createUnit(currentCivilization, unit, cityCenter.getLocation(), city);
                 }
             }
