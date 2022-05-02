@@ -111,15 +111,13 @@ public class MapController {
      * @param typeOfTerrain type of the terrain
      * @return an array list of resources int this terrain
      */
-    private static ArrayList<Resources> generateResources(final TypeOfTerrain typeOfTerrain , final TerrainFeatures terrainFeatures){
+    private static Resources generateResources(final TypeOfTerrain typeOfTerrain , final TerrainFeatures terrainFeatures){
         Random rand = new Random();
-        ArrayList<Resources> out = new ArrayList<>();
         Resources[] possibleResources = typeOfTerrain.getPossibleResources();
         if (possibleResources!=null) {
             for (Resources possibleResource : possibleResources) {
                 if (rand.nextInt()%4==0) {
-                    out.add(possibleResource);
-                    return out;
+                    return possibleResource;
                 }
             }
         }
@@ -127,12 +125,11 @@ public class MapController {
             Resources[] possibleTerrainFeatureResources = terrainFeatures.getPossibleResources();
             for (Resources possibleTerrainFeatureResource : possibleTerrainFeatureResources) {
                 if (rand.nextInt() % 4 == 0) {
-                    out.add(possibleTerrainFeatureResource);
-                    return out ;
+                    return possibleTerrainFeatureResource;
                 }
             }
         }
-        return out;
+        return null;
     }
 
     /**
@@ -194,7 +191,6 @@ public class MapController {
         for (int y=0 ; y<mapHeight ; y++){
             for (int x=0 ; x<mapWidth ; x++){
                 boolean hasRiver = generateRiverChance(map[y][x]);
-                map[y][x].setHasRiver(hasRiver);
                 if (!hasRiver)
                     continue;
                 map[y][x].setRiverSides(generateRiverSidesPattern());
@@ -240,8 +236,8 @@ public class MapController {
             for (int x=0 ; x<mapWidth ; x++){
                 TypeOfTerrain typeOfTerrainUsed = generateTypeOfTerrain(new Location(x,y)) ;
                 TerrainFeatures typeOfTerrainFeatureUsed = generateTypeOfTerrainFeature(typeOfTerrainUsed);
-                ArrayList<Resources> resources = generateResources(typeOfTerrainUsed , typeOfTerrainFeatureUsed);
-                map[y][x] = new Terrain(typeOfTerrainUsed , typeOfTerrainFeatureUsed, true , resources , new Location(x,y) , null) ;
+                Resources resources = generateResources(typeOfTerrainUsed , typeOfTerrainFeatureUsed);
+                map[y][x] = new Terrain(typeOfTerrainUsed , typeOfTerrainFeatureUsed , resources , new Location(x,y) , null) ;
             }
         }
         generateRivers();

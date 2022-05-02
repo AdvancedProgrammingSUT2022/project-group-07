@@ -179,7 +179,7 @@ public class UnitController {
         ArrayList<Resources> ownedResources = new ArrayList<>();
 
         for (Terrain terrain : selectedCity.getTerrains()) {
-            ownedResources.addAll(terrain.getResources());
+            ownedResources.add(terrain.getResources());
         }
         return ownedResources.contains(requiredResource);
     }
