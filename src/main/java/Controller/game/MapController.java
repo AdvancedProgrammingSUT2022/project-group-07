@@ -5,6 +5,7 @@ import Enum.Resources ;
 import Enum.TypeOfTerrain ;
 import Enum.TerrainFeatures ;
 import Enum.MapDimension;
+import Enum.RiverSide;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -120,6 +121,80 @@ public class MapController {
     }
 
     /**
+     * a function to generate chance of having a river in each tile of map based on it's neighbours
+     * @param terrain tile to decide
+     * @return boolean chance of having river or not (false , true)
+     */
+    private static boolean generateRiverChance(Terrain terrain){
+        ArrayList<Terrain> neighbours = CivilizationController.getNeighbourTerrainsByRadius1(terrain.getLocation() , map , mapWidth , mapHeight) ;
+        for (Terrain neighbour : neighbours) {
+            if (neighbour.getTypeOfTerrain()==TypeOfTerrain.DESERT)
+                return false;
+        }
+        return new Random().nextInt(7) == 0;
+    }
+
+    /**
+     * a function to generate random pattern of river for on tile
+     * @return pattern of riversides
+     */
+    private static ArrayList<RiverSide> generateRiverSidesPattern(){
+        Random rand = new Random();
+        int randNumber = rand.nextInt(4);
+        return switch (randNumber) {
+            case 0 -> new ArrayList<RiverSide>() {
+                {
+                    add(RiverSide.UPPER_LEFT);
+                    add(RiverSide.UPPER_RIGHT);
+                }
+            };
+            case 1 -> new ArrayList<RiverSide>() {
+                {
+                    add(RiverSide.UPPER_LEFT);
+                    add(RiverSide.LEFT);
+                    add(RiverSide.LOWER_LEFT);
+                }
+            };
+            case 2 -> new ArrayList<RiverSide>() {
+                {
+                    add(RiverSide.LOWER_LEFT);
+                    add(RiverSide.LOWER_RIGHT);
+                }
+            };
+            case 3 -> new ArrayList<RiverSide>() {
+                {
+                    add(RiverSide.UPPER_RIGHT);
+                    add(RiverSide.RIGHT);
+                    add(RiverSide.LOWER_RIGHT);
+                }
+            };
+            default -> null;
+        };
+    }
+
+    /**
+     * a function to create rivers on map
+     */
+    private static void generateRivers(){
+        for (int y=0 ; y<mapHeight ; y++){
+            for (int x=0 ; x<mapWidth ; x++){
+                boolean hasRiver = generateRiverChance(map[y][x]);
+                map[y][x].setHasRiver(hasRiver);
+                if (!hasRiver)
+                    continue;
+                map[y][x].setRiverSides(generateRiverSidesPattern());
+            }
+        }
+    }
+
+    /**
+     * a function to sync river sides between two neighbours
+     */
+    private static void syncRiverSides(){
+
+    }
+
+    /**
      * a function to initialize starting map
      * @return map initialized map
      */
@@ -135,6 +210,8 @@ public class MapController {
                 map[y][x] = new Terrain(typeOfTerrainUsed , typeOfTerrainFeatureUsed, true , resources , new Location(x,y) , null) ;
             }
         }
+        generateRivers();
+        syncRiverSides();
         return map ;
     }
 
@@ -168,7 +245,6 @@ public class MapController {
             frame.dispose();
         frame = new MapFrame(MapDimension.STANDARD , map , mapCenter , civilizations ,currentCivilization);
     }
-
 
     public static String  showMapOnLocation(Matcher matcher){
         String out = "" ;
