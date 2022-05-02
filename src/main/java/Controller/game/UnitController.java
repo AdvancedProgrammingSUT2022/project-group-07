@@ -103,8 +103,7 @@ public class UnitController {
 
         if (!hasOwnerShip(SelectController.selectedUnit, gameController))
             return "This unit does not belong to you!";
-        // TODO handle unit's movements first!
-        // TODO remove all movements!
+        // TODO remove all movements or jobs !!
         return "All of the missions of the selected unit have been canceled!";
 
     }

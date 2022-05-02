@@ -2,6 +2,7 @@ package Controller.game;
 
 import Controller.game.movement.Move;
 import Controller.game.units.Worker;
+import Controller.game.update.UpdateCityElements;
 import Model.*;
 import Enum.* ;
 
@@ -136,56 +137,13 @@ public class CivilizationController {
         Civilization civilization = gameController.getCurrentCivilization();
         Move.UnitMovementsUpdate(civilization , gameController);
         civilization.setGold(civilization.getGold() - civilization.getNumberOfRailroadsAndRoads());
-        updateUnitsAboutToBeCreate(civilization);
-        updateRoadsAboutToBeCreated(civilization);
-        updateRailRoadsAboutToBeCreated(civilization);
+        UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
+        UpdateCityElements.updateRoadsAboutToBeCreated(civilization);
+        UpdateCityElements.updateRailRoadsAboutToBeCreated(civilization);
         //TODO update multi turn moves
         //TODO update research
         //TODO update food, gold and production
         //TODO update citizens food consumption
         //TODO harchidige ke moond!
-    }
-
-    private static void updateUnitsAboutToBeCreate(Civilization currentCivilization) {
-        for (City city : currentCivilization.getCities()) {
-            for (TypeOfUnit unit : city.getWantedUnits()) {
-                unit.setTurnsNeededToCreate(unit.getCost() / city.getProduction());
-                if (city.getProduction() >= unit.getCost()) {
-                    Terrain cityCenter = city.getTerrains().get(0);
-                    city.setProduction(city.getProduction() - unit.getCost());
-                    CityController.createUnit(currentCivilization, unit, cityCenter.getLocation(), city);
-                }
-            }
-        }
-    }
-
-    private static void updateRoadsAboutToBeCreated(Civilization currentCivilization) {
-        Location location;
-        for (Unit unit : currentCivilization.getUnits()) {
-            if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
-                for (Road road : unit.getRoadsAboutToBeBuilt()) {
-                    road.setTurnsNeeded(-1);
-                    if (road.getTurnsNeeded() == 0) {
-                        location = road.getLocation();
-                        Worker.buildRoad(location, road, currentCivilization);
-                    }
-                }
-            }
-        }
-    }
-
-    private static void updateRailRoadsAboutToBeCreated(Civilization currentCivilization) {
-        Location location;
-        for (Unit unit : currentCivilization.getUnits()) {
-            if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
-                for (Technology railroad : unit.getRailroadsAboutToBeBuilt()){
-                    railroad.setRemainingTurns(-1);
-                    if (railroad.getRemainingTurns() == 0) {
-                        location = railroad.getLocation();
-                        Worker.buildRailRoad(location, railroad, currentCivilization);
-                    }
-                }
-            }
-        }
     }
 }
