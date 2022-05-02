@@ -15,9 +15,11 @@ public class Unit {
     private int mp;
     private ArrayList<Terrain> pathToGo;
     private int timesMovedThisTurn;
-    private ArrayList<Improvement> improvementsAboutToBeCreated;
-    private ArrayList<Road> roadsAboutToBeBuilt;
-    private ArrayList<Technology> railroadsAboutToBeBuilt;
+    // TODO extend
+    // TODO should it be static?
+    private static ArrayList<Improvement> improvementsAboutToBeCreated = new ArrayList<>();
+    private static ArrayList<Road> roadsAboutToBeBuilt = new ArrayList<>();
+    private static ArrayList<Technology> railroadsAboutToBeBuilt = new ArrayList<>();
 
     public UnitStatus getUnitStatus() {
         return unitStatus;

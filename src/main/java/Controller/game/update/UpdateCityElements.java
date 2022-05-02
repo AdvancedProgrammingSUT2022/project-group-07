@@ -48,4 +48,9 @@ public class UpdateCityElements {
             }
         }
     }
+
+    // just for selected civilization!
+    public static void maintenance(Civilization civilization) {
+        civilization.setGold(civilization.getGold() - civilization.getNumberOfRailroadsAndRoads());
+    }
 }

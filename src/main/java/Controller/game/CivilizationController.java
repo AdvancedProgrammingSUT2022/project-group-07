@@ -139,7 +139,8 @@ public class CivilizationController {
     public static void updateCivilizationElements(GameController gameController) {
         Civilization civilization = gameController.getCurrentCivilization();
         Move.UnitMovementsUpdate(civilization , gameController);
-        civilization.setGold(civilization.getGold() - civilization.getNumberOfRailroadsAndRoads());
+        // maintenance
+        UpdateCityElements.maintenance(civilization);
         UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
         UpdateCityElements.updateRoadsAboutToBeCreated(civilization);
         UpdateCityElements.updateRailRoadsAboutToBeCreated(civilization);
