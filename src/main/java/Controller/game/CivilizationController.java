@@ -4,6 +4,7 @@ import Model.*;
 import Enum.* ;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CivilizationController {
     private static Civilization civilization;
@@ -18,7 +19,7 @@ public class CivilizationController {
 
     /**
      * a function to update all resources of a civilization
-     * @param civilization current civilizatio to update
+     * @param civilization current civilization to update
      */
     public static void updateAll(Civilization civilization){
         // TODO: update all information and go to the next civilization
@@ -97,8 +98,7 @@ public class CivilizationController {
             out.add(map[upperRow][rightCol]);
         else
             out.add(map[upperRow][leftCol]);
-        for (int col=leftCol ; col<=rightCol ; col++)
-            out.add(map[y][col]) ;
+        out.addAll(Arrays.asList(map[y]).subList(leftCol, rightCol + 1));
         out.add(map[lowerRow][x]);
         if (y%2==1)
             out.add(map[lowerRow][rightCol]);
