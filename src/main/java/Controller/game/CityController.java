@@ -1,10 +1,7 @@
 package Controller.game;
 
-import Model.*;
-import Enum.TypeOfUnit;
-import Enum.Resources;
-import Enum.TypeOfTechnology;
-import Enum.UnitStatus;
+import Model.City;
+import Model.Terrain;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -15,14 +12,14 @@ import static Controller.game.SelectController.selectedCity;
 public class CityController {
 
     public static boolean isCitySelected(){
-        return selectedCity != null;
+        return SelectController.selectedCity != null;
     }
 
     public static String showTilesOwned(){
         StringBuilder out = new StringBuilder();
         if (!isCitySelected())
             return "select a city first" ;
-        for (Terrain terrain : selectedCity.getTerrains()) {
+        for (Terrain terrain : SelectController.selectedCity.getTerrains()) {
             String add = terrain.getTypeOfTerrain() + " : " + terrain.getLocation().getX() + " , " + terrain.getLocation().getY() ;
             out.append(add).append("\n");
         }
@@ -32,10 +29,10 @@ public class CityController {
     private static ArrayList<Terrain> getAvailableTilesToBuy(final Terrain[][] map , int mapWidth , int mapHeight){
         ArrayList<Terrain> tileAvailable = new ArrayList<>();
         ArrayList<Terrain> allCivilizationOwnedTiles = new ArrayList<>();
-        for (City city : selectedCity.getOwnership().getCities())
+        for (City city : SelectController.selectedCity.getOwnership().getCities())
             allCivilizationOwnedTiles.addAll(city.getTerrains());
 
-        for (Terrain terrain : selectedCity.getTerrains()) {
+        for (Terrain terrain : SelectController.selectedCity.getTerrains()) {
             ArrayList<Terrain> neighbours = CivilizationController.getNeighbourTerrainsByRadius1(terrain.getLocation() , map , mapWidth , mapHeight) ;
             for (Terrain neighbour : neighbours) {
                 if (!tileAvailable.contains(neighbour)
