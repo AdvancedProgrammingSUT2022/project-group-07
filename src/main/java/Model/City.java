@@ -72,8 +72,16 @@ public class City {
             this.terrains.add(terrain);
     }
 
+    public void setFood(int food) {
+        this.food = food;
+    }
+
+    public void setProduction(int production) {
+        this.production = production;
+    }
+
     public void setGold(int gold) {
-        this.gold += gold;
+        this.gold = gold;
     }
 
     public int getProduction() {

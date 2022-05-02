@@ -229,6 +229,22 @@ public class GameMenu extends Menu{
                 String result = Cheat.goldCheat(matcher , gameController);
                 System.out.println(result);
             }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INCREASE_FOOD)) != null) {
+                String result = Cheat.foodCheat(matcher , gameController);
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INCREASE_SCIENCE)) != null) {
+                String result = Cheat.scienceCheat(matcher , gameController);
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INCREASE_PRODUCTION)) != null) {
+                String result = Cheat.productionCheat(matcher , gameController);
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INCREASE_HAPPINESS)) != null) {
+                String result = Cheat.happinessCheat(matcher , gameController);
+                System.out.println(result);
+            }
             else System.out.println("invalid command ayoub");
         }
 
