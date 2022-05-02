@@ -3,7 +3,7 @@ package Enum;
 public enum TypeOfImprovement {
     CAMP("camp", 0, 0, 0, TypeOfTechnology.TRAPPING, 1111,
             new String[]{"forest","tundra", "plain", "hill"}),
-    FARM("farm", 0, 1, 0, TypeOfTechnology.AGRICULTURE, 1111,
+    FARM("farm", 0, 1, 0, TypeOfTechnology.AGRICULTURE, 6,
             new String[]{"plain", "desert", "grassland"}),
     LUMBER_MILL("lumberMill", 0, 0, 1, TypeOfTechnology.CONSTRUCTION ,1111,
             new String[]{"forest"}),

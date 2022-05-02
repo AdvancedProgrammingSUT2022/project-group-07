@@ -133,6 +133,7 @@ public class CivilizationController {
         UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
         UpdateCityElements.updateRoadsAboutToBeCreated(civilization);
         UpdateCityElements.updateRailRoadsAboutToBeCreated(civilization);
+        UpdateCityElements.updateImprovementsAboutToBeCreated(civilization);
         //TODO update multi turn moves
         //TODO update research
         Move.UnitMovementsUpdate(civilization , gameController); //TODO update multi turn moves

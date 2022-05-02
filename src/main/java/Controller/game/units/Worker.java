@@ -6,18 +6,81 @@ import Enum.TypeOfUnit;
 import Enum.TerrainFeatures;
 import Enum.TypeOfTechnology;
 import Enum.TypeOfTerrain;
+import Enum.Resources;
+import Enum.TypeOfImprovement;
 
-import java.lang.reflect.Type;
-import java.util.Scanner;
-import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 
 public class Worker {
-
     // TODO handle statics!
     // TODO x, y
     public static String buildImprovement(Matcher matcher, GameController gameController) {
+        String improvement = matcher.group("improvement");
+        int x = Integer.parseInt(matcher.group("X"));
+        int y = Integer.parseInt(matcher.group("Y"));
+        Location location = new Location(x, y);
+
+        if (improvement.equals("farm"))
+            return checkToBuildFarm(gameController, location);
+
         return "";
+    }
+
+    private static String checkToBuildFarm(GameController gameController, Location location) {
+        Civilization civilization = gameController.getCurrentCivilization();
+        String error = findError(gameController);
+        Terrain terrain;
+        String forbidden;
+        int turn;
+
+        if (error != null)
+            return error;
+        if ((terrain = TerrainController.getTerrainByLocation(location)) == null)
+            return "Position ( " + location.getX() + " , " + location.getY() + " ) is not valid!";
+        if (!hasRequiredTech(civilization, TypeOfTechnology.AGRICULTURE))
+            return "Your civilization doesn't have agriculture tech to build farm!";
+        if (hasAnyResource(terrain) != null)
+            return "This terrain has a resource, so you can't build farm there!";
+        if ((forbidden = hasForbiddenFeatures(terrain)) != null)
+            return "You can't build farm in this location because there is " + forbidden + " here!";
+//        if (hasRequiredTech(gameController.getCurrentCivilization(), TypeOfTechnology.MINING))
+        // TODO can have method
+        if (terrain.getTerrainFeatures() == TerrainFeatures.FOREST) {
+            if (hasRequiredTech(civilization, TypeOfTechnology.MINING))
+                turn = 10;
+            else
+                return "You can't build farm here because you don't have mining tech!";
+        } else if (terrain.getTerrainFeatures() == TerrainFeatures.JUNGLE) {
+            if (hasRequiredTech(civilization, TypeOfTechnology.BRONZE_WORKING))
+                turn = 13;
+            else
+                return "You can't build farm here because you don't have bronze-working tech!";
+        }
+        else if (terrain.getTerrainFeatures() == TerrainFeatures.MARSH) {
+            if (hasRequiredTech(civilization, TypeOfTechnology.MASONRY))
+                turn = 12;
+            else
+                return "You can't build farm here because you don't have masonry tech!";
+        }
+        else
+            turn = 6;
+        SelectController.selectedUnit.addImprovementsAboutToBeCreated(new Improvement(TypeOfImprovement.FARM, turn, terrain));
+        return "Farm will be created in next " + turn + " turns!";
+    }
+
+    public static String buildFarm(Improvement farm, Unit unit, TerrainFeatures featureToBeRemoved) {
+        if (featureToBeRemoved == TerrainFeatures.FOREST
+                || featureToBeRemoved == TerrainFeatures.JUNGLE
+                || featureToBeRemoved == TerrainFeatures.MARSH)
+            farm.getTerrain().setTerrainFeatures(null);
+
+        farm.getTerrain().setImprovement(farm);
+        unit.getImprovementsAboutToBeCreated().remove(farm);
+        return "Farm created successfully!";
+    }
+
+    private static Resources hasAnyResource(Terrain destination) {
+        return destination.getResources();
     }
 
     public static String checkToBuildRoad(Matcher matcher, GameController gameController) {
@@ -33,7 +96,7 @@ public class Worker {
         if ((terrain = TerrainController.getTerrainByLocation(currentLocation)) == null)
             return "Position ( " + x + " , " + y + " ) is not valid!";
         if (!hasRequiredTech(gameController.getCurrentCivilization(), TypeOfTechnology.THE_WHEEL))
-            return "Your civilization doesn't have wheel to build road!";
+            return "Your civilization doesn't have wheel tech to build road!";
         if ((forbidden = hasForbiddenFeatures(terrain)) != null)
             return "You can't build road in this location because there is " + forbidden + " here!";
         SelectController.selectedUnit.addRoadsAboutToBeBuilt(new Road(3, currentLocation));
@@ -57,9 +120,10 @@ public class Worker {
         if ((forbidden = hasForbiddenFeatures(terrain)) != null)
             return "You can't build railroad in this location because there is " + forbidden + " here!";
         if (!hasRequiredTech(gameController.getCurrentCivilization(), TypeOfTechnology.STEAM_POWER))
-            return "Your civilization doesn't have steam-power to build railroad!";
-        // TODO turns needed to build railroad!!
+            return "Your civilization doesn't have steam-power tech to build railroad!";
+        // TODO turns needed to build railroad !!
         Technology railRoad = new Technology(TypeOfTechnology.RAILROAD);
+        railRoad.setRemainingTurns(TypeOfTechnology.RAILROAD.getTurnsNeeded());
         railRoad.setLocation(selectedLocation);
         SelectController.selectedUnit.addRailroadsAboutToBeBuilt(railRoad);
         return "Road will be created in next " + TypeOfTechnology.RAILROAD.getTurnsNeeded() + " turns!";
@@ -69,24 +133,26 @@ public class Worker {
         return (gameController.getCurrentCivilization().getGold() >= technology.getCost());
     }
 
-    public static String buildRoad(Location location, Road road, Civilization civilization) {
+    public static String buildRoad(Road road, Civilization civilization) {
         // TODO any money?!
+        Location location = road.getLocation();
         SelectController.selectedUnit.getRoadsAboutToBeBuilt().remove(road);
         Terrain terrain = TerrainController.getTerrainByLocation(location);
         assert terrain != null;
         terrain.setHasRoad(true);
-        civilization.setNumberOfRailroadsAndRoads(1);
+        civilization.setNumberOfRailroadsAndRoads(civilization.getNumberOfRailroadsAndRoads() - 1);
         return "Road created successfully in location ( "
                 + location.getX() + " , " + location.getY() + " ) !";
     }
 
-    public static String buildRailRoad(Location location, Technology railRoad, Civilization civilization) {
+    public static String buildRailRoad(Technology railRoad, Civilization civilization) {
+        Location location = railRoad.getLocation();
         SelectController.selectedUnit.getRailroadsAboutToBeBuilt().remove(railRoad);
         Terrain terrain = TerrainController.getTerrainByLocation(location);
         assert terrain != null;
         civilization.addTechonolgy(railRoad);
         terrain.setHasRailRoad(true);
-        civilization.setNumberOfRailroadsAndRoads(1);
+        civilization.setNumberOfRailroadsAndRoads(civilization.getNumberOfRailroadsAndRoads() - 1);
         // TODO money
         return "Railroad created successfully in location ( "
                 + location.getX() + " , " + location.getY() + " ) !";
@@ -101,7 +167,7 @@ public class Worker {
         return null;
     }
 
-    private static boolean hasRequiredTech(Civilization civilization, TypeOfTechnology typeOfTech) {
+    public static boolean hasRequiredTech(Civilization civilization, TypeOfTechnology typeOfTech) {
         for (Technology technology : civilization.getGainedTechnologies()) {
             if (technology.getTypeOfTechnology() == typeOfTech) {
                 return true;

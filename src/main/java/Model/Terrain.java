@@ -25,7 +25,7 @@ public class Terrain {
         this.terrainFeatures = terrainFeatures;
         this.resources = resource;
         this.location = location;
-        this.improvement = improvement;
+//        this.improvement = improvement;
         this.riverSides = new ArrayList<RiverSide>();
         this.mp = typeOfTerrain.getMpNeeded();
         if (terrainFeatures != null)
@@ -109,5 +109,9 @@ public class Terrain {
 
     public ArrayList<RiverSide> getRiverSides() {
         return riverSides;
+    }
+
+    public void setImprovement(Improvement improvement) {
+        this.improvement = improvement;
     }
 }

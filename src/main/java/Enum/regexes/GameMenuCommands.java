@@ -50,7 +50,7 @@ public enum GameMenuCommands {
     UNIT_DELETE("unit delete"),
 
                    // az inja male kargaras !!!
-    UNIT_BUILD_IMPROVEMENT("unit build (?<improvement>[a-zA-Z]+)"), // baraye zirbakhsh be khode typeOfImrpovement morajeE shavad!
+    UNIT_BUILD_IMPROVEMENT("unit build (?<improvement>[a-zA-Z]+) in (?<X>\\d+) (?<Y>\\d+)"), // baraye zirbakhsh be khode typeOfImrpovement morajeE shavad!
     CREATE_UNIT("create unit (?<unit>[a-zA-Z]+)"),
     BUY_UNIT_WITH_GOLD("buy unit (?<unitNumber>\\d+) with gold"),
     UNIT_REMOVE_JUNGLE("unit remove jungle (?<X>\\d+) (?<Y>\\d+)"),

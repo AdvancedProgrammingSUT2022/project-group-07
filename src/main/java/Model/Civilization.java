@@ -195,7 +195,7 @@ public class Civilization {
     }
 
     public void setNumberOfRailroadsAndRoads(int numberOfRailroadsAndRoads) {
-        this.numberOfRailroadsAndRoads += numberOfRailroadsAndRoads;
+        this.numberOfRailroadsAndRoads = numberOfRailroadsAndRoads;
     }
 
     public void setVisibleTerrains (ArrayList<Terrain> visibleTerrains){

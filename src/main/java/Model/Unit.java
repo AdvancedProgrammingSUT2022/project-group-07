@@ -17,9 +17,9 @@ public class Unit {
     private int timesMovedThisTurn;
     // TODO extend
     // TODO should it be static?
-    private static ArrayList<Improvement> improvementsAboutToBeCreated = new ArrayList<>();
-    private static ArrayList<Road> roadsAboutToBeBuilt = new ArrayList<>();
-    private static ArrayList<Technology> railroadsAboutToBeBuilt = new ArrayList<>();
+    private ArrayList<Improvement> improvementsAboutToBeCreated = new ArrayList<>();
+    private ArrayList<Road> roadsAboutToBeBuilt = new ArrayList<>();
+    private ArrayList<Technology> railroadsAboutToBeBuilt = new ArrayList<>();
 
     public UnitStatus getUnitStatus() {
         return unitStatus;
