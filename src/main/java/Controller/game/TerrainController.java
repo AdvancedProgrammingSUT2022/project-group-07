@@ -1,7 +1,10 @@
 package Controller.game;
 
+import Model.Civilization;
 import Model.Location;
 import Model.Terrain;
+import Model.TerrainOutput;
+import Enum.TypeOfResource;
 
 public class TerrainController {
     public static Terrain getTerrainByLocation(Location location) {
@@ -14,5 +17,35 @@ public class TerrainController {
             }
         }
         return null;
+    }
+
+    public static TerrainOutput getTerrainsOutput(Civilization civilization, Terrain terrain) {
+        TerrainOutput terrainOutput = new TerrainOutput();
+        terrainOutput.setFood(terrainOutput.getFood() + terrain.getTypeOfTerrain().getFood());
+        terrainOutput.setGold(terrainOutput.getGold() + terrain.getTypeOfTerrain().getGold());
+        terrainOutput.setProduction(terrainOutput.getProduction() + terrain.getTypeOfTerrain().getProduction());
+        if (terrain.getTerrainFeatures() != null) {
+            terrainOutput.setFood(terrainOutput.getFood() + terrain.getTerrainFeatures().getFood());
+            terrainOutput.setGold(terrainOutput.getGold() + terrain.getTerrainFeatures().getGold());
+            terrainOutput.setProduction(terrainOutput.getProduction() + terrain.getTerrainFeatures().getProduction());
+        }
+        if (terrain.getResources() != null && resourceIsAvailable(terrain , civilization)) {
+            terrainOutput.setFood(terrainOutput.getFood() + terrain.getResources().getFood());
+            terrainOutput.setGold(terrainOutput.getGold() + terrain.getResources().getGold());
+            terrainOutput.setProduction(terrainOutput.getProduction() + terrain.getResources().getProduction());
+        }
+        return terrainOutput;
+    }
+
+    private static boolean resourceIsAvailable(Terrain terrain, Civilization civilization) {
+        if (terrain.getResources().getImprovementNeeded() == null) return true;
+        if (terrain.getResources().getImprovementNeeded() == terrain.getImprovement().getImprovement()) {
+            if (terrain.getResources().getTechnologyNeeded() == null)
+                return true;
+            if (ResearchController.isTechnologyAlreadyAchieved(
+                    terrain.getResources().getTechnologyNeeded(), civilization))
+                return true;
+        }
+        return false;
     }
 }
