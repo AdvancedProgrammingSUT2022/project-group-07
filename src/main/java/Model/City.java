@@ -1,8 +1,8 @@
 package Model;
 
 import java.util.ArrayList;
-
 import Enum.Building;
+import Enum.TypeOfUnit;
 
 public class City {
 
@@ -15,6 +15,7 @@ public class City {
     private int hp;
     private Civilization ownership;
     private ArrayList<Building> buildings;
+    private ArrayList<TypeOfUnit> wantedUnits = new ArrayList<>();
 
 
     public City(String name, Civilization ownership) {
@@ -37,19 +38,15 @@ public class City {
     public int getGold() {
         return gold;
     }
-
     public int getFood() {
         return food;
     }
-
     public ArrayList<Citizen> getCitizens() {
         return citizens;
     }
-
     public ArrayList<Terrain> getTerrains() {
         return terrains;
     }
-
     public Civilization getOwnership() {
         return ownership;
     }
@@ -89,6 +86,14 @@ public class City {
 
     public int getProduction() {
         return production;
+    }
+
+    public ArrayList<TypeOfUnit> getWantedUnits() {
+        return wantedUnits;
+    }
+
+    public void addWantedUnit(TypeOfUnit unit){
+        this.wantedUnits.add(unit) ;
     }
 
     public void setHp(int hp) {
