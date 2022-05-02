@@ -96,6 +96,11 @@ public class Terrain {
         }
     }
 
+    public void addRiverSide (RiverSide riverSide){
+        if (this.riverSides.contains(riverSide))
+            this.riverSides.add(riverSide);
+    }
+
     public ArrayList<RiverSide> getRiverSides() {
         return riverSides;
     }

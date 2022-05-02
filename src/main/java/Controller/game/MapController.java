@@ -8,6 +8,7 @@ import Enum.MapDimension;
 import Enum.RiverSide;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.regex.Matcher;
 
@@ -18,6 +19,20 @@ public class MapController {
     private static int mapWidth ;
     private static MapFrame frame = null ;
     private static Location mapCenter = null ;
+    private static final HashMap<RiverSide , RiverSide> oppositeRiverSides = new HashMap<RiverSide, RiverSide>(){
+        {
+            put(RiverSide.LEFT , RiverSide.RIGHT);
+            put(RiverSide.UPPER_LEFT , RiverSide.LOWER_RIGHT);
+            put(RiverSide.LOWER_LEFT , RiverSide.UPPER_RIGHT);
+            put(RiverSide.RIGHT , RiverSide.LEFT);
+            put(RiverSide.UPPER_RIGHT , RiverSide.LOWER_LEFT);
+            put(RiverSide.LOWER_RIGHT , RiverSide.UPPER_LEFT);
+        }
+    };
+
+    private static boolean isPostionValid(int x , int y){
+        return (x<mapWidth && x>=0 && y<mapHeight && y>=0) ;
+    }
 
     private static ArrayList<TypeOfTerrain> getAreaTypeOfTerrains (Location location) {
         int x = location.getX();
@@ -188,10 +203,29 @@ public class MapController {
     }
 
     /**
+     * a function to handle neighbouring river sides between two tiles
+     * @param riverSide type of river side
+     * @param row y of tile
+     * @param col x of tile
+     */
+    private static void handleRiverSide(RiverSide riverSide , int row , int col){
+        int xToModify = col + riverSide.getxEffect() ;
+        int yToModify = row + riverSide.getyEffect() ;
+        if (!isPostionValid(xToModify , yToModify))
+            return;
+        map[yToModify][xToModify].addRiverSide(oppositeRiverSides.get(riverSide));
+    }
+
+    /**
      * a function to sync river sides between two neighbours
      */
     private static void syncRiverSides(){
-
+        for (int y=0 ; y<mapHeight ; y++){
+            for (int x=0 ; x<mapWidth ; x++){
+                for (RiverSide riverSide : map[y][x].getRiverSides())
+                    handleRiverSide(riverSide , y , x);
+            }
+        }
     }
 
     /**

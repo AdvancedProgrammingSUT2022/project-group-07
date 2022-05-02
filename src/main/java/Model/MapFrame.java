@@ -130,7 +130,7 @@ public class MapFrame extends JFrame {
             }
         }
 
-    /**
+        /**
      * a function to draw rivers on a tile
      * @param g2d grphics 2d object
      * @param terrain tile
@@ -166,16 +166,6 @@ public class MapFrame extends JFrame {
             }
         }
 
-        private ArrayList<Unit> unitsInThisLocation ( int row, int col){
-            ArrayList<Unit> out = new ArrayList<>();
-            for (Civilization civilization : civilizations) {
-                for (Unit unit : civilization.getUnits())
-                    if (unit.getLocation().getY() == row && unit.getLocation().getX() == col)
-                        out.add(unit);
-            }
-            return out;
-        }
-
         public void paint (Graphics g){
             Graphics2D g2d = (Graphics2D) g;
             int firstRow = center.getY() >= 3 ? center.getY() - 3 : 0;
@@ -204,6 +194,7 @@ public class MapFrame extends JFrame {
                     x += rad3over2;
                 for (int col = firstCol; col <= lastCol; col++) {
                     Polygon p = generateHexagon(x, y);
+//                    if (currentCivilization.getKnownTerrains().contains(map[row][col]))
                     drawRivers(g2d , map[row][col] , p);
                     x += rad3over2 * 2;
                 }
@@ -211,5 +202,5 @@ public class MapFrame extends JFrame {
             }
         }
 
-    }
+}
 
