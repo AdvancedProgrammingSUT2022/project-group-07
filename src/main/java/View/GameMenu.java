@@ -92,23 +92,10 @@ public class GameMenu extends Menu{
                 if (result.startsWith("city selected successfully")) new CityMenu(scanner , gameController).run();
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.SELECT_CITY_BY_NAME)) != null){
-
-            }
-
-            // city command ::
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_SHOW_TILES_OWNED)) != null){
-                String result = CityController.showTilesOwned() ;
+                String result = SelectController.selectCityByName(matcher , gameController.getCivilizations()) ;
                 System.out.println(result);
+                if (result.startsWith("city selected successfully")) new CityMenu(scanner , gameController).run();
             }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_SHOW_TILES_AVAILABLE)) != null){
-                String result = CityController.showTilesAvailable(GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()) ;
-                System.out.println(result);
-            }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_BUY_TILE)) != null){
-                String result = CityController.buyTile(matcher , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()) ;
-                System.out.println(result);
-            }
-
 
             // unit commands ::
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CREATE_UNIT)) != null){

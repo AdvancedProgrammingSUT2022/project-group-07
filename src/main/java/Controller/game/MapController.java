@@ -5,8 +5,10 @@ import Enum.Resources ;
 import Enum.TypeOfTerrain ;
 import Enum.TerrainFeatures ;
 import Enum.MapDimension;
+import Enum.RiverSide;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.regex.Matcher;
 
@@ -17,6 +19,20 @@ public class MapController {
     private static int mapWidth ;
     private static MapFrame frame = null ;
     private static Location mapCenter = null ;
+    private static final HashMap<RiverSide , RiverSide> oppositeRiverSides = new HashMap<RiverSide, RiverSide>(){
+        {
+            put(RiverSide.LEFT , RiverSide.RIGHT);
+            put(RiverSide.UPPER_LEFT , RiverSide.LOWER_RIGHT);
+            put(RiverSide.LOWER_LEFT , RiverSide.UPPER_RIGHT);
+            put(RiverSide.RIGHT , RiverSide.LEFT);
+            put(RiverSide.UPPER_RIGHT , RiverSide.LOWER_LEFT);
+            put(RiverSide.LOWER_RIGHT , RiverSide.UPPER_LEFT);
+        }
+    };
+
+    private static boolean isPostionValid(int x , int y){
+        return (x<mapWidth && x>=0 && y<mapHeight && y>=0) ;
+    }
 
     private static ArrayList<TypeOfTerrain> getAreaTypeOfTerrains (Location location) {
         int x = location.getX();
@@ -101,18 +117,115 @@ public class MapController {
         Resources[] possibleResources = typeOfTerrain.getPossibleResources();
         if (possibleResources!=null) {
             for (Resources possibleResource : possibleResources) {
-                if (rand.nextInt()%4==0)
-                    out.add(possibleResource) ;
+                if (rand.nextInt()%4==0) {
+                    out.add(possibleResource);
+                    return out;
+                }
             }
         }
         if (terrainFeatures!=null && terrainFeatures.getPossibleResources()!=null){
             Resources[] possibleTerrainFeatureResources = terrainFeatures.getPossibleResources();
             for (Resources possibleTerrainFeatureResource : possibleTerrainFeatureResources) {
-                if (rand.nextInt() % 4 == 0)
+                if (rand.nextInt() % 4 == 0) {
                     out.add(possibleTerrainFeatureResource);
+                    return out ;
+                }
             }
         }
         return out;
+    }
+
+    /**
+     * a function to generate chance of having a river in each tile of map based on it's neighbours
+     * @param terrain tile to decide
+     * @return boolean chance of having river or not (false , true)
+     */
+    private static boolean generateRiverChance(Terrain terrain){
+        ArrayList<Terrain> neighbours = CivilizationController.getNeighbourTerrainsByRadius1(terrain.getLocation() , map , mapWidth , mapHeight) ;
+        for (Terrain neighbour : neighbours) {
+            if (neighbour.getTypeOfTerrain()==TypeOfTerrain.DESERT)
+                return false;
+        }
+        return new Random().nextInt(7) == 0;
+    }
+
+    /**
+     * a function to generate random pattern of river for on tile
+     * @return pattern of riversides
+     */
+    private static ArrayList<RiverSide> generateRiverSidesPattern(){
+        Random rand = new Random();
+        int randNumber = rand.nextInt(4);
+        return switch (randNumber) {
+            case 0 -> new ArrayList<RiverSide>() {
+                {
+                    add(RiverSide.UPPER_LEFT);
+                    add(RiverSide.UPPER_RIGHT);
+                }
+            };
+            case 1 -> new ArrayList<RiverSide>() {
+                {
+                    add(RiverSide.UPPER_LEFT);
+                    add(RiverSide.LEFT);
+                    add(RiverSide.LOWER_LEFT);
+                }
+            };
+            case 2 -> new ArrayList<RiverSide>() {
+                {
+                    add(RiverSide.LOWER_LEFT);
+                    add(RiverSide.LOWER_RIGHT);
+                }
+            };
+            case 3 -> new ArrayList<RiverSide>() {
+                {
+                    add(RiverSide.UPPER_RIGHT);
+                    add(RiverSide.RIGHT);
+                    add(RiverSide.LOWER_RIGHT);
+                }
+            };
+            default -> null;
+        };
+    }
+
+    /**
+     * a function to create rivers on map
+     */
+    private static void generateRivers(){
+        for (int y=0 ; y<mapHeight ; y++){
+            for (int x=0 ; x<mapWidth ; x++){
+                boolean hasRiver = generateRiverChance(map[y][x]);
+                map[y][x].setHasRiver(hasRiver);
+                if (!hasRiver)
+                    continue;
+                map[y][x].setRiverSides(generateRiverSidesPattern());
+            }
+        }
+    }
+
+    /**
+     * a function to handle neighbouring river sides between two tiles
+     * @param riverSide type of river side
+     * @param row y of tile
+     * @param col x of tile
+     */
+    private static void handleRiverSide(RiverSide riverSide , int row , int col){
+        int xToModify = col + riverSide.getxEffect() ;
+        int yToModify = row + riverSide.getyEffect() ;
+        if (!isPostionValid(xToModify , yToModify))
+            return;
+        map[yToModify][xToModify].addRiverSide(oppositeRiverSides.get(riverSide));
+    }
+
+    /**
+     * a function to sync river sides between two neighbours
+     */
+    private static void syncRiverSides(){
+        for (int y=0 ; y<mapHeight ; y++){
+            for (int x=0 ; x<mapWidth ; x++){
+                for (RiverSide riverSide : map[y][x].getRiverSides())
+                    handleRiverSide(riverSide , y , x);
+            }
+        }
     }
 
     /**
@@ -131,6 +244,8 @@ public class MapController {
                 map[y][x] = new Terrain(typeOfTerrainUsed , typeOfTerrainFeatureUsed, true , resources , new Location(x,y) , null) ;
             }
         }
+        generateRivers();
+        syncRiverSides();
         return map ;
     }
 
@@ -164,7 +279,6 @@ public class MapController {
             frame.dispose();
         frame = new MapFrame(MapDimension.STANDARD , map , mapCenter , civilizations ,currentCivilization);
     }
-
 
     public static String  showMapOnLocation(Matcher matcher){
         String out = "" ;
