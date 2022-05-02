@@ -34,9 +34,7 @@ public class CitizenController {
         for (Civilization civilization : gameController.getCivilizations()) {
             for (City city : civilization.getCities()) {
                 for (Citizen citizen : city.getCitizens()) {
-
                     if (citizen.getTerrain() == null) continue;
-
                     if (citizen.getTerrain().equals(terrain))
                         return true;
                 }

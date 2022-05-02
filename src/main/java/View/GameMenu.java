@@ -112,7 +112,7 @@ public class GameMenu extends Menu{
 
             // unit commands ::
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_MOVE_TO)) != null){
-                String result = UnitController.moveUnit(matcher , gameController);
+                String result = UnitController.moveUnit(matcher , gameController , SelectController.selectedUnit);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_SLEEP)) != null){

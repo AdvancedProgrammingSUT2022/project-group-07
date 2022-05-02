@@ -1,11 +1,10 @@
 package Controller.game;
 
+import Controller.game.movement.Move;
 import Model.*;
 import Enum.* ;
 
 import java.util.ArrayList;
-
-import static Controller.game.SelectController.selectedCity;
 
 public class CivilizationController {
     private static Civilization civilization;
@@ -133,8 +132,12 @@ public class CivilizationController {
     }
 
     public static void updateCivilizationElements(Civilization currentCivilization) {
+        Civilization civilization = gameController.getCurrentCivilization();
+        Move.UnitMovementsUpdate(civilization , gameController);
         updateWantedUnitsToCreate(currentCivilization);
+
         //TODO update multi turn moves
+        //TODO update creating units
         //TODO update research
         //TODO update food, gold and production
         //TODO update citizens food consumption
@@ -153,4 +156,5 @@ public class CivilizationController {
             }
         }
     }
+
 }
