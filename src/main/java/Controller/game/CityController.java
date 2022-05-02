@@ -89,11 +89,4 @@ public class CityController {
         return false;
     }
 
-    public boolean isTileOwned(City city , Terrain terrain) {
-        for (Terrain cityTerrain : city.getTerrains()) {
-            if (cityTerrain.equals(terrain))
-                return true;
-        }
-        return false;
-    }
 }

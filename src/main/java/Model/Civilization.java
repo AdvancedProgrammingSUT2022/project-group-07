@@ -165,7 +165,7 @@ public class Civilization {
     }
 
     public void setGold(int gold) {
-        this.gold += gold;
+        this.gold = gold;
     }
 
     public void setHappiness(int happiness) {
