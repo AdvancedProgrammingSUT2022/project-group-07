@@ -19,7 +19,6 @@ public class City {
     public City (String name , Civilization ownership){
         this.terrains = new ArrayList<Terrain>();
         this.citizens = new ArrayList<Citizen>();
-        this.citizens.add(new Citizen());
         this.name = name ;
         this.happiness = 0 ;
         this.food = 0 ;
@@ -71,5 +70,13 @@ public class City {
     public void addTerrain(Terrain terrain){
         if (!this.terrains.contains(terrain))
             this.terrains.add(terrain);
+    }
+
+    public void setGold(int gold) {
+        this.gold += gold;
+    }
+
+    public int getProduction() {
+        return production;
     }
 }

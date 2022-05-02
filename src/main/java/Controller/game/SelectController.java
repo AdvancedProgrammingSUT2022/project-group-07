@@ -16,12 +16,12 @@ public class SelectController {
     public static String selectNonCombatUnit(Matcher matcher, GameController gameController) {
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
-        currentLocation = new Location(x, y);
+        Location location = new Location(x, y);
 
-        if (!positionIsValid(currentLocation))
+        if (!positionIsValid(location))
             return "Position ( " + x + " , " + y + " ) is not valid!";
 
-        if (!hasUnit(currentLocation , gameController))
+        if (!hasUnit(location , gameController))
             return "There isn't any nonCombatUnit in position ( " + x + " , " + y + " )!";
 
         return "NonCombatUnit selected successfully! \n Info : \n"
@@ -33,8 +33,25 @@ public class SelectController {
                 + "\n-civilization name : " + selectedUnit.getCivilization().getName();
     }
 
-    private String selectCombatUnit(Location location) {
-        return "";
+    // TODO just like selectNonCombatUnit method except the second if!
+    public static String selectCombatUnit(Matcher matcher, GameController gameController) {
+        int x = Integer.parseInt(matcher.group("X"));
+        int y = Integer.parseInt(matcher.group("Y"));
+        Location location = new Location(x, y);
+
+        if (!positionIsValid(location))
+            return "Position ( " + x + " , " + y + " ) is not valid!";
+
+        if (!hasUnit(location , gameController))
+            return "There isn't any combatUnit in position ( " + x + " , " + y + " )!";
+
+        return "NonCombatUnit selected successfully! \n Info : \n"
+                + "-type of unit : " + selectedUnit.getTypeOfUnit()
+                + "\n-unit status : " + selectedUnit.getUnitStatus()
+                + "\n-location : ( " + selectedUnit.getLocation().getX()
+                + " , " + selectedUnit.getLocation().getY() + " )"
+                + "\n-hp : " + selectedUnit.getHp()
+                + "\n-civilization name : " + selectedUnit.getCivilization().getName();
     }
 
     public static boolean positionIsValid(Location location) {

@@ -51,9 +51,14 @@ public enum GameMenuCommands {
 
                    // az inja male kargaras !!!
     UNIT_BUILD_IMPROVEMENT("unit build (?<improvement>[a-zA-Z]+)"), // baraye zirbakhsh be khode typeOfImrpovement morajeE shavad!
-    UNIT_REMOVE_JUNGLE("unit remove jungle"),
-    UNIT_REMOVE_ROUTE("unit remove route"),
+    CREATE_UNIT("create unit (?<unit>[a-zA-Z]+)"),
+    BUY_UNIT_WITH_GOLD("buy unit (?<unitNumber>\\d+) with gold"),
+    UNIT_REMOVE_JUNGLE("unit remove jungle (?<X>\\d+) (?<Y>\\d+)"),
+    UNIT_REMOVE_ROUTE("unit remove route  (?<X>\\d+) (?<Y>\\d+)"),
     UNIT_REPAIR("unit repair"),
+    UNIT_BUILD_ROAD("unit build road (?<X>\\d+) (?<Y>\\d+)"),
+    UNIT_BUILD_RAILROAD("unit build railroad (?<X>\\d+) (?<Y>\\d+)"),
+    UNIT_REMOVE_MARSH("unit remove marsh (?<X>\\d+) (?<Y>\\d+)"),
 
     // research commands : !!!
     RESEARCH_TECHNOLOGY("research technology (?<technologyName>\\w+)") ,
@@ -69,6 +74,9 @@ public enum GameMenuCommands {
     MAP_SHOW_LOCATION("map show (?<X>\\d+) (?<Y>\\d+)") ,
     MAP_MOVE("map move (?<direction>[RLUD])"),
 
+    // cheats : !!
+    INCREASE_TURN("increase turn (?<amount>\\d+)"),
+    INCREASE_GOLD("increase gold (?<amount>\\d+)"),
     // next turn : !!
     NEXT_TURN("next turn");
 

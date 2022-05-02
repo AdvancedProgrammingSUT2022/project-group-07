@@ -1,7 +1,7 @@
 package Enum;
 
 public enum TypeOfTerrain {
-    DESERT("desert", 0, 0, 0, 1,-0.33,
+    DESERT("desert", 0, 0, 0, 1, -0.33,
             new TerrainFeatures[]{TerrainFeatures.OASIS, TerrainFeatures.FLOODPLAINS},
             new Resources[]{Resources.IRON, Resources.GOLD, Resources.SILVER, Resources.MARBLE, Resources.COTTON,
                     Resources.ALOE, Resources.SHEEP}),
@@ -9,7 +9,7 @@ public enum TypeOfTerrain {
             new TerrainFeatures[]{TerrainFeatures.FOREST, TerrainFeatures.MARSH},
             new Resources[]{Resources.IRON, Resources.HORSE, Resources.COAL, Resources.COW, Resources.GOLD,
                     Resources.MARBLE, Resources.COTTON, Resources.SHEEP}),
-    HILL("hill", 0,0, 2, 2, 0.25,
+    HILL("hill", 0, 0, 2, 2, 0.25,
             new TerrainFeatures[]{TerrainFeatures.FOREST, TerrainFeatures.JUNGLE},
             new Resources[]{Resources.IRON, Resources.COAL, Resources.GAZELLE, Resources.GOLD, Resources.SILVER,
                     Resources.MARBLE, Resources.SHEEP}),

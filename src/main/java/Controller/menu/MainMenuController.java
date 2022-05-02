@@ -38,6 +38,7 @@ public class MainMenuController {
     public String logout() {
         MenuName.setCurrentMenu(MenuName.LOGIN_MENU);
         UserController.getCurrentUser().setLoggedIn(false);
+        UserController.setCurrentUser(null);
         return "user logged out successfully!";
     }
 

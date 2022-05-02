@@ -1,7 +1,10 @@
-package Controller.game;
+package Controller.game.movement;
 
+import Controller.game.GameController;
 import Model.Location;
 import Model.Terrain;
+import Enum.TerrainFeatures;
+import Model.Unit;
 
 import java.util.ArrayList;
 
@@ -147,4 +150,9 @@ public class TheShortestPath {
         }
         return -1;
     }
+
+
+    // check if destination is mountain, ocean or river which are impassable
+    // TODO river for destination ?!
+
 }

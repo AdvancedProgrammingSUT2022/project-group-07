@@ -1,5 +1,6 @@
 package Controller.game;
 
+import Controller.game.movement.TheShortestPath;
 import Model.*;
 import Enum.*;
 
@@ -18,7 +19,7 @@ public class GameController {
     private Civilization currentCivilization ;
 
     public GameController() {
-
+        this.turn = 0;
     }
 
     public static int getMapWidth(){
