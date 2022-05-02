@@ -88,7 +88,6 @@ public class CreateUnit {
         Location location = selectedCity.getTerrains().get(0).getLocation();
         if (selectedCity.getGold() >= unit.getCost()) {
             selectedCity.setGold(-1 * unit.getCost());
-            // TODO do i need this?
             currentCivilization.setGold(-1 * unit.getCost());
             return CityController.createUnit(currentCivilization, unit, location, selectedCity);
         }

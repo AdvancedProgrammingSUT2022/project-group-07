@@ -168,11 +168,11 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_BUILD_ROAD)) != null){
-                String result = Worker.buildRoad(matcher, gameController);
+                String result = Worker.checkToBuildRoad(matcher, gameController);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_BUILD_RAILROAD)) != null){
-                String result = Worker.buildRailRoad(matcher, gameController);
+                String result = Worker.checkToBuildRailRoad(matcher, gameController);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REMOVE_MARSH)) != null){

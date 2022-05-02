@@ -17,6 +17,7 @@ public class Civilization {
     private int science ;
     private Technology currentResearch ;
     private User owner ;
+    private int numberOfRailroadsAndRoads;
 
     public Civilization (String name , User owner){
         this.owner = owner;
@@ -165,7 +166,7 @@ public class Civilization {
     }
 
     public void setGold(int gold) {
-        this.gold += gold;
+        this.gold = gold;
     }
 
     public void setHappiness(int happiness) {
@@ -182,5 +183,13 @@ public class Civilization {
 
     public void setCapital(City capital) {
         this.capital = capital;
+    }
+
+    public int getNumberOfRailroadsAndRoads() {
+        return numberOfRailroadsAndRoads;
+    }
+
+    public void setNumberOfRailroadsAndRoads(int numberOfRailroadsAndRoads) {
+        this.numberOfRailroadsAndRoads += numberOfRailroadsAndRoads;
     }
 }

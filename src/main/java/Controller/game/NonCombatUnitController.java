@@ -1,13 +1,16 @@
 package Controller.game;
 
+import Controller.game.units.Worker;
 import Model.*;
 import Enum.TerrainFeatures;
 import Enum.TypeOfTechnology;
+import Enum.TypeOfUnit;
 
 public class NonCombatUnitController {
 
     // TODO type of improvement?
     // TODO handle statics
+    // TODO want a method to just check the location of the terrain --> get terrain by location in TerrainController
 
 //    private boolean isSettlerUnit(Unit unit) {
 //        return true;
@@ -17,8 +20,13 @@ public class NonCombatUnitController {
 //        return "";
 //    }
 //
-//    private boolean isWorker(Unit unit) {
-//        return true;
+//    public static Unit isWorker(Civilization currentCivilization) {
+//        for (Unit unit : currentCivilization.getUnits()) {
+//            if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
+//                return unit;
+//            }
+//        }
+//        return null;
 //    }
 
     private String hasImprovement(Improvement improvement, Location location) {
@@ -31,10 +39,6 @@ public class NonCombatUnitController {
 
     private String buildImprovement(String improvement, Terrain terrain) {
         return "";
-    }
-
-    public static Terrain getTerrainByLocation(Location location, GameController gameController) {
-        return null;
     }
 
     private boolean needsRepairing(Location location) {

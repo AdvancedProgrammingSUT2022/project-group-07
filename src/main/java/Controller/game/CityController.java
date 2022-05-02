@@ -109,6 +109,7 @@ public class CityController {
         currentCivilization.addUnit(newUnit);
         city.getWantedUnits().remove(typeOfUnit);
         city.setProduction(-1 * typeOfUnit.getCost());
-        return typeOfUnit + " has been added successfully!";
+        return typeOfUnit + " has been added successfully in location ( "
+                + location.getX() + " , " + location.getY() + " ) !";
     }
 }

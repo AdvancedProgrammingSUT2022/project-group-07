@@ -1,6 +1,7 @@
 package Model;
 import Enum.TypeOfUnit;
 import Enum.UnitStatus;
+import Enum.TypeOfTechnology;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,9 @@ public class Unit {
     private int mp;
     private ArrayList<Terrain> pathToGo;
     private int timesMovedThisTurn;
+    private ArrayList<Improvement> improvementsAboutToBeCreated;
+    private ArrayList<Road> roadsAboutToBeBuilt;
+    private ArrayList<Technology> railroadsAboutToBeBuilt;
 
     public UnitStatus getUnitStatus() {
         return unitStatus;
@@ -88,5 +92,29 @@ public class Unit {
 
     public void setTimesMovedThisTurn(int timesMovedThisTurn) {
         this.timesMovedThisTurn = timesMovedThisTurn;
+    }
+
+    public ArrayList<Improvement> getImprovementsAboutToBeCreated() {
+        return improvementsAboutToBeCreated;
+    }
+
+    public void addImprovementsAboutToBeCreated(Improvement improvement) {
+        this.improvementsAboutToBeCreated.add(improvement);
+    }
+
+    public ArrayList<Road> getRoadsAboutToBeBuilt() {
+        return roadsAboutToBeBuilt;
+    }
+
+    public void addRoadsAboutToBeBuilt(Road road) {
+        this.roadsAboutToBeBuilt.add(road);
+    }
+
+    public ArrayList<Technology> getRailroadsAboutToBeBuilt() {
+        return railroadsAboutToBeBuilt;
+    }
+
+    public void addRailroadsAboutToBeBuilt(Technology railroad) {
+        this.railroadsAboutToBeBuilt.add(railroad);
     }
 }

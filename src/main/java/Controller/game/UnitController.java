@@ -18,7 +18,7 @@ import static Controller.game.movement.Move.*;
 public class UnitController {
     private static City selectedCity = SelectController.selectedCity;
 
-    public static String moveUnit(Matcher matcher, GameController gameController) {
+    public static String moveUnit(Matcher matcher, GameController gameController, Unit unit) {
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
         Unit selectedUnit = SelectController.selectedUnit;

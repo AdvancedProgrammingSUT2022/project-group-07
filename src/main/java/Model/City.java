@@ -75,7 +75,7 @@ public class City {
     }
 
     public void setGold(int gold) {
-        this.gold += gold;
+        this.gold = gold;
     }
 
     public int getProduction() {
