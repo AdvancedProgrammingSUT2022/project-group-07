@@ -2,6 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 import Enum.Building;
+import Enum.TypeOfUnit;
 
 public class City {
 
@@ -15,6 +16,7 @@ public class City {
     private int hp ;
     private Civilization ownership ;
     private ArrayList<Building> buildings;
+    private ArrayList<TypeOfUnit> wantedUnits = new ArrayList<>();
 
     public City (String name , Civilization ownership){
         this.terrains = new ArrayList<Terrain>();
@@ -78,5 +80,16 @@ public class City {
 
     public int getProduction() {
         return production;
+    }
+    public int setProduction(int production) {
+        return this.production += production;
+    }
+
+    public ArrayList<TypeOfUnit> getWantedUnits() {
+        return wantedUnits;
+    }
+
+    public void addWantedUnit(TypeOfUnit unit){
+        this.wantedUnits.add(unit) ;
     }
 }

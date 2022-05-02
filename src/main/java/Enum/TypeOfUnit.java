@@ -109,4 +109,8 @@ public enum TypeOfUnit {
     public int getTurnsNeededToCreate() {
         return turnsNeededToCreate;
     }
+
+    public void setTurnsNeededToCreate(int turnsNeededToCreate) {
+        this.turnsNeededToCreate = turnsNeededToCreate;
+    }
 }

@@ -1,5 +1,6 @@
 package View;
 
+import Controller.game.City.CreateUnit;
 import Controller.game.CityController;
 import Controller.game.GameController;
 import Controller.game.SelectController;
@@ -30,10 +31,11 @@ public class CityMenu extends Menu {
             if (CityMenuCommands.getMatcher(input, CityMenuCommands.EXIT) != null)
                 break;
             else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.CREATE_UNIT)) != null) {
-                String result = CityController.checkRequiredTechsAndResourcesToCreateUnit(matcher, gameController);
+                String result = CreateUnit.checkRequiredTechsAndResourcesToCreateUnit(matcher, gameController);
                 System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.BUY_UNIT_WITH_GOLD)) != null) {
-
+                String result = CreateUnit.buyUnitWithGold(gameController);
+                System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.EMPLOY_CITIZEN_TO_TILE)) != null) {
                 String result = CitizenController.lock(city , matcher , gameController);
                 System.out.println(result);

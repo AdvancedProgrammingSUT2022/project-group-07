@@ -5,6 +5,8 @@ import Enum.* ;
 
 import java.util.ArrayList;
 
+import static Controller.game.SelectController.selectedCity;
+
 public class CivilizationController {
     private static Civilization civilization;
 
@@ -131,12 +133,24 @@ public class CivilizationController {
     }
 
     public static void updateCivilizationElements(Civilization currentCivilization) {
+        updateWantedUnitsToCreate(currentCivilization);
         //TODO update multi turn moves
-        //TODO update creating units
         //TODO update research
         //TODO update food, gold and production
         //TODO update citizens food consumption
         //TODO harchidige ke moond!
     }
 
+    private static void updateWantedUnitsToCreate(Civilization currentCivilization) {
+        for (City city : currentCivilization.getCities()) {
+            for (TypeOfUnit unit : city.getWantedUnits()) {
+                unit.setTurnsNeededToCreate(unit.getCost() / city.getProduction());
+                if (city.getProduction() >= unit.getCost()) {
+                    Terrain cityCenter = city.getTerrains().get(0);
+                    city.setProduction(-1 * unit.getCost());
+                    CityController.createUnit(currentCivilization, unit, cityCenter.getLocation(), city);
+                }
+            }
+        }
+    }
 }
