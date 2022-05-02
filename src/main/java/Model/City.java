@@ -94,4 +94,5 @@ public class City {
     public void setHp(int hp) {
         this.hp = hp;
     }
+
 }
