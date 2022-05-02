@@ -2,11 +2,13 @@ package View;
 
 import Controller.game.City.CreateUnit;
 import Controller.game.CityController;
+import Controller.game.CityController;
 import Controller.game.GameController;
 import Controller.game.SelectController;
 import Controller.game.UnitController;
 import Controller.game.citizen.CitizenController;
 import Enum.regexes.CityMenuCommands;
+import Enum.regexes.GameMenuCommands;
 import Model.City;
 
 import java.util.Scanner;
@@ -42,7 +44,16 @@ public class CityMenu extends Menu {
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.UNLOCK_CITIZEN)) != null) {
                 String result = CitizenController.unlock(city , matcher);
                 System.out.println(result);
-            } else System.out.println("invalid command from ayoub");
+            } else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_SHOW_TILES_OWNED)) != null){
+                String result = CityController.showTilesOwned() ;
+                System.out.println(result);
+            } else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_SHOW_TILES_AVAILABLE)) != null){
+                String result = CityController.showTilesAvailable(GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()) ;
+                System.out.println(result);
+            } else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_BUY_TILE)) != null){
+                String result = CityController.buyTile(matcher , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()) ;
+                System.out.println(result);
+            }else System.out.println("invalid command from ayoub");
         }
     }
 }

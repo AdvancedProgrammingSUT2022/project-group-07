@@ -3,6 +3,7 @@ package Model;
 import Enum.TypeOfTerrain;
 import Enum.TerrainFeatures;
 import Enum.Resources;
+import Enum.RiverSide;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,7 @@ public class Terrain {
     private Technology technology;
     private boolean hasRailRoad;
     private boolean hasRoad;
+    private ArrayList<RiverSide> riverSides ;
 
     public Terrain(TypeOfTerrain typeOfTerrain, TerrainFeatures terrainFeatures, boolean hasRiver,
                    ArrayList<Resources> resource, Location location, Improvement improvement) {
@@ -27,6 +29,7 @@ public class Terrain {
         this.resources = resource;
         this.location = location;
         this.improvement = improvement;
+        this.riverSides = new ArrayList<RiverSide>();
         this.mp = typeOfTerrain.getMpNeeded();
         if (terrainFeatures != null)
             this.mp += terrainFeatures.getMp();
@@ -98,5 +101,25 @@ public class Terrain {
 
     public void setHasRoad(boolean hasRoad) {
         this.hasRoad = hasRoad;
+    }
+
+    public void setHasRiver(boolean hasRiver){
+        this.hasRiver = hasRiver;
+    }
+
+    public void setRiverSides(ArrayList<RiverSide> terrainRiverSides){
+        for (RiverSide terrainRiverSide : terrainRiverSides) {
+            if (!this.riverSides.contains(terrainRiverSide))
+                this.riverSides.add(terrainRiverSide);
+        }
+    }
+
+    public void addRiverSide (RiverSide riverSide){
+        if (this.riverSides.contains(riverSide))
+            this.riverSides.add(riverSide);
+    }
+
+    public ArrayList<RiverSide> getRiverSides() {
+        return riverSides;
     }
 }

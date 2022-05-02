@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import Enum.MapDimension;
+import Enum.RiverSide;
 
 public class MapFrame extends JFrame {
     private final Terrain[][] map;
@@ -129,14 +130,40 @@ public class MapFrame extends JFrame {
             }
         }
 
-        private ArrayList<Unit> unitsInThisLocation ( int row, int col){
-            ArrayList<Unit> out = new ArrayList<>();
-            for (Civilization civilization : civilizations) {
-                for (Unit unit : civilization.getUnits())
-                    if (unit.getLocation().getY() == row && unit.getLocation().getX() == col)
-                        out.add(unit);
+        /**
+     * a function to draw rivers on a tile
+     * @param g2d grphics 2d object
+     * @param terrain tile
+     * @param polygon used for coordinates
+     */
+        private void drawRivers ( final Graphics2D g2d , final Terrain terrain , Polygon polygon){
+            ArrayList<RiverSide> riverSides = terrain.getRiverSides();
+            int[] x = polygon.xpoints;
+            int[] y = polygon.ypoints;
+            g2d.setColor(Color.blue);
+            g2d.setStroke(new BasicStroke(BasicStroke.CAP_SQUARE));
+            for (RiverSide riverSide : riverSides) {
+                switch (riverSide){
+                    case UPPER_RIGHT -> {
+                        g2d.drawLine(x[2],y[2] , x[3],y[3]);
+                    }
+                    case UPPER_LEFT -> {
+                        g2d.drawLine(x[1],y[1] , x[2],y[2]);
+                    }
+                    case RIGHT -> {
+                        g2d.drawLine(x[3],y[3] , x[4],y[4]);
+                    }
+                    case LEFT -> {
+                        g2d.drawLine(x[0],y[0] , x[1],y[1]);
+                    }
+                    case LOWER_RIGHT -> {
+                        g2d.drawLine(x[4],y[4] , x[5],y[5]);
+                    }
+                    case LOWER_LEFT -> {
+                        g2d.drawLine(x[0],y[0] , x[5],y[5]);
+                    }
+                }
             }
-            return out;
         }
 
         public void paint (Graphics g){
@@ -160,7 +187,20 @@ public class MapFrame extends JFrame {
                 }
                 y += 1.5 * hexagonA;
             }
+            y = 100 ;
+            for (int row = firstRow; row <= lastRow; row++) {
+                int x = 100;
+                if (row % 2 == 1)
+                    x += rad3over2;
+                for (int col = firstCol; col <= lastCol; col++) {
+                    Polygon p = generateHexagon(x, y);
+//                    if (currentCivilization.getKnownTerrains().contains(map[row][col]))
+                    drawRivers(g2d , map[row][col] , p);
+                    x += rad3over2 * 2;
+                }
+                y += 1.5 * hexagonA;
+            }
         }
 
-    }
+}
 
