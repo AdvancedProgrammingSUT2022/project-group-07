@@ -28,18 +28,6 @@ public class CivilizationController {
         updateGold();
         updateResearch();
         updateFood();
-        updateHappiness();
-    }
-
-    /**
-     * a function to update whole happiness of a civilization
-     */
-    public static void updateHappiness(){
-        ArrayList<City> cities = civilization.getCities();
-        int sum = 0 ;
-        for (City city : cities)
-            sum += city.getHappiness();
-        civilization.setHappiness(civilization.getHappiness()+sum);
     }
 
     /**
