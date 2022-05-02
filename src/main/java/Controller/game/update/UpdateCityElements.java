@@ -57,21 +57,27 @@ public class UpdateCityElements {
         for (Unit unit : currentCivilization.getUnits()) {
             if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
                 for (Improvement improvement : unit.getImprovementsAboutToBeCreated()) {
-                    if (improvement.getTypeOfImprovement() == TypeOfImprovement.FARM) {
+                    if (improvement.getTypeOfImprovement() == TypeOfImprovement.FARM)
                         updateFarm(improvement, unit);
-                    }
+                    if (improvement.getTypeOfImprovement() == TypeOfImprovement.MINE)
+                        updateMine(improvement, unit);
                 }
             }
         }
     }
 
+    private static void updateMine(Improvement mine, Unit unit) {
+        TerrainFeatures feature = mine.getTerrain().getTerrainFeatures();
+        mine.setTurn(mine.getTurn() - 1);
+        if (mine.getTurn() == 0)
+            Worker.buildMine(mine, unit, feature);
+    }
+
     private static void updateFarm(Improvement farm, Unit unit) {
         TerrainFeatures feature = farm.getTerrain().getTerrainFeatures();
         farm.setTurn(farm.getTurn() - 1);
-        if (farm.getTurn() == 0) {
+        if (farm.getTurn() == 0)
             Worker.buildFarm(farm, unit, feature);
-        }
-
     }
     // TODO maybe somewhere else!
 }

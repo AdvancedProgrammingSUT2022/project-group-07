@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 public class Worker {
     // TODO handle statics!
     // TODO x, y
+    // TODO the way to use needed technologies
     public static String buildImprovement(Matcher matcher, GameController gameController) {
         String improvement = matcher.group("improvement");
         int x = Integer.parseInt(matcher.group("X"));
@@ -22,8 +23,40 @@ public class Worker {
 
         if (improvement.equals("farm"))
             return checkToBuildFarm(gameController, location);
+        if (improvement.equals("mine"))
+            return checkToBuildMine(gameController, location);
 
         return "";
+    }
+
+    private static String checkToBuildMine(GameController gameController, Location location) {
+        Civilization civilization = gameController.getCurrentCivilization();
+        String error = findError(gameController);
+        Terrain terrain;
+        int turn;
+
+        if (error != null)
+            return error;
+        if ((terrain = TerrainController.getTerrainByLocation(location)) == null)
+            return "Position ( " + location.getX() + " , " + location.getY() + " ) is not valid!";
+        if (!hasRequiredTech(civilization, TypeOfImprovement.MINE.getTypeOfTechnology()))
+            return "Your civilization doesn't have " + TypeOfImprovement.MINE.getTypeOfTechnology().getName() + " tech to build farm!";
+        if (hasAnyResource(terrain) == null
+                && terrain.getTypeOfTerrain() != TypeOfTerrain.HILL)
+            return "This terrain, isn't hill or it doesn't have any resources, so you can not create mine here!";
+
+        turn = Integer.parseInt(setTurn(terrain, civilization));
+        SelectController.selectedUnit.addImprovementsAboutToBeCreated(new Improvement(TypeOfImprovement.MINE, turn, terrain));
+        return "Mine will be created in next " + turn + " turns!";
+    }
+
+    public static String buildMine(Improvement mine, Unit unit, TerrainFeatures featureToBeRemoved) {
+        removeFeature(mine, featureToBeRemoved);
+        mine.getTerrain().setImprovement(mine);
+        unit.getImprovementsAboutToBeCreated().remove(mine);
+        return "Mine created successfully in location ( "
+                + mine.getTerrain().getLocation().getX() + " , "
+                + mine.getTerrain().getLocation().getY() + " ) !";
     }
 
     private static String checkToBuildFarm(GameController gameController, Location location) {
@@ -43,40 +76,48 @@ public class Worker {
             return "This terrain has a resource, so you can't build farm there!";
         if ((forbidden = hasForbiddenFeatures(terrain)) != null)
             return "You can't build farm in this location because there is " + forbidden + " here!";
-//        if (hasRequiredTech(gameController.getCurrentCivilization(), TypeOfTechnology.MINING))
-        // TODO can have method
-        if (terrain.getTerrainFeatures() == TerrainFeatures.FOREST) {
-            if (hasRequiredTech(civilization, TypeOfTechnology.MINING))
-                turn = 10;
-            else
-                return "You can't build farm here because you don't have mining tech!";
-        } else if (terrain.getTerrainFeatures() == TerrainFeatures.JUNGLE) {
-            if (hasRequiredTech(civilization, TypeOfTechnology.BRONZE_WORKING))
-                turn = 13;
-            else
-                return "You can't build farm here because you don't have bronze-working tech!";
-        }
-        else if (terrain.getTerrainFeatures() == TerrainFeatures.MARSH) {
-            if (hasRequiredTech(civilization, TypeOfTechnology.MASONRY))
-                turn = 12;
-            else
-                return "You can't build farm here because you don't have masonry tech!";
-        }
-        else
-            turn = 6;
+
+        turn = Integer.parseInt(setTurn(terrain, civilization));
         SelectController.selectedUnit.addImprovementsAboutToBeCreated(new Improvement(TypeOfImprovement.FARM, turn, terrain));
         return "Farm will be created in next " + turn + " turns!";
     }
 
     public static String buildFarm(Improvement farm, Unit unit, TerrainFeatures featureToBeRemoved) {
+        removeFeature(farm, featureToBeRemoved);
+        farm.getTerrain().setImprovement(farm);
+        unit.getImprovementsAboutToBeCreated().remove(farm);
+        return "Farm created successfully in location ( "
+                + farm.getTerrain().getLocation().getX() + " , "
+                + farm.getTerrain().getLocation().getY() + " ) !";
+    }
+
+    private static void removeFeature(Improvement improvement, TerrainFeatures featureToBeRemoved) {
         if (featureToBeRemoved == TerrainFeatures.FOREST
                 || featureToBeRemoved == TerrainFeatures.JUNGLE
                 || featureToBeRemoved == TerrainFeatures.MARSH)
-            farm.getTerrain().setTerrainFeatures(null);
+            improvement.getTerrain().setTerrainFeatures(null);
+    }
 
-        farm.getTerrain().setImprovement(farm);
-        unit.getImprovementsAboutToBeCreated().remove(farm);
-        return "Farm created successfully!";
+    private static String setTurn(Terrain terrain, Civilization civilization) {
+        if (terrain.getTerrainFeatures() == TerrainFeatures.FOREST) {
+            if (hasRequiredTech(civilization, TypeOfTechnology.MINING))
+                return "10";
+            else
+                return "You can't build farm here because you don't have mining tech!";
+        } else if (terrain.getTerrainFeatures() == TerrainFeatures.JUNGLE) {
+            if (hasRequiredTech(civilization, TypeOfTechnology.BRONZE_WORKING))
+                return "13";
+            else
+                return "You can't build farm here because you don't have bronze-working tech!";
+        }
+        else if (terrain.getTerrainFeatures() == TerrainFeatures.MARSH) {
+            if (hasRequiredTech(civilization, TypeOfTechnology.MASONRY))
+                return "12";
+            else
+                return "You can't build farm here because you don't have masonry tech!";
+        }
+        else
+            return "6";
     }
 
     private static Resources hasAnyResource(Terrain destination) {
