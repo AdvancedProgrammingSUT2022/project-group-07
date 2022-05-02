@@ -21,17 +21,6 @@ public class CivilizationController {
     }
 
     /**
-     * a function to update whole happiness of a civilization
-     */
-    public static void updateHappiness(){
-        ArrayList<City> cities = civilization.getCities();
-        int sum = 0 ;
-        for (City city : cities)
-            sum += city.getHappiness();
-        civilization.setHappiness(civilization.getHappiness()+sum);
-    }
-
-    /**
      * a function to update whole food of a civilization
      */
     public static void updateFood(){

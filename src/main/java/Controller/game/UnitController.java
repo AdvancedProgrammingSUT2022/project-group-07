@@ -6,18 +6,23 @@ import Enum.UnitStatus;
 import Enum.TypeOfUnit;
 import Enum.TypeOfTechnology;
 import Enum.Resources;
+import Controller.game.movement.TheShortestPath;
 import Model.Civilization;
 import Model.Location;
 import Model.Terrain;
 import Model.Unit;
+import Enum.TypeOfUnit;
+
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
+import Enum.TerrainFeatures;
 
 import static Controller.game.movement.Move.*;
 
 public class UnitController {
     private static City selectedCity = SelectController.selectedCity;
+
 
     public static String moveUnit(Matcher matcher, GameController gameController , Unit unit) {
         int x = Integer.parseInt(matcher.group("X"));
