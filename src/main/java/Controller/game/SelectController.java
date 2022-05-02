@@ -93,8 +93,17 @@ public class SelectController {
         return "no city in this location" ;
     }
 
-    private String selectCity(String name) {
-        return "";
+    public static String selectCityByName(Matcher matcher , final  ArrayList<Civilization> civilizations) {
+        String cityName = matcher.group("cityName") ;
+        for (Civilization civilization : civilizations) {
+            for (City city : civilization.getCities()) {
+                if (city.getName().equalsIgnoreCase(cityName)){
+                    selectedCity = city ;
+                    return "city selected successfully" ;
+                }
+            }
+        }
+        return "no city with this name";
     }
 
 }

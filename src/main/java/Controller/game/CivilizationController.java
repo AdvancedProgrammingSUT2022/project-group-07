@@ -5,6 +5,7 @@ import Model.*;
 import Enum.* ;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CivilizationController {
     private static Civilization civilization;
@@ -18,16 +19,14 @@ public class CivilizationController {
     }
 
     /**
-     * a function to update all resources of a civilization
-     * @param civilization current civilizatio to update
+     * a function to update whole happiness of a civilization
      */
-    public static void updateAll(Civilization civilization){
-        // TODO: update all information and go to the next civilization
-        setCivilization(civilization);
-        updateScience();
-        updateGold();
-        updateResearch();
-        updateFood();
+    public static void updateHappiness(){
+        ArrayList<City> cities = civilization.getCities();
+        int sum = 0 ;
+        for (City city : cities)
+            sum += city.getHappiness();
+        civilization.setHappiness(civilization.getHappiness()+sum);
     }
 
     /**
@@ -55,7 +54,7 @@ public class CivilizationController {
     /**
      * a function to update status of a current research
      */
-    public static void updateResearch(){
+    public static void updateResearch(Civilization civilization){
         Technology currentResearch = civilization.getCurrentResearch();
         if (currentResearch==null)
             return;
@@ -86,8 +85,7 @@ public class CivilizationController {
             out.add(map[upperRow][rightCol]);
         else
             out.add(map[upperRow][leftCol]);
-        for (int col=leftCol ; col<=rightCol ; col++)
-            out.add(map[y][col]) ;
+        out.addAll(Arrays.asList(map[y]).subList(leftCol, rightCol + 1));
         out.add(map[lowerRow][x]);
         if (y%2==1)
             out.add(map[lowerRow][rightCol]);
@@ -103,9 +101,11 @@ public class CivilizationController {
         // now we iterate on each of these 6 neighbours and find their neighbours again
         // if terrain is not mountain we add all of it's neighbours to an arrayList
         // at the end , we add contents of array list to knownTerrains of our civilization
+        // also after buying a tile , radius 2 of it should become known
         ArrayList<Unit> units = civilization.getUnits();
+        ArrayList<City> cities = civilization.getCities();
         ArrayList<Terrain> shouldBeAdd = new ArrayList<Terrain>();
-
+        ArrayList<Terrain> visibleTerrains = new ArrayList<Terrain>();
         for (Unit unit : units) {
             ArrayList<Terrain> firstLayerNeighbours = getNeighbourTerrainsByRadius1(unit.getLocation() , map , mapWidth , mapHeight) ;
             shouldBeAdd.addAll(firstLayerNeighbours);
@@ -115,15 +115,29 @@ public class CivilizationController {
                     shouldBeAdd.addAll(secondLayerNeighbours);
             }
         }
-        for (Terrain terrain : shouldBeAdd)
+        for (City city : cities) {
+            for (Terrain terrain : city.getTerrains()) {
+                ArrayList<Terrain> firstLayerNeighbours = getNeighbourTerrainsByRadius1(terrain.getLocation() , map , mapWidth , mapHeight) ;
+                shouldBeAdd.addAll(firstLayerNeighbours);
+                for (Terrain firstLayerNeighbour : firstLayerNeighbours) {
+                    ArrayList<Terrain> secondLayerNeighbours = getNeighbourTerrainsByRadius1(firstLayerNeighbour.getLocation() , map , mapWidth , mapHeight) ;
+                    shouldBeAdd.addAll(secondLayerNeighbours);
+                }
+            }
+        }
+        for (Terrain terrain : shouldBeAdd) {
             civilization.addKnownTerrain(terrain);
+            if (!visibleTerrains.contains(terrain))
+                visibleTerrains.add(terrain);
+        }
+        civilization.setVisibleTerrains(visibleTerrains);
     }
 
     public static void updateCivilizationElements(GameController gameController) {
         Civilization civilization = gameController.getCurrentCivilization();
         Move.UnitMovementsUpdate(civilization , gameController); //TODO update multi turn moves
         //TODO update creating units
-        //TODO update research
+        updateResearch(civilization);
         //TODO update food, gold and production
         //TODO update citizens food consumption
         //TODO harchidige ke moond!
