@@ -19,20 +19,6 @@ public class CivilizationController {
     }
 
     /**
-     * a function to update all resources of a civilization
-     * @param civilization current civilization to update
-     */
-    public static void updateAll(Civilization civilization){
-        // TODO: update all information and go to the next civilization
-        setCivilization(civilization);
-        updateScience();
-        updateGold();
-        updateResearch();
-        updateFood();
-        updateHappiness();
-    }
-
-    /**
      * a function to update whole happiness of a civilization
      */
     public static void updateHappiness(){
@@ -68,7 +54,7 @@ public class CivilizationController {
     /**
      * a function to update status of a current research
      */
-    public static void updateResearch(){
+    public static void updateResearch(Civilization civilization){
         Technology currentResearch = civilization.getCurrentResearch();
         if (currentResearch==null)
             return;
@@ -117,7 +103,7 @@ public class CivilizationController {
         // at the end , we add contents of array list to knownTerrains of our civilization
         ArrayList<Unit> units = civilization.getUnits();
         ArrayList<Terrain> shouldBeAdd = new ArrayList<Terrain>();
-
+        ArrayList<Terrain> visibleTerrains = new ArrayList<Terrain>();
         for (Unit unit : units) {
             ArrayList<Terrain> firstLayerNeighbours = getNeighbourTerrainsByRadius1(unit.getLocation() , map , mapWidth , mapHeight) ;
             shouldBeAdd.addAll(firstLayerNeighbours);
@@ -127,15 +113,22 @@ public class CivilizationController {
                     shouldBeAdd.addAll(secondLayerNeighbours);
             }
         }
-        for (Terrain terrain : shouldBeAdd)
+        for (Terrain terrain : shouldBeAdd) {
             civilization.addKnownTerrain(terrain);
+            if (!visibleTerrains.contains(terrain))
+                visibleTerrains.add(terrain);
+        }
+        civilization.setVisibleTerrains(visibleTerrains);
+        System.out.println("number of visible terrains are : " + civilization.getVisibleTerrains().size());
+        System.out.println("number of revealed terrains are : " + civilization.getKnownTerrains().size());
     }
 
     public static void updateCivilizationElements(GameController gameController) {
         Civilization civilization = gameController.getCurrentCivilization();
         Move.UnitMovementsUpdate(civilization , gameController); //TODO update multi turn moves
         //TODO update creating units
-        //TODO update research
+        // update research
+        updateResearch(civilization);
         //TODO update food, gold and production
         //TODO update citizens food consumption
         //TODO harchidige ke moond!
