@@ -61,9 +61,17 @@ public class UpdateCityElements {
                         updateFarm(improvement, unit);
                     if (improvement.getTypeOfImprovement() == TypeOfImprovement.MINE)
                         updateMine(improvement, unit);
+                    else
+                        updateOtherImprovements(improvement, unit);
                 }
             }
         }
+    }
+
+    private static void updateOtherImprovements(Improvement improvement, Unit unit) {
+        improvement.setTurn(improvement.getTurn() - 1);
+        if (improvement.getTurn() == 0)
+            Worker.buildImprovement(improvement, unit);
     }
 
     private static void updateMine(Improvement mine, Unit unit) {

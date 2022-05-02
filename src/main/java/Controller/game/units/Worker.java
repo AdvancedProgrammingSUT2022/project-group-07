@@ -9,12 +9,18 @@ import Enum.TypeOfTerrain;
 import Enum.Resources;
 import Enum.TypeOfImprovement;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 
 public class Worker {
+    // TODO removes
     // TODO handle statics!
     // TODO x, y
     // TODO the way to use needed technologies
+    // TODO check the valid places to build farm and mine
+    // TODO a method for the second if in check-methods
+    // TODO return of build improvements are not used!
     public static String buildImprovement(Matcher matcher, GameController gameController) {
         String improvement = matcher.group("improvement");
         int x = Integer.parseInt(matcher.group("X"));
@@ -25,8 +31,51 @@ public class Worker {
             return checkToBuildFarm(gameController, location);
         if (improvement.equals("mine"))
             return checkToBuildMine(gameController, location);
+        else
+            return checkOtherImprovementsToBuild(gameController, location, improvement);
+    }
 
-        return "";
+    private static String checkOtherImprovementsToBuild(GameController gameController, Location location, String improvement) {
+        Civilization civilization = gameController.getCurrentCivilization();
+        String error = findError(gameController);
+        Terrain terrain;
+
+        if (error != null)
+            return error;
+        if ((terrain = TerrainController.getTerrainByLocation(location)) == null)
+            return "Position ( " + location.getX() + " , " + location.getY() + " ) is not valid!";
+        for (TypeOfImprovement typeOfImprovement : TypeOfImprovement.values()) {
+            if (typeOfImprovement.getName().equals(improvement)) {
+                ArrayList<String> validPlacesToBuild = new ArrayList<>(Arrays.asList(typeOfImprovement.getCanBeFoundOn()));
+                if ((error = checkValidationOfDestination(validPlacesToBuild, terrain, improvement)) != null)
+                    return error;
+                else {
+                    if (!hasRequiredTech(civilization, typeOfImprovement.getTypeOfTechnology()))
+                        return "Your civilization doesn't have " + TypeOfImprovement.MINE.getTypeOfTechnology().getName()
+                                + " tech to build " + improvement + " !";
+                    SelectController.selectedUnit.addImprovementsAboutToBeCreated(new Improvement(typeOfImprovement, 1111, terrain));
+                    return improvement + " will be created in next " + typeOfImprovement.getTurnsNeeded() + " turns!";
+                }
+            }
+        }
+        return "Improvement is not valid!";
+    }
+
+    private static String checkValidationOfDestination(ArrayList<String> validPlacesToBuild, Terrain terrain, String improvement) {
+        String typeOfTerrain = terrain.getTypeOfTerrain().getName();
+        String featureOfTerrain = terrain.getTerrainFeatures().getName();
+        for (String place : validPlacesToBuild) {
+            if (place.equals(typeOfTerrain)
+                    || place.equals(featureOfTerrain))
+                return null;
+        }
+        return "You can not build " + improvement + " here!";
+    }
+
+    public static String buildImprovement(Improvement improvement, Unit unit) {
+        improvement.getTerrain().setImprovement(improvement);
+        unit.getImprovementsAboutToBeCreated().remove(improvement);
+        return improvement.getTypeOfImprovement().getName() + " created successfully!";
     }
 
     private static String checkToBuildMine(GameController gameController, Location location) {
@@ -40,7 +89,7 @@ public class Worker {
         if ((terrain = TerrainController.getTerrainByLocation(location)) == null)
             return "Position ( " + location.getX() + " , " + location.getY() + " ) is not valid!";
         if (!hasRequiredTech(civilization, TypeOfImprovement.MINE.getTypeOfTechnology()))
-            return "Your civilization doesn't have " + TypeOfImprovement.MINE.getTypeOfTechnology().getName() + " tech to build farm!";
+            return "Your civilization doesn't have " + TypeOfImprovement.MINE.getTypeOfTechnology().getName() + " tech to build mine!";
         if (hasAnyResource(terrain) == null
                 && terrain.getTypeOfTerrain() != TypeOfTerrain.HILL)
             return "This terrain, isn't hill or it doesn't have any resources, so you can not create mine here!";
