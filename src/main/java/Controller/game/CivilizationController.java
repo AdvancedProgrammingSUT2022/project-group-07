@@ -3,6 +3,7 @@ package Controller.game;
 import Controller.game.movement.Move;
 import Controller.game.units.Worker;
 import Controller.game.update.UpdateCityElements;
+import Controller.game.update.UpdateCivilizationElements;
 import Model.*;
 import Enum.* ;
 
@@ -20,46 +21,6 @@ public class CivilizationController {
         return civilization;
     }
 
-    /**
-     * a function to update whole food of a civilization
-     */
-    public static void updateFood(){
-        ArrayList<City> cities = civilization.getCities();
-        int sum = 0 ;
-        for (City city : cities)
-            sum += city.getFood();
-        civilization.setFood(civilization.getFood()+sum);
-    }
-
-    /**
-     *  a function to update whole gold of a civilization
-     */
-    public static void updateGold(){
-        ArrayList<City> cities = civilization.getCities();
-        int sum = 0 ;
-        for (City city : cities)
-            sum += city.getGold();
-        civilization.setGold(civilization.getGold()+sum);
-    }
-
-    /**
-     * a function to update status of a current research
-     */
-    public static void updateResearch(Civilization civilization){
-        Technology currentResearch = civilization.getCurrentResearch();
-        if (currentResearch==null)
-            return;
-        if (currentResearch.getRemainingTurns()==0) {
-            civilization.addTechonolgy(currentResearch);
-            civilization.setCurrentResearch(null);
-        }
-        else
-            currentResearch.setRemainingTurns(currentResearch.getRemainingTurns()-1);
-    }
-
-    public static void updateScience(){
-        // TODO: 4/21/2022 update civilization total science
-    }
 
     public static ArrayList<Terrain> getNeighbourTerrainsByRadius1
             (Location location , Terrain[][]map , int mapWidth , int mapHeight){
@@ -128,6 +89,9 @@ public class CivilizationController {
     public static void updateCivilizationElements(GameController gameController) {
         Civilization civilization = gameController.getCurrentCivilization();
         Move.UnitMovementsUpdate(civilization , gameController);
+        //TODO update resources
+        UpdateCityElements.citizensIncome(civilization);
+        UpdateCivilizationElements.update(civilization);
         // maintenance
         UpdateCityElements.maintenance(civilization);
         UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
@@ -141,6 +105,8 @@ public class CivilizationController {
         updateResearch(civilization);
         //TODO update food, gold and production
         //TODO update citizens food consumption
+        UpdateCityElements.foodConsumption(civilization);
+        Move.UnitMovementsUpdate(civilization , gameController);
         //TODO harchidige ke moond!
     }
 

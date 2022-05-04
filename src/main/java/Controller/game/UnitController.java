@@ -102,6 +102,7 @@ public class UnitController {
     public void healUnit(Unit unit) {
         // TODO heal!
     }
+
     public static String cancelMission(GameController gameController) {
         if (SelectController.selectedUnit == null)
             return "There isn't any selected unit!";

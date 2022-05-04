@@ -18,7 +18,7 @@ public class City {
     private ArrayList<TypeOfUnit> wantedUnits = new ArrayList<>();
 
 
-    public City(String name, Civilization ownership) {
+    public City (String name , Civilization ownership){
         this.terrains = new ArrayList<Terrain>();
         this.citizens = new ArrayList<Citizen>();
         this.name = name;
@@ -50,7 +50,6 @@ public class City {
     public Civilization getOwnership() {
         return ownership;
     }
-
     public int getHp() {
         return hp;
     }
