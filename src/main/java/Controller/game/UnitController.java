@@ -4,19 +4,12 @@ import Controller.game.movement.TheShortestPath;
 import Model.*;
 import Enum.UnitStatus;
 import Enum.TypeOfUnit;
-import Enum.TypeOfTechnology;
-import Enum.Resources;
-import Controller.game.movement.TheShortestPath;
-import Model.Civilization;
 import Model.Location;
 import Model.Terrain;
 import Model.Unit;
-import Enum.TypeOfUnit;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
-
-import Enum.TerrainFeatures;
 
 import static Controller.game.movement.Move.*;
 
@@ -59,7 +52,6 @@ public class UnitController {
             return 0;
         return 1;
     }
-
 
     public static boolean hasOwnerShip(Unit currentUnit, GameController gameController) {
         for (Unit unit : gameController.getCurrentCivilization().getUnits()) {
@@ -104,14 +96,15 @@ public class UnitController {
     }
 
     public static String cancelMission(GameController gameController) {
+        Unit unit = SelectController.selectedUnit;
         if (SelectController.selectedUnit == null)
             return "There isn't any selected unit!";
 
         if (!hasOwnerShip(SelectController.selectedUnit, gameController))
             return "This unit does not belong to you!";
-        // TODO remove all movements or jobs !!
+        unit.getImprovementsAboutToBeCreated().clear();
+        unit.getRoadsAboutToBeBuilt().clear();
         return "All of the missions of the selected unit have been canceled!";
-
     }
 
     public static String wake(GameController gameController) {

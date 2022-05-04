@@ -9,6 +9,8 @@ import Enum.* ;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static Controller.game.update.UpdateCivilizationElements.updateResearch;
+
 public class CivilizationController {
     private static Civilization civilization;
 
@@ -139,19 +141,26 @@ public class CivilizationController {
         //TODO update food, gold and production
         //TODO update citizens food consumption
         Move.UnitMovementsUpdate(civilization , gameController);
-        //TODO update resources
         UpdateCityElements.citizensIncome(civilization);
         UpdateCivilizationElements.update(civilization);
         // maintenance
         UpdateCityElements.cityGrowth(civilization);
         UpdateCityElements.citizenGrowth(civilization);
         UpdateCityElements.maintenance(civilization);
+        UpdateCivilizationElements.update(civilization);
         UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
-        UpdateCityElements.updateRoadsAboutToBeCreated(civilization);
-        UpdateCityElements.updateRailRoadsAboutToBeCreated(civilization);
+        UpdateCityElements.updateRoutsAboutToBeCreated(civilization);
+        UpdateCityElements.updateImprovementsAboutToBeCreated(civilization);
+        Move.UnitMovementsUpdate(civilization , gameController);
+        updateResearch(civilization);
         UpdateCityElements.foodConsumption(civilization);
         Move.UnitMovementsUpdate(civilization , gameController);
         //TODO harchidige ke moond!
+        //TODO update multi turn moves
+        //TODO update food, gold and production
+        //TODO update citizens food consumption
+        //TODO update multi turn moves
+        //TODO update research
+        //TODO update resources
     }
-
 }

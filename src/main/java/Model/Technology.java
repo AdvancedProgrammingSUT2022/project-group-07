@@ -6,6 +6,7 @@ public class Technology {
 
     private TypeOfTechnology typeOfTechnology;
     private int remainingTurns ;
+
     private Location location;
 
     public Technology(TypeOfTechnology typeOfTechnology){
