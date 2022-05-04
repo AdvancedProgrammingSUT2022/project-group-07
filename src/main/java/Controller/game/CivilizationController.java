@@ -66,8 +66,12 @@ public class CivilizationController {
             currentResearch.setRemainingTurns(currentResearch.getRemainingTurns() - 1);
     }
 
-    public static void updateScience(){
-        // TODO: 4/21/2022 update civilization total science
+    public static void updateScience(Civilization civilization){
+        int totalCitizens = 0 ;
+        for (City city : civilization.getCities())
+            totalCitizens += city.getCitizens().size();
+        int scienceToBeAdded = civilization.getCities().size()*5 + totalCitizens ;
+        civilization.setScience(civilization.getScience()+scienceToBeAdded);
     }
 
     public static ArrayList<Terrain> getNeighbourTerrainsByRadius1
@@ -138,6 +142,7 @@ public class CivilizationController {
         Move.UnitMovementsUpdate(civilization , gameController); //TODO update multi turn moves
         //TODO update creating units
         CivilizationController.updateResearch(civilization);
+        CivilizationController.updateScience(civilization);
         //TODO update food, gold and production
         //TODO update citizens food consumption
         Move.UnitMovementsUpdate(civilization , gameController);

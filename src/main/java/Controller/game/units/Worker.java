@@ -9,11 +9,9 @@ import Enum.TypeOfTerrain;
 import Enum.Resources;
 import Enum.TypeOfImprovement;
 
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
 import java.util.Arrays;
->>>>>>> main
+
 import java.util.regex.Matcher;
 
 public class Worker {
