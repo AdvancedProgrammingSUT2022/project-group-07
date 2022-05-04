@@ -17,6 +17,7 @@ public class Terrain {
     private Technology technology;
     private boolean hasRailRoad;
     private boolean hasRoad;
+
     private ArrayList<RiverSide> riverSides ;
 
     public Terrain(TypeOfTerrain typeOfTerrain, TerrainFeatures terrainFeatures,

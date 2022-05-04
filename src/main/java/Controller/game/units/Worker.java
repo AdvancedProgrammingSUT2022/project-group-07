@@ -11,6 +11,7 @@ import Enum.TypeOfImprovement;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import java.util.regex.Matcher;
 
 public class Worker {
@@ -223,23 +224,6 @@ public class Worker {
         return "Railroad will be created in next 3 turns!";
     }
 
-    public static String buildRoute(Route rout, Civilization civilization) {
-        String typeOfRoad = rout.getName();
-        Location location = rout.getLocation();
-        SelectController.selectedUnit.getRoadsAboutToBeBuilt().remove(rout);
-        Terrain terrain = TerrainController.getTerrainByLocation(location);
-        assert terrain != null;
-        if (typeOfRoad.equals("road")) {
-            terrain.setHasRoad(true);
-            civilization.setNumberOfRailroadsAndRoads(civilization.getNumberOfRailroadsAndRoads() - 1);
-            return "Road created successfully in location ( "
-                    + location.getX() + " , " + location.getY() + " ) !";
-        }
-        terrain.setHasRailRoad(true);
-        civilization.setNumberOfRailroadsAndRoads(civilization.getNumberOfRailroadsAndRoads() - 1);
-        return "Road created successfully in location ( "
-                + location.getX() + " , " + location.getY() + " ) !";
-    }
 
     private static String hasForbiddenFeatures(Terrain currentTerrain) {
         if (currentTerrain.getTypeOfTerrain() == TypeOfTerrain.MOUNTAIN

@@ -16,6 +16,7 @@ public class City {
     private Civilization ownership;
     private ArrayList<Building> buildings;
     private ArrayList<TypeOfUnit> wantedUnits = new ArrayList<>();
+    private int turnsTillGrowth ;
 
 
     public City (String name , Civilization ownership){
@@ -28,6 +29,7 @@ public class City {
         this.hp = 10;
         this.ownership = ownership;
         this.buildings = new ArrayList<>();
+        turnsTillGrowth = 6 ;
     }
 
 
@@ -99,4 +101,11 @@ public class City {
         this.hp = hp;
     }
 
+    public int getTurnsTillGrowth() {
+        return this.turnsTillGrowth;
+    }
+
+    public void setTurnsTillGrowth(int turnsTillGrowth) {
+        this.turnsTillGrowth = turnsTillGrowth;
+    }
 }
