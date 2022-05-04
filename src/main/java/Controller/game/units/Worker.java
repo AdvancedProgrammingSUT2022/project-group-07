@@ -223,7 +223,7 @@ public class Worker {
         SelectController.selectedUnit.setTimesMovedThisTurn(SelectController.selectedUnit.getTimesMovedThisTurn() + 1);
         return "Railroad will be created in next 3 turns!";
     }
-    
+
 
     private static String hasForbiddenFeatures(Terrain currentTerrain) {
         if (currentTerrain.getTypeOfTerrain() == TypeOfTerrain.MOUNTAIN
