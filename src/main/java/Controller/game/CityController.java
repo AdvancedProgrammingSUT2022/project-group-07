@@ -75,11 +75,11 @@ public class CityController {
         for (Terrain availableTerrain : availableTerrains) {
             if (availableTerrain.getLocation().getY()==y
              && availableTerrain.getLocation().getX()==x){
-                if (selectedCity.getOwnership().getGold()<availableTerrain.getPrice())
+                if (selectedCity.getGold()<availableTerrain.getPrice())
                     return "you don't have enough gold to buy this tile" ;
                 else {
-                    selectedCity.getOwnership().setGold(
-                            selectedCity.getOwnership().getGold()-availableTerrain.getPrice()
+                    selectedCity.setGold(
+                            selectedCity.getGold()-availableTerrain.getPrice()
                     );
                     selectedCity.addTerrain(availableTerrain);
                     return "terrain added to city";

@@ -105,7 +105,7 @@ public class Civilization {
      * a function to add a technology to arrayList of knownTechnologies
      * @param technology
      */
-    public void addTechonolgy(Technology technology){
+    public void addTechnology(Technology technology){
         this.gainedTypeOfTechnologies.add(technology.getTypeOfTechnology());
         this.gainedTechnologies.add(technology);
     }

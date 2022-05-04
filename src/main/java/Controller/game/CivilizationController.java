@@ -1,7 +1,6 @@
 package Controller.game;
 
 import Controller.game.movement.Move;
-import Controller.game.units.Worker;
 import Controller.game.update.UpdateCityElements;
 import Controller.game.update.UpdateCivilizationElements;
 import Model.*;
@@ -58,11 +57,11 @@ public class CivilizationController {
         if (currentResearch==null)
             return;
         if (currentResearch.getRemainingTurns()==0) {
-            civilization.addTechonolgy(currentResearch);
+            civilization.addTechnology(currentResearch);
             civilization.setCurrentResearch(null);
         }
         else
-            currentResearch.setRemainingTurns(currentResearch.getRemainingTurns()-1);
+            currentResearch.setRemainingTurns(currentResearch.getRemainingTurns() - 1);
     }
 
     public static void updateScience(){
@@ -136,7 +135,7 @@ public class CivilizationController {
         Civilization civilization = gameController.getCurrentCivilization();
         Move.UnitMovementsUpdate(civilization , gameController); //TODO update multi turn moves
         //TODO update creating units
-        updateResearch(civilization);
+        CivilizationController.updateResearch(civilization);
         //TODO update food, gold and production
         //TODO update citizens food consumption
         Move.UnitMovementsUpdate(civilization , gameController);

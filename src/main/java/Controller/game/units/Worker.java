@@ -7,9 +7,6 @@ import Enum.TerrainFeatures;
 import Enum.TypeOfTechnology;
 import Enum.TypeOfTerrain;
 
-import java.lang.reflect.Type;
-import java.util.Scanner;
-import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 
 public class Worker {
@@ -84,7 +81,7 @@ public class Worker {
         SelectController.selectedUnit.getRailroadsAboutToBeBuilt().remove(railRoad);
         Terrain terrain = TerrainController.getTerrainByLocation(location);
         assert terrain != null;
-        civilization.addTechonolgy(railRoad);
+        civilization.addTechnology(railRoad);
         terrain.setHasRailRoad(true);
         civilization.setNumberOfRailroadsAndRoads(1);
         // TODO money
