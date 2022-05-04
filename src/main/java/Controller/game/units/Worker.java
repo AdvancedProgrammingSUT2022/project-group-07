@@ -223,38 +223,7 @@ public class Worker {
         SelectController.selectedUnit.setTimesMovedThisTurn(SelectController.selectedUnit.getTimesMovedThisTurn() + 1);
         return "Railroad will be created in next 3 turns!";
     }
-
-    public static String buildRoute(Route rout, Civilization civilization) {
-        String typeOfRoad = rout.getName();
-        Location location = rout.getLocation();
-        SelectController.selectedUnit.getRoadsAboutToBeBuilt().remove(rout);
-        Terrain terrain = TerrainController.getTerrainByLocation(location);
-        assert terrain != null;
-<<<<<<< HEAD
-        terrain.setHasRoad(true);
-        civilization.setNumberOfRailroadsAndRoads(1);
-        return "Road created successfully in location ( "
-                + location.getX() + " , " + location.getY() + " ) !";
-    }
-
-    public static String buildRailRoad(Location location, Technology railRoad, Civilization civilization) {
-        SelectController.selectedUnit.getRailroadsAboutToBeBuilt().remove(railRoad);
-        Terrain terrain = TerrainController.getTerrainByLocation(location);
-        assert terrain != null;
-        civilization.addTechnology(railRoad);
-=======
-        if (typeOfRoad.equals("road")) {
-            terrain.setHasRoad(true);
-            civilization.setNumberOfRailroadsAndRoads(civilization.getNumberOfRailroadsAndRoads() - 1);
-            return "Road created successfully in location ( "
-                    + location.getX() + " , " + location.getY() + " ) !";
-        }
->>>>>>> main
-        terrain.setHasRailRoad(true);
-        civilization.setNumberOfRailroadsAndRoads(civilization.getNumberOfRailroadsAndRoads() - 1);
-        return "Road created successfully in location ( "
-                + location.getX() + " , " + location.getY() + " ) !";
-    }
+    
 
     private static String hasForbiddenFeatures(Terrain currentTerrain) {
         if (currentTerrain.getTypeOfTerrain() == TypeOfTerrain.MOUNTAIN
