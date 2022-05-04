@@ -79,7 +79,7 @@ public class Terrain {
         this.technology = technology;
     }
 
-    public boolean isHasRailRoad() {
+    public boolean hasRailRoad() {
         return hasRailRoad;
     }
 
@@ -87,7 +87,7 @@ public class Terrain {
         this.hasRailRoad = hasRailRoad;
     }
 
-    public boolean isHasRoad() {
+    public boolean hasRoad() {
         return hasRoad;
     }
 
@@ -109,5 +109,9 @@ public class Terrain {
 
     public ArrayList<RiverSide> getRiverSides() {
         return riverSides;
+    }
+
+    public void setImprovement(Improvement improvement) {
+        this.improvement = improvement;
     }
 }

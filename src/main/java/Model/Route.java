@@ -1,10 +1,13 @@
 package Model;
 
-public class Road {
+public class Route {
+    // TODO terrain instead of location
+    private String name;
     private int turnsNeeded;
     private Location location;
 
-    public Road(int turnsNeeded, Location location) {
+    public Route(String name, int turnsNeeded, Location location) {
+        this.name = name;
         this.turnsNeeded = turnsNeeded;
         this.location = location;
     }
@@ -18,6 +21,10 @@ public class Road {
     }
 
     public void setTurnsNeeded(int turnsNeeded) {
-        this.turnsNeeded += turnsNeeded;
+        this.turnsNeeded = turnsNeeded;
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -3,22 +3,22 @@ package Model;
 import Enum.TypeOfImprovement;
 
 public class Improvement {
-    private TypeOfImprovement improvement;
+    private TypeOfImprovement TypeOfImprovement;
     private int turn;
-    private Location location;
+    private Terrain terrain;
 
-    public Improvement(TypeOfImprovement improvement, int turn, Location location) {
-        this.improvement = improvement;
+    public Improvement(TypeOfImprovement TypeOfImprovement , int turn, Terrain terrain) {
+        this.TypeOfImprovement = TypeOfImprovement ;
         this.turn = turn;
-        this.location = location;
+        this.terrain = terrain;
     }
 
-    public TypeOfImprovement getImprovement() {
-        return improvement;
+    public TypeOfImprovement getTypeOfImprovement () {
+        return TypeOfImprovement ;
     }
 
-    public void setImprovement(TypeOfImprovement improvement) {
-        this.improvement = improvement;
+    public void setTypeOfImprovement (TypeOfImprovement TypeOfImprovement ) {
+        this.TypeOfImprovement  = TypeOfImprovement ;
     }
 
     public int getTurn() {
@@ -29,7 +29,7 @@ public class Improvement {
         this.turn = turn;
     }
 
-    public Location getLocation() {
-        return location;
+    public Terrain getTerrain() {
+        return terrain;
     }
 }

@@ -4,7 +4,6 @@ import Model.Civilization;
 import Model.Location;
 import Model.Terrain;
 import Model.TerrainOutput;
-import Enum.TypeOfResource;
 
 public class TerrainController {
     public static Terrain getTerrainByLocation(Location location) {
@@ -39,7 +38,7 @@ public class TerrainController {
 
     private static boolean resourceIsAvailable(Terrain terrain, Civilization civilization) {
         if (terrain.getResources().getImprovementNeeded() == null) return true;
-        if (terrain.getResources().getImprovementNeeded() == terrain.getImprovement().getImprovement()) {
+        if (terrain.getResources().getImprovementNeeded() == terrain.getImprovement().getTypeOfImprovement()) {
             if (terrain.getResources().getTechnologyNeeded() == null)
                 return true;
             if (ResearchController.isTechnologyAlreadyAchieved(
