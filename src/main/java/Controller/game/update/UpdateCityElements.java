@@ -108,7 +108,7 @@ public class UpdateCityElements {
         for (City city : cities) {
             if (city.getCitizens().size()==0) continue;
             if (city.getFood()>=Math.pow(2,city.getCitizens().size())) {
-                city.addCitizen(new Citizen(city.getCitizens().size() + 1));
+                city.addCitizen(new Citizen(city.getCitizens().size()));
                 System.out.println("new citizen added to city " + city.getName());
             }
         }

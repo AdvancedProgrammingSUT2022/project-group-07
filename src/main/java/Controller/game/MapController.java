@@ -143,7 +143,7 @@ public class MapController {
             if (neighbour.getTypeOfTerrain()==TypeOfTerrain.DESERT)
                 return false;
         }
-        return new Random().nextInt(7) == 0;
+        return new Random().nextInt(6) == 0;
     }
 
     /**

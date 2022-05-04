@@ -40,7 +40,7 @@ public class ResearchController {
     public static String showOwnedResearch(final Civilization civilization){
         ArrayList<Technology> gainedTechnologies = civilization.getGainedTechnologies() ;
         if (gainedTechnologies.isEmpty())
-            return "no research yet";
+            return "no technology";
         StringBuilder out = new StringBuilder("list of owned technologies : \n");
         for (Technology gainedTechnology : gainedTechnologies)
             out.append(gainedTechnology.getTypeOfTechnology().getName()).append("\n");
