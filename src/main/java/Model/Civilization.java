@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import Enum.TypeOfTechnology;
 
 public class Civilization {
 
@@ -13,6 +14,7 @@ public class Civilization {
     // a civilization can always see all improvements and ownership while a unit is near this tile
     private ArrayList<Terrain> visibleTerrains ;
     private ArrayList<Technology> gainedTechnologies ;
+    private ArrayList<TypeOfTechnology> gainedTypeOfTechnologies ;
     private String name ;
     private City capital ;
     private int score ;
@@ -31,6 +33,7 @@ public class Civilization {
         this.units = new ArrayList<Unit>();
         this.knownTerrains = new ArrayList<Terrain>();
         this.gainedTechnologies = new ArrayList<Technology>();
+        this.gainedTypeOfTechnologies = new ArrayList<TypeOfTechnology>();
         this.capital = null;
         this.score = 0 ;
         this.gold = 0 ;
@@ -103,6 +106,7 @@ public class Civilization {
      * @param technology
      */
     public void addTechonolgy(Technology technology){
+        this.gainedTypeOfTechnologies.add(technology.getTypeOfTechnology());
         this.gainedTechnologies.add(technology);
     }
 
@@ -135,6 +139,10 @@ public class Civilization {
      * @return
      */
     public ArrayList<Technology> getGainedTechnologies(){ return this.gainedTechnologies; }
+
+    public ArrayList<TypeOfTechnology> getGainedTypeOfTechnologies() {
+        return this.gainedTypeOfTechnologies ;
+    }
 
     public int getFood() {
         return food;
