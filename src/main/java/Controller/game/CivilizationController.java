@@ -1,14 +1,14 @@
 package Controller.game;
 
 import Controller.game.movement.Move;
-import Controller.game.units.Worker;
 import Controller.game.update.UpdateCityElements;
 import Controller.game.update.UpdateCivilizationElements;
 import Model.*;
 import Enum.* ;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
+import static Controller.game.update.UpdateCivilizationElements.updateResearch;
 
 public class CivilizationController {
     private static Civilization civilization;
@@ -89,17 +89,22 @@ public class CivilizationController {
     public static void updateCivilizationElements(GameController gameController) {
         Civilization civilization = gameController.getCurrentCivilization();
         Move.UnitMovementsUpdate(civilization , gameController);
-        //TODO update resources
         UpdateCityElements.citizensIncome(civilization);
-        UpdateCivilizationElements.update(civilization);
-        // maintenance
         UpdateCityElements.maintenance(civilization);
+        UpdateCivilizationElements.update(civilization);
         UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
-        UpdateCityElements.updateRoadsAboutToBeCreated(civilization);
-        UpdateCityElements.updateRailRoadsAboutToBeCreated(civilization);
+        UpdateCityElements.updateRoutsAboutToBeCreated(civilization);
+        UpdateCityElements.updateImprovementsAboutToBeCreated(civilization);
+        Move.UnitMovementsUpdate(civilization , gameController);
+        updateResearch(civilization);
         UpdateCityElements.foodConsumption(civilization);
         Move.UnitMovementsUpdate(civilization , gameController);
         //TODO harchidige ke moond!
+        //TODO update multi turn moves
+        //TODO update food, gold and production
+        //TODO update citizens food consumption
+        //TODO update multi turn moves
+        //TODO update research
+        //TODO update resources
     }
-
 }

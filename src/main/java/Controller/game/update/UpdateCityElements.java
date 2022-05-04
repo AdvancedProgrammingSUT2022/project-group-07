@@ -5,6 +5,8 @@ import Controller.game.TerrainController;
 import Controller.game.units.Worker;
 import Model.*;
 import Enum.TypeOfUnit;
+import Enum.TypeOfImprovement;
+import Enum.TerrainFeatures;
 
 public class UpdateCityElements {
     public static void updateUnitsAboutToBeCreate(Civilization currentCivilization) {
@@ -20,31 +22,14 @@ public class UpdateCityElements {
         }
     }
 
-    public static void updateRoadsAboutToBeCreated(Civilization currentCivilization) {
-        Location location;
+    public static void updateRoutsAboutToBeCreated(Civilization currentCivilization) {
+//        Location location;
         for (Unit unit : currentCivilization.getUnits()) {
             if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
-                for (Road road : unit.getRoadsAboutToBeBuilt()) {
-                    road.setTurnsNeeded(-1);
-                    if (road.getTurnsNeeded() == 0) {
-                        location = road.getLocation();
-                        Worker.buildRoad(location, road, currentCivilization);
-                    }
-                }
-            }
-        }
-    }
-
-    public static void updateRailRoadsAboutToBeCreated(Civilization currentCivilization) {
-        Location location;
-        for (Unit unit : currentCivilization.getUnits()) {
-            if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
-                for (Technology railroad : unit.getRailroadsAboutToBeBuilt()) {
-                    railroad.setRemainingTurns(-1);
-                    if (railroad.getRemainingTurns() == 0) {
-                        location = railroad.getLocation();
-                        Worker.buildRailRoad(location, railroad, currentCivilization);
-                    }
+                for (Route road : unit.getRoadsAboutToBeBuilt()) {
+                    road.setTurnsNeeded(road.getTurnsNeeded() - 1);
+                    if (road.getTurnsNeeded() == 0)
+                        Worker.buildRoute(road, currentCivilization);
                 }
             }
         }
@@ -52,7 +37,45 @@ public class UpdateCityElements {
 
     // just for selected civilization!
     public static void maintenance(Civilization civilization) {
-        civilization.setGold(civilization.getGold() - civilization.getNumberOfRailroadsAndRoads());
+        int number = civilization.getNumberOfRailroadsAndRoads() / civilization.getCities().size();
+        for (City city : civilization.getCities()) {
+            city.setGold(civilization.getGold() - number);
+        }
+    }
+
+    public static void updateImprovementsAboutToBeCreated(Civilization currentCivilization) {
+        for (Unit unit : currentCivilization.getUnits()) {
+            if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
+                for (Improvement improvement : unit.getImprovementsAboutToBeCreated()) {
+                    if (improvement.getTypeOfImprovement() == TypeOfImprovement.FARM)
+                        updateFarm(improvement, unit);
+                    if (improvement.getTypeOfImprovement() == TypeOfImprovement.MINE)
+                        updateMine(improvement, unit);
+                    else
+                        updateOtherImprovements(improvement, unit);
+                }
+            }
+        }
+    }
+
+    private static void updateOtherImprovements(Improvement improvement, Unit unit) {
+        improvement.setTurn(improvement.getTurn() - 1);
+        if (improvement.getTurn() == 0)
+            Worker.buildImprovement(improvement, unit);
+    }
+
+    private static void updateMine(Improvement mine, Unit unit) {
+        TerrainFeatures feature = mine.getTerrain().getTerrainFeatures();
+        mine.setTurn(mine.getTurn() - 1);
+        if (mine.getTurn() == 0)
+            Worker.buildMine(mine, unit, feature);
+    }
+
+    private static void updateFarm(Improvement farm, Unit unit) {
+        TerrainFeatures feature = farm.getTerrain().getTerrainFeatures();
+        farm.setTurn(farm.getTurn() - 1);
+        if (farm.getTurn() == 0)
+            Worker.buildFarm(farm, unit, feature);
     }
 
     public static void foodConsumption(Civilization civilization) {
