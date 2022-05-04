@@ -79,7 +79,7 @@ public enum GameMenuCommands {
     INCREASE_GOLD("increase gold (?<amount>\\d+)"),
     INCREASE_SCIENCE("increase science (?<amount>\\d+)"),
     INCREASE_PRODUCTION("increase production (?<amount>\\d+)"),
-    INCREASE_FOOD("increase food (?<amount>)\\d+"),
+    INCREASE_FOOD("increase food (?<amount>\\d+)"),
     INCREASE_HAPPINESS("increase happiness (?<amount>\\d+)"),
     // next turn : !!
     NEXT_TURN("next turn");

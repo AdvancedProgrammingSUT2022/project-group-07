@@ -1,10 +1,16 @@
 package Controller.game.update;
 
 import Controller.game.CityController;
+import Controller.game.GameController;
+import Controller.game.MapController;
 import Controller.game.TerrainController;
 import Controller.game.units.Worker;
 import Model.*;
 import Enum.TypeOfUnit;
+
+import java.util.ArrayList;
+import java.util.Random;
+import java.lang.Math;
 
 public class UpdateCityElements {
     public static void updateUnitsAboutToBeCreate(Civilization currentCivilization) {
@@ -79,4 +85,33 @@ public class UpdateCityElements {
             city.setProduction(city.getProduction() + production);
         }
     }
+
+    public static void cityGrowth (Civilization civilization){
+        ArrayList<City> cities = civilization.getCities();
+        for (City city : cities) {
+            if (city.getTurnsTillGrowth()==0){
+                ArrayList<Terrain> availableTerrains = CityController.getAvailableTilesToBuy(
+                        city , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()
+                );
+                Terrain terrainToBuy = availableTerrains.get((new Random()).nextInt(availableTerrains.size()));
+                CityController.addTileToCity(city , terrainToBuy) ;
+                int turnsTillGrowth = (int) (Math.log(40*city.getTerrains().size()-city.getCitizens().size()) / Math.log(2)) ;
+                city.setTurnsTillGrowth(turnsTillGrowth+1) ;
+            }
+            else
+                city.setTurnsTillGrowth(city.getTurnsTillGrowth()-1);
+        }
+    }
+
+    public static void citizenGrowth (Civilization civilization){
+        ArrayList<City> cities = civilization.getCities();
+        for (City city : cities) {
+            if (city.getCitizens().size()==0) continue;
+            if (city.getFood()>=Math.pow(2,city.getCitizens().size())) {
+                city.addCitizen(new Citizen(city.getCitizens().size() + 1));
+                System.out.println("new citizen added to city " + city.getName());
+            }
+        }
+    }
+
 }
