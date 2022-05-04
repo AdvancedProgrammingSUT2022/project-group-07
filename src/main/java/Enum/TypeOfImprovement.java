@@ -1,15 +1,15 @@
 package Enum;
 
 public enum TypeOfImprovement {
-    CAMP("camp", 0, 0, 0, TypeOfTechnology.TRAPPING, 1111,
+    CAMP("camp", 0, 0, 0, TypeOfTechnology.TRAPPING, 6,
             new String[]{"forest","tundra", "plain", "hill"}),
     FARM("farm", 0, 1, 0, TypeOfTechnology.AGRICULTURE, 6,
             new String[]{"plain", "desert", "grassland"}),
-    LUMBER_MILL("lumberMill", 0, 0, 1, TypeOfTechnology.CONSTRUCTION ,1111,
+    LUMBER_MILL("lumberMill", 0, 0, 1, TypeOfTechnology.CONSTRUCTION ,6,
             new String[]{"forest"}),
-    MINE("mine", 0, 0, 1, TypeOfTechnology.MINING, 1111,
+    MINE("mine", 0, 0, 1, TypeOfTechnology.MINING, 6,
             new String[]{"plain", "desert", "grassland", "tundra", "snow", "hill", "forest", "jungle", "marsh"}),
-    PASTURE("pasture", 0, 0, 0 , TypeOfTechnology.ANIMAL_HUSBANDRY, 1111,
+    PASTURE("pasture", 0, 0, 0 , TypeOfTechnology.ANIMAL_HUSBANDRY, 7,
             new String[]{"plain", "desert", "grassland", "tundra", "hill"}),
     PLANTATION("plantation", 0, 0, 0, TypeOfTechnology.CALENDAR, 1111,
             new String[]{"plain", "desert", "grassland", "forest", "jungle", "marsh", "floodplains"}),

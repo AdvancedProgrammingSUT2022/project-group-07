@@ -7,7 +7,6 @@ import Model.*;
 import Enum.TypeOfUnit;
 import Enum.TypeOfImprovement;
 import Enum.TerrainFeatures;
-import Enum.TypeOfTechnology;
 
 public class UpdateCityElements {
     public static void updateUnitsAboutToBeCreate(Civilization currentCivilization) {
@@ -23,27 +22,14 @@ public class UpdateCityElements {
         }
     }
 
-    public static void updateRoadsAboutToBeCreated(Civilization currentCivilization) {
-        Location location;
+    public static void updateRoutsAboutToBeCreated(Civilization currentCivilization) {
+//        Location location;
         for (Unit unit : currentCivilization.getUnits()) {
             if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
-                for (Road road : unit.getRoadsAboutToBeBuilt()) {
+                for (Rout road : unit.getRoadsAboutToBeBuilt()) {
                     road.setTurnsNeeded(road.getTurnsNeeded() - 1);
                     if (road.getTurnsNeeded() == 0)
-                        Worker.buildRoad(road, currentCivilization);
-                }
-            }
-        }
-    }
-
-    public static void updateRailRoadsAboutToBeCreated(Civilization currentCivilization) {
-        Location location;
-        for (Unit unit : currentCivilization.getUnits()) {
-            if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
-                for (Technology railroad : unit.getRailroadsAboutToBeBuilt()){
-                    railroad.setRemainingTurns(railroad.getRemainingTurns() - 1);
-                    if (railroad.getRemainingTurns() == 0)
-                        Worker.buildRailRoad(railroad, currentCivilization);
+                        Worker.buildRout(road, currentCivilization);
                 }
             }
         }
@@ -51,7 +37,10 @@ public class UpdateCityElements {
 
     // just for selected civilization!
     public static void maintenance(Civilization civilization) {
-        civilization.setGold(civilization.getGold() - civilization.getNumberOfRailroadsAndRoads());
+        int number = civilization.getNumberOfRailroadsAndRoads() / civilization.getCities().size();
+        for (City city : civilization.getCities()) {
+            city.setGold(civilization.getGold() - number);
+        }
     }
 
     public static void updateImprovementsAboutToBeCreated(Civilization currentCivilization) {
@@ -88,7 +77,6 @@ public class UpdateCityElements {
         if (farm.getTurn() == 0)
             Worker.buildFarm(farm, unit, feature);
     }
-    // TODO maybe somewhere else!
 
     public static void foodConsumption(Civilization civilization) {
         for (City city : civilization.getCities()) {

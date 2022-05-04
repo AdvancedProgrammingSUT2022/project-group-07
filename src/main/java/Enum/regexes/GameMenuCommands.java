@@ -53,12 +53,13 @@ public enum GameMenuCommands {
     UNIT_BUILD_IMPROVEMENT("unit build (?<improvement>[a-zA-Z]+) in (?<X>\\d+) (?<Y>\\d+)"), // baraye zirbakhsh be khode typeOfImrpovement morajeE shavad!
     CREATE_UNIT("create unit (?<unit>[a-zA-Z]+)"),
     BUY_UNIT_WITH_GOLD("buy unit (?<unitNumber>\\d+) with gold"),
-    UNIT_REMOVE_JUNGLE("unit remove jungle (?<X>\\d+) (?<Y>\\d+)"),
-    UNIT_REMOVE_ROUTE("unit remove route  (?<X>\\d+) (?<Y>\\d+)"),
+    UNIT_REMOVE_JUNGLE("unit remove (?<feature>jungle) (?<X>\\d+) (?<Y>\\d+)"),
+    UNIT_REMOVE_FOREST("unit remove (?<feature>forest) (?<X>\\d+) (?<Y>\\d+)"),
+    UNIT_REMOVE_ROUTE("unit remove route (?<X>\\d+) (?<Y>\\d+)"),
     UNIT_REPAIR("unit repair"),
-    UNIT_BUILD_ROAD("unit build road (?<X>\\d+) (?<Y>\\d+)"),
-    UNIT_BUILD_RAILROAD("unit build railroad (?<X>\\d+) (?<Y>\\d+)"),
-    UNIT_REMOVE_MARSH("unit remove marsh (?<X>\\d+) (?<Y>\\d+)"),
+    UNIT_BUILD_ROAD("unit build (?<name>road) (?<X>\\d+) (?<Y>\\d+)"),
+    UNIT_BUILD_RAILROAD("unit build (?<name>railroad) (?<X>\\d+) (?<Y>\\d+)"),
+    UNIT_REMOVE_MARSH("unit remove (?<feature>marsh) (?<X>\\d+) (?<Y>\\d+)"),
 
     // research commands : !!!
     RESEARCH_TECHNOLOGY("research technology (?<technologyName>\\w+)") ,

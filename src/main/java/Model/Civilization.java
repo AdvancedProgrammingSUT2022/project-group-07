@@ -23,6 +23,8 @@ public class Civilization {
     private Technology currentResearch ;
     private User owner ;
     private int numberOfRailroadsAndRoads;
+    private ArrayList<Rout> routsAboutToBeBuilt;
+    private ArrayList<Improvement> improvementsAboutToBeCreated;
 
     public Civilization (String name , User owner){
         this.owner = owner;
@@ -38,6 +40,8 @@ public class Civilization {
         this.happiness = 0 ;
         this.science = 0 ;
         this.currentResearch = null ;
+        this.routsAboutToBeBuilt = new ArrayList<>();
+        this.improvementsAboutToBeCreated = new ArrayList<>();
     }
 
     public Civilization (String name , City capital , User owner){
@@ -55,6 +59,8 @@ public class Civilization {
         this.happiness = 0 ;
         this.science = 0 ;
         this.currentResearch = null ;
+        this.routsAboutToBeBuilt = new ArrayList<>();
+        this.improvementsAboutToBeCreated = new ArrayList<>();
     }
 
 
@@ -204,5 +210,29 @@ public class Civilization {
 
     public ArrayList<Terrain> getVisibleTerrains(){
         return this.visibleTerrains;
+    }
+
+    public ArrayList<Rout> getRoutsAboutToBeBuilt() {
+        return routsAboutToBeBuilt;
+    }
+
+    public void setRoutsAboutToBeBuilt(ArrayList<Rout> roadsAboutToBeBuilt) {
+        this.routsAboutToBeBuilt = roadsAboutToBeBuilt;
+    }
+
+    public ArrayList<Improvement> getImprovementsAboutToBeCreated() {
+        return improvementsAboutToBeCreated;
+    }
+
+    public void setImprovementsAboutToBeCreated(ArrayList<Improvement> improvementsAboutToBeCreated) {
+        this.improvementsAboutToBeCreated = improvementsAboutToBeCreated;
+    }
+
+    public void addImprovementsAboutToBeCreated(Improvement improvement) {
+        this.improvementsAboutToBeCreated.add(improvement);
+    }
+
+    public void addRoutsAboutToBeBuilt(Rout rout) {
+        this.routsAboutToBeBuilt.add(rout);
     }
 }

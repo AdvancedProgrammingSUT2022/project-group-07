@@ -1,7 +1,6 @@
 package Model;
 import Enum.TypeOfUnit;
 import Enum.UnitStatus;
-import Enum.TypeOfTechnology;
 
 import java.util.ArrayList;
 
@@ -18,8 +17,8 @@ public class Unit {
     // TODO extend
     // TODO should it be static?
     private ArrayList<Improvement> improvementsAboutToBeCreated = new ArrayList<>();
-    private ArrayList<Road> roadsAboutToBeBuilt = new ArrayList<>();
-    private ArrayList<Technology> railroadsAboutToBeBuilt = new ArrayList<>();
+    private ArrayList<Rout> roadsAboutToBeBuilt = new ArrayList<>();
+//    private ArrayList<Technology> railroadsAboutToBeBuilt = new ArrayList<>();
 
     public UnitStatus getUnitStatus() {
         return unitStatus;
@@ -104,19 +103,11 @@ public class Unit {
         this.improvementsAboutToBeCreated.add(improvement);
     }
 
-    public ArrayList<Road> getRoadsAboutToBeBuilt() {
+    public ArrayList<Rout> getRoadsAboutToBeBuilt() {
         return roadsAboutToBeBuilt;
     }
 
-    public void addRoadsAboutToBeBuilt(Road road) {
+    public void addRoadsAboutToBeBuilt(Rout road) {
         this.roadsAboutToBeBuilt.add(road);
-    }
-
-    public ArrayList<Technology> getRailroadsAboutToBeBuilt() {
-        return railroadsAboutToBeBuilt;
-    }
-
-    public void addRailroadsAboutToBeBuilt(Technology railroad) {
-        this.railroadsAboutToBeBuilt.add(railroad);
     }
 }

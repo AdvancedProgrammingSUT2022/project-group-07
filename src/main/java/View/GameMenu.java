@@ -143,11 +143,19 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REMOVE_JUNGLE)) != null){
-                String result = Worker.removeJungle(matcher, gameController);
+                String result = Worker.removeJungleOrForestOrMarsh(matcher, gameController);
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REMOVE_FOREST)) != null){
+                String result = Worker.removeJungleOrForestOrMarsh(matcher, gameController);
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REMOVE_MARSH)) != null){
+                String result = Worker.removeJungleOrForestOrMarsh(matcher, gameController);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REMOVE_ROUTE)) != null){
-                String result = Worker.removeRoute(matcher, gameController);
+                String result = Worker.removeRoute(gameController);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REPAIR)) != null){
@@ -155,17 +163,14 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_BUILD_ROAD)) != null){
-                String result = Worker.checkToBuildRoad(matcher, gameController);
+                String result = Worker.checkToBuildRout(matcher, gameController);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_BUILD_RAILROAD)) != null){
-                String result = Worker.checkToBuildRailRoad(matcher, gameController);
+                String result = Worker.checkToBuildRout(matcher, gameController);
                 System.out.println(result);
             }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REMOVE_MARSH)) != null){
-                String result = Worker.removeMarsh(matcher, gameController);
-                System.out.println(result);
-            }
+
 
             // research commands :::
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_SHOW_CURRENT)) != null){
