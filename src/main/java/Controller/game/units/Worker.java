@@ -191,7 +191,7 @@ public class Worker {
         return destination.getResources();
     }
 
-    public static String checkToBuildRout(Matcher matcher, GameController gameController) {
+    public static String checkToBuildRoute(Matcher matcher, GameController gameController) {
         Civilization civilization = gameController.getCurrentCivilization();
         String name = matcher.group("name");
         Unit worker = SelectController.selectedUnit;
@@ -212,18 +212,18 @@ public class Worker {
             return "You can't build road in this location because there is " + forbidden + " here!";
 
         if (name.equals("road")) {
-            SelectController.selectedUnit.addRoadsAboutToBeBuilt(new Rout("road",3, currentLocation));
-            civilization.addRoutsAboutToBeBuilt(new Rout("road",3, currentLocation));
+            SelectController.selectedUnit.addRoadsAboutToBeBuilt(new Route("road",3, currentLocation));
+            civilization.addRoutsAboutToBeBuilt(new Route("road",3, currentLocation));
             SelectController.selectedUnit.setTimesMovedThisTurn(SelectController.selectedUnit.getTimesMovedThisTurn() + 1);
             return "Road will be created in next 3 turns!";
         }
-        SelectController.selectedUnit.addRoadsAboutToBeBuilt(new Rout("railroad",3, currentLocation));
-        civilization.addRoutsAboutToBeBuilt(new Rout("road",3, currentLocation));
+        SelectController.selectedUnit.addRoadsAboutToBeBuilt(new Route("railroad",3, currentLocation));
+        civilization.addRoutsAboutToBeBuilt(new Route("road",3, currentLocation));
         SelectController.selectedUnit.setTimesMovedThisTurn(SelectController.selectedUnit.getTimesMovedThisTurn() + 1);
         return "Railroad will be created in next 3 turns!";
     }
 
-    public static String buildRout(Rout rout, Civilization civilization) {
+    public static String buildRoute(Route rout, Civilization civilization) {
         String typeOfRoad = rout.getName();
         Location location = rout.getLocation();
         SelectController.selectedUnit.getRoadsAboutToBeBuilt().remove(rout);

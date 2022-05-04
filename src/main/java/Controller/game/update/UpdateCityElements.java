@@ -26,10 +26,10 @@ public class UpdateCityElements {
 //        Location location;
         for (Unit unit : currentCivilization.getUnits()) {
             if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
-                for (Rout road : unit.getRoadsAboutToBeBuilt()) {
+                for (Route road : unit.getRoadsAboutToBeBuilt()) {
                     road.setTurnsNeeded(road.getTurnsNeeded() - 1);
                     if (road.getTurnsNeeded() == 0)
-                        Worker.buildRout(road, currentCivilization);
+                        Worker.buildRoute(road, currentCivilization);
                 }
             }
         }

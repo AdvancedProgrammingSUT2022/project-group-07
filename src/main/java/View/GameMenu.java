@@ -163,14 +163,13 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_BUILD_ROAD)) != null){
-                String result = Worker.checkToBuildRout(matcher, gameController);
+                String result = Worker.checkToBuildRoute(matcher, gameController);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_BUILD_RAILROAD)) != null){
-                String result = Worker.checkToBuildRout(matcher, gameController);
+                String result = Worker.checkToBuildRoute(matcher, gameController);
                 System.out.println(result);
             }
-
 
             // research commands :::
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_SHOW_CURRENT)) != null){

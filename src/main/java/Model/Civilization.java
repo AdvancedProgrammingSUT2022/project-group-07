@@ -23,7 +23,7 @@ public class Civilization {
     private Technology currentResearch ;
     private User owner ;
     private int numberOfRailroadsAndRoads;
-    private ArrayList<Rout> routsAboutToBeBuilt;
+    private ArrayList<Route> routsAboutToBeBuilt;
     private ArrayList<Improvement> improvementsAboutToBeCreated;
 
     public Civilization (String name , User owner){
@@ -212,11 +212,11 @@ public class Civilization {
         return this.visibleTerrains;
     }
 
-    public ArrayList<Rout> getRoutsAboutToBeBuilt() {
+    public ArrayList<Route> getRoutsAboutToBeBuilt() {
         return routsAboutToBeBuilt;
     }
 
-    public void setRoutsAboutToBeBuilt(ArrayList<Rout> roadsAboutToBeBuilt) {
+    public void setRoutsAboutToBeBuilt(ArrayList<Route> roadsAboutToBeBuilt) {
         this.routsAboutToBeBuilt = roadsAboutToBeBuilt;
     }
 
@@ -232,7 +232,7 @@ public class Civilization {
         this.improvementsAboutToBeCreated.add(improvement);
     }
 
-    public void addRoutsAboutToBeBuilt(Rout rout) {
+    public void addRoutsAboutToBeBuilt(Route rout) {
         this.routsAboutToBeBuilt.add(rout);
     }
 }

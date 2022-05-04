@@ -92,7 +92,6 @@ public class CivilizationController {
         UpdateCityElements.citizensIncome(civilization);
         UpdateCityElements.maintenance(civilization);
         UpdateCivilizationElements.update(civilization);
-        // maintenance
         UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
         UpdateCityElements.updateRoutsAboutToBeCreated(civilization);
         UpdateCityElements.updateImprovementsAboutToBeCreated(civilization);

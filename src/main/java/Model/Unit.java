@@ -17,7 +17,7 @@ public class Unit {
     // TODO extend
     // TODO should it be static?
     private ArrayList<Improvement> improvementsAboutToBeCreated = new ArrayList<>();
-    private ArrayList<Rout> roadsAboutToBeBuilt = new ArrayList<>();
+    private ArrayList<Route> roadsAboutToBeBuilt = new ArrayList<>();
 //    private ArrayList<Technology> railroadsAboutToBeBuilt = new ArrayList<>();
 
     public UnitStatus getUnitStatus() {
@@ -103,11 +103,11 @@ public class Unit {
         this.improvementsAboutToBeCreated.add(improvement);
     }
 
-    public ArrayList<Rout> getRoadsAboutToBeBuilt() {
+    public ArrayList<Route> getRoadsAboutToBeBuilt() {
         return roadsAboutToBeBuilt;
     }
 
-    public void addRoadsAboutToBeBuilt(Rout road) {
+    public void addRoadsAboutToBeBuilt(Route road) {
         this.roadsAboutToBeBuilt.add(road);
     }
 }
