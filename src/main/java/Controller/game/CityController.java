@@ -1,10 +1,18 @@
 package Controller.game;
 
 import Model.City;
+import Model.Civilization;
 import Model.Terrain;
+import Model.Unit;
+import Enum.TypeOfUnit;
+import Enum.UnitStatus;
+import Model.Location;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
+
+
+import static Controller.game.SelectController.selectedCity;
 
 public class CityController {
 
@@ -67,13 +75,13 @@ public class CityController {
         for (Terrain availableTerrain : availableTerrains) {
             if (availableTerrain.getLocation().getY()==y
              && availableTerrain.getLocation().getX()==x){
-                if (SelectController.selectedCity.getOwnership().getGold()<availableTerrain.getPrice())
+                if (selectedCity.getOwnership().getGold()<availableTerrain.getPrice())
                     return "you don't have enough gold to buy this tile" ;
                 else {
-                    SelectController.selectedCity.getOwnership().setGold(
-                            SelectController.selectedCity.getOwnership().getGold()-availableTerrain.getPrice()
+                    selectedCity.getOwnership().setGold(
+                            selectedCity.getOwnership().getGold()-availableTerrain.getPrice()
                     );
-                    SelectController.selectedCity.addTerrain(availableTerrain);
+                    selectedCity.addTerrain(availableTerrain);
                     return "terrain added to city";
                 }
             }
@@ -95,5 +103,15 @@ public class CityController {
                 return true;
         }
         return false;
+    }
+
+    public static String createUnit(Civilization currentCivilization, TypeOfUnit typeOfUnit, Location location, City city) {
+        int turn = typeOfUnit.getCost() / city.getProduction();
+        Unit newUnit = new Unit(typeOfUnit, UnitStatus.ACTIVE, location, typeOfUnit.getHp(), currentCivilization, turn);
+        currentCivilization.addUnit(newUnit);
+        city.getWantedUnits().remove(typeOfUnit);
+        city.setProduction(city.getProduction() - typeOfUnit.getCost());
+        return typeOfUnit + " has been added successfully in location ( "
+                + location.getX() + " , " + location.getY() + " ) !";
     }
 }

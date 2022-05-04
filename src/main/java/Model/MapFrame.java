@@ -132,7 +132,7 @@ public class MapFrame extends JFrame {
 
         /**
      * a function to draw rivers on a tile
-     * @param g2d grphics 2d object
+     * @param g2d graphics 2d object
      * @param terrain tile
      * @param polygon used for coordinates
      */
@@ -166,14 +166,9 @@ public class MapFrame extends JFrame {
             }
         }
 
-        public void paint (Graphics g){
-            Graphics2D g2d = (Graphics2D) g;
-            int firstRow = center.getY() >= 3 ? center.getY() - 3 : 0;
-            int lastRow = center.getY() + 3 < height ? center.getY() + 3 : height - 1;
-            int firstCol = center.getX() >= 3 ? center.getX() - 3 : 0;
-            int lastCol = center.getX() + 3 < width ? center.getX() + 3 : width - 1;
-            ArrayList<Unit> units = getUnits();
+        private void paintRawMap( Graphics2D g2d , int firstRow , int lastRow , int firstCol , int lastCol){
             int y = 100;
+            ArrayList<Unit> units = getUnits();
             for (int row = firstRow; row <= lastRow; row++) {
                 int x = 100;
                 if (row % 2 == 1)
@@ -200,6 +195,32 @@ public class MapFrame extends JFrame {
                 }
                 y += 1.5 * hexagonA;
             }
+        }
+
+        private void paintRivers (Graphics2D g2d , int firstRow , int lastRow , int firstCol , int lastCol){
+            int y = 100 ;
+            for (int row = firstRow; row <= lastRow; row++) {
+                int x = 100;
+                if (row % 2 == 1)
+                    x += rad3over2;
+                for (int col = firstCol; col <= lastCol; col++) {
+                    Polygon p = generateHexagon(x, y);
+//                    if (currentCivilization.getKnownTerrains().contains(map[row][col]))
+                    drawRivers(g2d , map[row][col] , p);
+                    x += rad3over2 * 2;
+                }
+                y += 1.5 * hexagonA;
+            }
+        }
+
+        public void paint (Graphics g){
+            Graphics2D g2d = (Graphics2D) g;
+            int firstRow = center.getY() >= 3 ? center.getY() - 3 : 0;
+            int lastRow = center.getY() + 3 < height ? center.getY() + 3 : height - 1;
+            int firstCol = center.getX() >= 3 ? center.getX() - 3 : 0;
+            int lastCol = center.getX() + 3 < width ? center.getX() + 3 : width - 1;
+            paintRawMap(g2d , firstRow , lastRow , firstCol , lastCol);
+            paintRivers(g2d , firstRow , lastRow , firstCol , lastCol);
         }
 
 }

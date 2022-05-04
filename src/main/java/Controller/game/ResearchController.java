@@ -56,7 +56,7 @@ public class ResearchController {
         return false;
     }
     
-    private static boolean isTechnologyAlreadyAchieved(TypeOfTechnology typeOfTechnology , final Civilization civilization){
+    public static boolean isTechnologyAlreadyAchieved(TypeOfTechnology typeOfTechnology , final Civilization civilization){
         return getGainedTypeOfTechnologies(civilization).contains(typeOfTechnology);
     }
 

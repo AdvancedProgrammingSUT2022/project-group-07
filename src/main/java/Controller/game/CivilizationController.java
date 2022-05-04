@@ -1,6 +1,9 @@
 package Controller.game;
 
 import Controller.game.movement.Move;
+import Controller.game.units.Worker;
+import Controller.game.update.UpdateCityElements;
+import Controller.game.update.UpdateCivilizationElements;
 import Model.*;
 import Enum.* ;
 
@@ -22,11 +25,7 @@ public class CivilizationController {
      * a function to update whole happiness of a civilization
      */
     public static void updateHappiness(){
-        ArrayList<City> cities = civilization.getCities();
-        int sum = 0 ;
-        for (City city : cities)
-            sum += city.getHappiness();
-        civilization.setHappiness(civilization.getHappiness()+sum);
+
     }
 
     /**
@@ -140,6 +139,17 @@ public class CivilizationController {
         updateResearch(civilization);
         //TODO update food, gold and production
         //TODO update citizens food consumption
+        Move.UnitMovementsUpdate(civilization , gameController);
+        //TODO update resources
+        UpdateCityElements.citizensIncome(civilization);
+        UpdateCivilizationElements.update(civilization);
+        // maintenance
+        UpdateCityElements.maintenance(civilization);
+        UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
+        UpdateCityElements.updateRoadsAboutToBeCreated(civilization);
+        UpdateCityElements.updateRailRoadsAboutToBeCreated(civilization);
+        UpdateCityElements.foodConsumption(civilization);
+        Move.UnitMovementsUpdate(civilization , gameController);
         //TODO harchidige ke moond!
     }
 

@@ -10,20 +10,20 @@ import java.util.ArrayList;
 public class Terrain {
     private TypeOfTerrain typeOfTerrain;
     private TerrainFeatures terrainFeatures;
-    private boolean hasRiver;
-    private ArrayList<Resources> resources = new ArrayList<>();
+    private Resources resources;
     private Location location;
     private Improvement improvement;
     private int mp;
     private Technology technology;
+    private boolean hasRailRoad;
+    private boolean hasRoad;
+
     private ArrayList<RiverSide> riverSides ;
 
-    public Terrain(TypeOfTerrain typeOfTerrain, TerrainFeatures terrainFeatures, boolean hasRiver,
-                   ArrayList<Resources> resource, Location location, Improvement improvement) {
+    public Terrain(TypeOfTerrain typeOfTerrain, TerrainFeatures terrainFeatures,
+                   Resources resource, Location location, Improvement improvement) {
         this.typeOfTerrain = typeOfTerrain;
         this.terrainFeatures = terrainFeatures;
-        this.hasRiver = hasRiver;
-        this.resources = new ArrayList<Resources>();
         this.resources = resource;
         this.location = location;
         this.improvement = improvement;
@@ -41,10 +41,6 @@ public class Terrain {
         return terrainFeatures;
     }
 
-    public boolean isHasRiver() {
-        return hasRiver;
-    }
-
     public Location getLocation() {
         return location;
     }
@@ -53,7 +49,7 @@ public class Terrain {
         return improvement;
     }
 
-    public ArrayList<Resources> getResources() {
+    public Resources getResources() {
         return resources;
     }
 
@@ -67,8 +63,7 @@ public class Terrain {
 
     public int getPrice(){
         int price = terrainFeatures!=null ? 5 : 0 ;
-        price += hasRiver ? 5 : 0 ;
-        price += resources.size()*5 ;
+        if (resources != null) price += 5;
         price += 5 ;
         return price ;
     }
@@ -85,8 +80,20 @@ public class Terrain {
         this.technology = technology;
     }
 
-    public void setHasRiver(boolean hasRiver){
-        this.hasRiver = hasRiver;
+    public boolean isHasRailRoad() {
+        return hasRailRoad;
+    }
+
+    public void setHasRailRoad(boolean hasRailRoad) {
+        this.hasRailRoad = hasRailRoad;
+    }
+
+    public boolean isHasRoad() {
+        return hasRoad;
+    }
+
+    public void setHasRoad(boolean hasRoad) {
+        this.hasRoad = hasRoad;
     }
 
     public void setRiverSides(ArrayList<RiverSide> terrainRiverSides){
