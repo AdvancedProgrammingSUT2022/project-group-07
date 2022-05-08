@@ -41,13 +41,13 @@ public class GameMenu extends Menu{
             // info commands :::
 
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_RESEARCH)) != null){
-
+                Information.researchInformation(gameController.getCurrentCivilization());
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_UNITS)) != null){
-
+                Information.unitsInformation(gameController.getCurrentCivilization());
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_CITIES)) != null){
-
+                Information.citiesInformation(gameController.getCurrentCivilization());
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_DIPLOMACY)) != null){
 

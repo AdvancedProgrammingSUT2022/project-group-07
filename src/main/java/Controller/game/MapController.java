@@ -143,7 +143,21 @@ public class MapController {
             if (neighbour.getTypeOfTerrain()==TypeOfTerrain.DESERT)
                 return false;
         }
-        return new Random().nextInt(7) == 0;
+        return new Random().nextInt(6) == 0;
+    }
+
+    /**
+     * a function to create rivers on map
+     */
+    private static void generateRivers(){
+        for (int y=0 ; y<mapHeight ; y++){
+            for (int x=0 ; x<mapWidth ; x++){
+                boolean hasRiver = generateRiverChance(map[y][x]);
+                if (!hasRiver)
+                    continue;
+                map[y][x].setRiverSides(generateRiverSidesPattern());
+            }
+        }
     }
 
     /**
@@ -152,7 +166,7 @@ public class MapController {
      */
     private static ArrayList<RiverSide> generateRiverSidesPattern(){
         Random rand = new Random();
-        int randNumber = rand.nextInt(4);
+        int randNumber = rand.nextInt(6);
         return switch (randNumber) {
             case 0 -> new ArrayList<RiverSide>() {
                 {
@@ -180,22 +194,20 @@ public class MapController {
                     add(RiverSide.LOWER_RIGHT);
                 }
             };
+            case 4 -> new ArrayList<RiverSide>(){
+                {
+                    add(RiverSide.LEFT);
+                    add(RiverSide.UPPER_LEFT);
+                }
+            };
+            case 5 -> new ArrayList<RiverSide>(){
+                {
+                    add(RiverSide.RIGHT);
+                    add(RiverSide.LOWER_RIGHT);
+                }
+            };
             default -> null;
         };
-    }
-
-    /**
-     * a function to create rivers on map
-     */
-    private static void generateRivers(){
-        for (int y=0 ; y<mapHeight ; y++){
-            for (int x=0 ; x<mapWidth ; x++){
-                boolean hasRiver = generateRiverChance(map[y][x]);
-                if (!hasRiver)
-                    continue;
-                map[y][x].setRiverSides(generateRiverSidesPattern());
-            }
-        }
     }
 
     /**
@@ -207,6 +219,18 @@ public class MapController {
     private static void handleRiverSide(RiverSide riverSide , int row , int col){
         int xToModify = col + riverSide.getxEffect() ;
         int yToModify = row + riverSide.getyEffect() ;
+
+        if (row%2==0){
+            switch (riverSide){
+                case UPPER_LEFT, LOWER_LEFT -> xToModify -= 1 ;
+            }
+        }
+        else {
+            switch (riverSide){
+                case UPPER_RIGHT, LOWER_RIGHT -> xToModify += 1 ;
+            }
+        }
+
         if (!isPostionValid(xToModify , yToModify))
             return;
         map[yToModify][xToModify].addRiverSide(oppositeRiverSides.get(riverSide));

@@ -323,6 +323,7 @@ public class Worker {
 
     private static String findError(GameController gameController) {
         Unit selectedUnit = SelectController.selectedUnit;
+
         if (selectedUnit == null)
             return "There isn't any selected unit!";
 
