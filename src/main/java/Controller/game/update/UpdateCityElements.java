@@ -43,7 +43,7 @@ public class UpdateCityElements {
 
     // just for selected civilization!
     public static void maintenance(Civilization civilization) {
-        int number = civilization.getNumberOfRailroadsAndRoads() / (civilization.getCities().size()+1);
+        int number = civilization.getNumberOfRailroadsAndRoads() / civilization.getCities().size();
         for (City city : civilization.getCities()) {
             city.setGold(civilization.getGold() - number);
         }
