@@ -330,7 +330,7 @@ public class Worker {
         if (!UnitController.hasOwnerShip(selectedUnit, gameController))
             return "This unit does not belong to you!";
 
-        if (selectedUnit.getTypeOfUnit() != TypeOfUnit.WORKER)
+        if (!NonCombatUnitController.isWorker(selectedUnit))
             return "The selected unit is " + selectedUnit.getTypeOfUnit().getName()
                     + ". It should be Worker for this action!";
         if (selectedUnit.getTimesMovedThisTurn() >= 2)
