@@ -41,6 +41,10 @@ public class CombatUnitController {
                 || NonCombatUnitController.isSettler(unit));
     }
 
+    private static boolean isMeleeUnit(Unit unit) {
+        return unit.getTypeOfUnit().getCombatType() == CombatType.MELEE;
+    }
+
     private String alert(Unit unit) {
         return "";
     }
