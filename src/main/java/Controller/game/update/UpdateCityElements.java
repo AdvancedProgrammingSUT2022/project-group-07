@@ -34,8 +34,8 @@ public class UpdateCityElements {
             if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
                 for (Route road : unit.getRoadsAboutToBeBuilt()) {
                     road.setTurnsNeeded(road.getTurnsNeeded() - 1);
-                    if (road.getTurnsNeeded() == 0)
-                        Worker.buildRoute(road, currentCivilization);
+//                    if (road.getTurnsNeeded() == 0)
+//                        Worker.buildRoute(road, currentCivilization);
                 }
             }
         }
@@ -43,7 +43,7 @@ public class UpdateCityElements {
 
     // just for selected civilization!
     public static void maintenance(Civilization civilization) {
-        int number = civilization.getNumberOfRailroadsAndRoads() / civilization.getCities().size();
+        int number = civilization.getNumberOfRailroadsAndRoads() / (civilization.getCities().size()+1);
         for (City city : civilization.getCities()) {
             city.setGold(civilization.getGold() - number);
         }

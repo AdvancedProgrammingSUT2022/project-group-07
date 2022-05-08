@@ -92,8 +92,6 @@ public class ResearchController {
                 Technology technology = new Technology(typeOfTechnology);
                 technology.setRemainingTurns(typeOfTechnology.getCost()/civilizationScience);
                 civilization.setCurrentResearch(technology);
-                System.out.println("remaining turns should be : " + typeOfTechnology.getCost()/civilizationScience);
-                System.out.println("but remaining turns really is : " + civilization.getCurrentResearch().getRemainingTurns());
                 return "research " + typeOfTechnology.getName() + " set successfully";
             }
             else

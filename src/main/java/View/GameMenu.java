@@ -41,7 +41,7 @@ public class GameMenu extends Menu{
             // info commands :::
 
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_RESEARCH)) != null){
-                Information.researchInformation(gameController.getCurrentCivilization());
+                Information.researchInfo(gameController.getCurrentCivilization());
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_UNITS)) != null){
                 Information.unitsInformation(gameController.getCurrentCivilization());
@@ -56,13 +56,13 @@ public class GameMenu extends Menu{
 
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_DEMOGRAPHICS)) != null){
-
+                Information.demographicsInformation(gameController.getCivilizations() , gameController.getCurrentCivilization());
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_NOTIFICATIONS)) != null){
 
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_MILITARY)) != null) {
-
+                Information.militaryInformation(gameController.getCurrentCivilization());
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_MILITARY)) != null){
 
@@ -171,24 +171,11 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
 
-            // research commands :::
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_SHOW_CURRENT)) != null){
-                String result = ResearchController.showCurrentResearch(gameController.getCurrentCivilization());
-                System.out.println(result);
+            // research menu :::
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_MENU)) != null){
+                System.out.println("entered research menu!");
+                new ResearchMenu(scanner , gameController).run(); ;
             }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_SHOW_AVAILABLE)) != null) {
-                String result = ResearchController.showAvailableResearch(gameController.getCurrentCivilization());
-                System.out.println(result);
-            }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_SHOW_OWNED)) != null) {
-                String result = ResearchController.showOwnedResearch(gameController.getCurrentCivilization());
-                System.out.println(result);
-            }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_TECHNOLOGY)) != null) {
-                String result = ResearchController.researchTechnology(matcher , gameController.getCurrentCivilization());
-                System.out.println(result);
-            }
-
 
             // map commands :::
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_SHOW_LOCATION)) != null){
