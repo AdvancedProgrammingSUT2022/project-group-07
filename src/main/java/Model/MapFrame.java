@@ -8,6 +8,10 @@ import java.util.HashMap;
 
 import Enum.MapDimension;
 import Enum.RiverSide;
+import Enum.Resources ;
+import Enum.TypeOfTechnology;
+import Model.Improvement;
+import Enum.TypeOfImprovement;
 
 public class MapFrame extends JFrame {
     private final Terrain[][] map;
@@ -32,7 +36,7 @@ public class MapFrame extends JFrame {
         setVisible(true);
         setResizable(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.hexagonA = 45;
+        this.hexagonA = 50;
         rad3over2 = (int) (((double) hexagonA) * Math.sqrt(3) / 2);
     }
 
@@ -99,10 +103,46 @@ public class MapFrame extends JFrame {
             Font myFont = new Font("Sans Serif", Font.BOLD, 15);
             g2d.setFont(myFont);
             if (currentCivilization.getKnownTerrains().contains(map[row][col])) {
-                g2d.drawString(typeOfTerrainFeature, x - hexagonA / 4, y - hexagonA / 2);
-                g2d.drawString(typeOfTerrain, x - hexagonA / 2, y);
+                g2d.drawString(typeOfTerrainFeature, x - hexagonA/3, y - hexagonA/2);
+                g2d.drawString(typeOfTerrain, x - 2*hexagonA/3 , y);
             }
-            g2d.drawString(loc, x - hexagonA / 2, y + hexagonA / 2);
+            g2d.drawString(loc, x - hexagonA/2, y + 2*hexagonA/3);
+        }
+
+        /**
+         * a function to draw resources on this tile
+         * @param g2d graphics2d object
+         * @param centerLocation center of polygon
+         * @param row row
+         * @param col col
+         */
+        private void drawResourceOnHexagon (Graphics2D g2d , Location centerLocation , int row , int col){
+            if (!this.currentCivilization.getKnownTerrains().contains(map[row][col]))
+                return;
+            int x = centerLocation.getX();
+            int y = centerLocation.getY();
+            Resources tileResource = map[row][col].getResources() ;
+            if (tileResource==null)
+                return;
+            String resourceName = tileResource.getName().substring(0,3) ;
+            TypeOfTechnology technologyNeeded = tileResource.getTechnologyNeeded();
+            if (technologyNeeded==null
+                    || this.currentCivilization.getGainedTypeOfTechnologies().contains(technologyNeeded)) {
+                g2d.drawString(resourceName, x + hexagonA / 3, y);
+            }
+        }
+
+        private void drawImprovementOnHexagon (Graphics2D g2d , Location centerLocation , int row , int col){
+            int x = centerLocation.getX();
+            int y = centerLocation.getY();
+            if (this.currentCivilization.getKnownTerrains().contains(map[row][col])
+                    && this.currentCivilization.getVisibleTerrains().contains(map[row][col]))
+                return;
+            Improvement tileImprovement = map[row][col].getImprovement();
+            if (tileImprovement==null)
+                return;
+//            String improvementName = tileImprovement.getImprovement().getName().substring(0,3);
+//            g2d.drawString(improvementName , x-hexagonA/4 , y+hexagonA/4);
         }
 
         /**
@@ -121,10 +161,12 @@ public class MapFrame extends JFrame {
                 if (unit.getLocation() != null
                         && unit.getLocation().getY() == row
                         && unit.getLocation().getX() == col) {
+                    String unitName = unit.getTypeOfUnit().getName().substring(0,1).toUpperCase();
                     g2d.setColor(colors[civilizations.indexOf(unit.getCivilization())]);
                     g2d.fillOval(x - hexagonA / 2, y, hexagonA / 2, hexagonA / 2);
                     g2d.setColor(Color.BLACK);
                     g2d.drawOval(x - hexagonA / 2, y, hexagonA / 2, hexagonA / 2);
+                    g2d.drawString(unitName , x-hexagonA/3 , y+hexagonA/3);
                     x += hexagonA / 2;
                 }
             }
@@ -132,7 +174,7 @@ public class MapFrame extends JFrame {
 
         /**
      * a function to draw rivers on a tile
-     * @param g2d grphics 2d object
+     * @param g2d graphics 2d object
      * @param terrain tile
      * @param polygon used for coordinates
      */
@@ -177,6 +219,8 @@ public class MapFrame extends JFrame {
                     Polygon p = generateHexagon(x, y);
                     drawHexagon(g2d, p, row, col);
                     drawInformationOnHexagon(g2d, new Location(x, y), row, col);
+                    drawResourceOnHexagon(g2d , new Location(x,y) , row , col);
+                    drawImprovementOnHexagon(g2d , new Location(x,y) , row , col);
                     drawUnits(g2d, new Location(x, y), row, col, units);
                     x += rad3over2 * 2;
                 }
@@ -192,13 +236,14 @@ public class MapFrame extends JFrame {
                     x += rad3over2;
                 for (int col = firstCol; col <= lastCol; col++) {
                     Polygon p = generateHexagon(x, y);
-//                    if (currentCivilization.getKnownTerrains().contains(map[row][col]))
-                    drawRivers(g2d , map[row][col] , p);
+                    if (currentCivilization.getKnownTerrains().contains(map[row][col]))
+                        drawRivers(g2d, map[row][col], p);
                     x += rad3over2 * 2;
                 }
                 y += 1.5 * hexagonA;
             }
         }
+
 
         public void paint (Graphics g){
             Graphics2D g2d = (Graphics2D) g;
