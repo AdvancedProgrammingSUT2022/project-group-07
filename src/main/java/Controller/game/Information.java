@@ -8,37 +8,37 @@ import java.util.stream.Collectors;
 
 public class Information {
 
-    public static void researchInfo (Civilization civilization){
+    public static void researchInfo (Civilization civilization) {
         ArrayList<TypeOfTechnology> ownedTypeOfTechnologies = civilization.getGainedTypeOfTechnologies();
         String civilizationScience = Integer.toString(civilization.getScience());
-        String currentResearch = ResearchController.showCurrentResearch(civilization) ;
+        String currentResearch = ResearchController.showCurrentResearch(civilization);
         System.out.println("total science : " + civilization.getScience());
         System.out.println("current research :\n" + currentResearch);
         System.out.println("list of owned technologies : ");
         for (TypeOfTechnology ownedTypeOfTechnology : ownedTypeOfTechnologies) {
-            System.out.printf("\t%s\n" , ownedTypeOfTechnology.getName());
+            System.out.printf("\t%s\n", ownedTypeOfTechnology.getName());
             System.out.println("\t\tunlocked buildings : ");
-            for (Building building : Building.values()){
-                if (building.getTechnologyRequired()==null
+            for (Building building : Building.values()) {
+                if (building.getTechnologyRequired() == null
                         || ownedTypeOfTechnologies.contains(building.getTechnologyRequired()))
-                    System.out.printf("\t\t\t%s\n" , building);
+                    System.out.printf("\t\t\t%s\n", building);
             }
         }
         System.out.println("list of available technologies : ");
-        for (TypeOfTechnology typeOfTechnology : TypeOfTechnology.values()){
+        for (TypeOfTechnology typeOfTechnology : TypeOfTechnology.values()) {
             if (ownedTypeOfTechnologies.contains(typeOfTechnology))
                 continue;
             TypeOfTechnology[] needed = typeOfTechnology.getPrerequisiteTech();
-            if (needed==null) {
-                String turns = civilization.getScience()!=0 ? Integer.toString(typeOfTechnology.getCost()/civilization.getScience()) : "Somewhere around 30'th century" ;
+            if (needed == null) {
+                String turns = civilization.getScience() != 0 ? Integer.toString(typeOfTechnology.getCost() / civilization.getScience()) : "Somewhere around 30'th century";
                 System.out.printf("\t%-10s : %s\n", typeOfTechnology.getName(), turns);
                 continue;
             }
             boolean condition = true;
             for (TypeOfTechnology technology : needed)
                 condition &= ownedTypeOfTechnologies.contains(technology);
-            if (condition){
-                String turns = civilization.getScience()!=0 ? Integer.toString(typeOfTechnology.getCost()/civilization.getScience()) : "Somewhere around 30'th century" ;
+            if (condition) {
+                String turns = civilization.getScience() != 0 ? Integer.toString(typeOfTechnology.getCost() / civilization.getScience()) : "Somewhere around 30'th century";
                 System.out.printf("\t%-10s : %s\n", typeOfTechnology.getName(), turns);
             }
         }
@@ -122,6 +122,6 @@ public class Information {
             System.out.println("\t\tHp : " + hp);
             System.out.println("\t\tMp : " + mp);
         }
-
     }
+
 }

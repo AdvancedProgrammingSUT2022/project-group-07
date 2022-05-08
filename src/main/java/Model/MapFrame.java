@@ -240,12 +240,13 @@ public class MapFrame extends JFrame {
                 for (int col = firstCol; col <= lastCol; col++) {
                     Polygon p = generateHexagon(x, y);
                     if (currentCivilization.getKnownTerrains().contains(map[row][col]))
-                        drawRivers(g2d , map[row][col] , p);
+                        drawRivers(g2d, map[row][col], p);
                     x += rad3over2 * 2;
                 }
                 y += 1.5 * hexagonA;
             }
         }
+
 
         public void paint (Graphics g){
             Graphics2D g2d = (Graphics2D) g;
