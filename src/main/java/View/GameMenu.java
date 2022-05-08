@@ -41,7 +41,7 @@ public class GameMenu extends Menu{
             // info commands :::
 
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_RESEARCH)) != null){
-                Information.researchInformation(gameController.getCurrentCivilization());
+                Information.researchInfo(gameController.getCurrentCivilization());
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_UNITS)) != null){
                 Information.unitsInformation(gameController.getCurrentCivilization());
@@ -56,13 +56,13 @@ public class GameMenu extends Menu{
 
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_DEMOGRAPHICS)) != null){
-
+                Information.demographicsInformation(gameController.getCivilizations() , gameController.getCurrentCivilization());
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_NOTIFICATIONS)) != null){
 
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_MILITARY)) != null) {
-
+                Information.militaryInformation(gameController.getCurrentCivilization());
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_MILITARY)) != null){
 
