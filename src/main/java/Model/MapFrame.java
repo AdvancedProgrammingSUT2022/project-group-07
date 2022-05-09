@@ -209,8 +209,11 @@ public class MapFrame extends JFrame {
         }
 
         private void paintRawMap( Graphics2D g2d , int firstRow , int lastRow , int firstCol , int lastCol){
-            int y = 100;
+            int y = 150;
             ArrayList<Unit> units = getUnits();
+            String currentPlayer = "current player : " + this.currentCivilization.getName() ;
+            g2d.setFont(new Font("sans serif" , Font.PLAIN , 24));
+            g2d.drawString(currentPlayer , 50 , 50) ;
             for (int row = firstRow; row <= lastRow; row++) {
                 int x = 100;
                 if (row % 2 == 1)
@@ -229,7 +232,7 @@ public class MapFrame extends JFrame {
         }
 
         private void paintRivers (Graphics2D g2d , int firstRow , int lastRow , int firstCol , int lastCol){
-            int y = 100 ;
+            int y = 150 ;
             for (int row = firstRow; row <= lastRow; row++) {
                 int x = 100;
                 if (row % 2 == 1)
@@ -237,12 +240,13 @@ public class MapFrame extends JFrame {
                 for (int col = firstCol; col <= lastCol; col++) {
                     Polygon p = generateHexagon(x, y);
                     if (currentCivilization.getKnownTerrains().contains(map[row][col]))
-                        drawRivers(g2d , map[row][col] , p);
+                        drawRivers(g2d, map[row][col], p);
                     x += rad3over2 * 2;
                 }
                 y += 1.5 * hexagonA;
             }
         }
+
 
         public void paint (Graphics g){
             Graphics2D g2d = (Graphics2D) g;

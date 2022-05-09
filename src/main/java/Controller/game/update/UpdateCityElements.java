@@ -31,6 +31,7 @@ public class UpdateCityElements {
     }
 
     public static void updateRoutsAboutToBeCreated(Civilization currentCivilization) {
+//        Location location;
         for (Unit unit : currentCivilization.getUnits()) {
             if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
                 for (Route road : unit.getRoadsAboutToBeBuilt()) {
@@ -46,6 +47,7 @@ public class UpdateCityElements {
 
     // just for selected civilization!
     public static void maintenance(Civilization civilization) {
+        // TODO + 1?
         int number = civilization.getNumberOfRailroadsAndRoads() / civilization.getCities().size();
         for (City city : civilization.getCities()) {
             city.setGold(civilization.getGold() - number - city.getBuildings().size());

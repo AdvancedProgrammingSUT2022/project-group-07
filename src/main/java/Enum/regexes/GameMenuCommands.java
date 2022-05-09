@@ -68,6 +68,7 @@ public enum GameMenuCommands {
     RESEARCH_SHOW_CURRENT("research show current") ,
     RESEARCH_SHOW_AVAILABLE("research show available") ,
     RESEARCH_SHOW_OWNED("research show owned") ,
+    RESEARCH_MENU("research menu") ,
 
     // map commands : !!!!
 
