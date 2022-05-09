@@ -107,7 +107,11 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_SIEGE)) != null){
-                String result = CombatUnitController.siegeUnits(matcher, gameController);
+                String result = CombatUnitController.siegeUnits();
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_RANGED_SETUP)) != null){
+                String result = CombatUnitController.setUpUnit(matcher);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_PILLAGE)) != null){
