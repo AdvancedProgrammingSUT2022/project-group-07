@@ -31,15 +31,13 @@ public class UpdateCityElements {
     }
 
     public static void updateRoutsAboutToBeCreated(Civilization currentCivilization) {
-//        Location location;
         for (Unit unit : currentCivilization.getUnits()) {
             if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
-                for (Route road : unit.getRoadsAboutToBeBuilt()) {
-                    if (road != null) {
-                        road.setTurnsNeeded(road.getTurnsNeeded() - 1);
-                        if (road.getTurnsNeeded() == 0)
-                            Worker.buildRoute(road, currentCivilization);
-                    }
+                Route route = unit.getRouteAboutToBeBuilt();
+                if (route != null) {
+                    route.setTurnsNeeded(route.getTurnsNeeded() - 1);
+                    if (route.getTurnsNeeded() == 0)
+                        Worker.buildRoute(route, currentCivilization);
                 }
             }
         }
@@ -57,15 +55,14 @@ public class UpdateCityElements {
     public static void updateImprovementsAboutToBeCreated(Civilization currentCivilization) {
         for (Unit unit : currentCivilization.getUnits()) {
             if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
-                for (Improvement improvement : unit.getImprovementsAboutToBeCreated()) {
-                    if (improvement != null) {
-                        if (improvement.getTypeOfImprovement() == TypeOfImprovement.FARM)
-                            updateFarm(improvement, unit);
-                        else if (improvement.getTypeOfImprovement() == TypeOfImprovement.MINE)
-                            updateMine(improvement, unit);
-                        else
-                            updateOtherImprovements(improvement, unit);
-                    }
+                Improvement improvement = unit.getImprovementAboutToBeCreated();
+                if (improvement != null) {
+                    if (improvement.getTypeOfImprovement() == TypeOfImprovement.FARM)
+                        updateFarm(improvement, unit);
+                    else if (improvement.getTypeOfImprovement() == TypeOfImprovement.MINE)
+                        updateMine(improvement, unit);
+                    else
+                        updateOtherImprovements(improvement, unit);
                 }
                 if (unit.getRepairTurns() != 0)
                     updateRepairment(unit, currentCivilization);

@@ -75,10 +75,6 @@ public class CombatUnitController {
         return "";
     }
 
-//    private City getCurrentCity(Unit unit, ArrayList<City> cities) {
-//
-//    }
-
     private String garrison(Unit Unit, City City) {
         return "";
     }
@@ -91,6 +87,18 @@ public class CombatUnitController {
         return true;
     }
 
+    private String attack(Unit unit, City city) {
+        return "";
+    }
+
+    private String attack(Unit unit, Unit enemyUnit) {
+        return "";
+    }
+
+//    private City getCurrentCity(Unit unit, ArrayList<City> cities) {
+//
+//    }
+
 //    private City getCityByLocation(Location location) {
 //
 //    }
@@ -99,11 +107,4 @@ public class CombatUnitController {
 //
 //    }
 
-    private String attack(Unit unit, City city) {
-        return "";
-    }
-
-    private String attack(Unit unit, Unit enemyUnit) {
-        return "";
-    }
 }
