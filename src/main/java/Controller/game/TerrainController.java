@@ -47,4 +47,12 @@ public class TerrainController {
         }
         return false;
     }
+
+    public static boolean hasImprovement(Terrain terrain) {
+        return terrain.getImprovement() != null;
+    }
+
+    public static boolean hasRoad(Terrain terrain) {
+        return terrain.hasRoad();
+    }
 }

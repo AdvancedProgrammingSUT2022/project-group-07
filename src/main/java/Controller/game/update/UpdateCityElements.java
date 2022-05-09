@@ -9,6 +9,8 @@ import Model.*;
 import Enum.TypeOfUnit;
 import Enum.TypeOfImprovement;
 import Enum.TerrainFeatures;
+import Enum.TypeOfImprovement;
+import Enum.TerrainFeatures;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,13 +31,13 @@ public class UpdateCityElements {
     }
 
     public static void updateRoutsAboutToBeCreated(Civilization currentCivilization) {
-//        Location location;
         for (Unit unit : currentCivilization.getUnits()) {
             if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
-                for (Route road : unit.getRoadsAboutToBeBuilt()) {
-                    road.setTurnsNeeded(road.getTurnsNeeded() - 1);
-//                    if (road.getTurnsNeeded() == 0)
-//                        Worker.buildRoute(road, currentCivilization);
+                Route route = unit.getRouteAboutToBeBuilt();
+                if (route != null) {
+                    route.setTurnsNeeded(route.getTurnsNeeded() - 1);
+                    if (route.getTurnsNeeded() == 0)
+                        Worker.buildRoute(route, currentCivilization);
                 }
             }
         }
@@ -43,25 +45,35 @@ public class UpdateCityElements {
 
     // just for selected civilization!
     public static void maintenance(Civilization civilization) {
-        int number = civilization.getNumberOfRailroadsAndRoads() / (civilization.getCities().size()+1);
+        // TODO + 1?
+        int number = civilization.getNumberOfRailroadsAndRoads() / civilization.getCities().size();
         for (City city : civilization.getCities()) {
-            city.setGold(civilization.getGold() - number);
+            city.setGold(civilization.getGold() - number - city.getBuildings().size());
         }
     }
 
     public static void updateImprovementsAboutToBeCreated(Civilization currentCivilization) {
         for (Unit unit : currentCivilization.getUnits()) {
             if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
-                for (Improvement improvement : unit.getImprovementsAboutToBeCreated()) {
+                Improvement improvement = unit.getImprovementAboutToBeCreated();
+                if (improvement != null) {
                     if (improvement.getTypeOfImprovement() == TypeOfImprovement.FARM)
                         updateFarm(improvement, unit);
-                    if (improvement.getTypeOfImprovement() == TypeOfImprovement.MINE)
+                    else if (improvement.getTypeOfImprovement() == TypeOfImprovement.MINE)
                         updateMine(improvement, unit);
                     else
                         updateOtherImprovements(improvement, unit);
                 }
+                if (unit.getRepairTurns() != 0)
+                    updateRepairment(unit, currentCivilization);
             }
         }
+    }
+
+    private static void updateRepairment(Unit unit, Civilization civilization) {
+        unit.setRepairTurns(unit.getRepairTurns() - 1);
+        if (unit.getRepairTurns() == 0)
+            Worker.repair(unit, civilization);
     }
 
     private static void updateOtherImprovements(Improvement improvement, Unit unit) {
