@@ -5,6 +5,7 @@ import Enum.TypeOfImprovement;
 public class Improvement {
     private TypeOfImprovement TypeOfImprovement;
     private int turn;
+    private int turnsToRepair;
     private Terrain terrain;
 
     public Improvement(TypeOfImprovement TypeOfImprovement , int turn, Terrain terrain) {
@@ -31,5 +32,13 @@ public class Improvement {
 
     public Terrain getTerrain() {
         return terrain;
+    }
+
+    public int getTurnsToRepair() {
+        return turnsToRepair;
+    }
+
+    public void setTurnsToRepair(int turnsToRepair) {
+        this.turnsToRepair = turnsToRepair;
     }
 }

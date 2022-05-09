@@ -31,13 +31,14 @@ public class UpdateCityElements {
     }
 
     public static void updateRoutsAboutToBeCreated(Civilization currentCivilization) {
-//        Location location;
         for (Unit unit : currentCivilization.getUnits()) {
             if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
                 for (Route road : unit.getRoadsAboutToBeBuilt()) {
-                    road.setTurnsNeeded(road.getTurnsNeeded() - 1);
-                    if (road.getTurnsNeeded() == 0)
-                        Worker.buildRoute(road, currentCivilization);
+                    if (road != null) {
+                        road.setTurnsNeeded(road.getTurnsNeeded() - 1);
+                        if (road.getTurnsNeeded() == 0)
+                            Worker.buildRoute(road, currentCivilization);
+                    }
                 }
             }
         }
@@ -47,7 +48,7 @@ public class UpdateCityElements {
     public static void maintenance(Civilization civilization) {
         int number = civilization.getNumberOfRailroadsAndRoads() / civilization.getCities().size();
         for (City city : civilization.getCities()) {
-            city.setGold(civilization.getGold() - number);
+            city.setGold(civilization.getGold() - number - city.getBuildings().size());
         }
     }
 
@@ -55,15 +56,25 @@ public class UpdateCityElements {
         for (Unit unit : currentCivilization.getUnits()) {
             if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
                 for (Improvement improvement : unit.getImprovementsAboutToBeCreated()) {
-                    if (improvement.getTypeOfImprovement() == TypeOfImprovement.FARM)
-                        updateFarm(improvement, unit);
-                    if (improvement.getTypeOfImprovement() == TypeOfImprovement.MINE)
-                        updateMine(improvement, unit);
-                    else
-                        updateOtherImprovements(improvement, unit);
+                    if (improvement != null) {
+                        if (improvement.getTypeOfImprovement() == TypeOfImprovement.FARM)
+                            updateFarm(improvement, unit);
+                        else if (improvement.getTypeOfImprovement() == TypeOfImprovement.MINE)
+                            updateMine(improvement, unit);
+                        else
+                            updateOtherImprovements(improvement, unit);
+                    }
                 }
+                if (unit.getRepairTurns() != 0)
+                    updateRepairment(unit, currentCivilization);
             }
         }
+    }
+
+    private static void updateRepairment(Unit unit, Civilization civilization) {
+        unit.setRepairTurns(unit.getRepairTurns() - 1);
+        if (unit.getRepairTurns() == 0)
+            Worker.repair(unit, civilization);
     }
 
     private static void updateOtherImprovements(Improvement improvement, Unit unit) {

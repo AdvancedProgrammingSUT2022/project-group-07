@@ -46,6 +46,8 @@ public class Worker {
                 ArrayList<String> canBeFoundOn = new ArrayList<>(Arrays.asList(typeOfImprovement.getCanBeFoundOn()));
                 if ((error = destinationHasValidTypeOfTerrainOrFeature(canBeFoundOn, terrain, improvement)) != null)
                     return error;
+                if (TerrainController.hasImprovement(terrain))
+                    return "This terrain has an improvement, you can't build another!";
                 else {
                     if (!ResearchController.isTechnologyAlreadyAchieved(typeOfImprovement.getTypeOfTechnology(), civilization))
                         return "Your civilization doesn't have " + typeOfImprovement.getTypeOfTechnology().getName()
@@ -88,6 +90,8 @@ public class Worker {
             return error;
         if ((terrain = TerrainController.getTerrainByLocation(location)) == null)
             return "Position ( " + location.getX() + " , " + location.getY() + " ) is not valid!";
+        if (TerrainController.hasImprovement(terrain))
+            return "This terrain has an improvement, you can't build another!";
         if (!ResearchController.isTechnologyAlreadyAchieved(TypeOfImprovement.MINE.getTypeOfTechnology(), civilization))
             return "Your civilization doesn't have " + TypeOfImprovement.MINE.getTypeOfTechnology().getName() + " tech to build mine!";
         if (hasAnyResource(terrain) == null
@@ -125,6 +129,8 @@ public class Worker {
             return error;
         if ((terrain = TerrainController.getTerrainByLocation(location)) == null)
             return "Position ( " + location.getX() + " , " + location.getY() + " ) is not valid!";
+        if (TerrainController.hasImprovement(terrain))
+            return "This terrain has an improvement, you can't build another!";
         if (!ResearchController.isTechnologyAlreadyAchieved(TypeOfTechnology.AGRICULTURE, civilization))
             return "Your civilization doesn't have agriculture tech to build farm!";
         if (hasAnyResource(terrain) != null)
@@ -338,9 +344,34 @@ public class Worker {
         return null;
     }
 
-    public static String repair(Matcher matcher, GameController gameController) {
-        // TODO repair!
-        return "";
+    public static String checkToRepair(GameController gameController) {
+        String error = findError(gameController);
+        Unit worker = SelectController.selectedUnit;
+        int x = worker.getLocation().getX();
+        int y = worker.getLocation().getY();
+        Location location = new Location(x, y);
+        Terrain terrain;
+
+        if (error != null)
+            return error;
+        if ((terrain = TerrainController.getTerrainByLocation(location)) == null)
+            return "Position ( " + x + " , " + y + " ) is not valid!";
+        if (!terrain.isPillaged())
+            return "This terrain is not pillaged!";
+        worker.setRepairTurns(3);
+        return "Improvement or road will be repaired in 3 turns!";
     }
 
+    public static void repair(Unit worker, Civilization civilization) {
+        for (City city : civilization.getCities()) {
+            for (Terrain terrain : city.getTerrains()) {
+                if (terrain.isPillaged()
+                        && terrain.getLocation().getX() == worker.getLocation().getX()
+                        &&terrain.getLocation().getY() == worker.getLocation().getY()) {
+                    terrain.setPillaged(false);
+                    return;
+                }
+            }
+        }
+    }
 }

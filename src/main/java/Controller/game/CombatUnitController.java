@@ -3,11 +3,11 @@ package Controller.game;
 import Controller.game.movement.Move;
 import Model.City;
 import Model.Location;
+import Model.Terrain;
 import Model.Unit;
 import Enum.CombatType;
 
 import java.util.regex.Matcher;
-
 
 public class CombatUnitController {
     // TODO ranged units!
@@ -21,10 +21,10 @@ public class CombatUnitController {
 
         if (!isMilitary(selectedUnit))
             return "Selected unit is not military!";
+        if (!SelectController.positionIsValid(destination))
+            return "Position ( " + destination.getX() + " , " + destination.getY() + " ) is not valid!";
         if (!isSiegeUnit(selectedUnit))
             return "Combat type of selected unit should be siege!";
-        if (!SelectController.positionIsValid(destination))
-            return "Position ( " + x + " , " + y + " ) is not valid!";
         if ((placeName = Move.destinationIsValid(destination)) != null)
             return "Your destination is " + placeName + ". You cannot siege!";
 
@@ -43,6 +43,28 @@ public class CombatUnitController {
 
     private static boolean isMeleeUnit(Unit unit) {
         return unit.getTypeOfUnit().getCombatType() == CombatType.MELEE;
+    }
+
+    public static String pillage(Matcher matcher, GameController gameController) {
+        // TODO which units can pillage?
+        Unit selectedUnit = SelectController.selectedUnit;
+        int x = Integer.parseInt(matcher.group("X"));
+        int y = Integer.parseInt(matcher.group("Y"));
+        Location destination = new Location(x, y);
+        Terrain terrain;
+
+        if (!isMilitary(selectedUnit))
+            return "Selected unit is not military!";
+        if ((terrain = TerrainController.getTerrainByLocation(destination)) == null)
+            return "Position ( " + destination.getX() + " , " + destination.getY() + " ) is not valid!";
+        if (!TerrainController.hasImprovement(terrain)
+                && !TerrainController.hasRoad(terrain))
+            return "This terrain doesn't have any road or improvement, so you can't pillage!";
+        if (terrain.isPillaged())
+            return "This terrain is already pillaged!";
+        // TODO consider in movements, map, ...
+        terrain.setPillaged(true);
+        return "Pillaged successfully!";
     }
 
     private String alert(Unit unit) {

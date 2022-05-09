@@ -141,27 +141,19 @@ public class CivilizationController {
 
     public static void updateCivilizationElements(GameController gameController) {
         Civilization civilization = gameController.getCurrentCivilization();
-        Move.UnitMovementsUpdate(civilization , gameController); //TODO update multi turn moves
-        //TODO update creating units
-        CivilizationController.updateResearch(civilization);
-        CivilizationController.updateScience(civilization);
-        //TODO update food, gold and production
-        //TODO update citizens food consumption
         Move.UnitMovementsUpdate(civilization , gameController);
+        CivilizationController.updateScience(civilization);
+        updateResearch(civilization);
         UpdateCityElements.citizensIncome(civilization);
         UpdateCityElements.maintenance(civilization);
         UpdateCivilizationElements.update(civilization);
-        // maintenance
         UpdateCityElements.cityGrowth(civilization);
         UpdateCityElements.citizenGrowth(civilization);
-        UpdateCivilizationElements.update(civilization);
+        UpdateCityElements.updateImprovementsAboutToBeCreated(civilization);
         UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
         UpdateCityElements.updateRoutsAboutToBeCreated(civilization);
-        Move.UnitMovementsUpdate(civilization , gameController);
-        updateResearch(civilization);
         UpdateCityElements.foodConsumption(civilization);
-        Move.UnitMovementsUpdate(civilization , gameController);
+        //TODO update food, gold and production
         //TODO harchidige ke moond!
     }
-
 }
