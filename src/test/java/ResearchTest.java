@@ -7,6 +7,7 @@ import Enum.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.* ;
 
+import Model.User;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -36,8 +37,7 @@ public class ResearchTest {
 
     @AfterAll
     static void afterAll(){
-        technologies = new ArrayList<>() ;
-        technologies.add(technology);
+        technologies = null;
     }
 
     @Test
@@ -169,13 +169,22 @@ public class ResearchTest {
     public void checkValidAlreadyInProgressResearch(){
         when(civilization.getScience()).thenReturn(20) ;
         when(civilization.getGainedTechnologies()).thenReturn(technologies);
-        when(civilization.getCurrentResearch()).thenReturn(new Technology(TypeOfTechnology.MINING));
-        String input = "research technology " + TypeOfTechnology.MINING.getName();
+        when(civilization.getCurrentResearch()).thenReturn(new Technology(TypeOfTechnology.RADIO));
+        String input = "research technology " + TypeOfTechnology.RADIO.getName();
         Matcher matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_TECHNOLOGY) ;
         String result = ResearchController.researchTechnology(matcher , civilization);
         String expected = "you are already researching for this technology" ;
         assertEquals(expected , result);
     }
 
-    
+    @Test
+    public void checkScienceAfterSuccessfulResearch(){
+        Civilization civilization = new Civilization("persia sefid" , new User("ap" , "ap" , "ap")) ;
+        civilization.setScience(100);
+        civilization.setCurrentResearch(technology);
+        int result = civilization.getScience() ;
+        int expected = 100 - technology.getTypeOfTechnology().getCost() ;
+        assertEquals(expected , result);
+    }
+
 }
