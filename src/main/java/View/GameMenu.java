@@ -106,6 +106,14 @@ public class GameMenu extends Menu{
                 String result = UnitController.sleep(gameController);
                 System.out.println(result);
             }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_SIEGE)) != null){
+                String result = CombatUnitController.siegeUnits(matcher, gameController);
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_PILLAGE)) != null){
+                String result = CombatUnitController.pillage(matcher, gameController);
+                System.out.println(result);
+            }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_ALERT)) != null){
 
             }
@@ -159,7 +167,7 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REPAIR)) != null){
-                String result = Worker.repair(matcher, gameController);
+                String result = Worker.checkToRepair(gameController);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_BUILD_ROAD)) != null){

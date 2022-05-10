@@ -11,6 +11,8 @@ import java.util.Arrays;
 
 import static Controller.game.update.UpdateCivilizationElements.updateResearch;
 
+import static Controller.game.update.UpdateCivilizationElements.updateResearch;
+
 public class CivilizationController {
     private static Civilization civilization;
 
@@ -139,33 +141,19 @@ public class CivilizationController {
 
     public static void updateCivilizationElements(GameController gameController) {
         Civilization civilization = gameController.getCurrentCivilization();
-        Move.UnitMovementsUpdate(civilization , gameController); //TODO update multi turn moves
-        //TODO update creating units
-        CivilizationController.updateResearch(civilization);
-        CivilizationController.updateScience(civilization);
-        //TODO update food, gold and production
-        //TODO update citizens food consumption
         Move.UnitMovementsUpdate(civilization , gameController);
+        CivilizationController.updateScience(civilization);
+        updateResearch(civilization);
         UpdateCityElements.citizensIncome(civilization);
-        UpdateCivilizationElements.update(civilization);
-        // maintenance
-        UpdateCityElements.cityGrowth(civilization);
-        UpdateCityElements.citizenGrowth(civilization);
         UpdateCityElements.maintenance(civilization);
         UpdateCivilizationElements.update(civilization);
+        UpdateCityElements.cityGrowth(civilization);
+        UpdateCityElements.citizenGrowth(civilization);
+        UpdateCityElements.updateImprovementsAboutToBeCreated(civilization);
         UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
         UpdateCityElements.updateRoutsAboutToBeCreated(civilization);
-        UpdateCityElements.updateImprovementsAboutToBeCreated(civilization);
-        Move.UnitMovementsUpdate(civilization , gameController);
-        updateResearch(civilization);
         UpdateCityElements.foodConsumption(civilization);
-        Move.UnitMovementsUpdate(civilization , gameController);
-        //TODO harchidige ke moond!
-        //TODO update multi turn moves
         //TODO update food, gold and production
-        //TODO update citizens food consumption
-        //TODO update multi turn moves
-        //TODO update research
-        //TODO update resources
+        //TODO harchidige ke moond!
     }
 }

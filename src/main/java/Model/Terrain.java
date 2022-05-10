@@ -17,6 +17,7 @@ public class Terrain {
     private Technology technology;
     private boolean hasRailRoad;
     private boolean hasRoad;
+    private boolean pillaged;
 
     private ArrayList<RiverSide> riverSides ;
 
@@ -114,5 +115,13 @@ public class Terrain {
 
     public void setImprovement(Improvement improvement) {
         this.improvement = improvement;
+    }
+
+    public boolean isPillaged() {
+        return pillaged;
+    }
+
+    public void setPillaged(boolean pillaged) {
+        this.pillaged = pillaged;
     }
 }

@@ -16,9 +16,9 @@ public class Unit {
     private int timesMovedThisTurn;
     // TODO extend
     // TODO should it be static?
-    private ArrayList<Improvement> improvementsAboutToBeCreated = new ArrayList<>();
-    private ArrayList<Route> roadsAboutToBeBuilt = new ArrayList<>();
-//    private ArrayList<Technology> railroadsAboutToBeBuilt = new ArrayList<>();
+    private Improvement improvementAboutToBeCreated;
+    private Route routeAboutToBeBuilt;
+    private int repairTurns;
 
     public UnitStatus getUnitStatus() {
         return unitStatus;
@@ -95,19 +95,27 @@ public class Unit {
         this.timesMovedThisTurn = timesMovedThisTurn;
     }
 
-    public ArrayList<Improvement> getImprovementsAboutToBeCreated() {
-        return improvementsAboutToBeCreated;
+    public int getRepairTurns() {
+        return repairTurns;
     }
 
-    public void addImprovementsAboutToBeCreated(Improvement improvement) {
-        this.improvementsAboutToBeCreated.add(improvement);
+    public void setRepairTurns(int repairTurns) {
+        this.repairTurns = repairTurns;
     }
 
-    public ArrayList<Route> getRoadsAboutToBeBuilt() {
-        return roadsAboutToBeBuilt;
+    public Improvement getImprovementAboutToBeCreated() {
+        return improvementAboutToBeCreated;
     }
 
-    public void addRoadsAboutToBeBuilt(Route road) {
-        this.roadsAboutToBeBuilt.add(road);
+    public void setImprovementAboutToBeCreated(Improvement improvementAboutToBeCreated) {
+        this.improvementAboutToBeCreated = improvementAboutToBeCreated;
+    }
+
+    public Route getRouteAboutToBeBuilt() {
+        return routeAboutToBeBuilt;
+    }
+
+    public void setRouteAboutToBeBuilt(Route routeAboutToBeBuilt) {
+        this.routeAboutToBeBuilt = routeAboutToBeBuilt;
     }
 }
