@@ -88,18 +88,14 @@ public class CivilizationController {
 
     public static void updateCivilizationElements(GameController gameController) {
         Civilization civilization = gameController.getCurrentCivilization();
-        Move.UnitMovementsUpdate(civilization , gameController);
-        //TODO update resources
+        UpdateCivilizationElements.UnitMovementsUpdate(civilization , gameController);
         UpdateCityElements.citizensIncome(civilization);
         UpdateCivilizationElements.update(civilization);
-        // maintenance
         UpdateCityElements.maintenance(civilization);
         UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
         UpdateCityElements.updateRoadsAboutToBeCreated(civilization);
         UpdateCityElements.updateRailRoadsAboutToBeCreated(civilization);
         UpdateCityElements.foodConsumption(civilization);
-        Move.UnitMovementsUpdate(civilization , gameController);
-        //TODO harchidige ke moond!
     }
 
 }

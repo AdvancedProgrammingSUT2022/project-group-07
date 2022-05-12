@@ -38,8 +38,7 @@ public class TheShortestPath {
         if (i % width == 0) {
             s = width - 1;
             k = i / width - 1;
-        }
-        else {
+        } else {
             s = i % width - 1;
             k = i / width;
         }
@@ -49,7 +48,7 @@ public class TheShortestPath {
             mpMap[i - 1][i - 2] = left.getMp();
         }
         if (k > 0) {
-            if (k % 2  == 0 && s > 0) upLeft = terrain[k - 1][s - 1];
+            if (k % 2 == 0 && s > 0) upLeft = terrain[k - 1][s - 1];
             else upLeft = terrain[k - 1][s];
             mpMap[i - 1][i - width - 1] = upLeft.getMp();
         }
@@ -71,11 +70,10 @@ public class TheShortestPath {
             mpMap[i - 1][i + width - 1] = downLeft.getMp();
         }
         if (k < height - 1) {
-            if (k % 2 == 0 ) {
+            if (k % 2 == 0) {
                 downRight = terrain[k + 1][s];
                 mpMap[i - 1][i + width - 1] = downRight.getMp();
-            }
-            else {
+            } else {
                 if (s != width - 1) {
                     downRight = terrain[k + 1][s + 1];
                     mpMap[i - 1][i + width] = downRight.getMp();
@@ -150,9 +148,6 @@ public class TheShortestPath {
         }
         return -1;
     }
-
-
-    // check if destination is mountain, ocean or river which are impassable
     // TODO river for destination ?!
 
 }

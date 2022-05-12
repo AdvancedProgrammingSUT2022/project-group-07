@@ -58,8 +58,12 @@ public class UpdateCityElements {
     public static void foodConsumption(Civilization civilization) {
         for (City city : civilization.getCities()) {
             city.setFood(city.getFood() - city.getCitizens().size() * 2);
-            if (city.getFood() < 0) city.setFood(0);
+            if (city.getFood() < 0 || cityQueueHasSettler(city)) city.setFood(0);
         }
+    }
+
+    private static boolean cityQueueHasSettler(City city) {
+        return city.getWantedUnits().contains(TypeOfUnit.SETTLER);
     }
 
     public static void citizensIncome(Civilization civilization) {

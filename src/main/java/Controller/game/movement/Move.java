@@ -3,7 +3,6 @@ package Controller.game.movement;
 import Controller.game.CivilizationController;
 import Controller.game.GameController;
 import Controller.game.SelectController;
-import Controller.game.TerrainController;
 import Model.Civilization;
 import Model.Location;
 import Model.Terrain;
@@ -13,7 +12,6 @@ import Model.Unit;
 import java.util.ArrayList;
 
 import static Controller.game.UnitController.isCombatUnit;
-import static Controller.game.UnitController.moveUnit;
 
 public class Move {
 
@@ -57,7 +55,7 @@ public class Move {
         return false;
     }
 
-    public static String checkNeededMpForMove(ArrayList<Terrain> path , Unit unit) {
+    public static String checkNeededMpForMove(ArrayList<Terrain> path, Unit unit) {
         // TODO check if it needs to continue in other turns
         if (path == null) return "";
         Location destination = path.get(path.size() - 1).getLocation();
@@ -72,7 +70,7 @@ public class Move {
                 unit.setLocation(terrain.getLocation());
                 CivilizationController.updateFogOfWar(unit.getCivilization(), GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
                 unit.setTimesMovedThisTurn(10);
-                updateGonePath(unit , goThrough);
+                updateGonePath(unit, goThrough);
                 return "Selected unit moved to ( " + terrain.getLocation().getX() + " , " + terrain.getLocation().getY() + " )!";
             }
         }
@@ -82,7 +80,7 @@ public class Move {
 
         unit.setLocation(destination);
         unit.setTimesMovedThisTurn(unit.getTimesMovedThisTurn() + 1);
-        updateGonePath(unit , goThrough);
+        updateGonePath(unit, goThrough);
         return "Selected unit moved to position ( " + destination.getX() + " , " + destination.getY() + " ) successfully!";
     }
 
@@ -103,13 +101,4 @@ public class Move {
         return false;
     }
 
-    public static void UnitMovementsUpdate(Civilization civilization, GameController gameController) {
-        for (Unit unit : civilization.getUnits()) {unit.setTimesMovedThisTurn(0);}
-        for (Unit unit : civilization.getUnits()) {
-            if (!unit.getPathToGo().isEmpty()) {
-                moveUnit(unit.getPathToGo() , gameController , unit
-                , unit.getPathToGo().get(unit.getPathToGo().size() - 1).getLocation());
-            }
-        }
-    }
 }
