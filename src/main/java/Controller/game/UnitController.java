@@ -129,6 +129,7 @@ public class UnitController {
     private static String checkUnit(Unit selectedUnit, GameController gameController) {
         if (selectedUnit == null)
             return "There isn't any selected unit!";
+
         if (!hasOwnerShip(selectedUnit, gameController))
             return "This unit does not belong to you!";
         return null;

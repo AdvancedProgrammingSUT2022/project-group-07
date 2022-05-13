@@ -5,7 +5,7 @@ import Model.Location;
 import Model.Terrain;
 import Enum.TerrainFeatures;
 import Model.Unit;
-
+import Enum.RiverSide;
 import java.util.ArrayList;
 
 public class TheShortestPath {
@@ -38,20 +38,19 @@ public class TheShortestPath {
         if (i % width == 0) {
             s = width - 1;
             k = i / width - 1;
-        }
-        else {
+        } else {
             s = i % width - 1;
             k = i / width;
         }
         mpMap[i - 1][i - 1] = 0;
         if (s > 0) {
             left = terrain[k][s - 1];
-            mpMap[i - 1][i - 2] = left.getMp();
+            mpMap[i - 1][i - 2] = getDestinationMp(left , RiverSide.LEFT);
         }
         if (k > 0) {
-            if (k % 2  == 0 && s > 0) upLeft = terrain[k - 1][s - 1];
+            if (k % 2 == 0 && s > 0) upLeft = terrain[k - 1][s - 1];
             else upLeft = terrain[k - 1][s];
-            mpMap[i - 1][i - width - 1] = upLeft.getMp();
+            mpMap[i - 1][i - width - 1] = getDestinationMp(upLeft , RiverSide.UPPER_LEFT);
         }
         if (k > 0) {
             if (k % 2 == 0) upRight = terrain[k - 1][s];
@@ -59,26 +58,25 @@ public class TheShortestPath {
                 if (s != width - 1) upRight = terrain[k - 1][s + 1];
                 else upRight = null;
             }
-            if (upRight != null) mpMap[i - 1][i - width] = upRight.getMp();
+            if (upRight != null) mpMap[i - 1][i - width] = getDestinationMp(upRight , RiverSide.UPPER_RIGHT);
         }
         if (s < width - 1) {
             right = terrain[k][s + 1];
-            mpMap[i - 1][i] = right.getMp();
+            mpMap[i - 1][i] = getDestinationMp(right , RiverSide.RIGHT);
         }
         if (k < height - 1) {
             if (k % 2 == 0 && s != 0) downLeft = terrain[k + 1][s - 1];
             else downLeft = terrain[k + 1][s];
-            mpMap[i - 1][i + width - 1] = downLeft.getMp();
+            mpMap[i - 1][i + width - 1] = getDestinationMp(downLeft , RiverSide.LOWER_LEFT);
         }
         if (k < height - 1) {
-            if (k % 2 == 0 ) {
+            if (k % 2 == 0) {
                 downRight = terrain[k + 1][s];
-                mpMap[i - 1][i + width - 1] = downRight.getMp();
-            }
-            else {
+                mpMap[i - 1][i + width - 1] = getDestinationMp(downRight , RiverSide.LOWER_RIGHT);
+            } else {
                 if (s != width - 1) {
                     downRight = terrain[k + 1][s + 1];
-                    mpMap[i - 1][i + width] = downRight.getMp();
+                    mpMap[i - 1][i + width] = getDestinationMp(downRight , RiverSide.LOWER_RIGHT);
                 }
             }
         }
@@ -150,9 +148,29 @@ public class TheShortestPath {
         }
         return -1;
     }
-
-
-    // check if destination is mountain, ocean or river which are impassable
-    // TODO river for destination ?!
+    private static int getDestinationMp(Terrain destination , RiverSide side) {
+        if (destination.hasRoad() || destination.hasRailRoad()) return 1;
+        switch (side) {
+            case UPPER_RIGHT -> {
+                if (destination.getRiverSides().contains(RiverSide.LOWER_LEFT)) return 5;
+            }
+            case UPPER_LEFT -> {
+                if (destination.getRiverSides().contains(RiverSide.LOWER_RIGHT)) return 5;
+            }
+            case RIGHT -> {
+                if (destination.getRiverSides().contains(RiverSide.LEFT)) return 5;
+            }
+            case LEFT -> {
+                if (destination.getRiverSides().contains(RiverSide.RIGHT)) return 5;
+            }
+            case LOWER_RIGHT -> {
+                if (destination.getRiverSides().contains(RiverSide.UPPER_LEFT)) return 5;
+            }
+            case LOWER_LEFT -> {
+                if (destination.getRiverSides().contains(RiverSide.UPPER_RIGHT)) return 5;
+             }
+        }
+        return destination.getMp();
+    }
 
 }
