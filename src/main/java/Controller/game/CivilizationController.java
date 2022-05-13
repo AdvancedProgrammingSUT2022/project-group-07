@@ -145,9 +145,7 @@ public class CivilizationController {
         UpdateCivilizationElements.update(civilization);
         UpdateCityElements.cityGrowth(civilization);
         UpdateCityElements.citizenGrowth(civilization);
-        UpdateCityElements.updateImprovementsAboutToBeCreated(civilization);
-        UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
-        UpdateCityElements.updateRoutsAboutToBeCreated(civilization);
+        UpdateCityElements.update(civilization, gameController);
         UpdateCityElements.foodConsumption(civilization);
         //TODO update food, gold and production
         //TODO harchidige ke moond!
