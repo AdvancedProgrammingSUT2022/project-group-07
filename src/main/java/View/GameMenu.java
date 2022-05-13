@@ -115,7 +115,7 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_PILLAGE)) != null){
-                String result = CombatUnitController.pillage(matcher, gameController);
+                String result = CombatUnitController.pillage(gameController);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_ALERT)) != null){

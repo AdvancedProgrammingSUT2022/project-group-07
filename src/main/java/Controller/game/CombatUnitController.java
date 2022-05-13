@@ -37,11 +37,11 @@ public class CombatUnitController {
         return unit.getTypeOfUnit().getCombatType() == CombatType.MELEE;
     }
 
-    public static String pillage(Matcher matcher, GameController gameController) {
+    public static String pillage(GameController gameController) {
         // TODO which units can pillage?
         Unit selectedUnit = SelectController.selectedUnit;
-        int x = Integer.parseInt(matcher.group("X"));
-        int y = Integer.parseInt(matcher.group("Y"));
+        int x = selectedUnit.getLocation().getX();
+        int y = selectedUnit.getLocation().getY();
         Location destination = new Location(x, y);
         Terrain terrain;
 
