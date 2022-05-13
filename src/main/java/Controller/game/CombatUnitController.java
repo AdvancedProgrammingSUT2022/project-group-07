@@ -37,26 +37,25 @@ public class CombatUnitController {
         return unit.getTypeOfUnit().getCombatType() == CombatType.MELEE;
     }
 
-    public static String pillage(Matcher matcher, GameController gameController) {
-        // TODO which units can pillage?
+    public static String pillage() {
         Unit selectedUnit = SelectController.selectedUnit;
-        int x = Integer.parseInt(matcher.group("X"));
-        int y = Integer.parseInt(matcher.group("Y"));
-        Location destination = new Location(x, y);
-        Terrain terrain;
+        int x = selectedUnit.getLocation().getX();
+        int y = selectedUnit.getLocation().getY();
+        Location position = new Location(x, y);
+        Terrain terrain = TerrainController.getTerrainByLocation(position);
 
         if (!isMilitary(selectedUnit))
             return "Selected unit is not military!";
-        if ((terrain = TerrainController.getTerrainByLocation(destination)) == null)
-            return "Position ( " + destination.getX() + " , " + destination.getY() + " ) is not valid!";
+        assert terrain != null;
         if (!TerrainController.hasImprovement(terrain)
                 && !TerrainController.hasRoad(terrain))
             return "This terrain doesn't have any road or improvement, so you can't pillage!";
+        if (selectedUnit.getTimesMovedThisTurn() >= 2)
+            return "Unit is out of move!";
         if (terrain.isPillaged())
             return "This terrain is already pillaged!";
         // TODO consider in movements, map, ...
         terrain.setPillaged(true);
-        // some gold for unit's civilization
         selectedUnit.getCivilization().setGold(selectedUnit.getCivilization().getGold() + 10);
         return "Pillaged successfully!";
     }
@@ -86,8 +85,23 @@ public class CombatUnitController {
                 || unit.getTypeOfUnit().getCombatType() == CombatType.GUNPOWDER);
     }
 
-    private String alert(Unit unit) {
-        return "";
+    public static String alert(GameController gameController) {
+        Unit selectedUnit = SelectController.selectedUnit;
+        String error = checkUnit(selectedUnit, gameController);
+        if (error != null)
+            return error;
+        selectedUnit.setUnitStatus(UnitStatus.ALERT);
+        return "Alerted successfully!";
+    }
+
+    private static String checkUnit(Unit selectedUnit, GameController gameController) {
+        if (selectedUnit == null)
+            return "There isn't any selected unit!";
+        if (!UnitController.hasOwnerShip(selectedUnit, gameController))
+            return "This unit does not belong to you!";
+        if (!isMilitary(selectedUnit))
+            return "Selected unit is not military!";
+        return null;
     }
 
     private String fortify(Unit unit) {
