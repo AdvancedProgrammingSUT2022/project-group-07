@@ -4,5 +4,7 @@ public enum UnitStatus {
     ACTIVE,
     SLEEP,
     ALERT,
-    FORTIFY;
+    FORTIFY,
+    RANGED_UNIT_IS_READY,
+    SIEGE_UNIT_IS_READY;
 }

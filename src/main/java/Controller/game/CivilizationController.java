@@ -9,10 +9,6 @@ import Enum.* ;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static Controller.game.update.UpdateCivilizationElements.updateResearch;
-
-import static Controller.game.update.UpdateCivilizationElements.updateResearch;
-
 public class CivilizationController {
     private static Civilization civilization;
 

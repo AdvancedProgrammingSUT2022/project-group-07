@@ -48,9 +48,10 @@ public enum GameMenuCommands {
     UNIT_CANCEL_MISSION("unit cancel mission"),
     UNIT_WAKE("unit wake"),
     UNIT_DELETE("unit delete"),
-    UNIT_SIEGE("siege units (?<X>\\d+) (?<Y>\\d+)"),
+    UNIT_SIEGE("unit siege"),
     // TODO x and y ?
     UNIT_PILLAGE("pillage (?<X>\\d+) (?<Y>\\d+)"),
+    UNIT_RANGED_SETUP("unit ranged setup (?<X>\\d+) (?<Y>\\d+)"),
 
     // az inja male kargaras !!!
     UNIT_BUILD_IMPROVEMENT("unit build (?<improvement>[a-zA-Z]+)"), // baraye zirbakhsh be khode typeOfImrpovement morajeE shavad!
