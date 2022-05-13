@@ -99,6 +99,7 @@ public class UnitController {
         if (error != null)
             return error;
         selectedUnit.setImprovementAboutToBeCreated(null);
+        selectedUnit.setImprovementAboutToBeCreated(null);
         return "All of the missions of the selected unit have been canceled!";
     }
 
