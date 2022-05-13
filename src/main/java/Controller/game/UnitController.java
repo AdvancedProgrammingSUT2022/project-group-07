@@ -8,7 +8,6 @@ import Model.Location;
 import Model.Terrain;
 import Model.Unit;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
@@ -16,7 +15,6 @@ import static Controller.game.movement.Move.*;
 
 public class UnitController {
     private static City selectedCity = SelectController.selectedCity;
-
 
     public static String moveUnit(Matcher matcher, GameController gameController , Unit unit) {
         int x = Integer.parseInt(matcher.group("X"));
