@@ -57,7 +57,7 @@ public class CombatUnitController {
         // TODO consider in movements, map, ...
         terrain.setPillaged(true);
         // some gold for unit's civilization
-        selectedUnit.getCivilization().setGold(selectedUnit.getCivilization().getGold() + 2);
+        selectedUnit.getCivilization().setGold(selectedUnit.getCivilization().getGold() + 10);
         return "Pillaged successfully!";
     }
 
