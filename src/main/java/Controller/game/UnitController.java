@@ -8,6 +8,7 @@ import Model.Location;
 import Model.Terrain;
 import Model.Unit;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 
@@ -64,78 +65,75 @@ public class UnitController {
 
 
     public static String sleep(GameController gameController) {
-        // show errors just when you select the unit
-        if (SelectController.selectedUnit == null)
-            return "There isn't any selected unit!";
+        Unit selectedUnit = SelectController.selectedUnit;
+        String error = checkUnit(selectedUnit, gameController);
 
-        if (!hasOwnerShip(SelectController.selectedUnit, gameController))
-            return "This unit does not belong to you!";
-
+        if (error != null)
+            return error;
         SelectController.selectedUnit.setUnitStatus(UnitStatus.SLEEP);
         return "Selected unit has slept successfully!";
     }
 
-    public static String fortifyUnit(GameController gameController) {
-        Unit selectedUnit = SelectController.selectedUnit;
-        if (selectedUnit == null)
-            return "There isn't any selected unit!";
-        if (!hasOwnerShip(selectedUnit, gameController))
-            return "This unit does not belong to you!";
-
-        if (selectedUnit.getTypeOfUnit() == TypeOfUnit.WORKER
-                || selectedUnit.getTypeOfUnit() == TypeOfUnit.SETTLER)
-            return "The selected unit is " + selectedUnit.getTypeOfUnit().getName()
-                    + ". It should be a combatUnit for this action!";
-
-        // TODO HEAL and main things to do!
-        return "";
-    }
+//    public static String fortifyUnit(GameController gameController) {
+//        Unit selectedUnit = SelectController.selectedUnit;
+//        if (selectedUnit == null)
+//            return "There isn't any selected unit!";
+//        if (!hasOwnerShip(selectedUnit, gameController))
+//            return "This unit does not belong to you!";
+//
+//        if (selectedUnit.getTypeOfUnit() == TypeOfUnit.WORKER
+//                || selectedUnit.getTypeOfUnit() == TypeOfUnit.SETTLER)
+//            return "The selected unit is " + selectedUnit.getTypeOfUnit().getName()
+//                    + ". It should be a combatUnit for this action!";
+//
+//        // TODO HEAL and main things to do!
+//        return "";
+//    }
 
     public void healUnit(Unit unit) {
         // TODO heal!
     }
 
     public static String cancelMission(GameController gameController) {
-        Unit unit = SelectController.selectedUnit;
-        if (SelectController.selectedUnit == null)
-            return "There isn't any selected unit!";
+        Unit selectedUnit = SelectController.selectedUnit;
+        String error = checkUnit(selectedUnit, gameController);
 
-        if (!hasOwnerShip(SelectController.selectedUnit, gameController))
-            return "This unit does not belong to you!";
-        unit.setImprovementAboutToBeCreated(null);
-        unit.setImprovementAboutToBeCreated(null);
+        if (error != null)
+            return error;
+        selectedUnit.setImprovementAboutToBeCreated(null);
+        selectedUnit.setImprovementAboutToBeCreated(null);
         return "All of the missions of the selected unit have been canceled!";
     }
 
     public static String wake(GameController gameController) {
-        if (SelectController.selectedUnit == null)
-            return "There isn't any selected unit!";
+        Unit selectedUnit = SelectController.selectedUnit;
+        String error = checkUnit(selectedUnit, gameController);
 
-        if (!hasOwnerShip(SelectController.selectedUnit, gameController))
-            return "This unit does not belong to you!";
-
+        if (error != null)
+            return error;
         SelectController.selectedUnit.setUnitStatus(UnitStatus.ACTIVE);
         return "Selected unit is awake!";
     }
 
     public static String deleteUnit(GameController gameController) {
         Unit selectedUnit = SelectController.selectedUnit;
+        String error = checkUnit(selectedUnit, gameController);
+        City city = SelectController.selectedCity;
 
+        if (error != null)
+            return error;
+        // find the selected unit in current civilization and remove it.
+        city.setGold((int) (city.getGold() + 0.1 * selectedUnit.getTypeOfUnit().getCost()));
+        gameController.getCurrentCivilization().getUnits().remove(selectedUnit);
+        return "Unit deleted successfully!";
+    }
+
+    private static String checkUnit(Unit selectedUnit, GameController gameController) {
         if (selectedUnit == null)
             return "There isn't any selected unit!";
-
         if (!hasOwnerShip(selectedUnit, gameController))
             return "This unit does not belong to you!";
-
-        // find the selected unit in current civilization and remove it.
-        for (Unit unit : gameController.getCurrentCivilization().getUnits()) {
-            if (unit.getLocation().getX() == selectedUnit.getLocation().getX()
-                    && unit.getLocation().getY() == selectedUnit.getLocation().getY()) {
-                gameController.getCurrentCivilization().getUnits().remove(unit);
-                break;
-            }
-        }
-        return "Unit deleted successfully!";
+        return null;
     }
 
     public String upgrade(Unit unit) {
