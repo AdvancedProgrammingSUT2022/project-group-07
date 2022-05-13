@@ -111,7 +111,7 @@ public class UpdateCityElements {
             int food = 0;
             int production = 0;
             for (Citizen citizen : city.getCitizens()) {
-                if (citizen.getTerrain() == null) continue;
+                if (citizen.getTerrain() == null) food += 1;
                 TerrainOutput terrainOutput = TerrainController.getTerrainsOutput(civilization , citizen.getTerrain());
                 gold += terrainOutput.getGold();
                 food += terrainOutput.getFood();
