@@ -38,7 +38,6 @@ public class CombatUnitController {
     }
 
     public static String pillage(GameController gameController) {
-        // TODO which units can pillage?
         Unit selectedUnit = SelectController.selectedUnit;
         int x = selectedUnit.getLocation().getX();
         int y = selectedUnit.getLocation().getY();
@@ -52,6 +51,8 @@ public class CombatUnitController {
         if (!TerrainController.hasImprovement(terrain)
                 && !TerrainController.hasRoad(terrain))
             return "This terrain doesn't have any road or improvement, so you can't pillage!";
+        if (selectedUnit.getTimesMovedThisTurn() >= 2)
+            return "Unit is out of move!";
         if (terrain.isPillaged())
             return "This terrain is already pillaged!";
         // TODO consider in movements, map, ...
