@@ -8,6 +8,7 @@ public enum RiverSide {
     LOWER_RIGHT (0,1),
     LOWER_LEFT (0,1);
 
+
     RiverSide (int xEffect , int yEffect) {
         this.xEffect = xEffect;
         this.yEffect = yEffect;

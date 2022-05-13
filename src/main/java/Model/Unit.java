@@ -1,7 +1,6 @@
 package Model;
 import Enum.TypeOfUnit;
 import Enum.UnitStatus;
-import Enum.TypeOfTechnology;
 
 import java.util.ArrayList;
 
@@ -17,9 +16,9 @@ public class Unit {
     private int timesMovedThisTurn;
     // TODO extend
     // TODO should it be static?
-    private static ArrayList<Improvement> improvementsAboutToBeCreated = new ArrayList<>();
-    private static ArrayList<Road> roadsAboutToBeBuilt = new ArrayList<>();
-    private static ArrayList<Technology> railroadsAboutToBeBuilt = new ArrayList<>();
+    private Improvement improvementAboutToBeCreated;
+    private Route routeAboutToBeBuilt;
+    private int repairTurns;
 
     public UnitStatus getUnitStatus() {
         return unitStatus;
@@ -96,27 +95,27 @@ public class Unit {
         this.timesMovedThisTurn = timesMovedThisTurn;
     }
 
-    public ArrayList<Improvement> getImprovementsAboutToBeCreated() {
-        return improvementsAboutToBeCreated;
+    public int getRepairTurns() {
+        return repairTurns;
     }
 
-    public void addImprovementsAboutToBeCreated(Improvement improvement) {
-        this.improvementsAboutToBeCreated.add(improvement);
+    public void setRepairTurns(int repairTurns) {
+        this.repairTurns = repairTurns;
     }
 
-    public ArrayList<Road> getRoadsAboutToBeBuilt() {
-        return roadsAboutToBeBuilt;
+    public Improvement getImprovementAboutToBeCreated() {
+        return improvementAboutToBeCreated;
     }
 
-    public void addRoadsAboutToBeBuilt(Road road) {
-        this.roadsAboutToBeBuilt.add(road);
+    public void setImprovementAboutToBeCreated(Improvement improvementAboutToBeCreated) {
+        this.improvementAboutToBeCreated = improvementAboutToBeCreated;
     }
 
-    public ArrayList<Technology> getRailroadsAboutToBeBuilt() {
-        return railroadsAboutToBeBuilt;
+    public Route getRouteAboutToBeBuilt() {
+        return routeAboutToBeBuilt;
     }
 
-    public void addRailroadsAboutToBeBuilt(Technology railroad) {
-        this.railroadsAboutToBeBuilt.add(railroad);
+    public void setRouteAboutToBeBuilt(Route routeAboutToBeBuilt) {
+        this.routeAboutToBeBuilt = routeAboutToBeBuilt;
     }
 }

@@ -12,22 +12,13 @@ public class NonCombatUnitController {
     // TODO handle statics
     // TODO want a method to just check the location of the terrain --> get terrain by location in TerrainController
 
-//    private boolean isSettlerUnit(Unit unit) {
-//        return true;
-//    }
-//
-//    private String foundCity(Location location) {
-//        return "";
-//    }
-//
-//    public static Unit isWorker(Civilization currentCivilization) {
-//        for (Unit unit : currentCivilization.getUnits()) {
-//            if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
-//                return unit;
-//            }
-//        }
-//        return null;
-//    }
+    public static boolean isSettler(Unit unit) {
+        return unit.getTypeOfUnit() == TypeOfUnit.SETTLER;
+    }
+
+    public static boolean isWorker(Unit unit) {
+        return unit.getTypeOfUnit() == TypeOfUnit.WORKER;
+    }
 
     private String hasImprovement(Improvement improvement, Location location) {
         return "";
@@ -45,42 +36,47 @@ public class NonCombatUnitController {
         return true;
     }
 
-    public static Terrain isJungleOrForestHere(Location location) {
+    public static Terrain isJungleHere(Location location) {
         Terrain[][] terrain = GameController.map;
 
         for (int i = 0; i < GameController.getMapHeight(); i++) {
             for (int j = 0; j < GameController.getMapWidth(); j++) {
                 if (terrain[i][j].getLocation().getX() == location.getX()
                         && terrain[i][j].getLocation().getY() == location.getY()
-                        && (terrain[i][j].getTerrainFeatures() == TerrainFeatures.FOREST
-                        || terrain[i][j].getTerrainFeatures() == TerrainFeatures.JUNGLE))
+                        && terrain[i][j].getTerrainFeatures() == TerrainFeatures.JUNGLE)
                     return terrain[i][j];
             }
         }
         return null;
     }
 
-    public static boolean isRouteHere(Location location, GameController gameController) {
+    public static Terrain isForestHere(Location location) {
         Terrain[][] terrain = GameController.map;
-        boolean routeIsForCurrentCivilization = false;
 
         for (int i = 0; i < GameController.getMapHeight(); i++) {
             for (int j = 0; j < GameController.getMapWidth(); j++) {
                 if (terrain[i][j].getLocation().getX() == location.getX()
                         && terrain[i][j].getLocation().getY() == location.getY()
-                        && terrain[i][j].getTechnology().getTypeOfTechnology() == TypeOfTechnology.RAILROAD) {
-
-                }
+                        && terrain[i][j].getTerrainFeatures() == TerrainFeatures.FOREST)
+                    return terrain[i][j];
             }
         }
+        return null;
+    }
 
-        for (Technology technology : gameController.getCurrentCivilization().getGainedTechnologies()) {
-            if (technology.getTypeOfTechnology() == TypeOfTechnology.RAILROAD) {
-                gameController.getCurrentCivilization().getGainedTechnologies().remove(technology);
-                break;
+    public static Terrain isRouteHere(Location location) {
+        Terrain[][] terrain = GameController.map;
+
+        for (int i = 0; i < GameController.getMapHeight(); i++) {
+            for (int j = 0; j < GameController.getMapWidth(); j++) {
+                if (terrain[i][j].getLocation().getX() == location.getX()
+                        && terrain[i][j].getLocation().getY() == location.getY()
+                        && (terrain[i][j].hasRailRoad()
+                        || terrain[i][j].hasRoad()))
+                    return terrain[i][j];
             }
         }
-        return false;
+        return null;
     }
 
     public static Terrain isMarshHere(Location location) {

@@ -6,6 +6,7 @@ public class Technology {
 
     private TypeOfTechnology typeOfTechnology;
     private int remainingTurns ;
+
     private Location location;
 
     public Technology(TypeOfTechnology typeOfTechnology){
@@ -18,7 +19,7 @@ public class Technology {
     public int getRemainingTurns() {return remainingTurns;}
 
     public void setRemainingTurns(int turns){
-        this.remainingTurns += turns;
+        this.remainingTurns = turns;
     }
 
     public Location getLocation() {

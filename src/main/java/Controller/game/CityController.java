@@ -31,13 +31,13 @@ public class CityController {
         return out.toString();
     }
 
-    private static ArrayList<Terrain> getAvailableTilesToBuy(final Terrain[][] map , int mapWidth , int mapHeight){
+    public static ArrayList<Terrain> getAvailableTilesToBuy(City selectedCity , final Terrain[][] map , int mapWidth , int mapHeight){
         ArrayList<Terrain> tileAvailable = new ArrayList<>();
         ArrayList<Terrain> allCivilizationOwnedTiles = new ArrayList<>();
-        for (City city : SelectController.selectedCity.getOwnership().getCities())
+        for (City city : selectedCity.getOwnership().getCities())
             allCivilizationOwnedTiles.addAll(city.getTerrains());
 
-        for (Terrain terrain : SelectController.selectedCity.getTerrains()) {
+        for (Terrain terrain : selectedCity.getTerrains()) {
             ArrayList<Terrain> neighbours = CivilizationController.getNeighbourTerrainsByRadius1(terrain.getLocation() , map , mapWidth , mapHeight) ;
             for (Terrain neighbour : neighbours) {
                 if (!tileAvailable.contains(neighbour)
@@ -52,7 +52,7 @@ public class CityController {
         StringBuilder out = new StringBuilder("available tiles : \n");
         if (!isCitySelected())
             return "select a city first" ;
-        ArrayList<Terrain> tileAvailable = getAvailableTilesToBuy(map , mapWidth , mapHeight) ;
+        ArrayList<Terrain> tileAvailable = getAvailableTilesToBuy(selectedCity , map , mapWidth , mapHeight) ;
         for (Terrain terrain : tileAvailable) {
             String add = terrain.getTypeOfTerrain() + " : "
                     + terrain.getLocation().getX() + " , "
@@ -71,22 +71,24 @@ public class CityController {
         if (!(x>=0 && x<mapWidth && y>=0 && y<mapHeight))
             return "invalid tile location" ;
 
-        ArrayList<Terrain> availableTerrains = getAvailableTilesToBuy(map , mapWidth , mapHeight);
+        ArrayList<Terrain> availableTerrains = getAvailableTilesToBuy(selectedCity , map , mapWidth , mapHeight);
         for (Terrain availableTerrain : availableTerrains) {
             if (availableTerrain.getLocation().getY()==y
              && availableTerrain.getLocation().getX()==x){
-                if (selectedCity.getOwnership().getGold()<availableTerrain.getPrice())
+                if (selectedCity.getGold()<availableTerrain.getPrice())
                     return "you don't have enough gold to buy this tile" ;
                 else {
-                    selectedCity.getOwnership().setGold(
-                            selectedCity.getOwnership().getGold()-availableTerrain.getPrice()
-                    );
-                    selectedCity.addTerrain(availableTerrain);
-                    return "terrain added to city";
+                    selectedCity.setGold(selectedCity.getGold()-availableTerrain.getPrice());
+                    return addTileToCity(selectedCity , availableTerrain);
                 }
             }
         }
         return "you can't buy this tile" ;
+    }
+
+    public static String addTileToCity (City city , Terrain terrain){
+        city.addTerrain(terrain);
+        return "tile " + terrain.getLocation().getX() + "," + terrain.getLocation().getY() + " added to city" ;
     }
 
     public static boolean isTileInCity(City city, Terrain terrain) {

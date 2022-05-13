@@ -40,7 +40,7 @@ public class ResearchController {
     public static String showOwnedResearch(final Civilization civilization){
         ArrayList<Technology> gainedTechnologies = civilization.getGainedTechnologies() ;
         if (gainedTechnologies.isEmpty())
-            return "no research yet";
+            return "no technology";
         StringBuilder out = new StringBuilder("list of owned technologies : \n");
         for (Technology gainedTechnology : gainedTechnologies)
             out.append(gainedTechnology.getTypeOfTechnology().getName()).append("\n");
@@ -75,6 +75,10 @@ public class ResearchController {
     }
 
     public static String researchTechnology(Matcher matcher , final Civilization civilization){
+        int civilizationScience = civilization.getScience();
+        if (civilizationScience==0){
+            return "you don't have any science" ;
+        }
         String technologyName = matcher.group("technologyName");
         if (!isTechnologyNameValid(technologyName))
             return "no technology with name "+technologyName ;
@@ -85,7 +89,9 @@ public class ResearchController {
         Technology currentResearch = civilization.getCurrentResearch();
         if (currentResearch==null) {
             if (canCivilizationResearchThisTypeOfTechnology(typeOfTechnology , civilization)) {
-                civilization.setCurrentResearch(new Technology(typeOfTechnology));
+                Technology technology = new Technology(typeOfTechnology);
+                technology.setRemainingTurns(typeOfTechnology.getCost()/civilizationScience);
+                civilization.setCurrentResearch(technology);
                 return "research " + typeOfTechnology.getName() + " set successfully";
             }
             else
@@ -95,7 +101,9 @@ public class ResearchController {
             return "you are already researching for this technology";
         else {
             if (canCivilizationResearchThisTypeOfTechnology(typeOfTechnology , civilization)) {
-                civilization.setCurrentResearch(new Technology(typeOfTechnology));
+                Technology technology = new Technology(typeOfTechnology);
+                technology.setRemainingTurns(typeOfTechnology.getCost()/civilizationScience);
+                civilization.setCurrentResearch(technology);
                 return "research " + currentResearch + " replaced with " + typeOfTechnology.getName();
             }
             else

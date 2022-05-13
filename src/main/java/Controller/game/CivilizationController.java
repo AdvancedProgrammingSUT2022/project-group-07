@@ -1,7 +1,6 @@
 package Controller.game;
 
 import Controller.game.movement.Move;
-import Controller.game.units.Worker;
 import Controller.game.update.UpdateCityElements;
 import Controller.game.update.UpdateCivilizationElements;
 import Model.*;
@@ -9,6 +8,10 @@ import Enum.* ;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static Controller.game.update.UpdateCivilizationElements.updateResearch;
+
+import static Controller.game.update.UpdateCivilizationElements.updateResearch;
 
 public class CivilizationController {
     private static Civilization civilization;
@@ -37,8 +40,7 @@ public class CivilizationController {
             out.add(map[upperRow][rightCol]);
         else
             out.add(map[upperRow][leftCol]);
-        for (int col=leftCol ; col<=rightCol ; col++)
-            out.add(map[y][col]) ;
+        out.addAll(Arrays.asList(map[y]).subList(leftCol, rightCol + 1));
         out.add(map[lowerRow][x]);
         if (y%2==1)
             out.add(map[lowerRow][rightCol]);
@@ -90,12 +92,16 @@ public class CivilizationController {
         Civilization civilization = gameController.getCurrentCivilization();
         UpdateCivilizationElements.UnitMovementsUpdate(civilization , gameController);
         UpdateCityElements.citizensIncome(civilization);
-        UpdateCivilizationElements.update(civilization);
         UpdateCityElements.maintenance(civilization);
+        UpdateCivilizationElements.update(civilization);
+        UpdateCityElements.cityGrowth(civilization);
+        UpdateCityElements.citizenGrowth(civilization);
+        UpdateCityElements.updateImprovementsAboutToBeCreated(civilization);
         UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
-        UpdateCityElements.updateRoadsAboutToBeCreated(civilization);
-        UpdateCityElements.updateRailRoadsAboutToBeCreated(civilization);
+        UpdateCityElements.updateRoutsAboutToBeCreated(civilization);
         UpdateCityElements.foodConsumption(civilization);
+        //TODO update food, gold and production
+        //TODO harchidige ke moond!
     }
 
 }

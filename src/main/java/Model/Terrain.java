@@ -17,6 +17,8 @@ public class Terrain {
     private Technology technology;
     private boolean hasRailRoad;
     private boolean hasRoad;
+    private boolean pillaged;
+
     private ArrayList<RiverSide> riverSides ;
 
     public Terrain(TypeOfTerrain typeOfTerrain, TerrainFeatures terrainFeatures,
@@ -79,7 +81,7 @@ public class Terrain {
         this.technology = technology;
     }
 
-    public boolean isHasRailRoad() {
+    public boolean hasRailRoad() {
         return hasRailRoad;
     }
 
@@ -87,7 +89,7 @@ public class Terrain {
         this.hasRailRoad = hasRailRoad;
     }
 
-    public boolean isHasRoad() {
+    public boolean hasRoad() {
         return hasRoad;
     }
 
@@ -109,5 +111,17 @@ public class Terrain {
 
     public ArrayList<RiverSide> getRiverSides() {
         return riverSides;
+    }
+
+    public void setImprovement(Improvement improvement) {
+        this.improvement = improvement;
+    }
+
+    public boolean isPillaged() {
+        return pillaged;
+    }
+
+    public void setPillaged(boolean pillaged) {
+        this.pillaged = pillaged;
     }
 }

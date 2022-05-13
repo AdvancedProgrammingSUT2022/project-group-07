@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import Enum.TypeOfTechnology;
 
 public class Civilization {
 
@@ -13,6 +14,7 @@ public class Civilization {
     // a civilization can always see all improvements and ownership while a unit is near this tile
     private ArrayList<Terrain> visibleTerrains ;
     private ArrayList<Technology> gainedTechnologies ;
+    private ArrayList<TypeOfTechnology> gainedTypeOfTechnologies ;
     private String name ;
     private City capital ;
     private int score ;
@@ -23,6 +25,8 @@ public class Civilization {
     private Technology currentResearch ;
     private User owner ;
     private int numberOfRailroadsAndRoads;
+    private ArrayList<Route> routsAboutToBeBuilt;
+    private ArrayList<Improvement> improvementsAboutToBeCreated;
 
     public Civilization (String name , User owner){
         this.owner = owner;
@@ -31,6 +35,7 @@ public class Civilization {
         this.units = new ArrayList<Unit>();
         this.knownTerrains = new ArrayList<Terrain>();
         this.gainedTechnologies = new ArrayList<Technology>();
+        this.gainedTypeOfTechnologies = new ArrayList<TypeOfTechnology>();
         this.capital = null;
         this.score = 0 ;
         this.gold = 0 ;
@@ -38,8 +43,9 @@ public class Civilization {
         this.happiness = 0 ;
         this.science = 0 ;
         this.currentResearch = null ;
+        this.routsAboutToBeBuilt = new ArrayList<>();
+        this.improvementsAboutToBeCreated = new ArrayList<>();
     }
-
     public Civilization (String name , City capital , User owner){
         this.owner = owner;
         this.name = name ;
@@ -55,6 +61,8 @@ public class Civilization {
         this.happiness = 0 ;
         this.science = 0 ;
         this.currentResearch = null ;
+        this.routsAboutToBeBuilt = new ArrayList<>();
+        this.improvementsAboutToBeCreated = new ArrayList<>();
     }
 
 
@@ -103,7 +111,8 @@ public class Civilization {
      * a function to add a technology to arrayList of knownTechnologies
      * @param technology
      */
-    public void addTechonolgy(Technology technology){
+    public void addTechnology(Technology technology){
+        this.gainedTypeOfTechnologies.add(technology.getTypeOfTechnology());
         this.gainedTechnologies.add(technology);
     }
 
@@ -136,6 +145,10 @@ public class Civilization {
      * @return
      */
     public ArrayList<Technology> getGainedTechnologies(){ return this.gainedTechnologies; }
+
+    public ArrayList<TypeOfTechnology> getGainedTypeOfTechnologies() {
+        return this.gainedTypeOfTechnologies ;
+    }
 
     public int getFood() {
         return food;
@@ -183,6 +196,11 @@ public class Civilization {
     }
 
     public void setCurrentResearch(Technology currentResearch) {
+        if (currentResearch ==null)
+            return;
+        if (this.currentResearch != null)
+            this.science += this.currentResearch.getTypeOfTechnology().getCost() ;
+        this.science -= currentResearch.getTypeOfTechnology().getCost();
         this.currentResearch = currentResearch;
     }
 
@@ -195,7 +213,7 @@ public class Civilization {
     }
 
     public void setNumberOfRailroadsAndRoads(int numberOfRailroadsAndRoads) {
-        this.numberOfRailroadsAndRoads += numberOfRailroadsAndRoads;
+        this.numberOfRailroadsAndRoads = numberOfRailroadsAndRoads;
     }
 
     public void setVisibleTerrains (ArrayList<Terrain> visibleTerrains){
@@ -204,5 +222,29 @@ public class Civilization {
 
     public ArrayList<Terrain> getVisibleTerrains(){
         return this.visibleTerrains;
+    }
+
+    public ArrayList<Route> getRoutsAboutToBeBuilt() {
+        return routsAboutToBeBuilt;
+    }
+
+    public void setRoutsAboutToBeBuilt(ArrayList<Route> roadsAboutToBeBuilt) {
+        this.routsAboutToBeBuilt = roadsAboutToBeBuilt;
+    }
+
+    public ArrayList<Improvement> getImprovementsAboutToBeCreated() {
+        return improvementsAboutToBeCreated;
+    }
+
+    public void setImprovementsAboutToBeCreated(ArrayList<Improvement> improvementsAboutToBeCreated) {
+        this.improvementsAboutToBeCreated = improvementsAboutToBeCreated;
+    }
+
+    public void addImprovementsAboutToBeCreated(Improvement improvement) {
+        this.improvementsAboutToBeCreated.add(improvement);
+    }
+
+    public void addRoutsAboutToBeBuilt(Route rout) {
+        this.routsAboutToBeBuilt.add(rout);
     }
 }
