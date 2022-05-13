@@ -42,6 +42,9 @@ public class ProfileMenu extends Menu{
                 String result = profileMenuController.changePassword(matcher);
                 System.out.println(result);
             }
+            else if ((matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.CHANGE_USERNAME)) != null) {
+                System.out.println("you can't change your username!");
+            }
             else System.out.println("invalid command from ayoub");
         }
     }
