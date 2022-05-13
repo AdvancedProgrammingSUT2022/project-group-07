@@ -232,6 +232,26 @@ public class GameMenu extends Menu{
                 String result = Cheat.happinessCheat(matcher , gameController);
                 System.out.println(result);
             }
+            else if ((GameMenuCommands.getMatcher(input , GameMenuCommands.HEAL_UNIT)) != null) {
+                String result = Cheat.healUnit();
+                System.out.println(result);
+            }
+            else if (GameMenuCommands.getMatcher(input , GameMenuCommands.HEAL_CITY) != null) {
+                String result = Cheat.healCity();
+                System.out.println(result);
+            }
+            else if (GameMenuCommands.getMatcher(input , GameMenuCommands.ADD_ENEMY_CITY_TO_YOURS) != null) {
+                String result = Cheat.addEnemyCity(gameController);
+                System.out.println(result);
+            }
+            else if (GameMenuCommands.getMatcher(input , GameMenuCommands.DISABLE_ENEMY_UNIT) != null) {
+                String result = Cheat.disableEnemyUnit(gameController);
+                System.out.println(result);
+            }
+            else if (GameMenuCommands.getMatcher(input , GameMenuCommands.BOMBING_ENEMY_CITY) != null){
+                String result = Cheat.plantingBombsOnEnemyCity(gameController);
+                System.out.println(result);
+            }
             else System.out.println("invalid command ayoub");
         }
 
