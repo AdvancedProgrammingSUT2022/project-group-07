@@ -96,7 +96,6 @@ public class CivilizationController {
         UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
         UpdateCityElements.updateRoutsAboutToBeCreated(civilization);
         UpdateCityElements.foodConsumption(civilization);
-        //TODO update food, gold and production
         //TODO harchidige ke moond!
     }
 

@@ -42,7 +42,7 @@ public class UnitController {
             return "another unit with same military status is in the destination selected!";
         if (unit.getTimesMovedThisTurn() >= 2)
             return "unit is out of move!";
-        return checkNeededMpForMove(path , unit);
+        return checkNeededMpForMove(path , unit , gameController);
     }
 
     public static int isCombatUnit(Unit unit) {
