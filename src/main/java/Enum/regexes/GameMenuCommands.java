@@ -83,6 +83,11 @@ public enum GameMenuCommands {
     INCREASE_PRODUCTION("increase production (?<amount>\\d+)"),
     INCREASE_FOOD("increase food (?<amount>\\d+)"),
     INCREASE_HAPPINESS("increase happiness (?<amount>\\d+)"),
+    HEAL_UNIT("heal selected unit"),
+    HEAL_CITY("heal selected city"),
+    ADD_ENEMY_CITY_TO_YOURS("add enemy city to yours"),
+    DISABLE_ENEMY_UNIT("disable enemy unit"),
+    BOMBING_ENEMY_CITY("leave bombs on enemy city"),
     // next turn : !!
     NEXT_TURN("next turn");
 

@@ -1,12 +1,8 @@
 package Controller.game;
 
-import Model.City;
-import Model.Civilization;
-import Model.Terrain;
-import Model.Unit;
+import Model.*;
 import Enum.TypeOfUnit;
 import Enum.UnitStatus;
-import Model.Location;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -108,5 +104,13 @@ public class CityController {
         city.setProduction(city.getProduction() - typeOfUnit.getCost());
         return typeOfUnit + " has been added successfully in location ( "
                 + location.getX() + " , " + location.getY() + " ) !";
+    }
+
+    public static String showUnemployedCitizens(City city) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Citizen citizen : city.getCitizens()) {
+            if (citizen.getTerrain() == null) stringBuilder.append(citizen.getNumber() + "\n");
+        }
+        return stringBuilder.toString();
     }
 }
