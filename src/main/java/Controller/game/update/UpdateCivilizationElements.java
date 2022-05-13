@@ -42,7 +42,7 @@ public class UpdateCivilizationElements {
         if (currentResearch==null)
             return;
         if (currentResearch.getRemainingTurns()==0) {
-            civilization.addTechonolgy(currentResearch);
+            civilization.addTechnology(currentResearch);
             civilization.setCurrentResearch(null);
         }
         else

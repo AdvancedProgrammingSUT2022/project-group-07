@@ -99,13 +99,6 @@ public class CityController {
         return false;
     }
 
-    public boolean isTileOwned(City city , Terrain terrain) {
-        for (Terrain cityTerrain : city.getTerrains()) {
-            if (cityTerrain.equals(terrain))
-                return true;
-        }
-        return false;
-    }
 
     public static String createUnit(Civilization currentCivilization, TypeOfUnit typeOfUnit, Location location, City city) {
         int turn = typeOfUnit.getCost() / city.getProduction();
