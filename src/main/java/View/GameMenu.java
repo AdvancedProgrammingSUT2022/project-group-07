@@ -115,16 +115,17 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_PILLAGE)) != null){
-                String result = CombatUnitController.pillage(matcher, gameController);
+                String result = CombatUnitController.pillage();
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_ALERT)) != null){
-
-            }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_FORTIFY)) != null){
-                String result = UnitController.fortifyUnit(gameController);
+                String result = CombatUnitController.alert(gameController);
                 System.out.println(result);
             }
+//            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_FORTIFY)) != null){
+//                String result = UnitController.fortifyUnit(gameController);
+//                System.out.println(result);
+//            }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_GARRISON)) != null){
 
             }

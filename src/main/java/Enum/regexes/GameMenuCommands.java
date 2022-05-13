@@ -49,8 +49,7 @@ public enum GameMenuCommands {
     UNIT_WAKE("unit wake"),
     UNIT_DELETE("unit delete"),
     UNIT_SIEGE("unit siege"),
-    // TODO x and y ?
-    UNIT_PILLAGE("pillage (?<X>\\d+) (?<Y>\\d+)"),
+    UNIT_PILLAGE("pillage"),
     UNIT_RANGED_SETUP("unit ranged setup (?<X>\\d+) (?<Y>\\d+)"),
 
     // az inja male kargaras !!!
