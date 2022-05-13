@@ -55,6 +55,8 @@ public class Terrain {
     }
 
     public int getMp() {
+        if (hasRailRoad() && !isPillaged()) return 1;
+        if (hasRoad() && !isPillaged()) return 1;
         return mp;
     }
 
