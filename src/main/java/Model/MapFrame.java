@@ -33,6 +33,7 @@ public class MapFrame extends JFrame {
         this.civilizations = civilizations;
         this.currentCivilization = currentCivilization;
         setSize(1080, 720);
+        setName("Civilization - group 07");
         setVisible(true);
         setResizable(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
