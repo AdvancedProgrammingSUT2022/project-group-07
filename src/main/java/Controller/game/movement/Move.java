@@ -3,7 +3,6 @@ package Controller.game.movement;
 import Controller.game.CivilizationController;
 import Controller.game.GameController;
 import Controller.game.SelectController;
-import Controller.game.TerrainController;
 import Model.Civilization;
 import Model.Location;
 import Model.Terrain;
