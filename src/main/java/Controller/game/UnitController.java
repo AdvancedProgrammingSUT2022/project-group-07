@@ -102,8 +102,8 @@ public class UnitController {
 
         if (!hasOwnerShip(SelectController.selectedUnit, gameController))
             return "This unit does not belong to you!";
-        unit.getImprovementsAboutToBeCreated().clear();
-        unit.getRoadsAboutToBeBuilt().clear();
+        unit.setImprovementAboutToBeCreated(null);
+        unit.setImprovementAboutToBeCreated(null);
         return "All of the missions of the selected unit have been canceled!";
     }
 
