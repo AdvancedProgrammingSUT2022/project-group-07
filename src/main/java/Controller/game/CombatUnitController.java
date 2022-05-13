@@ -103,7 +103,7 @@ public class CombatUnitController {
             return "Selected unit is not military!";
         return null;
     }
-  
+
     private String fortify(Unit unit) {
         return "";
     }
