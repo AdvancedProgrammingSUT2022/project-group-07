@@ -42,7 +42,7 @@ public class UnitController {
             return "another unit with same military status is in the destination selected!";
         if (unit.getTimesMovedThisTurn() >= 2)
             return "unit is out of move!";
-        return checkNeededMpForMove(path , unit);
+        return checkNeededMpForMove(path , unit , gameController);
     }
 
     public static int isCombatUnit(Unit unit) {
@@ -130,6 +130,7 @@ public class UnitController {
     private static String checkUnit(Unit selectedUnit, GameController gameController) {
         if (selectedUnit == null)
             return "There isn't any selected unit!";
+
         if (!hasOwnerShip(selectedUnit, gameController))
             return "This unit does not belong to you!";
         return null;

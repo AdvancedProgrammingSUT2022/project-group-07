@@ -3,17 +3,15 @@ package Controller.game.movement;
 import Controller.game.CivilizationController;
 import Controller.game.GameController;
 import Controller.game.SelectController;
-import Controller.game.TerrainController;
 import Model.Civilization;
 import Model.Location;
 import Model.Terrain;
 import Enum.TerrainFeatures;
 import Model.Unit;
-
+import Enum.TypeOfUnit;
 import java.util.ArrayList;
 
 import static Controller.game.UnitController.isCombatUnit;
-import static Controller.game.UnitController.moveUnit;
 
 public class Move {
 
@@ -57,22 +55,21 @@ public class Move {
         return false;
     }
 
-    public static String checkNeededMpForMove(ArrayList<Terrain> path , Unit unit) {
-        // TODO check if it needs to continue in other turns
+    public static String checkNeededMpForMove(ArrayList<Terrain> path, Unit unit , GameController gameController) {
         if (path == null) return "";
         Location destination = path.get(path.size() - 1).getLocation();
         ArrayList<Terrain> goThrough = new ArrayList<>();
         int mp = unit.getMp();
-        // TODO river to pass
         path.remove(0);
         for (Terrain terrain : path) {
             mp -= terrain.getMp();
+            if (isInZoneOfControl(terrain , unit , gameController)) {mp = -1;}
             goThrough.add(terrain);
             if (mp <= 0) {
                 unit.setLocation(terrain.getLocation());
                 CivilizationController.updateFogOfWar(unit.getCivilization(), GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
                 unit.setTimesMovedThisTurn(10);
-                updateGonePath(unit , goThrough);
+                updateGonePath(unit, goThrough);
                 return "Selected unit moved to ( " + terrain.getLocation().getX() + " , " + terrain.getLocation().getY() + " )!";
             }
         }
@@ -82,8 +79,24 @@ public class Move {
 
         unit.setLocation(destination);
         unit.setTimesMovedThisTurn(unit.getTimesMovedThisTurn() + 1);
-        updateGonePath(unit , goThrough);
+        updateGonePath(unit, goThrough);
         return "Selected unit moved to position ( " + destination.getX() + " , " + destination.getY() + " ) successfully!";
+    }
+
+    private static boolean isInZoneOfControl(Terrain terrain, Unit unit, GameController gameController) {
+        ArrayList<Terrain> neighbours = CivilizationController.getNeighbourTerrainsByRadius1(
+                terrain.getLocation() , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()
+        );
+        for (Civilization civilization : gameController.getCivilizations()) {
+            if (civilization.equals(unit.getCivilization())) continue;
+            for (Unit enemyUnit : civilization.getUnits()) {
+                if (enemyUnit.getTypeOfUnit() == TypeOfUnit.WORKER || enemyUnit.getTypeOfUnit() == TypeOfUnit.SETTLER)
+                    continue;
+                if (neighbours.contains(TerrainController.getTerrainByLocation(enemyUnit.getLocation())))
+                    return true;
+            }
+        }
+        return false;
     }
 
     private static void updateGonePath(Unit unit, ArrayList<Terrain> goThrough) {
@@ -103,13 +116,4 @@ public class Move {
         return false;
     }
 
-    public static void UnitMovementsUpdate(Civilization civilization, GameController gameController) {
-        for (Unit unit : civilization.getUnits()) {unit.setTimesMovedThisTurn(0);}
-        for (Unit unit : civilization.getUnits()) {
-            if (!unit.getPathToGo().isEmpty()) {
-                moveUnit(unit.getPathToGo() , gameController , unit
-                , unit.getPathToGo().get(unit.getPathToGo().size() - 1).getLocation());
-            }
-        }
-    }
 }

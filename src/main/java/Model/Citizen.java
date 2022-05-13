@@ -24,6 +24,9 @@ public class Citizen {
         this.terrain = terrain ;
     }
 
+    public int getNumber() {
+        return number;
+    }
 
     public void removeWork(){
         this.terrain = null ;

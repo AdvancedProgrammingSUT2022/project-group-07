@@ -74,7 +74,7 @@ public class MainMenuController {
     private HashMap<Integer, String> getPlayers(String[] listOfAllPlayers) {
         HashMap<Integer , String> getPlayers = new HashMap<>();
         for (int i = 1; i < listOfAllPlayers.length; i++) {
-            getPlayers.put(Integer.parseInt(listOfAllPlayers[i].substring(6 , 7)) , listOfAllPlayers[i].substring(8));
+            getPlayers.put(Integer.parseInt(listOfAllPlayers[i].substring(6 , 7)) , listOfAllPlayers[i].substring(8).trim());
         }
         return getPlayers;
     }
