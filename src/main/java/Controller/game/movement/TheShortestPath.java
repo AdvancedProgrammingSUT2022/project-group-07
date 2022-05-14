@@ -81,7 +81,6 @@ public class TheShortestPath {
             }
         }
     }
-
     private static void initializeDistances() {
         for (int i = 0; i < height * width; i++) {
             for (int j = 0; j < height * width; j++) {

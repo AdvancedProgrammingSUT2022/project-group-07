@@ -45,7 +45,7 @@ public class Settler {
         int numberOfCities = civilization.getCities().size();
         City city = new City("city" + (numberOfCities + 1) + " Of" + civilization.getName(), civilization);
         if (TerrainController.getTerrainByLocation(settler.getLocation()).getTypeOfTerrain() == TypeOfTerrain.HILL) {
-            city.setHp(city.getHp() + 5);
+            city.setDefencePower(city.getDefencePower() + 5);
         }
         city.getTerrains().add(TerrainController.getTerrainByLocation(settler.getLocation()));
         city.addCitizen(new Citizen(1));

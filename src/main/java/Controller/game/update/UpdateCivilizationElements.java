@@ -2,6 +2,7 @@ package Controller.game.update;
 
 import Controller.game.GameController;
 import Controller.game.LogAndNotification.NotificationController;
+import Controller.game.combat.CityDefending;
 import Model.*;
 
 import java.util.ArrayList;
@@ -67,11 +68,24 @@ public class UpdateCivilizationElements {
         }
     }
 
-    public static void update(Civilization civilization) {
+    public static void update(Civilization civilization , GameController gameController) {
         updateResearch(civilization);
         updateScience(civilization);
         updateFood(civilization);
         updateGold(civilization);
+        updateCityHp(civilization);
+        updateCityDefencing(civilization , gameController);
+    }
+
+    private static void updateCityDefencing(Civilization civilization , GameController gameController) {
+        for (City city : civilization.getCities()) {
+            CityDefending.DefendFromPossibleTrespassers(city , gameController);
+        }
+    }
+
+    private static void updateCityHp(Civilization civilization) {
+        for (City city : civilization.getCities())
+            if (city.getHp() < 30) city.setHp(city.getHp() + 1);
     }
 
     public static void UnitMovementsUpdate(Civilization civilization, GameController gameController) {
