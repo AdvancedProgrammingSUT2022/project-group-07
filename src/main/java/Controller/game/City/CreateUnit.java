@@ -55,17 +55,13 @@ public class CreateUnit {
                                                GameController gameController) {
         ArrayList<Technology> ownedTechs = currentCivilization.getGainedTechnologies();
         TypeOfTechnology requiredTech = typeOfUnit.getTechnologyRequired();
+        String check;
 
         for (Technology ownedTech : ownedTechs) {
             if (ownedTech.getTypeOfTechnology() == requiredTech) {
                 Resources requiredResource = typeOfUnit.getResources();
-
-                if (requiredResource == null)
-                    return CityController.createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation(), selectedCity, gameController);
-
-                if (cityHasRequiredResource(requiredResource))
-                    CityController.createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation(), selectedCity, gameController);
-
+                if ((check = hasRequiredResource(requiredResource, typeOfUnit)) != null)
+                    return check;
                 return "Your city doesn't have the required resource to create this unit!";
             }
         }
@@ -75,14 +71,25 @@ public class CreateUnit {
     private static String checkRequiredResourceWhenTechIsNull(Civilization currentCivilization, TypeOfUnit typeOfUnit, Terrain cityCenter,
                                                               GameController gameController) {
         Resources requiredResource = typeOfUnit.getResources();
-
-        if (requiredResource == null)
-            return CityController.createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation(), selectedCity, gameController);
-
-        if (cityHasRequiredResource(requiredResource))
-            return CityController.createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation(), selectedCity, gameController);
+        String check = hasRequiredResource(requiredResource, typeOfUnit);
+        if (check != null)
+            return check;
 
         return "Your city doesn't have the required resource to create this unit!";
+    }
+
+    //
+    private static String hasRequiredResource(Resources requiredResource, TypeOfUnit typeOfUnit) {
+        if (requiredResource == null) {
+            selectedCity.addWantedUnit(typeOfUnit);
+            return "Unit will be created in next turns!";
+        }
+
+        if (cityHasRequiredResource(requiredResource)) {
+            selectedCity.addWantedUnit(typeOfUnit);
+            return "Unit will be created in next turns!";
+        }
+        return null;
     }
 
     public static String buyUnitWithGold(GameController gameController) {
