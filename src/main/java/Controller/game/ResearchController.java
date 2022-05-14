@@ -1,5 +1,6 @@
 package Controller.game;
 
+import Controller.game.LogAndNotification.NotificationController;
 import Model.Civilization;
 import Model.Technology;
 import Enum.TypeOfTechnology;
@@ -92,6 +93,7 @@ public class ResearchController {
                 Technology technology = new Technology(typeOfTechnology);
                 technology.setRemainingTurns(typeOfTechnology.getCost()/civilizationScience);
                 civilization.setCurrentResearch(technology);
+                NotificationController.logResearchStarted(typeOfTechnology , civilization);
                 return "research " + typeOfTechnology.getName() + " set successfully";
             }
             else
@@ -104,6 +106,7 @@ public class ResearchController {
                 Technology technology = new Technology(typeOfTechnology);
                 technology.setRemainingTurns(typeOfTechnology.getCost()/civilizationScience);
                 civilization.setCurrentResearch(technology);
+                NotificationController.logResearchReplaced(currentResearch.getTypeOfTechnology() , typeOfTechnology , civilization);
                 return "research " + currentResearch + " replaced with " + typeOfTechnology.getName();
             }
             else

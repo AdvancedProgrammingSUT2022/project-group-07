@@ -128,10 +128,11 @@ public class Information {
 
     public static void notificationHistory(int currentTurn , Civilization civilization){
         ArrayList<Notification> currentCivilizationNotifications = NotificationController.getNotifications().get(civilization) ;
-        for (Notification currentCivilizationNotification : currentCivilizationNotifications) {
+        for (int i=currentCivilizationNotifications.size()-1 ; i>=0 ; i--) {
+            Notification currentCivilizationNotification = currentCivilizationNotifications.get(i);
             System.out.printf("%s\n\t%3d turns ago at %s\n"
                     , currentCivilizationNotification.getMessage()
-                    , currentTurn = currentCivilizationNotification.getTurnOfCreation()
+                    , currentTurn - currentCivilizationNotification.getTurnOfCreation()
                     , currentCivilizationNotification.getRealTimeCreated());
         }
     }

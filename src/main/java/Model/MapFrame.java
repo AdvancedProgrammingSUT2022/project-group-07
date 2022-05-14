@@ -217,10 +217,12 @@ public class MapFrame extends JFrame {
             g2d.setColor(Color.WHITE);
             g2d.fillRect(0 , 0 , 720 , 150);
             g2d.setColor(Color.BLACK);
-            String currentPlayer = "current player : " + this.currentCivilization.getName() ;
+            String currentPlayer = "Civilization : " + this.currentCivilization.getName()
+                    + " | Gold : " + this.currentCivilization.getGold()
+                    + " | Happiness : " + this.currentCivilization.getHappiness();
             g2d.setFont(new Font("sans serif" , Font.PLAIN , 24));
             g2d.drawString(currentPlayer , 50 , 50) ;
-            if (this.selectedCity == null)
+            if (this.selectedCity == null || !this.selectedCity.getOwnership().equals(currentCivilization))
                 return;
             String out = "City : " + selectedCity.getName()
                     + " | food : " + selectedCity.getFood()
