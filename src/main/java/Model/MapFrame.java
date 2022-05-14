@@ -17,7 +17,7 @@ public class MapFrame extends JFrame {
     private final Terrain[][] map;
     private final int hexagonA;
     private final int rad3over2;
-    private final Color[] colors = new Color[]{Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.CYAN, Color.ORANGE};
+    private final Color[] colors = new Color[]{Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.CYAN, Color.ORANGE};
     private final int width;
     private final int height;
     private final ArrayList<Civilization> civilizations;

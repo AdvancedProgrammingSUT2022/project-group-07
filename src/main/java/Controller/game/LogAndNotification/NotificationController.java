@@ -1,12 +1,9 @@
 package Controller.game.LogAndNotification;
 
 import Controller.game.GameController;
-import Model.City;
-import Model.Civilization;
-import Model.Notification;
+import Model.*;
 import Enum.TypeOfTechnology;
 import Enum.TypeOfUnit;
-import Model.Unit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,6 +51,22 @@ public class NotificationController {
     public static void logUnitStatusChanged (final Unit unit){
         String message = "Unit " + unit.getTypeOfUnit().getName() + " changed status to " + unit.getUnitStatus() ;
         setNotification(unit.getCivilization() , message);
+    }
+
+    public static void logNewTileAddedToCity (final Terrain tile , City city){
+        String message = "Tile " + tile.getLocation().getX() + "," + tile.getLocation().getY()
+                + " added to city " + city.getName() + " !";
+        setNotification(city.getOwnership() , message);
+    }
+
+    public static void logNewCitizenAddedToCity (final City city){
+        String message = "New citizen added to city " + city.getName() + " !" ;
+        setNotification(city.getOwnership() , message);
+    }
+
+    public static void logScienceLossBecauseOfGoldDebt (final int amountOfLoss , final Civilization civilization){
+        String message = "Lost " + amountOfLoss + " of science dut to gold debt !";
+        setNotification(civilization,message);
     }
 
     public static HashMap<Civilization, ArrayList<Notification>> getNotifications() {
