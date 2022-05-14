@@ -1,6 +1,7 @@
 package Controller.game.units;
 
 import Controller.game.*;
+import Controller.game.movement.TheShortestPath;
 import Model.*;
 import Enum.TerrainFeatures;
 import Enum.TypeOfTechnology;
@@ -242,6 +243,7 @@ public class Worker {
         }
         terrain.setHasRailRoad(true);
         civilization.setNumberOfRailroadsAndRoads(civilization.getNumberOfRailroadsAndRoads() + 1);
+        TheShortestPath.run();
         return "Road created successfully in location ( "
                 + location.getX() + " , " + location.getY() + " ) !";
     }

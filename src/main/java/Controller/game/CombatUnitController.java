@@ -13,7 +13,6 @@ import Enum.UnitStatus;
 import java.util.regex.Matcher;
 
 public class CombatUnitController {
-    // TODO ranged units!
 
     public static String siegeUnits() {
         Unit selectedUnit = SelectController.selectedUnit;
@@ -106,11 +105,45 @@ public class CombatUnitController {
         return null;
     }
 
-    private String fortify(Unit unit) {
+    public static String fortify(GameController gameController) {
+        Unit selectedUnit = SelectController.selectedUnit;
+        String error = checkUnit(selectedUnit, gameController);
+
+        if (error != null)
+            return error;
+
+        selectedUnit.setUnitStatus(UnitStatus.FORTIFY);
+        // hp will increase in next turn
         return "";
     }
 
-    private String garrison(Unit Unit, City City) {
+    public static String garrison(GameController gameController) {
+        Unit selectedUnit = SelectController.selectedUnit;
+        Terrain currentTerrain = TerrainController.getTerrainByLocation(selectedUnit.getLocation());
+        City currentCity = SelectController.selectedCity;
+        String error = checkUnit(selectedUnit, gameController);
+        if (error != null)
+            return error;
+        // TODO just city center!
+        assert currentTerrain != null;
+        if (currentTerrain.equals(currentCity.getTerrains().get(0)))
+            return "Unit is not in city-center!";
+        currentCity.setDefencePower(currentCity.getDefencePower() + 5);
+        return "Settled successfully!";
+    }
+
+
+    public static String attackCity(Matcher matcher, GameController gameController) {
+        SelectController.selectCityByLocation(matcher , gameController.getCivilizations());
+        City city = SelectController.selectedCity;
+        String error;
+        if ((error = ErrorHandling.findAttackCityError(SelectController.selectedUnit , city , gameController)) != null)
+            return error;
+        UnitVsCity.attack(SelectController.selectedUnit , city , gameController);
+        return "attacked selected city!";
+    }
+
+    public static String attackUnit(Matcher matcher) {
         return "";
     }
 
