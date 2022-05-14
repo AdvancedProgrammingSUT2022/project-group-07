@@ -1,10 +1,10 @@
 package Controller.game.update;
 
+import Controller.game.CivilizationController;
 import Controller.game.GameController;
-import Model.City;
-import Model.Civilization;
-import Model.Technology;
-import Model.Unit;
+import Controller.game.TerrainController;
+import Model.*;
+import Enum.UnitStatus;
 
 import java.util.ArrayList;
 
@@ -57,11 +57,12 @@ public class UpdateCivilizationElements {
         civilization.setScience(civilization.getScience() + numberOfCitizens + 3);
     }
 
-    public static void update(Civilization civilization) {
+    public static void update(Civilization civilization, GameController gameController) {
         updateResearch(civilization);
         updateScience(civilization);
         updateFood(civilization);
         updateGold(civilization);
+        checkAlertUnits(civilization, gameController);
     }
 
     public static void UnitMovementsUpdate(Civilization civilization, GameController gameController) {
@@ -70,6 +71,25 @@ public class UpdateCivilizationElements {
             if (!unit.getPathToGo().isEmpty()) {
                 moveUnit(unit.getPathToGo() , gameController , unit
                         , unit.getPathToGo().get(unit.getPathToGo().size() - 1).getLocation());
+            }
+        }
+    }
+
+    public static void checkAlertUnits(Civilization currentCivilization, GameController gameController) {
+        for (Unit currentUnit : currentCivilization.getUnits()) {
+            if (currentUnit.getUnitStatus() == UnitStatus.ALERT) {
+                ArrayList<Terrain> neighborTerrains = CivilizationController.getNeighbourTerrainsByRadius1
+                        (currentUnit.getLocation(), GameController.getMap(), GameController.getMapWidth()
+                                , GameController.getMapHeight());
+                for (Civilization civilization : gameController.getCivilizations()) {
+                    if (civilization != currentCivilization) {
+                        for (Unit enemy : civilization.getUnits()) {
+                            Terrain enemyTerrain = TerrainController.getTerrainByLocation(enemy.getLocation());
+                            if (neighborTerrains.contains(enemyTerrain))
+                                currentUnit.setUnitStatus(UnitStatus.ACTIVE);
+                        }
+                    }
+                }
             }
         }
     }

@@ -4,7 +4,6 @@ import Controller.game.CityController;
 import Controller.game.CivilizationController;
 import Controller.game.GameController;
 import Controller.game.TerrainController;
-import Controller.game.TerrainController;
 import Controller.game.units.Worker;
 import Model.*;
 import Enum.TypeOfUnit;
@@ -18,11 +17,10 @@ import java.lang.Math;
 
 public class UpdateCityElements {
 
-    public static void update(Civilization civilization, GameController gameController) {
+    public static void update(Civilization civilization) {
         updateImprovementsAboutToBeCreated(civilization);
         updateUnitsAboutToBeCreate(civilization);
         updateRoutsAboutToBeCreated(civilization);
-        checkForAlertWake(civilization, gameController);
     }
 
     public static void updateUnitsAboutToBeCreate(Civilization currentCivilization) {
@@ -55,9 +53,9 @@ public class UpdateCityElements {
     public static void maintenance(Civilization civilization) {
         // TODO : exception handling
         // TODO + 1?
-        int number = civilization.getUnits().size() + civilization.getNumberOfRailroadsAndRoads() / civilization.getCities().size();
+        int routesAndUnits = civilization.getNumberOfRailroadsAndRoads() + civilization.getUnits().size();
         for (City city : civilization.getCities()) {
-            city.setGold(civilization.getGold() - number - city.getBuildings().size());
+            city.setGold(civilization.getGold() - routesAndUnits - city.getBuildings().size());
         }
     }
 
@@ -157,39 +155,4 @@ public class UpdateCityElements {
             }
         }
     }
-
-    private static void checkForAlertWake(Civilization civilization, GameController gameController) {
-        for (Unit unit : civilization.getUnits()) {
-            if (unit.getUnitStatus() == UnitStatus.ALERT) {
-                ArrayList<Terrain> neighborTerrains = CivilizationController.getNeighbourTerrainsByRadius1
-                        (unit.getLocation(), GameController.getMap(), GameController.getMapWidth()
-                                , GameController.getMapHeight());
-                for (Civilization civilization1 : gameController.getCivilizations()) {
-                    if (civilization1 != civilization) {
-                        for (Unit unit1 : civilization1.getUnits()) {
-                            for (Terrain terrain : neighborTerrains)
-                            if (unit1.getLocation().getX() == terrain.getLocation().getX()
-                                    && unit1.getLocation().getY() == terrain.getLocation().getY()) {
-                                unit1.setUnitStatus(UnitStatus.ACTIVE);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
