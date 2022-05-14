@@ -28,7 +28,7 @@ public class CombatUnitController {
         return unit.getTypeOfUnit().getCombatType() == CombatType.SIEGE;
     }
 
-    private static boolean isMilitary(Unit unit) {
+    public static boolean isMilitary(Unit unit) {
         return !(NonCombatUnitController.isWorker(unit)
                 || NonCombatUnitController.isSettler(unit));
     }

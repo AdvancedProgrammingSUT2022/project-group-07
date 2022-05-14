@@ -51,6 +51,7 @@ public enum GameMenuCommands {
     UNIT_SIEGE("unit siege"),
     UNIT_PILLAGE("pillage"),
     UNIT_RANGED_SETUP("unit ranged setup (?<X>\\d+) (?<Y>\\d+)"),
+    // combatunit commands : !!!
 
     // az inja male kargaras !!!
     UNIT_BUILD_IMPROVEMENT("unit build (?<improvement>[a-zA-Z]+)"), // baraye zirbakhsh be khode typeOfImrpovement morajeE shavad!

@@ -17,7 +17,8 @@ public class City {
     private ArrayList<Building> buildings;
     private ArrayList<TypeOfUnit> wantedUnits = new ArrayList<>();
     private int turnsTillGrowth ;
-
+    private int defencePower;
+    private Unit garrison;
 
     public City (String name , Civilization ownership){
         this.terrains = new ArrayList<Terrain>();
@@ -26,10 +27,11 @@ public class City {
         this.food = 0;
         this.gold = 0;
         this.production = 0;
-        this.hp = 10;
+        this.hp = 30;
         this.ownership = ownership;
         this.buildings = new ArrayList<>();
         turnsTillGrowth = 6 ;
+        this.defencePower = 10;
     }
 
 
@@ -111,5 +113,13 @@ public class City {
 
     public void setTurnsTillGrowth(int turnsTillGrowth) {
         this.turnsTillGrowth = turnsTillGrowth;
+    }
+
+    public int getDefencePower() {
+        return defencePower;
+    }
+
+    public void setDefencePower(int defencePower) {
+        this.defencePower = defencePower;
     }
 }
