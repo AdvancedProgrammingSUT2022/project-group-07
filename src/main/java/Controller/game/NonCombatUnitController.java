@@ -20,6 +20,7 @@ public class NonCombatUnitController {
         return unit.getTypeOfUnit() == TypeOfUnit.WORKER;
     }
 
+
     public static Terrain isJungleHere(Location location) {
         Terrain[][] terrain = GameController.map;
 

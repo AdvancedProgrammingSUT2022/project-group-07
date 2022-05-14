@@ -58,4 +58,10 @@ public class TerrainController {
     public static boolean hasRoad(Terrain terrain) {
         return terrain.hasRoad();
     }
+
+    public static double getChangeOfCombat(Terrain terrain) {
+        double changeOfCombat = terrain.getTypeOfTerrain().getChangeOfCombat();
+        if (terrain.getTerrainFeatures() != null) changeOfCombat += terrain.getTerrainFeatures().getChangeOfCombat();
+        return changeOfCombat;
+    }
 }

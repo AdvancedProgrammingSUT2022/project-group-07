@@ -90,7 +90,7 @@ public class CivilizationController {
         UpdateCivilizationElements.UnitMovementsUpdate(civilization , gameController);
         UpdateCityElements.citizensIncome(civilization);
         UpdateCityElements.maintenance(civilization);
-        UpdateCivilizationElements.update(civilization, gameController);
+        UpdateCivilizationElements.update(civilization , gameController);
         UpdateCityElements.cityGrowth(civilization);
         UpdateCityElements.citizenGrowth(civilization);
         UpdateCityElements.update(civilization, gameController);

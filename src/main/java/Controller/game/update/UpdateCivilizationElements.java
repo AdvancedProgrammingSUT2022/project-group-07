@@ -6,10 +6,8 @@ import Controller.game.TerrainController;
 import Model.*;
 import Enum.UnitStatus;
 import Controller.game.LogAndNotification.NotificationController;
-import Model.City;
-import Model.Civilization;
-import Model.Technology;
-import Model.Unit;
+import Controller.game.combat.CityDefending;
+import Model.*;
 
 import java.util.ArrayList;
 
@@ -34,7 +32,7 @@ public class UpdateCivilizationElements {
     public static void updateGold(Civilization civilization){
         ArrayList<City> cities = civilization.getCities();
         int sum = 0 ;
-        for (City city : cities)
+        for (City city : cities) {
             sum += city.getGold();
         civilization.setGold(civilization.getGold()+sum);
     }
@@ -57,8 +55,15 @@ public class UpdateCivilizationElements {
 
     public static void updateScience(Civilization civilization){
         int numberOfCitizens = 0;
-        for (City city : civilization.getCities()) {
+        for (City city : civilization.getCities())
             numberOfCitizens += city.getCitizens().size();
+        civilization.setScience(civilization.getScience() + numberOfCitizens + civilization.getCities().size()*5);
+        if (civilization.getGold() < 0 ) {
+            int goldDebt = Math.abs(civilization.getGold()) ;
+            int amountOfLoss = (int)(Math.log(goldDebt)/Math.log(2)) ;
+            int scienceWithLossOfDebt = Math.max(civilization.getScience()-amountOfLoss , 0);
+            civilization.setScience(scienceWithLossOfDebt);
+            NotificationController.logScienceLossBecauseOfGoldDebt(amountOfLoss , civilization);
         }
         civilization.setScience(civilization.getScience() + numberOfCitizens + 3);
     }
@@ -70,6 +75,18 @@ public class UpdateCivilizationElements {
         updateGold(civilization);
         checkAlertUnits(civilization, gameController);
         updateFortifyHp(civilization);
+        updateCityHp(civilization);
+        updateCityDefencing(civilization , gameController);
+        }
+    private static void updateCityDefencing(Civilization civilization , GameController gameController) {
+        for (City city : civilization.getCities()) {
+            CityDefending.DefendFromPossibleTrespassers(city , gameController);
+        }
+    }
+
+    private static void updateCityHp(Civilization civilization) {
+        for (City city : civilization.getCities())
+            if (city.getHp() < 30) city.setHp(city.getHp() + 1);
     }
 
     public static void UnitMovementsUpdate(Civilization civilization, GameController gameController) {

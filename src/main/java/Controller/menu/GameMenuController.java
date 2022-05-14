@@ -33,6 +33,7 @@ public class GameMenuController {
             output = "next player!";
         }
         SelectController.selectedUnit = null;
+        SelectController.selectedCity = null;
         MapController.setMapCenter(gameController.getCurrentCivilization().getUnits().get(0).getLocation());
         CivilizationController.updateCivilizationElements(gameController);
 
