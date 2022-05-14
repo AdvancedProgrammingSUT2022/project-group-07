@@ -2,6 +2,7 @@ package View;
 
 import Controller.cheat.Cheat;
 import Controller.game.*;
+import Controller.game.LogAndNotification.NotificationController;
 import Controller.game.units.Settler;
 import Controller.game.units.Worker;
 import Controller.menu.GameMenuController;
@@ -23,7 +24,7 @@ public class GameMenu extends Menu{
     public void run() {
         String input;
         Matcher matcher;
-
+        NotificationController.runNotification(gameController);
         while (MenuName.getCurrentMenu() == MenuName.GAME_MENU) {
             MapController.printMap(GameController.getMap() , gameController.getCurrentCivilization() , gameController.getCivilizations());
             input = scanner.nextLine();
@@ -59,7 +60,7 @@ public class GameMenu extends Menu{
                 Information.demographicsInformation(gameController.getCivilizations() , gameController.getCurrentCivilization());
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_NOTIFICATIONS)) != null){
-
+                Information.notificationHistory(gameController.getTurn() , gameController.getCurrentCivilization());
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_MILITARY)) != null) {
                 Information.militaryInformation(gameController.getCurrentCivilization());
@@ -134,6 +135,10 @@ public class GameMenu extends Menu{
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_ATTACK))!=null){
 
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.ATTACK_CITY)) != null) {
+                String result = CombatUnitController.attackCity(matcher , gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_FOUND_CITY)) != null){
                 String result = Settler.foundCity(matcher , gameController);

@@ -23,15 +23,19 @@ public class MapFrame extends JFrame {
     private final ArrayList<Civilization> civilizations;
     private final Civilization currentCivilization;
     private final Location center;
+    private final City selectedCity ;
 
 
-    public MapFrame(MapDimension mapDimension, Terrain[][] map, Location mapCenter, ArrayList<Civilization> civilizations, Civilization currentCivilization) {
+    public MapFrame(MapDimension mapDimension, Terrain[][] map, Location mapCenter
+            , ArrayList<Civilization> civilizations, Civilization currentCivilization
+            , City selectedCity) {
         this.width = mapDimension.getX();
         this.height = mapDimension.getY();
         this.map = map;
         this.center = mapCenter;
         this.civilizations = civilizations;
         this.currentCivilization = currentCivilization;
+        this.selectedCity = selectedCity;
         setSize(1080, 720);
         setName("Civilization - group 07");
         setVisible(true);
@@ -209,12 +213,29 @@ public class MapFrame extends JFrame {
             }
         }
 
+        private void printSelectedCityInformationOnFrame (Graphics2D g2d){
+            g2d.setColor(Color.WHITE);
+            g2d.fillRect(0 , 0 , 720 , 150);
+            g2d.setColor(Color.BLACK);
+            String currentPlayer = "Civilization : " + this.currentCivilization.getName()
+                    + " | Gold : " + this.currentCivilization.getGold()
+                    + " | Happiness : " + this.currentCivilization.getHappiness();
+            g2d.setFont(new Font("sans serif" , Font.PLAIN , 24));
+            g2d.drawString(currentPlayer , 50 , 50) ;
+            if (this.selectedCity == null || !this.selectedCity.getOwnership().equals(currentCivilization))
+                return;
+            String out = "City : " + selectedCity.getName()
+                    + " | food : " + selectedCity.getFood()
+                    + " | production : " + selectedCity.getProduction()
+                    + " | Hp : " + selectedCity.getHp() ;
+            g2d.setFont(new Font("sans serif" , Font.BOLD , 14));
+            g2d.drawString(out , 50 , 75);
+        }
+
         private void paintRawMap( Graphics2D g2d , int firstRow , int lastRow , int firstCol , int lastCol){
             int y = 150;
             ArrayList<Unit> units = getUnits();
-            String currentPlayer = "current player : " + this.currentCivilization.getName() ;
-            g2d.setFont(new Font("sans serif" , Font.PLAIN , 24));
-            g2d.drawString(currentPlayer , 50 , 50) ;
+            printSelectedCityInformationOnFrame(g2d);
             for (int row = firstRow; row <= lastRow; row++) {
                 int x = 100;
                 if (row % 2 == 1)

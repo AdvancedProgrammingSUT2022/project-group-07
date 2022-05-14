@@ -1,6 +1,8 @@
 package Controller.game.update;
 
 import Controller.game.GameController;
+import Controller.game.combat.CityDefending;
+import Controller.game.LogAndNotification.NotificationController;
 import Model.City;
 import Model.Civilization;
 import Model.Technology;
@@ -43,6 +45,7 @@ public class UpdateCivilizationElements {
             return;
         if (currentResearch.getRemainingTurns()==0) {
             civilization.addTechnology(currentResearch);
+            NotificationController.logResearchCompleted(currentResearch.getTypeOfTechnology() , civilization);
             civilization.setCurrentResearch(null);
         }
         else
@@ -57,11 +60,24 @@ public class UpdateCivilizationElements {
         civilization.setScience(civilization.getScience() + numberOfCitizens + 3);
     }
 
-    public static void update(Civilization civilization) {
+    public static void update(Civilization civilization , GameController gameController) {
         updateResearch(civilization);
         updateScience(civilization);
         updateFood(civilization);
         updateGold(civilization);
+        updateCityHp(civilization);
+        updateCityDefencing(civilization , gameController);
+    }
+
+    private static void updateCityDefencing(Civilization civilization , GameController gameController) {
+        for (City city : civilization.getCities()) {
+            CityDefending.DefendFromPossibleTrespassers(city , gameController);
+        }
+    }
+
+    private static void updateCityHp(Civilization civilization) {
+        for (City city : civilization.getCities())
+            if (city.getHp() < 30) city.setHp(city.getHp() + 1);
     }
 
     public static void UnitMovementsUpdate(Civilization civilization, GameController gameController) {

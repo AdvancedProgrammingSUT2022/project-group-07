@@ -1,6 +1,7 @@
 package Controller.game.units;
 
 import Controller.game.GameController;
+import Controller.game.LogAndNotification.NotificationController;
 import Controller.game.SelectController;
 import Controller.game.TerrainController;
 import Controller.game.UnitController;
@@ -44,11 +45,12 @@ public class Settler {
         int numberOfCities = civilization.getCities().size();
         City city = new City("city" + (numberOfCities + 1) + " Of" + civilization.getName(), civilization);
         if (TerrainController.getTerrainByLocation(settler.getLocation()).getTypeOfTerrain() == TypeOfTerrain.HILL) {
-            city.setHp(city.getHp() + 5);
+            city.setDefencePower(city.getDefencePower() + 5);
         }
         city.getTerrains().add(TerrainController.getTerrainByLocation(settler.getLocation()));
         city.addCitizen(new Citizen(1));
         civilization.addCity(city);
+        NotificationController.logCityFounded(city , civilization);
         if (numberOfCities == 0) civilization.setCapital(city);
         return "found new city!";
     }
