@@ -1,9 +1,11 @@
 package Controller.game;
 
+import Controller.game.LogAndNotification.NotificationController;
 import Model.*;
 import Enum.*;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class Information {
@@ -71,39 +73,39 @@ public class Information {
 
     public static void demographicsInformation (ArrayList<Civilization> civilizations , Civilization civilization){
         System.out.println("Demographics Information Panel of civilization " + civilization.getName());
-        int gold = civilization.getGold();
-        int food = civilization.getFood();
-        int happiness = civilization.getHappiness();
-        int science = civilization.getScience();
         ArrayList<City> cities = civilization.getCities();
         int numberOfTilesOwned = 0 ;
         for (City city : cities)
             numberOfTilesOwned += city.getTerrains().size();
-        int numberOfRailRoadsAndRoads = civilization.getNumberOfRailroadsAndRoads() ;
-        int progress = numberOfTilesOwned*100 / GameController.getMapHeight()*GameController.getMapHeight() ;
-        System.out.println("\tTotal gold : " + gold);
-        System.out.println("\tTotal food : " + food);
-        System.out.println("\tHappiness index : " + happiness);
+        float progress = ((float) numberOfTilesOwned*100) / (float)(GameController.getMapHeight()*GameController.getMapWidth()) ;
+
+        System.out.println("\tTotal gold : " + civilization.getGold());
+        System.out.println("\tTotal food : " + civilization.getFood());
+        System.out.println("\tHappiness index : " + civilization.getHappiness());
         System.out.println("\tCities : " + cities.size());
         System.out.println("\tTiles Owned : " + numberOfTilesOwned);
-        System.out.println("\tRoads and Railroads : " + numberOfRailRoadsAndRoads);
-        System.out.println("\tTotal Progress : " + progress + "%");
+        System.out.println("\tRoads and Railroads : " + civilization.getNumberOfRailroadsAndRoads());
+        System.out.printf("\tTotal Progress : %.2f%%\n" , progress);
 
-        HashMap<Civilization , Integer> progressMap = new HashMap<>();
+        HashMap<Civilization , Float> progressMap = new HashMap<>();
         for (Civilization civilization1 : civilizations) {
-            cities = civilization.getCities();
+            cities = civilization1.getCities();
             numberOfTilesOwned = 0 ;
             for (City city : cities)
                 numberOfTilesOwned += city.getTerrains().size();
-            progressMap.put(civilization1 , numberOfTilesOwned*100 / GameController.getMapHeight()*GameController.getMapHeight());
+            progressMap.put(civilization1
+                    , ((float) numberOfTilesOwned*100) / (float)(GameController.getMapHeight()*GameController.getMapWidth()));
         }
-        Map<Civilization, Integer> sortedMap =
+        Map<Civilization, Float> sortedMap =
                 progressMap.entrySet().stream()
                         .sorted(Map.Entry.comparingByValue())
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                                 (e1, e2) -> e1, LinkedHashMap::new));
         System.out.println("Ranking : ");
-        sortedMap.forEach((key, value) -> System.out.println("\tCivilization " + key.getName() + " : " + value+"%"));
+        AtomicInteger i = new AtomicInteger(sortedMap.size()+1);
+        sortedMap.forEach((key, value) ->
+                System.out.printf("%d\tCivilization %s : %.2f%%\n" , i.decrementAndGet() , key.getName() , value)
+        );
     }
 
     public static void militaryInformation(Civilization civilization){
@@ -121,6 +123,16 @@ public class Information {
             System.out.println("\t\tStatus : " + status);
             System.out.println("\t\tHp : " + hp);
             System.out.println("\t\tMp : " + mp);
+        }
+    }
+
+    public static void notificationHistory(int currentTurn , Civilization civilization){
+        ArrayList<Notification> currentCivilizationNotifications = NotificationController.getNotifications().get(civilization) ;
+        for (Notification currentCivilizationNotification : currentCivilizationNotifications) {
+            System.out.printf("%s\n\t%3d turns ago at %s\n"
+                    , currentCivilizationNotification.getMessage()
+                    , currentTurn = currentCivilizationNotification.getTurnOfCreation()
+                    , currentCivilizationNotification.getRealTimeCreated());
         }
     }
 
