@@ -95,14 +95,23 @@ public class CityController {
         return false;
     }
 
-
-    public static String createUnit(Civilization currentCivilization, TypeOfUnit typeOfUnit, Location location, City city) {
+    public static String createUnit(Civilization currentCivilization, TypeOfUnit typeOfUnit, Location location,
+                                    City city, GameController gameController) {
         int turn = typeOfUnit.getCost() / city.getProduction();
+        Terrain cityCenter = city.getTerrains().get(0);
+        // unit limitation
+        for (Civilization civilization : gameController.getCivilizations()) {
+            for (Unit unit : civilization.getUnits()) {
+                if (unit.getLocation().equals(cityCenter.getLocation()))
+                    return typeOfUnit + " wants to be created. Please move the unit which is in city center first!";
+            }
+        }
+
         Unit newUnit = new Unit(typeOfUnit, UnitStatus.ACTIVE, location, typeOfUnit.getHp(), currentCivilization, turn);
         currentCivilization.addUnit(newUnit);
         city.getWantedUnits().remove(typeOfUnit);
         city.setProduction(city.getProduction() - typeOfUnit.getCost());
-        return typeOfUnit + " has been added successfully in location ( "
+        return typeOfUnit + " has been created successfully in location ( "
                 + location.getX() + " , " + location.getY() + " ) !";
     }
 

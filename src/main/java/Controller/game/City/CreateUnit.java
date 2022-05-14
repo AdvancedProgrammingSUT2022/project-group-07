@@ -29,9 +29,9 @@ public class CreateUnit {
                     TypeOfTechnology requiredTech = typeOfUnit.getTechnologyRequired();
 
                     if (requiredTech == null)
-                        return checkRequiredResourceWhenTechIsNull(currentCivilization, typeOfUnit, cityCenter);
+                        return checkRequiredResourceWhenTechIsNull(currentCivilization, typeOfUnit, cityCenter, gameController);
 
-                    return checkTechAndResource(currentCivilization, typeOfUnit, cityCenter);
+                    return checkTechAndResource(currentCivilization, typeOfUnit, cityCenter, gameController);
                 }
                 else {
                     selectedCity.addWantedUnit(typeOfUnit);
@@ -51,7 +51,8 @@ public class CreateUnit {
         return ownedResources.contains(requiredResource);
     }
 
-    private static String checkTechAndResource(Civilization currentCivilization, TypeOfUnit typeOfUnit, Terrain cityCenter) {
+    private static String checkTechAndResource(Civilization currentCivilization, TypeOfUnit typeOfUnit, Terrain cityCenter,
+                                               GameController gameController) {
         ArrayList<Technology> ownedTechs = currentCivilization.getGainedTechnologies();
         TypeOfTechnology requiredTech = typeOfUnit.getTechnologyRequired();
 
@@ -60,10 +61,10 @@ public class CreateUnit {
                 Resources requiredResource = typeOfUnit.getResources();
 
                 if (requiredResource == null)
-                    return CityController.createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation(), selectedCity);
+                    return CityController.createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation(), selectedCity, gameController);
 
                 if (cityHasRequiredResource(requiredResource))
-                    CityController.createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation(), selectedCity);
+                    CityController.createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation(), selectedCity, gameController);
 
                 return "Your city doesn't have the required resource to create this unit!";
             }
@@ -71,14 +72,15 @@ public class CreateUnit {
         return "Your civilization doesn't have the required tech to create this unit!";
     }
 
-    private static String checkRequiredResourceWhenTechIsNull(Civilization currentCivilization, TypeOfUnit typeOfUnit, Terrain cityCenter) {
+    private static String checkRequiredResourceWhenTechIsNull(Civilization currentCivilization, TypeOfUnit typeOfUnit, Terrain cityCenter,
+                                                              GameController gameController) {
         Resources requiredResource = typeOfUnit.getResources();
 
         if (requiredResource == null)
-            return CityController.createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation(), selectedCity);
+            return CityController.createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation(), selectedCity, gameController);
 
         if (cityHasRequiredResource(requiredResource))
-            return CityController.createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation(), selectedCity);
+            return CityController.createUnit(currentCivilization, typeOfUnit, cityCenter.getLocation(), selectedCity, gameController);
 
         return "Your city doesn't have the required resource to create this unit!";
     }
@@ -90,7 +92,7 @@ public class CreateUnit {
         if (selectedCity.getGold() >= unit.getCost()) {
             selectedCity.setGold(-1 * unit.getCost());
             currentCivilization.setGold(-1 * unit.getCost());
-            return CityController.createUnit(currentCivilization, unit, location, selectedCity);
+            return CityController.createUnit(currentCivilization, unit, location, selectedCity, gameController);
         }
         return "Your city doesn't have enough gold to buy this unit!";
     }
