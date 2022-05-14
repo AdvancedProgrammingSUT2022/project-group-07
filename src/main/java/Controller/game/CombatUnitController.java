@@ -1,5 +1,7 @@
 package Controller.game;
 
+import Controller.game.combat.ErrorHandling;
+import Controller.game.combat.UnitVsCity;
 import Controller.game.movement.Move;
 import Model.City;
 import Model.Location;
@@ -28,7 +30,7 @@ public class CombatUnitController {
         return unit.getTypeOfUnit().getCombatType() == CombatType.SIEGE;
     }
 
-    private static boolean isMilitary(Unit unit) {
+    public static boolean isMilitary(Unit unit) {
         return !(NonCombatUnitController.isWorker(unit)
                 || NonCombatUnitController.isSettler(unit));
     }
@@ -94,7 +96,7 @@ public class CombatUnitController {
         return "Alerted successfully!";
     }
 
-    private static String checkUnit(Unit selectedUnit, GameController gameController) {
+    public static String checkUnit(Unit selectedUnit, GameController gameController) {
         if (selectedUnit == null)
             return "There isn't any selected unit!";
         if (!UnitController.hasOwnerShip(selectedUnit, gameController))
@@ -112,28 +114,20 @@ public class CombatUnitController {
         return "";
     }
 
-    private boolean canAttack(Unit unit, Location location) {
-        return true;
+
+    public static String attackCity(Matcher matcher, GameController gameController) {
+        SelectController.selectCityByLocation(matcher , gameController.getCivilizations());
+        City city = SelectController.selectedCity;
+        String error;
+        if ((error = ErrorHandling.findAttackCityError(SelectController.selectedUnit , city , gameController)) != null)
+            return error;
+        UnitVsCity.attack(SelectController.selectedUnit , city , gameController);
+        return "attacked selected city!";
     }
 
-    private String attack(Unit unit, City city) {
+    public static String attackUnit(Matcher matcher) {
         return "";
     }
 
-    private String attack(Unit unit, Unit enemyUnit) {
-        return "";
-    }
-
-//    private City getCurrentCity(Unit unit, ArrayList<City> cities) {
-//
-//    }
-
-//    private City getCityByLocation(Location location) {
-//
-//    }
-//
-//    private Unit getUnitByLocation(Location location) {
-//
-//    }
 
 }
