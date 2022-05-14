@@ -81,7 +81,7 @@ public class CombatUnitController {
         return "";
     }
 
-    private static boolean isRangedUnit(Unit unit) {
+    public static boolean isRangedUnit(Unit unit) {
         return (unit.getTypeOfUnit().getCombatType() == CombatType.SIEGE
                 || unit.getTypeOfUnit().getCombatType() == CombatType.ARCHERY
                 || unit.getTypeOfUnit().getCombatType() == CombatType.GUNPOWDER);
