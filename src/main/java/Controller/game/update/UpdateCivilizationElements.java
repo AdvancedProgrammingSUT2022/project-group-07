@@ -1,10 +1,14 @@
 package Controller.game.update;
 
+import Controller.game.GameController;
 import Model.City;
 import Model.Civilization;
 import Model.Technology;
+import Model.Unit;
 
 import java.util.ArrayList;
+
+import static Controller.game.UnitController.moveUnit;
 
 public class UpdateCivilizationElements {
 
@@ -58,5 +62,15 @@ public class UpdateCivilizationElements {
         updateScience(civilization);
         updateFood(civilization);
         updateGold(civilization);
+    }
+
+    public static void UnitMovementsUpdate(Civilization civilization, GameController gameController) {
+        for (Unit unit : civilization.getUnits()) {unit.setTimesMovedThisTurn(0);}
+        for (Unit unit : civilization.getUnits()) {
+            if (!unit.getPathToGo().isEmpty()) {
+                moveUnit(unit.getPathToGo() , gameController , unit
+                        , unit.getPathToGo().get(unit.getPathToGo().size() - 1).getLocation());
+            }
+        }
     }
 }

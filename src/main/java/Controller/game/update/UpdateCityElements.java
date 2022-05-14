@@ -4,6 +4,7 @@ import Controller.game.CityController;
 import Controller.game.GameController;
 import Controller.game.MapController;
 import Controller.game.TerrainController;
+import Controller.game.TerrainController;
 import Controller.game.units.Worker;
 import Model.*;
 import Enum.TypeOfUnit;
@@ -46,7 +47,12 @@ public class UpdateCityElements {
     // just for selected civilization!
     public static void maintenance(Civilization civilization) {
         // TODO : exception handling
+<<<<<<< HEAD
         int number = civilization.getNumberOfRailroadsAndRoads() / civilization.getCities().size();
+=======
+        // TODO + 1?
+        int number = civilization.getUnits().size() + civilization.getNumberOfRailroadsAndRoads() / civilization.getCities().size();
+>>>>>>> main
         for (City city : civilization.getCities()) {
             city.setGold(civilization.getGold() - number - city.getBuildings().size());
         }
@@ -109,7 +115,7 @@ public class UpdateCityElements {
             int food = 0;
             int production = 0;
             for (Citizen citizen : city.getCitizens()) {
-                if (citizen.getTerrain() == null) continue;
+                if (citizen.getTerrain() == null) food += 1;
                 TerrainOutput terrainOutput = TerrainController.getTerrainsOutput(civilization , citizen.getTerrain());
                 gold += terrainOutput.getGold();
                 food += terrainOutput.getFood();

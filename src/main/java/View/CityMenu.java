@@ -2,10 +2,8 @@ package View;
 
 import Controller.game.City.CreateUnit;
 import Controller.game.CityController;
-import Controller.game.CityController;
 import Controller.game.GameController;
 import Controller.game.SelectController;
-import Controller.game.UnitController;
 import Controller.game.citizen.CitizenController;
 import Enum.regexes.CityMenuCommands;
 import Enum.regexes.GameMenuCommands;
@@ -17,7 +15,8 @@ import java.util.regex.Matcher;
 public class CityMenu extends Menu {
     private City city;
     private GameController gameController;
-    public CityMenu(Scanner scanner , GameController gameController) {
+
+    public CityMenu(Scanner scanner, GameController gameController) {
         super(scanner);
         this.city = SelectController.selectedCity;
         this.gameController = gameController;
@@ -38,22 +37,33 @@ public class CityMenu extends Menu {
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.BUY_UNIT_WITH_GOLD)) != null) {
                 String result = CreateUnit.buyUnitWithGold(gameController);
                 System.out.println(result);
+            } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.CHANGE_UNIT_CONSTRUCTION)) != null) {
+                String result = CreateUnit.changeUnitConstruction(matcher);
+                System.out.println(result);
+            } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.REMOVE_UNIT_CONSTRUCTION)) != null) {
+                String result = CreateUnit.removeUnitConstruction(matcher);
+                System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.EMPLOY_CITIZEN_TO_TILE)) != null) {
-                String result = CitizenController.lock(city , matcher , gameController);
+                String result = CitizenController.lock(city, matcher, gameController);
                 System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.UNLOCK_CITIZEN)) != null) {
-                String result = CitizenController.unlock(city , matcher);
+                String result = CitizenController.unlock(city, matcher);
                 System.out.println(result);
-            } else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_SHOW_TILES_OWNED)) != null){
-                String result = CityController.showTilesOwned() ;
+            } else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.CITY_SHOW_TILES_OWNED)) != null) {
+                String result = CityController.showTilesOwned();
                 System.out.println(result);
-            } else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_SHOW_TILES_AVAILABLE)) != null){
-                String result = CityController.showTilesAvailable(GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()) ;
+            } else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.CITY_SHOW_TILES_AVAILABLE)) != null) {
+                String result = CityController.showTilesAvailable(GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
                 System.out.println(result);
-            } else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.CITY_BUY_TILE)) != null){
-                String result = CityController.buyTile(matcher , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()) ;
+            } else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.CITY_BUY_TILE)) != null) {
+                String result = CityController.buyTile(matcher, GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
                 System.out.println(result);
-            }else System.out.println("invalid command from ayoub");
+            }
+            else if ((CityMenuCommands.getMatcher(input , CityMenuCommands.SHOW_UNEMPLOYED_CITIZENS)) != null) {
+                String result = CityController.showUnemployedCitizens(city);
+                System.out.print(result);
+            }
+            else System.out.println("invalid command from ayoub");
         }
     }
 }
