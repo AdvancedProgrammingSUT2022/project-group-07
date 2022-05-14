@@ -128,7 +128,7 @@ public class CombatUnitController {
         assert currentTerrain != null;
         if (currentTerrain.equals(currentCity.getTerrains().get(0)))
             return "Unit is not in city-center!";
-        currentCity.setDefencePower(currentCity.getDefencePower + 5);
+        currentCity.setDefencePower(currentCity.getDefencePower() + 5);
         return "Settled successfully!";
     }
 

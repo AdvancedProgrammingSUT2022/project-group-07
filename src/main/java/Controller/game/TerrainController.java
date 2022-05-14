@@ -4,8 +4,6 @@ import Model.Civilization;
 import Model.Location;
 import Model.Terrain;
 import Model.TerrainOutput;
-import Model.TerrainOutput;
-import Enum.TypeOfResource;
 
 public class TerrainController {
     public static Terrain getTerrainByLocation(Location location) {

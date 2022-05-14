@@ -29,12 +29,13 @@ public class UpdateCivilizationElements {
     /**
      *  a function to update whole gold of a civilization
      */
-    public static void updateGold(Civilization civilization){
+    public static void updateGold(Civilization civilization) {
         ArrayList<City> cities = civilization.getCities();
-        int sum = 0 ;
+        int sum = 0;
         for (City city : cities) {
             sum += city.getGold();
-        civilization.setGold(civilization.getGold()+sum);
+            civilization.setGold(civilization.getGold() + sum);
+        }
     }
 
     /**
