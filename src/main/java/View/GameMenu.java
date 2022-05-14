@@ -123,12 +123,13 @@ public class GameMenu extends Menu{
                 String result = CombatUnitController.alert(gameController);
                 System.out.println(result);
             }
-//            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_FORTIFY)) != null){
-//                String result = UnitController.fortifyUnit(gameController);
-//                System.out.println(result);
-//            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_FORTIFY)) != null){
+                String result = CombatUnitController.fortify(gameController);
+                System.out.println(result);
+            }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_GARRISON)) != null){
-
+                String result = CombatUnitController.garrison(gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_SETUP_RANGED)) != null){
 
@@ -259,6 +260,5 @@ public class GameMenu extends Menu{
             }
             else System.out.println("invalid command ayoub");
         }
-
     }
 }

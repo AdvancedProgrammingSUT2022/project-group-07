@@ -1,6 +1,7 @@
 package Controller.game.update;
 
 import Controller.game.CityController;
+import Controller.game.CivilizationController;
 import Controller.game.GameController;
 import Controller.game.LogAndNotification.NotificationController;
 import Controller.game.MapController;
@@ -11,22 +12,28 @@ import Model.*;
 import Enum.TypeOfUnit;
 import Enum.TypeOfImprovement;
 import Enum.TerrainFeatures;
-import Enum.TypeOfImprovement;
-import Enum.TerrainFeatures;
+import Enum.UnitStatus;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.lang.Math;
 
 public class UpdateCityElements {
-    public static void updateUnitsAboutToBeCreate(Civilization currentCivilization) {
+
+    public static void update(Civilization civilization, GameController gameController) {
+        updateImprovementsAboutToBeCreated(civilization);
+        updateUnitsAboutToBeCreate(civilization, gameController);
+        updateRoutsAboutToBeCreated(civilization);
+    }
+
+    public static void updateUnitsAboutToBeCreate(Civilization currentCivilization, GameController gameController) {
         for (City city : currentCivilization.getCities()) {
             for (TypeOfUnit unit : city.getWantedUnits()) {
                 unit.setTurnsNeededToCreate(unit.getCost() / city.getProduction());
                 if (city.getProduction() >= unit.getCost()) {
                     Terrain cityCenter = city.getTerrains().get(0);
                     city.setProduction(city.getProduction() - unit.getCost());
-                    CityController.createUnit(currentCivilization, unit, cityCenter.getLocation(), city);
+                    CityController.createUnit(currentCivilization, unit, cityCenter.getLocation(), city, gameController);
                 }
             }
         }
@@ -50,9 +57,9 @@ public class UpdateCityElements {
         // TODO + 1?
         if (civilization.getCities().size()==0)
             return;
-        int number = civilization.getUnits().size() + civilization.getNumberOfRailroadsAndRoads() / civilization.getCities().size();
+        int routesAndUnits = civilization.getNumberOfRailroadsAndRoads() + civilization.getUnits().size();
         for (City city : civilization.getCities()) {
-            city.setGold(civilization.getGold() - number - city.getBuildings().size());
+            city.setGold(civilization.getGold() - routesAndUnits - city.getBuildings().size());
         }
     }
 
@@ -153,5 +160,4 @@ public class UpdateCityElements {
             }
         }
     }
-
 }
