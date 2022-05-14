@@ -104,7 +104,15 @@ public class CombatUnitController {
         return null;
     }
 
-    private String fortify(Unit unit) {
+    public static String fortify(GameController gameController) {
+        Unit selectedUnit = SelectController.selectedUnit;
+        String error = checkUnit(selectedUnit, gameController);
+
+        if (error != null)
+            return error;
+
+        selectedUnit.setUnitStatus(UnitStatus.FORTIFY);
+        // hp will increase in next turn
         return "";
     }
 
@@ -123,17 +131,4 @@ public class CombatUnitController {
     private String attack(Unit unit, Unit enemyUnit) {
         return "";
     }
-
-//    private City getCurrentCity(Unit unit, ArrayList<City> cities) {
-//
-//    }
-
-//    private City getCityByLocation(Location location) {
-//
-//    }
-//
-//    private Unit getUnitByLocation(Location location) {
-//
-//    }
-
 }

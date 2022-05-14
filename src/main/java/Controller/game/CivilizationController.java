@@ -92,7 +92,7 @@ public class CivilizationController {
         UpdateCivilizationElements.update(civilization, gameController);
         UpdateCityElements.cityGrowth(civilization);
         UpdateCityElements.citizenGrowth(civilization);
-        UpdateCityElements.update(civilization);
+        UpdateCityElements.update(civilization, gameController);
         UpdateCityElements.foodConsumption(civilization);
         //TODO harchidige ke moond!
     }

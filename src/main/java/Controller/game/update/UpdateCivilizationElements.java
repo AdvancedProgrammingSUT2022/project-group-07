@@ -63,6 +63,7 @@ public class UpdateCivilizationElements {
         updateFood(civilization);
         updateGold(civilization);
         checkAlertUnits(civilization, gameController);
+        updateFortifyHp(civilization);
     }
 
     public static void UnitMovementsUpdate(Civilization civilization, GameController gameController) {
@@ -75,14 +76,14 @@ public class UpdateCivilizationElements {
         }
     }
 
-    public static void checkAlertUnits(Civilization currentCivilization, GameController gameController) {
+    private static void checkAlertUnits(Civilization currentCivilization, GameController gameController) {
         for (Unit currentUnit : currentCivilization.getUnits()) {
             if (currentUnit.getUnitStatus() == UnitStatus.ALERT) {
                 ArrayList<Terrain> neighborTerrains = CivilizationController.getNeighbourTerrainsByRadius1
                         (currentUnit.getLocation(), GameController.getMap(), GameController.getMapWidth()
                                 , GameController.getMapHeight());
                 for (Civilization civilization : gameController.getCivilizations()) {
-                    if (civilization != currentCivilization) {
+                    if (!civilization.equals(currentCivilization)) {
                         for (Unit enemy : civilization.getUnits()) {
                             Terrain enemyTerrain = TerrainController.getTerrainByLocation(enemy.getLocation());
                             if (neighborTerrains.contains(enemyTerrain))
@@ -90,6 +91,16 @@ public class UpdateCivilizationElements {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private static void updateFortifyHp(Civilization civilization) {
+        for (Unit unit : civilization.getUnits()) {
+            if (unit.getUnitStatus() == UnitStatus.FORTIFY) {
+              unit.setHp(unit.getHp() + 1);
+              if (unit.getHp() == unit.getTypeOfUnit().getHp())
+                  unit.setUnitStatus(UnitStatus.ACTIVE);
             }
         }
     }
