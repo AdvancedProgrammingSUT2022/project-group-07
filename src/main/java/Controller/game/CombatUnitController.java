@@ -11,7 +11,6 @@ import Enum.UnitStatus;
 import java.util.regex.Matcher;
 
 public class CombatUnitController {
-    // TODO ranged units!
 
     public static String siegeUnits() {
         Unit selectedUnit = SelectController.selectedUnit;
@@ -116,8 +115,19 @@ public class CombatUnitController {
         return "";
     }
 
-    private String garrison(Unit Unit, City City) {
-        return "";
+    public static String garrison(GameController gameController) {
+        Unit selectedUnit = SelectController.selectedUnit;
+        Terrain currentTerrain = TerrainController.getTerrainByLocation(selectedUnit.getLocation());
+        City currentCity = SelectController.selectedCity;
+        String error = checkUnit(selectedUnit, gameController);
+        if (error != null)
+            return error;
+        // TODO just city center!
+        assert currentTerrain != null;
+        if (currentTerrain.equals(currentCity.getTerrains().get(0)))
+            return "Unit is not in city-center!";
+        currentCity.setDefencePower(currentCity.getDefencePower + 5);
+        return "Settled successfully!";
     }
 
     private boolean canAttack(Unit unit, Location location) {

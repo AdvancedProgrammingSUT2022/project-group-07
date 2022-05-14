@@ -128,7 +128,8 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_GARRISON)) != null){
-
+                String result = CombatUnitController.garrison(gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_SETUP_RANGED)) != null){
 
