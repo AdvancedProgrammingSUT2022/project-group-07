@@ -3,6 +3,7 @@ package View;
 import Controller.game.City.CreateUnit;
 import Controller.game.CityController;
 import Controller.game.GameController;
+import Controller.game.MapController;
 import Controller.game.SelectController;
 import Controller.game.citizen.CitizenController;
 import Enum.regexes.CityMenuCommands;
@@ -28,6 +29,7 @@ public class CityMenu extends Menu {
         Matcher matcher;
 
         while (true) {
+            MapController.printMap(GameController.getMap() , gameController.getCurrentCivilization() , gameController.getCivilizations());
             input = scanner.nextLine();
             if (CityMenuCommands.getMatcher(input, CityMenuCommands.EXIT) != null)
                 break;

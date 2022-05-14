@@ -1,6 +1,7 @@
 package Controller.game.update;
 
 import Controller.game.GameController;
+import Controller.game.LogAndNotification.NotificationController;
 import Model.City;
 import Model.Civilization;
 import Model.Technology;
@@ -43,6 +44,7 @@ public class UpdateCivilizationElements {
             return;
         if (currentResearch.getRemainingTurns()==0) {
             civilization.addTechnology(currentResearch);
+            NotificationController.logResearchCompleted(currentResearch.getTypeOfTechnology() , civilization);
             civilization.setCurrentResearch(null);
         }
         else

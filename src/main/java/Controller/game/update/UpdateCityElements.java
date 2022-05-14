@@ -46,8 +46,9 @@ public class UpdateCityElements {
 
     // just for selected civilization!
     public static void maintenance(Civilization civilization) {
-        // TODO : exception handling
         // TODO + 1?
+        if (civilization.getCities().size()==0)
+            return;
         int number = civilization.getUnits().size() + civilization.getNumberOfRailroadsAndRoads() / civilization.getCities().size();
         for (City city : civilization.getCities()) {
             city.setGold(civilization.getGold() - number - city.getBuildings().size());
