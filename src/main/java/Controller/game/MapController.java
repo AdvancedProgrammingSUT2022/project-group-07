@@ -297,7 +297,7 @@ public class MapController {
         CivilizationController.updateFogOfWar(currentCivilization , map , mapWidth , mapHeight);
         if (frame!=null)
             frame.dispose();
-        frame = new MapFrame(MapDimension.STANDARD , map , mapCenter , civilizations ,currentCivilization);
+        frame = new MapFrame(MapDimension.STANDARD , map , mapCenter , civilizations ,currentCivilization , SelectController.selectedCity);
     }
 
     public static String  showMapOnLocation(Matcher matcher){
