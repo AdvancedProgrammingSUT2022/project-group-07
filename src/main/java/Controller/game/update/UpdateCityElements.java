@@ -2,6 +2,7 @@ package Controller.game.update;
 
 import Controller.game.CityController;
 import Controller.game.GameController;
+import Controller.game.LogAndNotification.NotificationController;
 import Controller.game.MapController;
 import Controller.game.TerrainController;
 import Controller.game.TerrainController;
@@ -46,7 +47,6 @@ public class UpdateCityElements {
 
     // just for selected civilization!
     public static void maintenance(Civilization civilization) {
-        // TODO : exception handling
         // TODO + 1?
         if (civilization.getCities().size()==0)
             return;
@@ -134,7 +134,8 @@ public class UpdateCityElements {
                 );
                 Terrain terrainToBuy = availableTerrains.get((new Random()).nextInt(availableTerrains.size()));
                 CityController.addTileToCity(city , terrainToBuy) ;
-                int turnsTillGrowth = (int) (Math.log(40*city.getTerrains().size()-city.getCitizens().size()) / Math.log(2)) ;
+                NotificationController.logNewTileAddedToCity(terrainToBuy , city);
+                int turnsTillGrowth = (int) (Math.log(128*city.getTerrains().size()-city.getCitizens().size()) / Math.log(2)) ;
                 city.setTurnsTillGrowth(turnsTillGrowth+1) ;
             }
             else
