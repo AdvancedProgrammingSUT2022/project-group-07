@@ -33,9 +33,7 @@ public class UpdateCivilizationElements {
             for (Terrain terrain : city.getTerrains())
                 sum += terrain.getRiverSides().size() ;
         }
-        System.out.printf("added %d gold to civilization %s" , sum , civilization.getName());
         civilization.setGold(civilization.getGold()+sum);
-        System.out.println("now gold is " + civilization.getGold());
     }
 
     /**
