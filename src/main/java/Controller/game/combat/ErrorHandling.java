@@ -9,7 +9,7 @@ import Model.Location;
 import Model.Terrain;
 import Model.Unit;
 import Enum.CombatType;
-
+import Enum.UnitStatus;
 import java.util.ArrayList;
 
 public class ErrorHandling {
@@ -22,6 +22,8 @@ public class ErrorHandling {
         if (unit.getTimesMovedThisTurn() >= 2) return "unit is out of move!";
         if (!canAttack(unit, city.getTerrains().get(0).getLocation()))
             return "you can't attack city from here";
+        if (CombatUnitController.isRangedUnit(unit) && unit.getUnitStatus() != UnitStatus.RANGED_UNIT_IS_READY)
+            return "ranged unit is not set-up!";
         return null;
     }
 

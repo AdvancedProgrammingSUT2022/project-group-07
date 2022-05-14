@@ -59,4 +59,7 @@ public class UpdateHappiness {
             civilization.setHappiness(civilization.getHappiness() + number);
         }
     }
+
+    public static void annexedCity(int turn) {
+    }
 }

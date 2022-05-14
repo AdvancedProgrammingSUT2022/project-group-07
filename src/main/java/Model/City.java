@@ -19,7 +19,6 @@ public class City {
     private int turnsTillGrowth ;
     private int defencePower;
     private Unit garrison;
-
     public City (String name , Civilization ownership){
         this.terrains = new ArrayList<Terrain>();
         this.citizens = new ArrayList<Citizen>();
