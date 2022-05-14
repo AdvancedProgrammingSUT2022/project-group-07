@@ -40,7 +40,7 @@ public enum GameMenuCommands {
     UNIT_MOVE_TO("unit move to (?<X>\\d+) (?<Y>\\d+)"),
     UNIT_SLEEP("unit sleep"),
     UNIT_ALERT("unit alert"),
-    UNIT_FORTIFY("unit fortify ?(heal)"), // mitoone ta full shodan heal fortify beshe ya nashe!!
+    UNIT_FORTIFY("unit fortify( heal?)"), // mitoone ta full shodan heal fortify beshe ya nashe!!
     UNIT_GARRISON("unit garrison"),
     UNIT_SETUP_RANGED("unit setup ranged"),
     UNIT_ATTACK("unit attack (?<X>\\d+) (?<Y>\\d+)"),
