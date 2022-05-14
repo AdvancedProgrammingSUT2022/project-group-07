@@ -196,6 +196,11 @@ public class Civilization {
     }
 
     public void setCurrentResearch(Technology currentResearch) {
+        if (currentResearch ==null)
+            return;
+        if (this.currentResearch != null)
+            this.science += this.currentResearch.getTypeOfTechnology().getCost() ;
+        this.science -= currentResearch.getTypeOfTechnology().getCost();
         this.currentResearch = currentResearch;
     }
 

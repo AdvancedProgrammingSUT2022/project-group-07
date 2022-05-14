@@ -48,6 +48,9 @@ public enum GameMenuCommands {
     UNIT_CANCEL_MISSION("unit cancel mission"),
     UNIT_WAKE("unit wake"),
     UNIT_DELETE("unit delete"),
+    UNIT_SIEGE("unit siege"),
+    UNIT_PILLAGE("pillage"),
+    UNIT_RANGED_SETUP("unit ranged setup (?<X>\\d+) (?<Y>\\d+)"),
 
     // az inja male kargaras !!!
     UNIT_BUILD_IMPROVEMENT("unit build (?<improvement>[a-zA-Z]+)"), // baraye zirbakhsh be khode typeOfImrpovement morajeE shavad!
@@ -65,6 +68,7 @@ public enum GameMenuCommands {
     RESEARCH_SHOW_CURRENT("research show current") ,
     RESEARCH_SHOW_AVAILABLE("research show available") ,
     RESEARCH_SHOW_OWNED("research show owned") ,
+    RESEARCH_MENU("research menu") ,
 
     // map commands : !!!!
 
@@ -79,6 +83,11 @@ public enum GameMenuCommands {
     INCREASE_PRODUCTION("increase production (?<amount>\\d+)"),
     INCREASE_FOOD("increase food (?<amount>\\d+)"),
     INCREASE_HAPPINESS("increase happiness (?<amount>\\d+)"),
+    HEAL_UNIT("heal selected unit"),
+    HEAL_CITY("heal selected city"),
+    ADD_ENEMY_CITY_TO_YOURS("add enemy city to yours"),
+    DISABLE_ENEMY_UNIT("disable enemy unit"),
+    BOMBING_ENEMY_CITY("leave bombs on enemy city"),
     // next turn : !!
     NEXT_TURN("next turn");
 

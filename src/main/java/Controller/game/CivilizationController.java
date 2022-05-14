@@ -9,8 +9,6 @@ import Enum.* ;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static Controller.game.update.UpdateCivilizationElements.updateResearch;
-
 public class CivilizationController {
     private static Civilization civilization;
 
@@ -22,57 +20,6 @@ public class CivilizationController {
         return civilization;
     }
 
-    /**
-     * a function to update whole happiness of a civilization
-     */
-    public static void updateHappiness(){
-
-    }
-
-    /**
-     * a function to update whole food of a civilization
-     */
-    public static void updateFood(){
-        ArrayList<City> cities = civilization.getCities();
-        int sum = 0 ;
-        for (City city : cities)
-            sum += city.getFood();
-        civilization.setFood(civilization.getFood()+sum);
-    }
-
-    /**
-     *  a function to update whole gold of a civilization
-     */
-    public static void updateGold(){
-        ArrayList<City> cities = civilization.getCities();
-        int sum = 0 ;
-        for (City city : cities)
-            sum += city.getGold();
-        civilization.setGold(civilization.getGold()+sum);
-    }
-
-    /**
-     * a function to update status of a current research
-     */
-    public static void updateResearch(Civilization civilization){
-        Technology currentResearch = civilization.getCurrentResearch();
-        if (currentResearch==null)
-            return;
-        if (currentResearch.getRemainingTurns()==0) {
-            civilization.addTechnology(currentResearch);
-            civilization.setCurrentResearch(null);
-        }
-        else
-            currentResearch.setRemainingTurns(currentResearch.getRemainingTurns() - 1);
-    }
-
-    public static void updateScience(Civilization civilization){
-        int totalCitizens = 0 ;
-        for (City city : civilization.getCities())
-            totalCitizens += city.getCitizens().size();
-        int scienceToBeAdded = civilization.getCities().size()*5 + totalCitizens ;
-        civilization.setScience(civilization.getScience()+scienceToBeAdded);
-    }
 
     public static ArrayList<Terrain> getNeighbourTerrainsByRadius1
             (Location location , Terrain[][]map , int mapWidth , int mapHeight){
@@ -139,33 +86,17 @@ public class CivilizationController {
 
     public static void updateCivilizationElements(GameController gameController) {
         Civilization civilization = gameController.getCurrentCivilization();
-        Move.UnitMovementsUpdate(civilization , gameController); //TODO update multi turn moves
-        //TODO update creating units
-        CivilizationController.updateResearch(civilization);
-        CivilizationController.updateScience(civilization);
-        //TODO update food, gold and production
-        //TODO update citizens food consumption
-        Move.UnitMovementsUpdate(civilization , gameController);
+        UpdateCivilizationElements.UnitMovementsUpdate(civilization , gameController);
         UpdateCityElements.citizensIncome(civilization);
-        UpdateCivilizationElements.update(civilization);
-        // maintenance
-        UpdateCityElements.cityGrowth(civilization);
-        UpdateCityElements.citizenGrowth(civilization);
         UpdateCityElements.maintenance(civilization);
         UpdateCivilizationElements.update(civilization);
+        UpdateCityElements.cityGrowth(civilization);
+        UpdateCityElements.citizenGrowth(civilization);
+        UpdateCityElements.updateImprovementsAboutToBeCreated(civilization);
         UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
         UpdateCityElements.updateRoutsAboutToBeCreated(civilization);
-        UpdateCityElements.updateImprovementsAboutToBeCreated(civilization);
-        Move.UnitMovementsUpdate(civilization , gameController);
-        updateResearch(civilization);
         UpdateCityElements.foodConsumption(civilization);
-        Move.UnitMovementsUpdate(civilization , gameController);
         //TODO harchidige ke moond!
-        //TODO update multi turn moves
-        //TODO update food, gold and production
-        //TODO update citizens food consumption
-        //TODO update multi turn moves
-        //TODO update research
-        //TODO update resources
     }
+
 }

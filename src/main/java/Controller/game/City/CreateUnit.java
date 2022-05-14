@@ -8,6 +8,7 @@ import Enum.TypeOfTechnology;
 import Enum.Resources;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.regex.Matcher;
 
 import static Controller.game.SelectController.selectedCity;
@@ -92,5 +93,36 @@ public class CreateUnit {
             return CityController.createUnit(currentCivilization, unit, location, selectedCity);
         }
         return "Your city doesn't have enough gold to buy this unit!";
+    }
+
+    public static String changeUnitConstruction(Matcher matcher) {
+        int first = Integer.parseInt(matcher.group("first")) - 1;
+        int second = Integer.parseInt(matcher.group("second")) - 1;
+        ArrayList<TypeOfUnit> wantedUnits = selectedCity.getWantedUnits();
+
+        if (numberIsNotValid(first))
+            return "First number is not valid!";
+        if (numberIsNotValid(second))
+            return "Second number is not valid!";
+
+        Collections.swap(wantedUnits, first, second);
+        return "Unit construction changed successfully!";
+    }
+
+    public static String removeUnitConstruction(Matcher matcher) {
+        int numberOfUnit = Integer.parseInt(matcher.group("number")) - 1;
+        ArrayList<TypeOfUnit> wantedUnits = selectedCity.getWantedUnits();
+
+        if (numberIsNotValid(numberOfUnit))
+            return "Number is not valid!";
+
+        wantedUnits.remove(numberOfUnit);
+        return "Unit construction removed successfully!";
+    }
+
+    private static boolean numberIsNotValid(int number) {
+        int sizeOfWantedUnits = selectedCity.getWantedUnits().size();
+        return (number >= sizeOfWantedUnits
+                || number < 0);
     }
 }

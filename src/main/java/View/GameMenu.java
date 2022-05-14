@@ -41,7 +41,7 @@ public class GameMenu extends Menu{
             // info commands :::
 
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_RESEARCH)) != null){
-                Information.researchInformation(gameController.getCurrentCivilization());
+                Information.researchInfo(gameController.getCurrentCivilization());
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_UNITS)) != null){
                 Information.unitsInformation(gameController.getCurrentCivilization());
@@ -56,13 +56,13 @@ public class GameMenu extends Menu{
 
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_DEMOGRAPHICS)) != null){
-
+                Information.demographicsInformation(gameController.getCivilizations() , gameController.getCurrentCivilization());
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_NOTIFICATIONS)) != null){
 
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_MILITARY)) != null) {
-
+                Information.militaryInformation(gameController.getCurrentCivilization());
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_MILITARY)) != null){
 
@@ -106,13 +106,26 @@ public class GameMenu extends Menu{
                 String result = UnitController.sleep(gameController);
                 System.out.println(result);
             }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_ALERT)) != null){
-
-            }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_FORTIFY)) != null){
-                String result = UnitController.fortifyUnit(gameController);
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_SIEGE)) != null){
+                String result = CombatUnitController.siegeUnits();
                 System.out.println(result);
             }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_RANGED_SETUP)) != null){
+                String result = CombatUnitController.setUpUnit(matcher);
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_PILLAGE)) != null){
+                String result = CombatUnitController.pillage();
+                System.out.println(result);
+            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_ALERT)) != null){
+                String result = CombatUnitController.alert(gameController);
+                System.out.println(result);
+            }
+//            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_FORTIFY)) != null){
+//                String result = UnitController.fortifyUnit(gameController);
+//                System.out.println(result);
+//            }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_GARRISON)) != null){
 
             }
@@ -159,7 +172,7 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_REPAIR)) != null){
-                String result = Worker.repair(matcher, gameController);
+                String result = Worker.checkToRepair(gameController);
                 System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_BUILD_ROAD)) != null){
@@ -171,24 +184,11 @@ public class GameMenu extends Menu{
                 System.out.println(result);
             }
 
-            // research commands :::
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_SHOW_CURRENT)) != null){
-                String result = ResearchController.showCurrentResearch(gameController.getCurrentCivilization());
-                System.out.println(result);
+            // research menu :::
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_MENU)) != null){
+                System.out.println("entered research menu!");
+                new ResearchMenu(scanner , gameController).run(); ;
             }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_SHOW_AVAILABLE)) != null) {
-                String result = ResearchController.showAvailableResearch(gameController.getCurrentCivilization());
-                System.out.println(result);
-            }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_SHOW_OWNED)) != null) {
-                String result = ResearchController.showOwnedResearch(gameController.getCurrentCivilization());
-                System.out.println(result);
-            }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_TECHNOLOGY)) != null) {
-                String result = ResearchController.researchTechnology(matcher , gameController.getCurrentCivilization());
-                System.out.println(result);
-            }
-
 
             // map commands :::
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.MAP_SHOW_LOCATION)) != null){
@@ -230,6 +230,26 @@ public class GameMenu extends Menu{
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INCREASE_HAPPINESS)) != null) {
                 String result = Cheat.happinessCheat(matcher , gameController);
+                System.out.println(result);
+            }
+            else if ((GameMenuCommands.getMatcher(input , GameMenuCommands.HEAL_UNIT)) != null) {
+                String result = Cheat.healUnit();
+                System.out.println(result);
+            }
+            else if (GameMenuCommands.getMatcher(input , GameMenuCommands.HEAL_CITY) != null) {
+                String result = Cheat.healCity();
+                System.out.println(result);
+            }
+            else if (GameMenuCommands.getMatcher(input , GameMenuCommands.ADD_ENEMY_CITY_TO_YOURS) != null) {
+                String result = Cheat.addEnemyCity(gameController);
+                System.out.println(result);
+            }
+            else if (GameMenuCommands.getMatcher(input , GameMenuCommands.DISABLE_ENEMY_UNIT) != null) {
+                String result = Cheat.disableEnemyUnit(gameController);
+                System.out.println(result);
+            }
+            else if (GameMenuCommands.getMatcher(input , GameMenuCommands.BOMBING_ENEMY_CITY) != null){
+                String result = Cheat.plantingBombsOnEnemyCity(gameController);
                 System.out.println(result);
             }
             else System.out.println("invalid command ayoub");

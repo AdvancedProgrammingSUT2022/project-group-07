@@ -2,7 +2,6 @@ package Controller.game.units;
 
 import Controller.game.*;
 import Model.*;
-import Enum.TypeOfUnit;
 import Enum.TerrainFeatures;
 import Enum.TypeOfTechnology;
 import Enum.TypeOfTerrain;
@@ -11,7 +10,6 @@ import Enum.TypeOfImprovement;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import java.util.regex.Matcher;
 
 public class Worker {
@@ -47,11 +45,13 @@ public class Worker {
                 ArrayList<String> canBeFoundOn = new ArrayList<>(Arrays.asList(typeOfImprovement.getCanBeFoundOn()));
                 if ((error = destinationHasValidTypeOfTerrainOrFeature(canBeFoundOn, terrain, improvement)) != null)
                     return error;
+                if (TerrainController.hasImprovement(terrain))
+                    return "This terrain has an improvement, you can't build another!";
                 else {
                     if (!ResearchController.isTechnologyAlreadyAchieved(typeOfImprovement.getTypeOfTechnology(), civilization))
                         return "Your civilization doesn't have " + typeOfImprovement.getTypeOfTechnology().getName()
                                 + " tech to build " + improvement + " !";
-                    SelectController.selectedUnit.addImprovementsAboutToBeCreated(new Improvement(typeOfImprovement, 1111, terrain));
+                    SelectController.selectedUnit.setImprovementAboutToBeCreated(new Improvement(typeOfImprovement, 1111, terrain));
                     civilization.addImprovementsAboutToBeCreated(new Improvement(typeOfImprovement, 1111, terrain));
                     SelectController.selectedUnit.setTimesMovedThisTurn(SelectController.selectedUnit.getTimesMovedThisTurn() + 1);
                     return improvement + " will be created in next " + typeOfImprovement.getTurnsNeeded() + " turns!";
@@ -74,7 +74,7 @@ public class Worker {
 
     public static String buildImprovement(Improvement improvement, Unit unit) {
         improvement.getTerrain().setImprovement(improvement);
-        unit.getImprovementsAboutToBeCreated().remove(improvement);
+        unit.setImprovementAboutToBeCreated(null);
         return improvement.getTypeOfImprovement().getName() + " created successfully!";
     }
 
@@ -89,6 +89,8 @@ public class Worker {
             return error;
         if ((terrain = TerrainController.getTerrainByLocation(location)) == null)
             return "Position ( " + location.getX() + " , " + location.getY() + " ) is not valid!";
+        if (TerrainController.hasImprovement(terrain))
+            return "This terrain has an improvement, you can't build another!";
         if (!ResearchController.isTechnologyAlreadyAchieved(TypeOfImprovement.MINE.getTypeOfTechnology(), civilization))
             return "Your civilization doesn't have " + TypeOfImprovement.MINE.getTypeOfTechnology().getName() + " tech to build mine!";
         if (hasAnyResource(terrain) == null
@@ -98,7 +100,7 @@ public class Worker {
             return error;
 
         turn = Integer.parseInt(setTurn(terrain, civilization));
-        SelectController.selectedUnit.addImprovementsAboutToBeCreated(new Improvement(TypeOfImprovement.MINE, turn, terrain));
+        SelectController.selectedUnit.setImprovementAboutToBeCreated(new Improvement(TypeOfImprovement.MINE, turn, terrain));
         civilization.addImprovementsAboutToBeCreated(new Improvement(TypeOfImprovement.MINE, turn, terrain));
         SelectController.selectedUnit.setTimesMovedThisTurn(SelectController.selectedUnit.getTimesMovedThisTurn() + 1);
         return "Mine will be created in next " + turn + " turns!";
@@ -107,7 +109,7 @@ public class Worker {
     public static String buildMine(Improvement mine, Unit unit, TerrainFeatures featureToBeRemoved) {
         removeFeature(mine, featureToBeRemoved);
         mine.getTerrain().setImprovement(mine);
-        unit.getImprovementsAboutToBeCreated().remove(mine);
+        unit.setImprovementAboutToBeCreated(null);
         unit.getCivilization().getImprovementsAboutToBeCreated().remove(mine);
         return "Mine created successfully in location ( "
                 + mine.getTerrain().getLocation().getX() + " , "
@@ -126,6 +128,8 @@ public class Worker {
             return error;
         if ((terrain = TerrainController.getTerrainByLocation(location)) == null)
             return "Position ( " + location.getX() + " , " + location.getY() + " ) is not valid!";
+        if (TerrainController.hasImprovement(terrain))
+            return "This terrain has an improvement, you can't build another!";
         if (!ResearchController.isTechnologyAlreadyAchieved(TypeOfTechnology.AGRICULTURE, civilization))
             return "Your civilization doesn't have agriculture tech to build farm!";
         if (hasAnyResource(terrain) != null)
@@ -141,7 +145,7 @@ public class Worker {
                 || checkTurns.equals("12")
                 || checkTurns.equals("13")) {
             turn = Integer.parseInt(checkTurns);
-            SelectController.selectedUnit.addImprovementsAboutToBeCreated(new Improvement(TypeOfImprovement.FARM, turn, terrain));
+            SelectController.selectedUnit.setImprovementAboutToBeCreated(new Improvement(TypeOfImprovement.FARM, turn, terrain));
             civilization.addImprovementsAboutToBeCreated(new Improvement(TypeOfImprovement.FARM, turn, terrain));
             SelectController.selectedUnit.setTimesMovedThisTurn(SelectController.selectedUnit.getTimesMovedThisTurn() + 1);
             return "Farm will be created in next " + turn + " turns!";
@@ -152,7 +156,7 @@ public class Worker {
     public static String buildFarm(Improvement farm, Unit unit, TerrainFeatures featureToBeRemoved) {
         removeFeature(farm, featureToBeRemoved);
         farm.getTerrain().setImprovement(farm);
-        unit.getImprovementsAboutToBeCreated().remove(farm);
+        unit.setImprovementAboutToBeCreated(null);
         unit.getCivilization().getImprovementsAboutToBeCreated().remove(farm);
         return "Farm created successfully in location ( "
                 + farm.getTerrain().getLocation().getX() + " , "
@@ -213,17 +217,34 @@ public class Worker {
             return "You can't build road in this location because there is " + forbidden + " here!";
 
         if (name.equals("road")) {
-            SelectController.selectedUnit.addRoadsAboutToBeBuilt(new Route("road",3, currentLocation));
+            SelectController.selectedUnit.setRouteAboutToBeBuilt(new Route("road",3, currentLocation));
             civilization.addRoutsAboutToBeBuilt(new Route("road",3, currentLocation));
             SelectController.selectedUnit.setTimesMovedThisTurn(SelectController.selectedUnit.getTimesMovedThisTurn() + 1);
             return "Road will be created in next 3 turns!";
         }
-        SelectController.selectedUnit.addRoadsAboutToBeBuilt(new Route("railroad",3, currentLocation));
+        SelectController.selectedUnit.setRouteAboutToBeBuilt(new Route("railroad",3, currentLocation));
         civilization.addRoutsAboutToBeBuilt(new Route("road",3, currentLocation));
         SelectController.selectedUnit.setTimesMovedThisTurn(SelectController.selectedUnit.getTimesMovedThisTurn() + 1);
         return "Railroad will be created in next 3 turns!";
     }
 
+    public static String buildRoute(Route rout, Civilization civilization) {
+        String typeOfRoad = rout.getName();
+        Location location = rout.getLocation();
+        SelectController.selectedUnit.setRouteAboutToBeBuilt(null);
+        Terrain terrain = TerrainController.getTerrainByLocation(location);
+        assert terrain != null;
+        if (typeOfRoad.equals("road")) {
+            terrain.setHasRoad(true);
+            civilization.setNumberOfRailroadsAndRoads(civilization.getNumberOfRailroadsAndRoads() + 1);
+            return "Road created successfully in location ( "
+                    + location.getX() + " , " + location.getY() + " ) !";
+        }
+        terrain.setHasRailRoad(true);
+        civilization.setNumberOfRailroadsAndRoads(civilization.getNumberOfRailroadsAndRoads() + 1);
+        return "Road created successfully in location ( "
+                + location.getX() + " , " + location.getY() + " ) !";
+    }
 
     private static String hasForbiddenFeatures(Terrain currentTerrain) {
         if (currentTerrain.getTypeOfTerrain() == TypeOfTerrain.MOUNTAIN
@@ -307,13 +328,14 @@ public class Worker {
 
     private static String findError(GameController gameController) {
         Unit selectedUnit = SelectController.selectedUnit;
+
         if (selectedUnit == null)
             return "There isn't any selected unit!";
 
         if (!UnitController.hasOwnerShip(selectedUnit, gameController))
             return "This unit does not belong to you!";
 
-        if (selectedUnit.getTypeOfUnit() != TypeOfUnit.WORKER)
+        if (!NonCombatUnitController.isWorker(selectedUnit))
             return "The selected unit is " + selectedUnit.getTypeOfUnit().getName()
                     + ". It should be Worker for this action!";
         if (selectedUnit.getTimesMovedThisTurn() >= 2)
@@ -321,9 +343,34 @@ public class Worker {
         return null;
     }
 
-    public static String repair(Matcher matcher, GameController gameController) {
-        // TODO repair!
-        return "";
+    public static String checkToRepair(GameController gameController) {
+        String error = findError(gameController);
+        Unit worker = SelectController.selectedUnit;
+        int x = worker.getLocation().getX();
+        int y = worker.getLocation().getY();
+        Location location = new Location(x, y);
+        Terrain terrain;
+
+        if (error != null)
+            return error;
+        if ((terrain = TerrainController.getTerrainByLocation(location)) == null)
+            return "Position ( " + x + " , " + y + " ) is not valid!";
+        if (!terrain.isPillaged())
+            return "This terrain is not pillaged!";
+        worker.setRepairTurns(3);
+        return "Improvement or road will be repaired in 3 turns!";
     }
 
+    public static void repair(Unit worker, Civilization civilization) {
+        for (City city : civilization.getCities()) {
+            for (Terrain terrain : city.getTerrains()) {
+                if (terrain.isPillaged()
+                        && terrain.getLocation().getX() == worker.getLocation().getX()
+                        &&terrain.getLocation().getY() == worker.getLocation().getY()) {
+                    terrain.setPillaged(false);
+                    return;
+                }
+            }
+        }
+    }
 }

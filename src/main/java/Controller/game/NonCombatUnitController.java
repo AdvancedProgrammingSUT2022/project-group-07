@@ -12,22 +12,13 @@ public class NonCombatUnitController {
     // TODO handle statics
     // TODO want a method to just check the location of the terrain --> get terrain by location in TerrainController
 
-//    private boolean isSettlerUnit(Unit unit) {
-//        return true;
-//    }
-//
-//    private String foundCity(Location location) {
-//        return "";
-//    }
-//
-//    public static Unit isWorker(Civilization currentCivilization) {
-//        for (Unit unit : currentCivilization.getUnits()) {
-//            if (unit.getTypeOfUnit() == TypeOfUnit.WORKER) {
-//                return unit;
-//            }
-//        }
-//        return null;
-//    }
+    public static boolean isSettler(Unit unit) {
+        return unit.getTypeOfUnit() == TypeOfUnit.SETTLER;
+    }
+
+    public static boolean isWorker(Unit unit) {
+        return unit.getTypeOfUnit() == TypeOfUnit.WORKER;
+    }
 
     private String hasImprovement(Improvement improvement, Location location) {
         return "";

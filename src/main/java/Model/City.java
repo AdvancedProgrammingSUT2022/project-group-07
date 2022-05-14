@@ -64,6 +64,10 @@ public class City {
         this.buildings = buildings;
     }
 
+    public ArrayList<Building> getBuildings() {
+        return this.buildings;
+    }
+
     public void addCitizen(Citizen citizen) {
         citizens.add(citizen);
     }

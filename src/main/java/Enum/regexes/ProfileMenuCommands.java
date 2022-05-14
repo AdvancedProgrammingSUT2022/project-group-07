@@ -10,8 +10,8 @@ public enum ProfileMenuCommands {
     SHOW_CURRENT_MENU("menu show-current"),
     CHANGE_NICKNAME("profile change (--nickname|-n) (?<nickname>\\S+)"),
     CHANGE_PASSWORD_1("profile change --password (--current|-c) (?<currentPassword>\\S+) (--new|-n) (?<newPassword>\\S+)"),
-    CHANGE_PASSWORD_2("profile change --password (--new|-n) (?<newPassword>\\S+) (--current|-c) (?<currentPassword>\\S+)");
-
+    CHANGE_PASSWORD_2("profile change --password (--new|-n) (?<newPassword>\\S+) (--current|-c) (?<currentPassword>\\S+)"),
+    CHANGE_USERNAME("profile change (--username|-u) \\S+");
     private String regex;
 
     public String getRegex() {
