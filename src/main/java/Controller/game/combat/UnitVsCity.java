@@ -3,6 +3,7 @@ package Controller.game.combat;
 import Controller.game.CombatUnitController;
 import Controller.game.GameController;
 import Controller.game.TerrainController;
+import Controller.game.update.UpdateHappiness;
 import Model.City;
 import Model.Terrain;
 import Model.Unit;
@@ -25,13 +26,15 @@ public class UnitVsCity {
         }
         int command = new CityCaptureMenu().getCommand();
         switch (command) {
-            case 1 -> captureCity(unit, city);
+            case 1 -> captureCity(unit, city , gameController);
             case 2 -> ruinCity(city);
         }
     }
 
-    private static void captureCity(Unit unit, City city) {
-
+    private static void captureCity(Unit unit, City city , GameController gameController) {
+        city.getOwnership().getCities().remove(city);
+        unit.getCivilization().getCities().add(city);
+        gameController.getCurrentCivilization().setHappiness(gameController.getCurrentCivilization().getHappiness() - 5);
     }
 
     private static void ruinCity(City city) {

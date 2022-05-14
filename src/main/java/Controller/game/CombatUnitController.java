@@ -148,19 +148,5 @@ public class CombatUnitController {
     }
 
 
-    public static String attackCity(Matcher matcher, GameController gameController) {
-        SelectController.selectCityByLocation(matcher , gameController.getCivilizations());
-        City city = SelectController.selectedCity;
-        String error;
-        if ((error = ErrorHandling.findAttackCityError(SelectController.selectedUnit , city , gameController)) != null)
-            return error;
-        UnitVsCity.attack(SelectController.selectedUnit , city , gameController);
-        return "attacked selected city!";
-    }
-
-    public static String attackUnit(Matcher matcher) {
-        return "";
-    }
-
 
 }
