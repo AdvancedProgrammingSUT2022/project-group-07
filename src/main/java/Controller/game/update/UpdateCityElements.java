@@ -3,6 +3,8 @@ package Controller.game.update;
 import Controller.game.CityController;
 import Controller.game.CivilizationController;
 import Controller.game.GameController;
+import Controller.game.MapController;
+import Controller.game.TerrainController;
 import Controller.game.TerrainController;
 import Controller.game.units.Worker;
 import Model.*;
@@ -51,8 +53,9 @@ public class UpdateCityElements {
 
     // just for selected civilization!
     public static void maintenance(Civilization civilization) {
-        // TODO : exception handling
         // TODO + 1?
+        if (civilization.getCities().size()==0)
+            return;
         int routesAndUnits = civilization.getNumberOfRailroadsAndRoads() + civilization.getUnits().size();
         for (City city : civilization.getCities()) {
             city.setGold(civilization.getGold() - routesAndUnits - city.getBuildings().size());
