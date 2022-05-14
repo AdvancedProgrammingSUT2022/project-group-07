@@ -20,21 +20,6 @@ public class NonCombatUnitController {
         return unit.getTypeOfUnit() == TypeOfUnit.WORKER;
     }
 
-    private String hasImprovement(Improvement improvement, Location location) {
-        return "";
-    }
-
-    private boolean canBuildImprovement(Improvement improvement) {
-        return true;
-    }
-
-    private String buildImprovement(String improvement, Terrain terrain) {
-        return "";
-    }
-
-    private boolean needsRepairing(Location location) {
-        return true;
-    }
 
     public static Terrain isJungleHere(Location location) {
         Terrain[][] terrain = GameController.map;

@@ -72,21 +72,6 @@ public class UnitController {
         return "Selected unit has slept successfully!";
     }
 
-//    public static String fortifyUnit(GameController gameController) {
-//        Unit selectedUnit = SelectController.selectedUnit;
-//        if (selectedUnit == null)
-//            return "There isn't any selected unit!";
-//        if (!hasOwnerShip(selectedUnit, gameController))
-//            return "This unit does not belong to you!";
-//
-//        if (selectedUnit.getTypeOfUnit() == TypeOfUnit.WORKER
-//                || selectedUnit.getTypeOfUnit() == TypeOfUnit.SETTLER)
-//            return "The selected unit is " + selectedUnit.getTypeOfUnit().getName()
-//                    + ". It should be a combatUnit for this action!";
-//
-//        // TODO HEAL and main things to do!
-//        return "";
-//    }
 
     public void healUnit(Unit unit) {
         // TODO heal!

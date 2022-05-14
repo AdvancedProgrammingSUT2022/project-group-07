@@ -135,6 +135,10 @@ public class GameMenu extends Menu{
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_ATTACK))!=null){
 
             }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.ATTACK_CITY)) != null) {
+                String result = CombatUnitController.attackCity(matcher , gameController);
+                System.out.println(result);
+            }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_FOUND_CITY)) != null){
                 String result = Settler.foundCity(matcher , gameController);
                 System.out.println(result);

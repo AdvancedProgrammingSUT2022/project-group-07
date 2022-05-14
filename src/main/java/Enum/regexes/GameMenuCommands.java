@@ -52,7 +52,8 @@ public enum GameMenuCommands {
     UNIT_PILLAGE("pillage"),
     UNIT_RANGED_SETUP("unit ranged setup (?<X>\\d+) (?<Y>\\d+)"),
     // combatunit commands : !!!
-
+    ATTACK_CITY("attack city in (?<X>) (?<Y>)"),
+    ATTACK_UNIT("attack unit in (?<X>) (?<Y>)"),
     // az inja male kargaras !!!
     UNIT_BUILD_IMPROVEMENT("unit build (?<improvement>[a-zA-Z]+)"), // baraye zirbakhsh be khode typeOfImrpovement morajeE shavad!
     CREATE_UNIT("create unit (?<unit>[a-zA-Z]+)"),
