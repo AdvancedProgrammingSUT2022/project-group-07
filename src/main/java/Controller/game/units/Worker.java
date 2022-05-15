@@ -64,7 +64,8 @@ public class Worker {
 
     private static String destinationHasValidTypeOfTerrainOrFeature(ArrayList<String> canBeFoundOn, Terrain terrain, String improvement) {
         String typeOfTerrain = terrain.getTypeOfTerrain().getName();
-        String featureOfTerrain = terrain.getTerrainFeatures().getName();
+        String featureOfTerrain = "";
+        if (terrain.getTerrainFeatures() != null) featureOfTerrain = terrain.getTerrainFeatures().getName();
         for (String place : canBeFoundOn) {
             if (place.equals(typeOfTerrain)
                     || place.equals(featureOfTerrain))

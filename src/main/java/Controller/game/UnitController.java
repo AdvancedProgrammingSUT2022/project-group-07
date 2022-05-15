@@ -39,11 +39,21 @@ public class UnitController {
             return "Your destination is a " + placeName + " so you can not go to it!";
         if (isEnemyUnitInDestination(destination, gameController))
             return "an enemy unit is in your destination at the moment!";
-        if (SameHomeUnitInDestination(destination, gameController))
+        if (SameHomeUnitInDestination(destination, gameController , unit))
             return "another unit with same military status is in the destination selected!";
         if (unit.getTimesMovedThisTurn() >= 2)
             return "unit is out of move!";
+        if (path == null)
+            return "there is no way to your destination!";
         return checkNeededMpForMove(path , unit , gameController);
+    }
+
+    private static boolean pathIsUnreachable(ArrayList<Terrain> path) {
+        int mp = 0;
+        for (Terrain terrain : path) {
+            mp += terrain.getMp();
+        }
+        return mp > 100;
     }
 
     public static int isCombatUnit(Unit unit) {

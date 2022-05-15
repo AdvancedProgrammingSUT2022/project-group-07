@@ -14,7 +14,7 @@ public class City {
     private int hp;
     private Civilization ownership;
     private ArrayList<Building> buildings;
-    private ArrayList<TypeOfUnit> wantedUnits = new ArrayList<>();
+    private ArrayList<TypeOfUnit> wantedUnits;
     private int turnsTillGrowth ;
     private int defencePower;
     private Unit garrison;
@@ -30,6 +30,7 @@ public class City {
         this.buildings = new ArrayList<>();
         turnsTillGrowth = 6 ;
         this.defencePower = 10;
+        this.wantedUnits = new ArrayList<>();
     }
 
 
