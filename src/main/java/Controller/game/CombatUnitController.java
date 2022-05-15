@@ -64,7 +64,7 @@ public class CombatUnitController {
             return "Your destination is " + placeName + ". You can't setUp!";
 
         selectedUnit.setUnitStatus(UnitStatus.RANGED_UNIT_IS_READY);
-        return "";
+        return "Unit setUp successfully!";
     }
 
     public static boolean isRangedUnit(Unit unit) {
@@ -101,7 +101,7 @@ public class CombatUnitController {
 
         selectedUnit.setUnitStatus(UnitStatus.FORTIFY);
         // hp will increase in next turn
-        return "";
+        return "Fortify successfully!";
     }
 
     public static String garrison(GameController gameController) {
