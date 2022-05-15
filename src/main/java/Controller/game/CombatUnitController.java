@@ -14,16 +14,6 @@ import java.util.regex.Matcher;
 
 public class CombatUnitController {
 
-    public static String siegeUnits() {
-        Unit selectedUnit = SelectController.selectedUnit;
-        String placeName;
-
-        if (selectedUnit.getUnitStatus() != UnitStatus.RANGED_UNIT_IS_READY)
-            return "Unit is not set-up!";
-
-        // TODO other errors and main action
-        return "";
-    }
 
     private static boolean isSiegeUnit(Unit unit) {
         return unit.getTypeOfUnit().getCombatType() == CombatType.SIEGE;
@@ -140,6 +130,7 @@ public class CombatUnitController {
         if ((error = ErrorHandling.findAttackCityError(SelectController.selectedUnit , city , gameController)) != null)
             return error;
         UnitVsCity.attack(SelectController.selectedUnit , city , gameController);
+        SelectController.selectedUnit.setTimesMovedThisTurn(3);
         return "attacked selected city!";
     }
 
