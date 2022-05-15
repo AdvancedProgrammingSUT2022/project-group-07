@@ -44,7 +44,7 @@ public class Cheat {
         int amount = Integer.parseInt(matcher.group("amount"));
         Civilization civilization = gameController.getCurrentCivilization();
         for (City city : civilization.getCities()) {
-            civilization.setGold(civilization.getGold() + amount);
+            city.setFood(city.getFood() + amount);
         }
         UpdateCivilizationElements.updateFood(civilization);
         return "cheat : " + amount + " added to each city's food!";
@@ -104,5 +104,11 @@ public class Cheat {
         if (civilization.getCities().contains(city)) return "this is your own city!";
         city.setHp(1);
         return "selected city was bombarded!";
+    }
+
+    public static String setTimesMovedZero(GameController gameController) {
+        if (SelectController.selectedUnit == null) return "no unit was selected!";
+        SelectController.selectedUnit.setTimesMovedThisTurn(0);
+        return "unit can move now!";
     }
 }
