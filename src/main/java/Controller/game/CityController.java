@@ -133,4 +133,12 @@ public class CityController {
         }
         return false;
     }
+
+    public static City getCityByTerrain(Civilization civilization, Terrain currentTerrain) {
+        for (City city : civilization.getCities()) {
+            if (city.getTerrains().contains(currentTerrain))
+                return city;
+        }
+        return null;
+    }
 }

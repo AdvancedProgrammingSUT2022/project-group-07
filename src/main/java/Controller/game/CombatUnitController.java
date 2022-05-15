@@ -116,16 +116,18 @@ public class CombatUnitController {
 
     public static String garrison(GameController gameController) {
         Unit selectedUnit = SelectController.selectedUnit;
-        City currentCity = SelectController.selectedCity;
         Civilization civilization = gameController.getCurrentCivilization();
         Terrain currentTerrain = TerrainController.getTerrainByLocation(selectedUnit.getLocation());
+        City currentCity = CityController.getCityByTerrain(civilization, currentTerrain);
         String error = checkUnit(selectedUnit, gameController);
         if (error != null)
             return error;
         assert currentTerrain != null;
         if (!CityController.isInCenterOfOwnCity(currentTerrain, civilization, gameController))
             return "Unit should be in the center of city in his civilization!";
-        currentCity.setDefencePower(currentCity.getDefencePower() + 5);
+
+        if (currentCity != null)
+            currentCity.setDefencePower(currentCity.getDefencePower() + 5);
         return "Settled successfully!";
     }
 
