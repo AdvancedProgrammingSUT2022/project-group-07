@@ -122,4 +122,14 @@ public class CityController {
         }
         return stringBuilder.toString();
     }
+
+    public static boolean isEnemyCity(Terrain currentTerrain, Civilization civilization) {
+        for (City city : civilization.getCities()) {
+            for (Terrain terrain : city.getTerrains()) {
+                if (terrain.equals(currentTerrain))
+                    return false;
+            }
+        }
+        return true;
+    }
 }
