@@ -122,4 +122,23 @@ public class CityController {
         }
         return stringBuilder.toString();
     }
+
+    public static boolean isInCenterOfOwnCity(Terrain currentTerrain, Civilization currentCivilization, GameController gameController) {
+        for (Civilization civilization : gameController.getCivilizations()) {
+            for (City city : civilization.getCities()) {
+                if (currentCivilization.equals(civilization)
+                        && currentTerrain.equals(city.getTerrains().get(0)))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public static City getCityByTerrain(Civilization civilization, Terrain currentTerrain) {
+        for (City city : civilization.getCities()) {
+            if (city.getTerrains().contains(currentTerrain))
+                return city;
+        }
+        return null;
+    }
 }

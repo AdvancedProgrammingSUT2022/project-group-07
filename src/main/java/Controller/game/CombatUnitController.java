@@ -3,10 +3,7 @@ package Controller.game;
 import Controller.game.combat.ErrorHandling;
 import Controller.game.combat.UnitVsCity;
 import Controller.game.movement.Move;
-import Model.City;
-import Model.Location;
-import Model.Terrain;
-import Model.Unit;
+import Model.*;
 import Enum.CombatType;
 import Enum.UnitStatus;
 
@@ -119,19 +116,20 @@ public class CombatUnitController {
 
     public static String garrison(GameController gameController) {
         Unit selectedUnit = SelectController.selectedUnit;
+        Civilization civilization = gameController.getCurrentCivilization();
         Terrain currentTerrain = TerrainController.getTerrainByLocation(selectedUnit.getLocation());
-        City currentCity = SelectController.selectedCity;
+        City currentCity = CityController.getCityByTerrain(civilization, currentTerrain);
         String error = checkUnit(selectedUnit, gameController);
         if (error != null)
             return error;
-        // TODO just city center!
         assert currentTerrain != null;
-        if (currentTerrain.equals(currentCity.getTerrains().get(0)))
-            return "Unit is not in city-center!";
-        currentCity.setDefencePower(currentCity.getDefencePower() + 5);
+        if (!CityController.isInCenterOfOwnCity(currentTerrain, civilization, gameController))
+            return "Unit should be in the center of city in his civilization!";
+
+        if (currentCity != null)
+            currentCity.setDefencePower(currentCity.getDefencePower() + 5);
         return "Settled successfully!";
     }
-
 
     public static String attackCity(Matcher matcher, GameController gameController) {
         SelectController.selectCityByLocation(matcher , gameController.getCivilizations());
@@ -146,7 +144,6 @@ public class CombatUnitController {
     public static String attackUnit(Matcher matcher) {
         return "";
     }
-
 
 
 }
