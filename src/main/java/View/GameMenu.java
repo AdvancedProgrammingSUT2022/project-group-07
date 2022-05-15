@@ -65,9 +65,6 @@ public class GameMenu extends Menu{
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_MILITARY)) != null) {
                 Information.militaryInformation(gameController.getCurrentCivilization());
             }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_MILITARY)) != null){
-
-            }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.INFO_ECONOMIC)) != null){
 
             }

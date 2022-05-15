@@ -4,6 +4,7 @@ import Controller.game.GameController;
 import Model.*;
 import Enum.TypeOfTechnology;
 import Enum.TypeOfUnit;
+import Enum.TypeOfImprovement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,6 +69,17 @@ public class NotificationController {
         String message = "Lost " + amountOfLoss + " of science dut to gold debt !";
         setNotification(civilization,message);
     }
+
+    public static void logNewImprovementStarted(final TypeOfImprovement typeOfImprovement , final Civilization civilization){
+        String message = "Workers started working on " + typeOfImprovement.getName() + " !";
+        setNotification(civilization,message);
+    }
+
+    public static void logImprovementCreated (final TypeOfImprovement typeOfImprovement , final Civilization civilization){
+        String message = "Improvement " + typeOfImprovement.getName() + " created successfully !";
+        setNotification(civilization,message);
+    }
+
 
     public static HashMap<Civilization, ArrayList<Notification>> getNotifications() {
         return notifications;
