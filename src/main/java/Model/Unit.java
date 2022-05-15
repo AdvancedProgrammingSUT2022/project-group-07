@@ -14,8 +14,6 @@ public class Unit {
     private int mp;
     private ArrayList<Terrain> pathToGo;
     private int timesMovedThisTurn;
-    // TODO extend
-    // TODO should it be static?
     private Improvement improvementAboutToBeCreated;
     private Route routeAboutToBeBuilt;
     private int repairTurns;
@@ -95,14 +93,6 @@ public class Unit {
         this.timesMovedThisTurn = timesMovedThisTurn;
     }
 
-    public int getRepairTurns() {
-        return repairTurns;
-    }
-
-    public void setRepairTurns(int repairTurns) {
-        this.repairTurns = repairTurns;
-    }
-
     public Improvement getImprovementAboutToBeCreated() {
         return improvementAboutToBeCreated;
     }
@@ -117,5 +107,13 @@ public class Unit {
 
     public void setRouteAboutToBeBuilt(Route routeAboutToBeBuilt) {
         this.routeAboutToBeBuilt = routeAboutToBeBuilt;
+    }
+
+    public int getRepairTurns() {
+        return repairTurns;
+    }
+
+    public void setRepairTurns(int repairTurns) {
+        this.repairTurns = repairTurns;
     }
 }

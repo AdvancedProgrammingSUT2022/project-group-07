@@ -58,7 +58,7 @@ public class CityMenu extends Menu {
                 String result = CityController.showTilesAvailable(GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
                 System.out.println(result);
             } else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.CITY_BUY_TILE)) != null) {
-                String result = CityController.buyTile(matcher, GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
+                String result = CityController.buyTile(matcher, GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight(), gameController.getCurrentCivilization());
                 System.out.println(result);
             }
             else if ((CityMenuCommands.getMatcher(input , CityMenuCommands.SHOW_UNEMPLOYED_CITIZENS)) != null) {

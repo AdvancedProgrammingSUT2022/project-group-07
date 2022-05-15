@@ -59,7 +59,7 @@ public class CityController {
         return out.toString();
     }
 
-    public static String buyTile (Matcher matcher , final Terrain[][] map , int mapWidth , int mapHeight){
+    public static String buyTile (Matcher matcher , final Terrain[][] map , int mapWidth , int mapHeight, Civilization civilization){
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
         if (!isCitySelected())
@@ -71,10 +71,10 @@ public class CityController {
         for (Terrain availableTerrain : availableTerrains) {
             if (availableTerrain.getLocation().getY()==y
              && availableTerrain.getLocation().getX()==x){
-                if (selectedCity.getGold()<availableTerrain.getPrice())
+                if (civilization.getGold() < availableTerrain.getPrice())
                     return "you don't have enough gold to buy this tile" ;
                 else {
-                    selectedCity.setGold(selectedCity.getGold()-availableTerrain.getPrice());
+                    civilization.setGold(civilization.getGold() - availableTerrain.getPrice());
                     return addTileToCity(selectedCity , availableTerrain);
                 }
             }
@@ -97,15 +97,14 @@ public class CityController {
 
     public static String createUnit(Civilization currentCivilization, TypeOfUnit typeOfUnit, Location location,
                                     City city, GameController gameController) {
-        int turn = typeOfUnit.getCost() / city.getProduction();
-        Terrain cityCenter = city.getTerrains().get(0);
-        // unit limitation
-        for (Civilization civilization : gameController.getCivilizations()) {
-            for (Unit unit : civilization.getUnits()) {
-                if (unit.getLocation().equals(cityCenter.getLocation()))
-                    return typeOfUnit + " wants to be created. Please move the unit which is in city center first!";
-            }
-        }
+        int turn;
+        if (city.getProduction() == 0)
+            turn = 0;
+        else
+            turn = typeOfUnit.getCost() / city.getProduction();
+
+        if (UnitController.anotherUnitIsInCenter(gameController, city))
+            return typeOfUnit + " wants to be created. Please move the unit which is in city center first!";
 
         Unit newUnit = new Unit(typeOfUnit, UnitStatus.ACTIVE, location, typeOfUnit.getHp(), currentCivilization, turn);
         currentCivilization.addUnit(newUnit);
