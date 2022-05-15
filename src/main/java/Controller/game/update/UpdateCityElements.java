@@ -54,6 +54,7 @@ public class UpdateCityElements {
 
     // just for selected civilization!
     public static void maintenance(Civilization civilization) {
+        // TODO : exception handling
         // TODO + 1?
         if (civilization.getCities().size()==0)
             return;
