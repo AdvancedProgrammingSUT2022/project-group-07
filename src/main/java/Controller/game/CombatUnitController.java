@@ -116,8 +116,10 @@ public class CombatUnitController {
         if (!CityController.isInCenterOfOwnCity(currentTerrain, civilization, gameController))
             return "Unit should be in the center of city in his civilization!";
 
-        if (currentCity != null)
+        if (currentCity != null) {
             currentCity.setDefencePower(currentCity.getDefencePower() + 5);
+            currentCity.setGarrison(selectedUnit);
+        }
         return "Settled successfully!";
     }
 
@@ -135,7 +137,6 @@ public class CombatUnitController {
     public static String attackUnit(Matcher matcher) {
         return "";
     }
-
 
 
 }

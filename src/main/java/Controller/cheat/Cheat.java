@@ -44,7 +44,7 @@ public class Cheat {
         int amount = Integer.parseInt(matcher.group("amount"));
         Civilization civilization = gameController.getCurrentCivilization();
         for (City city : civilization.getCities()) {
-            city.setGold(city.getGold() + amount);
+            civilization.setGold(civilization.getGold() + amount);
         }
         UpdateCivilizationElements.updateFood(civilization);
         return "cheat : " + amount + " added to each city's food!";

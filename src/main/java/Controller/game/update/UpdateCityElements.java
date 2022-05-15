@@ -29,7 +29,8 @@ public class UpdateCityElements {
     public static void updateUnitsAboutToBeCreate(Civilization currentCivilization, GameController gameController) {
         for (City city : currentCivilization.getCities()) {
             for (TypeOfUnit unit : city.getWantedUnits()) {
-                unit.setTurnsNeededToCreate(unit.getCost() / city.getProduction());
+                if (city.getProduction() != 0)
+                    unit.setTurnsNeededToCreate(unit.getCost() / city.getProduction());
                 if (city.getProduction() >= unit.getCost()) {
                     Terrain cityCenter = city.getTerrains().get(0);
                     city.setProduction(city.getProduction() - unit.getCost());
@@ -54,13 +55,11 @@ public class UpdateCityElements {
 
     // just for selected civilization!
     public static void maintenance(Civilization civilization) {
-        // TODO : exception handling
-        // TODO + 1?
         if (civilization.getCities().size()==0)
             return;
         int routesAndUnits = civilization.getNumberOfRailroadsAndRoads() + civilization.getUnits().size();
         for (City city : civilization.getCities()) {
-            city.setGold(civilization.getGold() - routesAndUnits - city.getBuildings().size());
+            civilization.setGold(civilization.getGold() - routesAndUnits - city.getBuildings().size());
         }
     }
 
