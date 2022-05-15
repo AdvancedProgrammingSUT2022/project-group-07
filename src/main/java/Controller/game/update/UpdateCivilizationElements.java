@@ -29,14 +29,6 @@ public class UpdateCivilizationElements {
     /**
      *  a function to update whole gold of a civilization
      */
-    public static void updateGold(Civilization civilization) {
-        ArrayList<City> cities = civilization.getCities();
-        int sum = 0;
-        for (City city : cities) {
-            sum += city.getGold();
-            civilization.setGold(civilization.getGold() + sum);
-        }
-    }
 
     /**
      * a function to update status of a current research
@@ -73,7 +65,6 @@ public class UpdateCivilizationElements {
         updateResearch(civilization);
         updateScience(civilization);
         updateFood(civilization);
-        updateGold(civilization);
         checkAlertUnits(civilization, gameController);
         updateFortifyHp(civilization);
         updateCityHp(civilization);
