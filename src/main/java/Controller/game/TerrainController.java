@@ -39,6 +39,7 @@ public class TerrainController {
     private static boolean resourceIsAvailable(Terrain terrain, Civilization civilization) {
         if (terrain.isPillaged()) return false;
         if (terrain.getResources().getImprovementNeeded() == null) return true;
+        if (terrain.getImprovement() == null) return false;
         if (terrain.getResources().getImprovementNeeded() == terrain.getImprovement().getTypeOfImprovement()) {
             if (terrain.getResources().getTechnologyNeeded() == null)
                 return true;

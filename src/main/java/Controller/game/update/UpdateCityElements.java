@@ -128,7 +128,7 @@ public class UpdateCityElements {
                 production += terrainOutput.getProduction();
             }
             city.setFood(city.getFood() + food);
-            city.setGold(city.getGold() + gold);
+            civilization.setGold(civilization.getGold() + gold);
             city.setProduction(city.getProduction() + production);
         }
     }

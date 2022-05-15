@@ -44,9 +44,9 @@ public class UpdateHappiness {
     private static void luxuryResources(Civilization civilization) {
         int number;
         ArrayList<Resources> luxuryResources = new ArrayList<>();
-        luxuryResources.add(civilization.getCities().get(0).getTerrains().get(0).getResources());
         for (City city : civilization.getCities()) {
             for (Terrain terrain : city.getTerrains()) {
+                if (terrain.getResources() == null) continue;
                 if (terrain.getResources().getTypeOfResource() == TypeOfResource.LUXURY) {
                     if (!luxuryResources.contains(terrain.getResources())) {
                         luxuryResources.add(terrain.getResources());

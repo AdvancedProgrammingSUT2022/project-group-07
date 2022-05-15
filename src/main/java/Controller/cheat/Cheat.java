@@ -21,10 +21,8 @@ public class Cheat {
     public static String goldCheat(Matcher matcher , GameController gameController) {
         int amount = Integer.parseInt(matcher.group("amount"));
         Civilization civilization = gameController.getCurrentCivilization();
-        for (City city : civilization.getCities()) {
-            city.setGold(city.getGold() + amount);
-        }
-        return "cheat! : " + amount + " added to each city's gold!";
+        civilization.setGold(civilization.getGold() + amount);
+        return "cheat! : " + amount + " added to civilization's gold!";
     }
 
     public static String scienceCheat(Matcher matcher, GameController gameController) {
