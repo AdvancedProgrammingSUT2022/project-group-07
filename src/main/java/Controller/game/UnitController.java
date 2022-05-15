@@ -73,11 +73,6 @@ public class UnitController {
         return "Selected unit has slept successfully!";
     }
 
-
-    public void healUnit(Unit unit) {
-        // TODO heal!
-    }
-
     public static String cancelMission(GameController gameController) {
         Unit selectedUnit = SelectController.selectedUnit;
         String error = checkUnit(selectedUnit, gameController);

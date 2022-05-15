@@ -71,7 +71,7 @@ public class CityController {
         for (Terrain availableTerrain : availableTerrains) {
             if (availableTerrain.getLocation().getY()==y
              && availableTerrain.getLocation().getX()==x){
-                if (selectedCity.getGold()<availableTerrain.getPrice())
+                if (civilization.getGold() < availableTerrain.getPrice())
                     return "you don't have enough gold to buy this tile" ;
                 else {
                     civilization.setGold(civilization.getGold() - availableTerrain.getPrice());

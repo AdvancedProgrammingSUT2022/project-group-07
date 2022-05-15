@@ -98,7 +98,7 @@ public class CreateUnit {
         Civilization currentCivilization = gameController.getCurrentCivilization();
         TypeOfUnit unit = selectedCity.getWantedUnits().get(0);
         Location location = selectedCity.getTerrains().get(0).getLocation();
-        if (selectedCity.getGold() >= unit.getCost()) {
+        if (currentCivilization.getGold() >= unit.getCost()) {
             if (UnitController.anotherUnitIsInCenter(gameController, selectedCity))
                 return unit + " wants to be created. Please move the unit which is in city center first!";
             return createUnitWithGold(unit, location, currentCivilization);
