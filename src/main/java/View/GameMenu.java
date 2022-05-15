@@ -192,7 +192,7 @@ public class GameMenu extends Menu{
             // research menu :::
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_MENU)) != null){
                 System.out.println("entered research menu!");
-                new ResearchMenu(scanner , gameController).run(); ;
+                new ResearchMenu(scanner , gameController).run();
             }
 
             // map commands :::
@@ -255,6 +255,10 @@ public class GameMenu extends Menu{
             }
             else if (GameMenuCommands.getMatcher(input , GameMenuCommands.BOMBING_ENEMY_CITY) != null){
                 String result = Cheat.plantingBombsOnEnemyCity(gameController);
+                System.out.println(result);
+            }
+            else if (GameMenuCommands.getMatcher(input , GameMenuCommands.SET_TIMES_MOVED_TO_ZERO) != null) {
+                String result = Cheat.setTimesMovedZero(gameController);
                 System.out.println(result);
             }
             else System.out.println("invalid command ayoub");

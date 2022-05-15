@@ -62,6 +62,7 @@ public class GameController {
             newUnitLocation = generateSettlerUnitLocation(locations);
             locations.add(newUnitLocation);
             civilization.addUnit(new Unit(TypeOfUnit.SETTLER , UnitStatus.ACTIVE , newUnitLocation , TypeOfUnit.SETTLER.getHp() , civilization , 0));
+            civilization.addTechnology(new Technology(TypeOfTechnology.AGRICULTURE));
         }
     }
 

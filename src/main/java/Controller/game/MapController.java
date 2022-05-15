@@ -116,7 +116,7 @@ public class MapController {
         Resources[] possibleResources = typeOfTerrain.getPossibleResources();
         if (possibleResources!=null) {
             for (Resources possibleResource : possibleResources) {
-                if (rand.nextInt()%4==0) {
+                if (rand.nextInt()% 10 ==0) {
                     return possibleResource;
                 }
             }
@@ -124,7 +124,7 @@ public class MapController {
         if (terrainFeatures!=null && terrainFeatures.getPossibleResources()!=null){
             Resources[] possibleTerrainFeatureResources = terrainFeatures.getPossibleResources();
             for (Resources possibleTerrainFeatureResource : possibleTerrainFeatureResources) {
-                if (rand.nextInt() % 4 == 0) {
+                if (rand.nextInt() % 10 == 0) {
                     return possibleTerrainFeatureResource;
                 }
             }

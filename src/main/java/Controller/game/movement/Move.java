@@ -107,12 +107,12 @@ public class Move {
         }
     }
 
-    public static boolean SameHomeUnitInDestination(Location destination, GameController gameController) {
+    public static boolean SameHomeUnitInDestination(Location destination, GameController gameController , Unit unit) {
         Civilization civilization = gameController.getCurrentCivilization();
-        for (Unit unit : civilization.getUnits()) {
-            if (destination.getX() == unit.getLocation().getX()
-                    && destination.getY() == unit.getLocation().getY()
-                    && isCombatUnit(SelectController.selectedUnit) == isCombatUnit(unit))
+        for (Unit unit1 : civilization.getUnits()) {
+            if (destination.getX() == unit1.getLocation().getX()
+                    && destination.getY() == unit1.getLocation().getY()
+                    && isCombatUnit(unit1) == isCombatUnit(unit))
                 return true;
         }
         return false;
