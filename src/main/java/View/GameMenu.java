@@ -24,7 +24,6 @@ public class GameMenu extends Menu{
     public void run() {
         String input;
         Matcher matcher;
-        NotificationController.runNotification(gameController);
         while (MenuName.getCurrentMenu() == MenuName.GAME_MENU) {
             MapController.printMap(GameController.getMap() , gameController.getCurrentCivilization() , gameController.getCivilizations());
             input = scanner.nextLine();
