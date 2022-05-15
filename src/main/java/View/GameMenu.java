@@ -24,7 +24,6 @@ public class GameMenu extends Menu{
     public void run() {
         String input;
         Matcher matcher;
-        NotificationController.runNotification(gameController);
         while (MenuName.getCurrentMenu() == MenuName.GAME_MENU) {
             MapController.printMap(GameController.getMap() , gameController.getCurrentCivilization() , gameController.getCivilizations());
             input = scanner.nextLine();
@@ -107,10 +106,10 @@ public class GameMenu extends Menu{
                 String result = UnitController.sleep(gameController);
                 System.out.println(result);
             }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_SIEGE)) != null){
-                String result = CombatUnitController.siegeUnits();
-                System.out.println(result);
-            }
+//            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_SIEGE)) != null){
+//                String result = CombatUnitController.siegeUnits();
+//                System.out.println(result);
+//            }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_RANGED_SETUP)) != null){
                 String result = CombatUnitController.setUpUnit(matcher);
                 System.out.println(result);

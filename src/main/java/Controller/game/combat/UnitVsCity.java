@@ -8,7 +8,7 @@ import Model.City;
 import Model.Terrain;
 import Model.Unit;
 import View.CityCaptureMenu;
-
+import Enum.TypeOfUnit;
 public class UnitVsCity {
 
     public static void attack(Unit unit, City city, GameController gameController) {
@@ -46,6 +46,7 @@ public class UnitVsCity {
 
     private static void damageCity(Unit unit, City city) {
         double changeOfCombat = TerrainController.getChangeOfCombat(city.getTerrains().get(0));
+        if (unit.getTypeOfUnit() == TypeOfUnit.SCOUT) changeOfCombat = 0;
         int currentHp = city.getHp();
         int strength;
         strength = Math.max(unit.getTypeOfUnit().getCombatStrength() , unit.getTypeOfUnit().getRangedCombatStrength());
