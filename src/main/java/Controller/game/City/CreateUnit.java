@@ -2,10 +2,12 @@ package Controller.game.City;
 
 import Controller.game.CityController;
 import Controller.game.GameController;
+import Controller.game.UnitController;
 import Model.*;
 import Enum.TypeOfUnit;
 import Enum.TypeOfTechnology;
 import Enum.Resources;
+import Enum.UnitStatus;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -97,11 +99,20 @@ public class CreateUnit {
         TypeOfUnit unit = selectedCity.getWantedUnits().get(0);
         Location location = selectedCity.getTerrains().get(0).getLocation();
         if (selectedCity.getGold() >= unit.getCost()) {
-            selectedCity.setGold(-1 * unit.getCost());
-            currentCivilization.setGold(-1 * unit.getCost());
-            return CityController.createUnit(currentCivilization, unit, location, selectedCity, gameController);
+            if (UnitController.anotherUnitIsInCenter(gameController, selectedCity))
+                return unit + " wants to be created. Please move the unit which is in city center first!";
+            return createUnitWithGold(unit, location, currentCivilization);
         }
         return "Your city doesn't have enough gold to buy this unit!";
+    }
+
+    private static String createUnitWithGold(TypeOfUnit unit, Location location, Civilization currentCivilization) {
+        Unit newUnit = new Unit(unit, UnitStatus.ACTIVE, location, unit.getHp(), currentCivilization, 0);
+        currentCivilization.addUnit(newUnit);
+        currentCivilization.setGold(currentCivilization.getGold() - unit.getCost());
+        selectedCity.getWantedUnits().remove(unit);
+        return unit + " has been created successfully in location ( "
+                + location.getX() + " , " + location.getY() + " ) !";
     }
 
     public static String changeUnitConstruction(Matcher matcher) {
