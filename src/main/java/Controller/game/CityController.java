@@ -1,8 +1,10 @@
 package Controller.game;
 
+import Controller.game.LogAndNotification.NotificationController;
 import Model.*;
 import Enum.TypeOfUnit;
 import Enum.UnitStatus;
+import Enum.TypeOfTerrain;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -37,7 +39,8 @@ public class CityController {
             ArrayList<Terrain> neighbours = CivilizationController.getNeighbourTerrainsByRadius1(terrain.getLocation() , map , mapWidth , mapHeight) ;
             for (Terrain neighbour : neighbours) {
                 if (!tileAvailable.contains(neighbour)
-                    && !allCivilizationOwnedTiles.contains(neighbour))
+                    && !allCivilizationOwnedTiles.contains(neighbour)
+                    && neighbour.getTypeOfTerrain()!= TypeOfTerrain.OCEAN)
                     tileAvailable.add(neighbour);
             }
         }
@@ -84,6 +87,7 @@ public class CityController {
 
     public static String addTileToCity (City city , Terrain terrain){
         city.addTerrain(terrain);
+        NotificationController.logNewTileAddedToCity(terrain , city);
         return "tile " + terrain.getLocation().getX() + "," + terrain.getLocation().getY() + " added to city" ;
     }
 
@@ -110,6 +114,7 @@ public class CityController {
         currentCivilization.addUnit(newUnit);
         city.getWantedUnits().remove(typeOfUnit);
         city.setProduction(city.getProduction() - typeOfUnit.getCost());
+        NotificationController.logUnitCreated(typeOfUnit , currentCivilization);
         return typeOfUnit + " has been created successfully in location ( "
                 + location.getX() + " , " + location.getY() + " ) !";
     }

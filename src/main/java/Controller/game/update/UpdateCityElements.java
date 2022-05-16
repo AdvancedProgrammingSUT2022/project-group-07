@@ -159,6 +159,7 @@ public class UpdateCityElements {
             if (city.getCitizens().size() == 0) continue;
             if (city.getFood() >= Math.pow(2, city.getCitizens().size())) {
                 city.addCitizen(new Citizen(city.getCitizens().size()));
+                NotificationController.logNewCitizenAddedToCity(city);
                 System.out.println("new citizen added to city " + city.getName());
             }
         }

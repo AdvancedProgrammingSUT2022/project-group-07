@@ -2,12 +2,14 @@ package Controller.game.update;
 
 import Controller.game.CivilizationController;
 import Controller.game.GameController;
+
 import Controller.game.TerrainController;
 import Model.*;
 import Enum.UnitStatus;
+
 import Controller.game.LogAndNotification.NotificationController;
 import Controller.game.combat.CityDefending;
-import Model.*;
+
 
 import java.util.ArrayList;
 
@@ -25,10 +27,6 @@ public class UpdateCivilizationElements {
             sum += city.getFood();
         civilization.setFood(civilization.getFood()+sum);
     }
-
-    /**
-     *  a function to update whole gold of a civilization
-     */
 
     /**
      * a function to update status of a current research
@@ -58,7 +56,6 @@ public class UpdateCivilizationElements {
             civilization.setScience(scienceWithLossOfDebt);
             NotificationController.logScienceLossBecauseOfGoldDebt(amountOfLoss , civilization);
         }
-        civilization.setScience(civilization.getScience() + numberOfCitizens + 3);
     }
 
     public static void update(Civilization civilization, GameController gameController) {
