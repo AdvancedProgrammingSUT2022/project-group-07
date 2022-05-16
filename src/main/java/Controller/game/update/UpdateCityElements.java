@@ -1,6 +1,7 @@
 package Controller.game.update;
 
 import Controller.game.CityController;
+import Controller.game.CivilizationController;
 import Controller.game.GameController;
 import Controller.game.LogAndNotification.NotificationController;
 import Controller.game.MapController;
@@ -11,22 +12,30 @@ import Model.*;
 import Enum.TypeOfUnit;
 import Enum.TypeOfImprovement;
 import Enum.TerrainFeatures;
-import Enum.TypeOfImprovement;
-import Enum.TerrainFeatures;
+import Enum.UnitStatus;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.lang.Math;
 
 public class UpdateCityElements {
-    public static void updateUnitsAboutToBeCreate(Civilization currentCivilization) {
+
+    public static void update(Civilization civilization, GameController gameController) {
+        updateImprovementsAboutToBeCreated(civilization);
+        updateUnitsAboutToBeCreate(civilization, gameController);
+        updateRoutsAboutToBeCreated(civilization);
+    }
+
+    public static void updateUnitsAboutToBeCreate(Civilization currentCivilization, GameController gameController) {
         for (City city : currentCivilization.getCities()) {
             for (TypeOfUnit unit : city.getWantedUnits()) {
-                unit.setTurnsNeededToCreate(unit.getCost() / city.getProduction());
+                if (city.getProduction() != 0)
+                    unit.setTurnsNeededToCreate(unit.getCost() / city.getProduction());
                 if (city.getProduction() >= unit.getCost()) {
                     Terrain cityCenter = city.getTerrains().get(0);
                     city.setProduction(city.getProduction() - unit.getCost());
-                    CityController.createUnit(currentCivilization, unit, cityCenter.getLocation(), city);
+                    CityController.createUnit(currentCivilization, unit, cityCenter.getLocation(), city, gameController);
+                    break;
                 }
             }
         }
@@ -47,12 +56,11 @@ public class UpdateCityElements {
 
     // just for selected civilization!
     public static void maintenance(Civilization civilization) {
-        // TODO + 1?
-        if (civilization.getCities().size()==0)
+        if (civilization.getCities().size() == 0)
             return;
-        int number = civilization.getUnits().size() + civilization.getNumberOfRailroadsAndRoads() / civilization.getCities().size();
+        int routesAndUnits = civilization.getNumberOfRailroadsAndRoads() + civilization.getUnits().size();
         for (City city : civilization.getCities()) {
-            city.setGold(civilization.getGold() - number - city.getBuildings().size());
+            civilization.setGold(civilization.getGold() - routesAndUnits - city.getBuildings().size());
         }
     }
 
@@ -113,46 +121,47 @@ public class UpdateCityElements {
             int food = 0;
             int production = 0;
             for (Citizen citizen : city.getCitizens()) {
-                if (citizen.getTerrain() == null) production += 1;
-                TerrainOutput terrainOutput = TerrainController.getTerrainsOutput(civilization , citizen.getTerrain());
+                if (citizen.getTerrain() == null) {
+                    production += 1;
+                    continue;
+                }
+                TerrainOutput terrainOutput = TerrainController.getTerrainsOutput(civilization, citizen.getTerrain());
                 gold += terrainOutput.getGold();
                 food += terrainOutput.getFood();
                 production += terrainOutput.getProduction();
             }
             city.setFood(city.getFood() + food);
-            city.setGold(city.getGold() + gold);
+            civilization.setGold(civilization.getGold() + gold);
             city.setProduction(city.getProduction() + production);
         }
     }
 
-    public static void cityGrowth (Civilization civilization){
+    public static void cityGrowth(Civilization civilization) {
         ArrayList<City> cities = civilization.getCities();
         for (City city : cities) {
-            if (city.getTurnsTillGrowth()==0){
+            if (city.getTurnsTillGrowth() == 0) {
                 ArrayList<Terrain> availableTerrains = CityController.getAvailableTilesToBuy(
-                        city , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()
+                        city, GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight()
                 );
                 Terrain terrainToBuy = availableTerrains.get((new Random()).nextInt(availableTerrains.size()));
-                CityController.addTileToCity(city , terrainToBuy) ;
-                NotificationController.logNewTileAddedToCity(terrainToBuy , city);
-                int turnsTillGrowth = (int) (Math.log(128*city.getTerrains().size()-city.getCitizens().size()) / Math.log(2)) ;
-                city.setTurnsTillGrowth(turnsTillGrowth+1) ;
-            }
-            else
-                city.setTurnsTillGrowth(city.getTurnsTillGrowth()-1);
+                CityController.addTileToCity(city, terrainToBuy);
+                NotificationController.logNewTileAddedToCity(terrainToBuy, city);
+                int turnsTillGrowth = (int) (Math.log(128 * city.getTerrains().size() - city.getCitizens().size()) / Math.log(2));
+                city.setTurnsTillGrowth(turnsTillGrowth + 1);
+            } else
+                city.setTurnsTillGrowth(city.getTurnsTillGrowth() - 1);
         }
     }
 
-    public static void citizenGrowth (Civilization civilization){
+    public static void citizenGrowth(Civilization civilization) {
         ArrayList<City> cities = civilization.getCities();
         for (City city : cities) {
-            if (city.getCitizens().size()==0) continue;
-            if (city.getFood()>=Math.pow(2,city.getCitizens().size())) {
+            if (city.getCitizens().size() == 0) continue;
+            if (city.getFood() >= Math.pow(2, city.getCitizens().size())) {
                 city.addCitizen(new Citizen(city.getCitizens().size()));
                 NotificationController.logNewCitizenAddedToCity(city);
                 System.out.println("new citizen added to city " + city.getName());
             }
         }
     }
-
 }

@@ -1,6 +1,13 @@
 package Controller.game.update;
 
+import Controller.game.CivilizationController;
 import Controller.game.GameController;
+<<<<<<< HEAD
+=======
+import Controller.game.TerrainController;
+import Model.*;
+import Enum.UnitStatus;
+>>>>>>> main
 import Controller.game.LogAndNotification.NotificationController;
 import Controller.game.combat.CityDefending;
 import Model.*;
@@ -25,6 +32,7 @@ public class UpdateCivilizationElements {
     /**
      *  a function to update whole gold of a civilization
      */
+<<<<<<< HEAD
     public static void updateGold(Civilization civilization){
         ArrayList<City> cities = civilization.getCities();
         int sum = 0 ;
@@ -35,6 +43,8 @@ public class UpdateCivilizationElements {
         }
         civilization.setGold(civilization.getGold()+sum);
     }
+=======
+>>>>>>> main
 
     /**
      * a function to update status of a current research
@@ -66,15 +76,15 @@ public class UpdateCivilizationElements {
         }
     }
 
-    public static void update(Civilization civilization , GameController gameController) {
+    public static void update(Civilization civilization, GameController gameController) {
         updateResearch(civilization);
         updateScience(civilization);
         updateFood(civilization);
-        updateGold(civilization);
+        checkAlertUnits(civilization, gameController);
+        updateFortifyHp(civilization);
         updateCityHp(civilization);
         updateCityDefencing(civilization , gameController);
-    }
-
+        }
     private static void updateCityDefencing(Civilization civilization , GameController gameController) {
         for (City city : civilization.getCities()) {
             CityDefending.DefendFromPossibleTrespassers(city , gameController);
@@ -92,6 +102,35 @@ public class UpdateCivilizationElements {
             if (!unit.getPathToGo().isEmpty()) {
                 moveUnit(unit.getPathToGo() , gameController , unit
                         , unit.getPathToGo().get(unit.getPathToGo().size() - 1).getLocation());
+            }
+        }
+    }
+
+    private static void checkAlertUnits(Civilization currentCivilization, GameController gameController) {
+        for (Unit currentUnit : currentCivilization.getUnits()) {
+            if (currentUnit.getUnitStatus() == UnitStatus.ALERT) {
+                ArrayList<Terrain> neighborTerrains = CivilizationController.getNeighbourTerrainsByRadius1
+                        (currentUnit.getLocation(), GameController.getMap(), GameController.getMapWidth()
+                                , GameController.getMapHeight());
+                for (Civilization civilization : gameController.getCivilizations()) {
+                    if (!civilization.equals(currentCivilization)) {
+                        for (Unit enemy : civilization.getUnits()) {
+                            Terrain enemyTerrain = TerrainController.getTerrainByLocation(enemy.getLocation());
+                            if (neighborTerrains.contains(enemyTerrain))
+                                currentUnit.setUnitStatus(UnitStatus.ACTIVE);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static void updateFortifyHp(Civilization civilization) {
+        for (Unit unit : civilization.getUnits()) {
+            if (unit.getUnitStatus() == UnitStatus.FORTIFY) {
+              unit.setHp(unit.getHp() + 1);
+              if (unit.getHp() == unit.getTypeOfUnit().getHp())
+                  unit.setUnitStatus(UnitStatus.ACTIVE);
             }
         }
     }

@@ -2,6 +2,7 @@ package Controller.menu;
 
 import Controller.UserController;
 import Controller.game.GameController;
+import Controller.game.LogAndNotification.NotificationController;
 import Enum.MenuName;
 import Model.User;
 
@@ -18,13 +19,7 @@ public class MainMenuController {
     public String menuNavigation(Matcher matcher) {
         String menuName = matcher.group("menuName");
         if (menuName.equals("Login Menu") || menuName.equals("Main Menu")) return "menu navigation is not possible";
-        if (menuName.equals("Game Menu")) {
-            if (UserController.getCurrentUser().isLoggedIn()) {
-                MenuName.setCurrentMenu(MenuName.GAME_MENU);
-                return "entered Game Menu";
-            }
-            else return "please login first";
-        }
+        if (menuName.equals("Game Menu")) return "you have to create a game first!";
         if (menuName.equals("Profile Menu")) {
             if (UserController.getCurrentUser().isLoggedIn()) {
                 MenuName.setCurrentMenu(MenuName.PROFILE_MENU);
@@ -58,6 +53,7 @@ public class MainMenuController {
         gameController.setPlayers(playerUsers);
         gameController.initialize();
         MenuName.setCurrentMenu(MenuName.GAME_MENU);
+        NotificationController.runNotification(gameController);
         return "entered Game!";
     }
 

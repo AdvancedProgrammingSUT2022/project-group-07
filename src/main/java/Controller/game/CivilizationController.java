@@ -3,6 +3,7 @@ package Controller.game;
 import Controller.game.movement.Move;
 import Controller.game.update.UpdateCityElements;
 import Controller.game.update.UpdateCivilizationElements;
+import Controller.game.update.UpdateHappiness;
 import Model.*;
 import Enum.* ;
 
@@ -92,10 +93,9 @@ public class CivilizationController {
         UpdateCivilizationElements.update(civilization , gameController);
         UpdateCityElements.cityGrowth(civilization);
         UpdateCityElements.citizenGrowth(civilization);
-        UpdateCityElements.updateImprovementsAboutToBeCreated(civilization);
-        UpdateCityElements.updateUnitsAboutToBeCreate(civilization);
-        UpdateCityElements.updateRoutsAboutToBeCreated(civilization);
+        UpdateCityElements.update(civilization, gameController);
         UpdateCityElements.foodConsumption(civilization);
+        UpdateHappiness.update(civilization, gameController);
         //TODO harchidige ke moond!
     }
 

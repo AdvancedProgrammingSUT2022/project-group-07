@@ -10,12 +10,11 @@ public class City {
     private ArrayList<Citizen> citizens;
     private String name;
     private int food;
-    private int gold;
     private int production;
     private int hp;
     private Civilization ownership;
     private ArrayList<Building> buildings;
-    private ArrayList<TypeOfUnit> wantedUnits = new ArrayList<>();
+    private ArrayList<TypeOfUnit> wantedUnits;
     private int turnsTillGrowth ;
     private int defencePower;
     private Unit garrison;
@@ -25,13 +24,13 @@ public class City {
         this.citizens = new ArrayList<Citizen>();
         this.name = name;
         this.food = 0;
-        this.gold = 0;
         this.production = 0;
         this.hp = 30;
         this.ownership = ownership;
         this.buildings = new ArrayList<>();
         turnsTillGrowth = 6 ;
         this.defencePower = 10;
+        this.wantedUnits = new ArrayList<>();
     }
 
 
@@ -39,9 +38,6 @@ public class City {
         return name;
     }
 
-    public int getGold() {
-        return gold;
-    }
     public int getFood() {
         return food;
     }
@@ -87,10 +83,6 @@ public class City {
         this.production = production;
     }
 
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
-
     public int getProduction() {
         return production;
     }
@@ -121,5 +113,13 @@ public class City {
 
     public void setDefencePower(int defencePower) {
         this.defencePower = defencePower;
+    }
+
+    public Unit getGarrison() {
+        return garrison;
+    }
+
+    public void setGarrison(Unit garrison) {
+        this.garrison = garrison;
     }
 }

@@ -65,7 +65,7 @@ public class Information {
         for (City city : cities) {
             System.out.printf("\tCity %s\n" , city.getName());
             System.out.printf("\t\tFood : %d\n" , city.getFood());
-            System.out.printf("\t\tGold : %d\n" , city.getGold());
+            System.out.printf("\t\tGold : %d\n" , civilization.getGold());
             System.out.printf("\t\tProduction : %d\n" , city.getProduction());
             System.out.printf("\t\tPopulation : %d\n" , city.getCitizens().size());
             System.out.printf("\t\tTurns till city growth : %d\n" , city.getTurnsTillGrowth());

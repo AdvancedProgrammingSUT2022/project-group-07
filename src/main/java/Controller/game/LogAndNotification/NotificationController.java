@@ -80,7 +80,6 @@ public class NotificationController {
         setNotification(civilization,message);
     }
 
-
     public static HashMap<Civilization, ArrayList<Notification>> getNotifications() {
         return notifications;
     }

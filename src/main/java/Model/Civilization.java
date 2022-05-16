@@ -40,7 +40,7 @@ public class Civilization {
         this.score = 0 ;
         this.gold = 0 ;
         this.food = 0 ;
-        this.happiness = 0 ;
+        this.happiness = 10 ;
         this.science = 0 ;
         this.currentResearch = null ;
         this.routsAboutToBeBuilt = new ArrayList<>();

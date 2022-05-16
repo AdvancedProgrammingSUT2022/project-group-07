@@ -1,6 +1,7 @@
 package Controller.game.units;
 
 import Controller.game.*;
+import Controller.game.movement.TheShortestPath;
 import Model.*;
 import Enum.TerrainFeatures;
 import Enum.TypeOfTechnology;
@@ -63,7 +64,8 @@ public class Worker {
 
     private static String destinationHasValidTypeOfTerrainOrFeature(ArrayList<String> canBeFoundOn, Terrain terrain, String improvement) {
         String typeOfTerrain = terrain.getTypeOfTerrain().getName();
-        String featureOfTerrain = terrain.getTerrainFeatures().getName();
+        String featureOfTerrain = "";
+        if (terrain.getTerrainFeatures() != null) featureOfTerrain = terrain.getTerrainFeatures().getName();
         for (String place : canBeFoundOn) {
             if (place.equals(typeOfTerrain)
                     || place.equals(featureOfTerrain))
@@ -242,6 +244,7 @@ public class Worker {
         }
         terrain.setHasRailRoad(true);
         civilization.setNumberOfRailroadsAndRoads(civilization.getNumberOfRailroadsAndRoads() + 1);
+        TheShortestPath.run();
         return "Road created successfully in location ( "
                 + location.getX() + " , " + location.getY() + " ) !";
     }

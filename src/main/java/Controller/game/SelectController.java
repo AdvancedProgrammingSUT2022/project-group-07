@@ -21,10 +21,10 @@ public class SelectController {
         if (!positionIsValid(location))
             return "Position ( " + x + " , " + y + " ) is not valid!";
 
-        if (!hasUnit(location , gameController))
+        if (!hasNonCombatUnit(location , gameController))
             return "There isn't any nonCombatUnit in position ( " + x + " , " + y + " )!";
 
-        return "NonCombatUnit selected successfully! \n Info : \n"
+        return "CombatUnit selected successfully! \n Info : \n"
                 + "-type of unit : " + selectedUnit.getTypeOfUnit()
                 + "\n-unit status : " + selectedUnit.getUnitStatus()
                 + "\n-location : ( " + selectedUnit.getLocation().getX()
@@ -33,7 +33,6 @@ public class SelectController {
                 + "\n-civilization name : " + selectedUnit.getCivilization().getName();
     }
 
-    // TODO just like selectNonCombatUnit method except the second if!
     public static String selectCombatUnit(Matcher matcher, GameController gameController) {
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
@@ -42,10 +41,10 @@ public class SelectController {
         if (!positionIsValid(location))
             return "Position ( " + x + " , " + y + " ) is not valid!";
 
-        if (!hasUnit(location , gameController))
+        if (!hasCombatUnit(location , gameController))
             return "There isn't any combatUnit in position ( " + x + " , " + y + " )!";
 
-        return "NonCombatUnit selected successfully! \n Info : \n"
+        return "CombatUnit selected successfully! \n Info : \n"
                 + "-type of unit : " + selectedUnit.getTypeOfUnit()
                 + "\n-unit status : " + selectedUnit.getUnitStatus()
                 + "\n-location : ( " + selectedUnit.getLocation().getX()
@@ -61,9 +60,23 @@ public class SelectController {
                 && location.getX() >= 0);
     }
 
-    private static boolean hasUnit(Location location , GameController gameController) {
+    private static boolean hasNonCombatUnit(Location location , GameController gameController) {
         for (Civilization civilization: gameController.getCivilizations()) {
             for (Unit unit : civilization.getUnits()) {
+                if (CombatUnitController.isMilitary(unit)) continue;
+                if (unit.getLocation().getX() == location.getX()
+                        && unit.getLocation().getY() == location.getY()) {
+                    selectedUnit = unit;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private static boolean hasCombatUnit(Location location , GameController gameController) {
+        for (Civilization civilization: gameController.getCivilizations()) {
+            for (Unit unit : civilization.getUnits()) {
+                if (!CombatUnitController.isMilitary(unit)) continue;
                 if (unit.getLocation().getX() == location.getX()
                         && unit.getLocation().getY() == location.getY()) {
                     selectedUnit = unit;

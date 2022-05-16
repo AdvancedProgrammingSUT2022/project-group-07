@@ -9,6 +9,7 @@ import Model.Terrain;
 import Model.Unit;
 
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.regex.Matcher;
 
 import static Controller.game.movement.Move.*;
@@ -38,11 +39,21 @@ public class UnitController {
             return "Your destination is a " + placeName + " so you can not go to it!";
         if (isEnemyUnitInDestination(destination, gameController))
             return "an enemy unit is in your destination at the moment!";
-        if (SameHomeUnitInDestination(destination, gameController))
+        if (SameHomeUnitInDestination(destination, gameController , unit))
             return "another unit with same military status is in the destination selected!";
         if (unit.getTimesMovedThisTurn() >= 2)
             return "unit is out of move!";
+        if (path == null)
+            return "there is no way to your destination!";
         return checkNeededMpForMove(path , unit , gameController);
+    }
+
+    private static boolean pathIsUnreachable(ArrayList<Terrain> path) {
+        int mp = 0;
+        for (Terrain terrain : path) {
+            mp += terrain.getMp();
+        }
+        return mp > 100;
     }
 
     public static int isCombatUnit(Unit unit) {
@@ -72,11 +83,6 @@ public class UnitController {
         return "Selected unit has slept successfully!";
     }
 
-
-    public void healUnit(Unit unit) {
-        // TODO heal!
-    }
-
     public static String cancelMission(GameController gameController) {
         Unit selectedUnit = SelectController.selectedUnit;
         String error = checkUnit(selectedUnit, gameController);
@@ -88,6 +94,7 @@ public class UnitController {
         return "All of the missions of the selected unit have been canceled!";
     }
 
+    // for sleep
     public static String wake(GameController gameController) {
         Unit selectedUnit = SelectController.selectedUnit;
         String error = checkUnit(selectedUnit, gameController);
@@ -102,11 +109,12 @@ public class UnitController {
         Unit selectedUnit = SelectController.selectedUnit;
         String error = checkUnit(selectedUnit, gameController);
         City city = SelectController.selectedCity;
+        Civilization civilization = gameController.getCurrentCivilization();
 
         if (error != null)
             return error;
         // find the selected unit in current civilization and remove it.
-        city.setGold((int) (city.getGold() + 0.1 * selectedUnit.getTypeOfUnit().getCost()));
+        civilization.setGold((int) (civilization.getGold() + 0.1 * selectedUnit.getTypeOfUnit().getCost()));
         gameController.getCurrentCivilization().getUnits().remove(selectedUnit);
         return "Unit deleted successfully!";
     }
@@ -118,6 +126,17 @@ public class UnitController {
         if (!hasOwnerShip(selectedUnit, gameController))
             return "This unit does not belong to you!";
         return null;
+    }
+
+    public static boolean anotherUnitIsInCenter(GameController gameController, City city) {
+        Terrain cityCenter = city.getTerrains().get(0);
+        for (Civilization civilization : gameController.getCivilizations()) {
+            for (Unit unit : civilization.getUnits()) {
+                if (unit.getLocation().equals(cityCenter.getLocation()))
+                    return true;
+            }
+        }
+        return false;
     }
 
     public String upgrade(Unit unit) {

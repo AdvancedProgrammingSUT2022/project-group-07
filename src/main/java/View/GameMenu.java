@@ -24,7 +24,6 @@ public class GameMenu extends Menu{
     public void run() {
         String input;
         Matcher matcher;
-        NotificationController.runNotification(gameController);
         while (MenuName.getCurrentMenu() == MenuName.GAME_MENU) {
             MapController.printMap(GameController.getMap() , gameController.getCurrentCivilization() , gameController.getCivilizations());
             input = scanner.nextLine();
@@ -104,10 +103,10 @@ public class GameMenu extends Menu{
                 String result = UnitController.sleep(gameController);
                 System.out.println(result);
             }
-            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_SIEGE)) != null){
-                String result = CombatUnitController.siegeUnits();
-                System.out.println(result);
-            }
+//            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_SIEGE)) != null){
+//                String result = CombatUnitController.siegeUnits();
+//                System.out.println(result);
+//            }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_RANGED_SETUP)) != null){
                 String result = CombatUnitController.setUpUnit(matcher);
                 System.out.println(result);
@@ -120,12 +119,13 @@ public class GameMenu extends Menu{
                 String result = CombatUnitController.alert(gameController);
                 System.out.println(result);
             }
-//            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_FORTIFY)) != null){
-//                String result = UnitController.fortifyUnit(gameController);
-//                System.out.println(result);
-//            }
+            else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_FORTIFY)) != null){
+                String result = CombatUnitController.fortify(gameController);
+                System.out.println(result);
+            }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_GARRISON)) != null){
-
+                String result = CombatUnitController.garrison(gameController);
+                System.out.println(result);
             }
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.UNIT_SETUP_RANGED)) != null){
 
@@ -189,7 +189,7 @@ public class GameMenu extends Menu{
             // research menu :::
             else if ((matcher = GameMenuCommands.getMatcher(input , GameMenuCommands.RESEARCH_MENU)) != null){
                 System.out.println("entered research menu!");
-                new ResearchMenu(scanner , gameController).run(); ;
+                new ResearchMenu(scanner , gameController).run();
             }
 
             // map commands :::
@@ -254,8 +254,11 @@ public class GameMenu extends Menu{
                 String result = Cheat.plantingBombsOnEnemyCity(gameController);
                 System.out.println(result);
             }
+            else if (GameMenuCommands.getMatcher(input , GameMenuCommands.SET_TIMES_MOVED_TO_ZERO) != null) {
+                String result = Cheat.setTimesMovedZero(gameController);
+                System.out.println(result);
+            }
             else System.out.println("invalid command ayoub");
         }
-
     }
 }
