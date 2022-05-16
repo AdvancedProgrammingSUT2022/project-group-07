@@ -50,7 +50,7 @@ public class UnitVsCity {
         int currentHp = city.getHp();
         int strength;
         strength = Math.max(unit.getTypeOfUnit().getCombatStrength() , unit.getTypeOfUnit().getRangedCombatStrength());
-        int finalHp = (int) (currentHp - ((double) unit.getHp() / 10) * strength * (1 + changeOfCombat));
+        int finalHp = (int) (currentHp - (((double) unit.getHp()) / 10) * strength * (1 + changeOfCombat));
         city.setHp(finalHp);
     }
 
