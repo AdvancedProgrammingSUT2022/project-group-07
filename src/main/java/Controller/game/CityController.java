@@ -40,7 +40,7 @@ public class CityController {
             for (Terrain neighbour : neighbours) {
                 if (!tileAvailable.contains(neighbour)
                     && !allCivilizationOwnedTiles.contains(neighbour)
-                    && neighbour.getTypeOfTerrain()== TypeOfTerrain.OCEAN)
+                    && neighbour.getTypeOfTerrain()!= TypeOfTerrain.OCEAN)
                     tileAvailable.add(neighbour);
             }
         }

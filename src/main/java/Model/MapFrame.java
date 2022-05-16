@@ -146,8 +146,8 @@ public class MapFrame extends JFrame {
             Improvement tileImprovement = map[row][col].getImprovement();
             if (tileImprovement==null)
                 return;
-//            String improvementName = tileImprovement.getImprovement().getName().substring(0,3);
-//            g2d.drawString(improvementName , x-hexagonA/4 , y+hexagonA/4);
+            String improvementName = tileImprovement.getTypeOfImprovement().getName().substring(0,3);
+            g2d.drawString(improvementName , x-hexagonA/4 , y+hexagonA/4);
         }
 
         /**

@@ -1,9 +1,6 @@
 package Controller.game;
 
-import Model.City;
-import Model.Civilization;
-import Model.Location;
-import Model.Unit;
+import Model.*;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -96,10 +93,12 @@ public class SelectController {
             return "invalid location" ;
         for (Civilization civilization : civilizations) {
             for (City city : civilization.getCities()) {
-                if (city.getTerrains().get(0).getLocation().getX()==x
-                        && city.getTerrains().get(0).getLocation().getY()==y){
-                    selectedCity = city ;
-                    return "city selected successfully" ;
+                for (Terrain terrain : city.getTerrains()) {
+                    if (terrain.getLocation().getX()==x
+                        && terrain.getLocation().getY()==y) {
+                        selectedCity = city;
+                        return "city selected successfully";
+                    }
                 }
             }
         }
