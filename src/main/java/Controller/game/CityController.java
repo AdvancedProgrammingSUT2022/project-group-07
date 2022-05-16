@@ -114,6 +114,7 @@ public class CityController {
         currentCivilization.addUnit(newUnit);
         city.getWantedUnits().remove(typeOfUnit);
         city.setProduction(city.getProduction() - typeOfUnit.getCost());
+        NotificationController.logUnitCreated(typeOfUnit , currentCivilization);
         return typeOfUnit + " has been created successfully in location ( "
                 + location.getX() + " , " + location.getY() + " ) !";
     }
