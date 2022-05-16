@@ -12,6 +12,7 @@ public enum CityMenuCommands {
     BUY_UNIT_WITH_GOLD("buy unit with gold"),
     CHANGE_UNIT_CONSTRUCTION("change unit construction (?<first>\\d+) with (?<second>\\d+)"),
     REMOVE_UNIT_CONSTRUCTION("remove unit construction (?<number>\\d+)"),
+    REMOVE_UNIT("remove unit (?<number>\\d+)"),
     SHOW_UNEMPLOYED_CITIZENS("show unemployed citizens");
 
     private String regex;

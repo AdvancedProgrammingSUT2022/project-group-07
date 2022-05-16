@@ -3,28 +3,14 @@ package Controller.game;
 import Controller.game.combat.ErrorHandling;
 import Controller.game.combat.UnitVsCity;
 import Controller.game.movement.Move;
-import Model.City;
-import Model.Location;
-import Model.Terrain;
-import Model.Unit;
+import Model.*;
 import Enum.CombatType;
 import Enum.UnitStatus;
 
 import java.util.regex.Matcher;
 
 public class CombatUnitController {
-    // TODO ranged units!
 
-    public static String siegeUnits() {
-        Unit selectedUnit = SelectController.selectedUnit;
-        String placeName;
-
-        if (selectedUnit.getUnitStatus() != UnitStatus.RANGED_UNIT_IS_READY)
-            return "Unit is not set-up!";
-
-        // TODO other errors and main action
-        return "";
-    }
 
     private static boolean isSiegeUnit(Unit unit) {
         return unit.getTypeOfUnit().getCombatType() == CombatType.SIEGE;
@@ -78,10 +64,10 @@ public class CombatUnitController {
             return "Your destination is " + placeName + ". You can't setUp!";
 
         selectedUnit.setUnitStatus(UnitStatus.RANGED_UNIT_IS_READY);
-        return "";
+        return "Unit setUp successfully!";
     }
 
-    private static boolean isRangedUnit(Unit unit) {
+    public static boolean isRangedUnit(Unit unit) {
         return (unit.getTypeOfUnit().getCombatType() == CombatType.SIEGE
                 || unit.getTypeOfUnit().getCombatType() == CombatType.ARCHERY
                 || unit.getTypeOfUnit().getCombatType() == CombatType.GUNPOWDER);
@@ -106,14 +92,36 @@ public class CombatUnitController {
         return null;
     }
 
-    private String fortify(Unit unit) {
-        return "";
+    public static String fortify(GameController gameController) {
+        Unit selectedUnit = SelectController.selectedUnit;
+        String error = checkUnit(selectedUnit, gameController);
+
+        if (error != null)
+            return error;
+
+        selectedUnit.setUnitStatus(UnitStatus.FORTIFY);
+        // hp will increase in next turn
+        return "Fortify successfully!";
     }
 
-    private String garrison(Unit Unit, City City) {
-        return "";
-    }
+    public static String garrison(GameController gameController) {
+        Unit selectedUnit = SelectController.selectedUnit;
+        Civilization civilization = gameController.getCurrentCivilization();
+        Terrain currentTerrain = TerrainController.getTerrainByLocation(selectedUnit.getLocation());
+        City currentCity = CityController.getCityByTerrain(civilization, currentTerrain);
+        String error = checkUnit(selectedUnit, gameController);
+        if (error != null)
+            return error;
+        assert currentTerrain != null;
+        if (!CityController.isInCenterOfOwnCity(currentTerrain, civilization, gameController))
+            return "Unit should be in the center of city in his civilization!";
 
+        if (currentCity != null) {
+            currentCity.setDefencePower(currentCity.getDefencePower() + 5);
+            currentCity.setGarrison(selectedUnit);
+        }
+        return "Settled successfully!";
+    }
 
     public static String attackCity(Matcher matcher, GameController gameController) {
         SelectController.selectCityByLocation(matcher , gameController.getCivilizations());
@@ -122,12 +130,14 @@ public class CombatUnitController {
         if ((error = ErrorHandling.findAttackCityError(SelectController.selectedUnit , city , gameController)) != null)
             return error;
         UnitVsCity.attack(SelectController.selectedUnit , city , gameController);
+        SelectController.selectedUnit.setTimesMovedThisTurn(3);
         return "attacked selected city!";
     }
 
     public static String attackUnit(Matcher matcher) {
         return "";
     }
+
 
 
 }

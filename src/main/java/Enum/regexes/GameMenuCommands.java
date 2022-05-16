@@ -40,7 +40,7 @@ public enum GameMenuCommands {
     UNIT_MOVE_TO("unit move to (?<X>\\d+) (?<Y>\\d+)"),
     UNIT_SLEEP("unit sleep"),
     UNIT_ALERT("unit alert"),
-    UNIT_FORTIFY("unit fortify ?(heal)"), // mitoone ta full shodan heal fortify beshe ya nashe!!
+    UNIT_FORTIFY("unit fortify( heal?)"), // mitoone ta full shodan heal fortify beshe ya nashe!!
     UNIT_GARRISON("unit garrison"),
     UNIT_SETUP_RANGED("unit setup ranged"),
     UNIT_ATTACK("unit attack (?<X>\\d+) (?<Y>\\d+)"),
@@ -52,8 +52,8 @@ public enum GameMenuCommands {
     UNIT_PILLAGE("pillage"),
     UNIT_RANGED_SETUP("unit ranged setup (?<X>\\d+) (?<Y>\\d+)"),
     // combatunit commands : !!!
-    ATTACK_CITY("attack city in (?<X>) (?<Y>)"),
-    ATTACK_UNIT("attack unit in (?<X>) (?<Y>)"),
+    ATTACK_CITY("attack city in (?<X>\\d+) (?<Y>\\d+)"),
+    ATTACK_UNIT("attack unit in (?<X>\\d+) (?<Y>\\d+)"),
     // az inja male kargaras !!!
     UNIT_BUILD_IMPROVEMENT("unit build (?<improvement>[a-zA-Z]+)"), // baraye zirbakhsh be khode typeOfImrpovement morajeE shavad!
     CREATE_UNIT("create unit (?<unit>[a-zA-Z]+)"),
@@ -90,6 +90,7 @@ public enum GameMenuCommands {
     ADD_ENEMY_CITY_TO_YOURS("add enemy city to yours"),
     DISABLE_ENEMY_UNIT("disable enemy unit"),
     BOMBING_ENEMY_CITY("leave bombs on enemy city"),
+    SET_TIMES_MOVED_TO_ZERO("set times moved 0"),
     // next turn : !!
     NEXT_TURN("next turn");
 

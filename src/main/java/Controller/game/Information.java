@@ -55,6 +55,7 @@ public class Information {
             System.out.printf("\tStatus : %s\n" , unit.getUnitStatus());
             System.out.printf("\tHp : %d\n" , unit.getHp());
             System.out.printf("\tMp : %d\n" , unit.getMp());
+            System.out.printf("\tTimes Moved This Turn : %d\n" , unit.getTimesMovedThisTurn());
         }
     }
 
@@ -62,12 +63,13 @@ public class Information {
         System.out.println("Cities Information Panel of civilization "+ civilization.getName());
         ArrayList<City> cities = civilization.getCities() ;
         for (City city : cities) {
-            System.out.printf("\tcity %s\n" , city.getName());
-            System.out.printf("\t\tfood : %d\n" , city.getFood());
-            System.out.printf("\t\tgold : %d\n" , city.getGold());
-            System.out.printf("\t\tproduction : %d\n" , city.getProduction());
-            System.out.printf("\t\tpopulation : %d\n" , city.getCitizens().size());
-            System.out.printf("\t\tturns till city growth : %d\n" , city.getTurnsTillGrowth());
+            System.out.printf("\tCity %s\n" , city.getName());
+            System.out.printf("\t\tFood : %d\n" , city.getFood());
+            System.out.printf("\t\tGold : %d\n" , civilization.getGold());
+            System.out.printf("\t\tProduction : %d\n" , city.getProduction());
+            System.out.printf("\t\tPopulation : %d\n" , city.getCitizens().size());
+            System.out.printf("\t\tTurns till city growth : %d\n" , city.getTurnsTillGrowth());
+            System.out.printf("\t\tScience achievement : +%d\n" , city.getCitizens().size()+5);
         }
     }
 

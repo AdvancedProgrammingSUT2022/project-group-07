@@ -2,7 +2,7 @@ package Enum;
 
 public enum TypeOfTechnology {
 
-    AGRICULTURE("Agriculture" , 20 , new TypeOfTechnology[]{} , 8 , 2) ,
+    AGRICULTURE("Agriculture" , 20 , new TypeOfTechnology[]{} , 0 , 2) ,
     ANIMAL_HUSBANDRY("Animal Husbandry" , 35 , new TypeOfTechnology[]{AGRICULTURE} , 8 , 2 ) ,
     MINING("Mining" , 35 , new TypeOfTechnology[]{AGRICULTURE} , 10 , 2) ,
     POTTERY("Pottery" , 35 , new TypeOfTechnology[]{AGRICULTURE} , 10 , 2) ,
