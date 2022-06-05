@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.Controller.menu.fxmlControllers.chatRoomControllerAsli">
+   <left>
+       <ScrollPane prefHeight="400.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+           <VBox fx:id="chatOptionVBox"> </VBox>
+       </ScrollPane>
+   </left>
+   <center>
+       <VBox prefHeight="400.0" prefWidth="478.0" BorderPane.alignment="CENTER">
+           <VBox fx:id="chatBoxVBox" alignment="CENTER" prefHeight="295.0" prefWidth="482.0"/>
+           <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <TextArea fx:id="messageTextField" prefHeight="100.0" prefWidth="300.0"/>
+               <Button  onMouseClicked="#sendMessage" mnemonicParsing="false" prefHeight="102.0" prefWidth="100.0" text="Button"/>
+           </HBox>
+       </VBox>
+   </center>
+</BorderPane>
