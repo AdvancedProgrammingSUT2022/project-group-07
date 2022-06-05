@@ -5,10 +5,8 @@ import game.Controller.Chat.Message;
 import game.Controller.Chat.MessageController;
 import game.Controller.Chat.MessageType;
 import game.Controller.UserController;
-import game.Main;
 import game.Model.User;
 import game.tempMain;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
@@ -66,9 +64,9 @@ public class chatRoomController implements Initializable {
         }
     }
 
+    public void updateData (){
+        chatOptionVBox.getChildren().clear();
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
         UserController.loadUsers();
 
         MessageController.loadMessages();
@@ -108,10 +106,14 @@ public class chatRoomController implements Initializable {
                 messageType = MessageType.GROUP ;
                 loadMessages(chatGroup.getMessages());
             });
-            button.setStyle("-fx-background-color: yellow");
             chatOptionVBox.getChildren().add(button);
         }
 
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        updateData();
     }
 
     public void loadMessages (ArrayList<Message> messages){
@@ -144,6 +146,7 @@ public class chatRoomController implements Initializable {
         Parent root = tempMain.loadFXML("roomUserSelectionPage");
         assert root != null;
         roomChatController.setStage(stage);
+        roomChatController.setUpdater(this);
         stage.setScene(new Scene(root));
         stage.show();
     }

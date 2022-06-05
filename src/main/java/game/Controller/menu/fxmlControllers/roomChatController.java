@@ -24,6 +24,7 @@ public class roomChatController implements Initializable {
 
     private static ArrayList<User> users = UserController.getUsers();
     private static Stage stage ;
+    private static chatRoomController updater ;
 
     public TextField roomName;
     public Button closeBtn;
@@ -33,6 +34,10 @@ public class roomChatController implements Initializable {
 
     public static void setStage(Stage stage) {
         roomChatController.stage = stage;
+    }
+
+    public static void setUpdater(chatRoomController chatRoomController) {
+        updater = chatRoomController ;
     }
 
     @Override
@@ -48,29 +53,30 @@ public class roomChatController implements Initializable {
                 counter++ ;
             }
         }
-        closeBtn.setOnAction(arg0 -> stage.close());
     }
 
 
     public void createRoom() {
         ArrayList<User > addedUser = new ArrayList<>();
         int checkedBoxes = 0 ;
-        int counter = 0 ;
-        for (CheckBox checkBox : checkBoxes) {
-            if (checkBox.isSelected()) {
+        for (int counter=0 ; counter<checkBoxes.size() ; counter++) {
+            if (checkBoxes.get(counter).isSelected()) {
                 checkedBoxes++;
                 addedUser.add(users.get(counter));
             }
-            counter++;
         }
         String chatName = roomName.getText();
         if (chatName.isEmpty() || checkedBoxes<=1)
             return;
         MessageController.addChatGroup(new ChatGroup(addedUser , chatName));
+        MessageController.saveChatGroups();
+        updater.updateData();
+        System.out.println("room created !");
+        stage.close();
     }
 
     public void cancel() {
-
+        stage.close();
     }
 
 }
