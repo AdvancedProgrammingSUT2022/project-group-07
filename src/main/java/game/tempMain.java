@@ -57,10 +57,10 @@ public class tempMain extends Application {
         UserController.loadUsers();
         stage.setScene(scene);
         stage.show();
-        UserController.setCurrentUser(UserController.getUsers().get(0));
+        UserController.setCurrentUser(UserController.getUsers().get(1));
     }
 
-    private static Parent loadFXML(String name){
+    public static Parent loadFXML(String name){
         try {
             URL address = new URL(Main.class.getResource("/game/fxml/" + name + ".fxml").toExternalForm());
             return FXMLLoader.load(address);

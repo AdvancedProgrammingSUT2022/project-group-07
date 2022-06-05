@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.Controller.menu.fxmlControllers.chatRoomControllerAsli">
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.Controller.menu.fxmlControllers.chatRoomController">
    <left>
        <ScrollPane prefHeight="400.0" prefWidth="150.0" BorderPane.alignment="CENTER">
            <VBox fx:id="chatOptionVBox"> </VBox>
@@ -15,7 +15,8 @@
            <VBox fx:id="chatBoxVBox" alignment="CENTER" prefHeight="295.0" prefWidth="482.0"/>
            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <TextArea fx:id="messageTextField" prefHeight="100.0" prefWidth="300.0"/>
-               <Button  onMouseClicked="#sendMessage" mnemonicParsing="false" prefHeight="102.0" prefWidth="100.0" text="Button"/>
+               <Button  onMouseClicked="#sendMessage" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Send"/>
+               <Button  onMouseClicked="#createNewRoom" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" text="Create Room"/>
            </HBox>
        </VBox>
    </center>
