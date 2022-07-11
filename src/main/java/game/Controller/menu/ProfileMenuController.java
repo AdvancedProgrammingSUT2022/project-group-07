@@ -2,11 +2,20 @@ package game.Controller.menu;
 
 import game.Controller.UserController;
 import game.Enum.MenuName;
+import game.Main;
 import game.Model.User;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 
 public class ProfileMenuController {
+
+    @FXML
+    private Button back;
+
     public String exit() {
         MenuName.setCurrentMenu(MenuName.MAIN_MENU);
         return "entered game.Main Menu";
@@ -46,5 +55,9 @@ public class ProfileMenuController {
             return "new password is invalid : password must have at least 4 characters and a capital letter, small letter and a number";
         user.setPassword(newPassword);
         return "password changed successfully!";
+    }
+
+    public void back(ActionEvent actionEvent) throws IOException {
+        Main.changeScene("mainMenu");
     }
 }
