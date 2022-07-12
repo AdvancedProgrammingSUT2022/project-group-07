@@ -24,11 +24,6 @@ public class MainMenuController {
     @FXML
     private Button profileMenu;
 
-//    public String exit() {
-//        MenuName.setCurrentMenu(MenuName.LOGIN_MENU);
-//        return "exited to Login Menu";
-//    }
-
     public String menuNavigation(Matcher matcher) {
         String menuName = matcher.group("menuName");
         if (menuName.equals("Login Menu") || menuName.equals("game.Main Menu")) return "menu navigation is not possible";
@@ -42,13 +37,6 @@ public class MainMenuController {
         }
         return "invalid command";
     }
-
-//    public String logout() {
-//        MenuName.setCurrentMenu(MenuName.LOGIN_MENU);
-//        UserController.getCurrentUser().setLoggedIn(false);
-//        UserController.setCurrentUser(null);
-//        return "user logged out successfully!";
-//    }
 
     public String playGame(Matcher matcher, GameController gameController) {
         String input = matcher.group();

@@ -17,9 +17,9 @@ import java.util.regex.Matcher;
 public class LoginMenuController {
 
     @FXML
-    private TextField loginName;
-    @FXML
     private PasswordField loginPass;
+    @FXML
+    private TextField loginName;
     @FXML
     private TextField username;
     @FXML
@@ -29,19 +29,13 @@ public class LoginMenuController {
     @FXML
     private Button register;
     @FXML
+    private Button exit;
+    @FXML
     private Button login;
     @FXML
     private Text registerError;
     @FXML
     private Text loginError;
-    @FXML
-    private Button exit;
-
-//    public String exit() {
-//        MenuName.setCurrentMenu(MenuName.TERMINATE);
-//        UserController.saveUsers();
-//        return "game ended!";
-//    }
 
     public void exit(ActionEvent actionEvent) {
         MenuName.setCurrentMenu(MenuName.TERMINATE);
@@ -63,27 +57,6 @@ public class LoginMenuController {
         }
         return "invalid menu name!";
     }
-
-
-//    public String createUser(Matcher matcher) {
-//        String username = matcher.group("username");
-//        String password = matcher.group("password");
-//        String nickname = matcher.group("nickname");
-//
-//        if (ProfileValidation.usernameIsUsed(username))
-//            return "user with username " + username + " already exists";
-//        if (ProfileValidation.nicknameIsUsed(nickname))
-//            return "user with nickname " + nickname + " already exists";
-//        if (!ProfileValidation.usernameIsValid(username))
-//            return "invalid username : at least 3 characters and must have at least a letter";
-//        if (!ProfileValidation.passwordIsValid(password))
-//            return "invalid password : at least 4 characters and must have at least a capital and a small and a number";
-//        if (!ProfileValidation.nicknameIsValid(nickname))
-//            return "invalid nickname : only alphabetical characters!";
-//        User user = new User(username , password , nickname);
-//        UserController.addUser(user);
-//        return "user created successfully";
-//    }
 
     public void createUser(ActionEvent actionEvent) throws IOException {
         loginError.setText(null);
@@ -110,18 +83,6 @@ public class LoginMenuController {
             Main.changeScene("mainMenu");
         }
     }
-
-//    public String login(Matcher matcher) {
-//        String username = matcher.group("username");
-//        String password = matcher.group("password");
-//        User user = UserController.getUser(username , password);
-//        if (user == null) return "username and password didn't match!";
-//        else {
-//            UserController.login(user);
-//            UserController.setCurrentUser(user);
-//            return "user logged in successfully!";
-//        }
-//    }
 
     public void login(ActionEvent actionEvent) throws IOException {
         registerError.setText(null);
