@@ -6,6 +6,8 @@ public class User {
     private String nickname;
     private int score;
     private boolean isLoggedIn;
+    private int avatarNumber;
+    private String avatarFilePath;
 
     public User(String username, String password, String nickname) {
         this.username = username;
@@ -13,6 +15,8 @@ public class User {
         this.nickname = nickname;
         this.score = 0;
         this.isLoggedIn = false;
+        this.avatarNumber = (int)Math.floor(Math.random()*10);
+        this.avatarFilePath = null;
     }
     public User(){
 
@@ -55,5 +59,21 @@ public class User {
 
     public void setLoggedIn(boolean loggedIn) {
         isLoggedIn = loggedIn;
+    }
+
+    public int getAvatarNumber() {
+        return avatarNumber;
+    }
+
+    public void setAvatarNumber(int avatarNumber) {
+        this.avatarNumber = avatarNumber;
+    }
+
+    public String getAvatarFilePath() {
+        return avatarFilePath;
+    }
+
+    public void setAvatarFilePath(String avatarFilePath) {
+        this.avatarFilePath = avatarFilePath;
     }
 }
