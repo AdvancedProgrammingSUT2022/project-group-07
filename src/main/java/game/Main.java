@@ -24,24 +24,10 @@ import java.util.Scanner;
 public class Main extends Application {
 
     private static Stage mainStage;
+    private static Scene scene;
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch();
-        Scanner scanner = new Scanner(System.in);
-        LoginMenu loginMenu = new LoginMenu(scanner , new LoginMenuController());
-        GameController gameController = new GameController();
-        MainMenu mainMenu = new MainMenu(scanner , new MainMenuController() , gameController);
-        ProfileMenu profileMenu = new ProfileMenu(scanner , new ProfileMenuController());
-        GameMenu gameMenu = new GameMenu(scanner , new GameMenuController() , gameController);
-        UserController.loadUsers();
-
-        while(MenuName.getCurrentMenu() != MenuName.TERMINATE) {
-            loginMenu.run();
-            mainMenu.run();
-            profileMenu.run();
-            gameMenu.run();
-        }
-        System.out.println("khaste nabashi ayoub jan!");
     }
 
     @Override
@@ -50,7 +36,7 @@ public class Main extends Application {
         mainStage.setResizable(false);
         Parent root = loadFXML("loginMenu");
         stage.setTitle("game");
-        Scene scene = new Scene(root);
+        scene = new Scene(root);
         UserController.loadUsers();
         stage.setScene(scene);
         stage.show();
@@ -72,6 +58,6 @@ public class Main extends Application {
 
     public static void changeScene(String fxmlName) throws IOException {
         Parent root = loadFXML(fxmlName);
-        mainStage.getScene().setRoot(root);
+        scene.setRoot(root);
     }
 }
