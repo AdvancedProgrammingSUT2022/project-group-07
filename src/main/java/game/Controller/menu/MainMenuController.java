@@ -17,6 +17,9 @@ import java.util.regex.Matcher;
 
 public class MainMenuController {
 
+    public Button gameMenu;
+    public Button scoreBoard;
+    public Button chatMenu;
     @FXML
     private Button back;
     @FXML
@@ -48,7 +51,7 @@ public class MainMenuController {
         playerUsers.add(UserController.getCurrentUser());
         for (String playerUsername : playerUsernames) {
             if (UserController.getUserByUsername(playerUsername) == null)
-                return "user with username " + playerUsername + " does not exist!";
+                return "user with username  " + playerUsername + " does not exist!";
             playerUsers.add(UserController.getUserByUsername(playerUsername));
         }
         gameController.setPlayers(playerUsers);
@@ -84,5 +87,15 @@ public class MainMenuController {
 
     public void goToProfile(ActionEvent actionEvent) throws IOException {
         Main.changeScene("profileMenu");
+    }
+
+    public void goToChatMenu(ActionEvent actionEvent) {
+    }
+
+    public void goToScoreBoard(ActionEvent actionEvent) {
+    }
+
+    public void goToGameMenu(ActionEvent actionEvent) throws IOException {
+        Main.changeScene("gameMenu");
     }
 }
