@@ -40,7 +40,7 @@
          </font>
       </Text>
       <ImageView fx:id="headTitle" fitHeight="71.0" fitWidth="383.0" layoutX="350.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@../assets/Civ6Logo.png" />
+         <Image url="@../assets/ExeLogo/Civ Logo.png" />
       </ImageView>
    </children>
 </AnchorPane>
