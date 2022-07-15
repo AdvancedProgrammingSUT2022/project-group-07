@@ -10,6 +10,10 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 
 import java.awt.*;
 import java.io.IOException;
@@ -74,4 +78,11 @@ public class newGameController {
     }
 
 
+    public void removeE(DragEvent dragEvent) {
+
+    }
+
+    public void addE(DragEvent dragEvent) {
+
+    }
 }
