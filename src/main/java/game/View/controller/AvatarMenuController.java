@@ -75,7 +75,6 @@ public class AvatarMenuController {
 
     public void back(ActionEvent actionEvent) throws IOException {
         Main.changeScene("profileMenu");
-        showConfirm("profile avatar successfully changed!");
     }
     public void showConfirm(String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

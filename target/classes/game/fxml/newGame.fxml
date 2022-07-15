@@ -6,8 +6,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import java.net.URL?>
 <AnchorPane prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.newGameController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.newGameController"
+            styleClass="anchorPane">
+    <stylesheets>
+        <URL value="@../css/newGamePage.css"/>
+    </stylesheets>
     <children>
         <Button fx:id="backButton" layoutX="37.0" layoutY="626.0" mnemonicParsing="false" onAction="#goBack"
                 prefHeight="49.0" prefWidth="199.0" text="Back">
@@ -21,19 +26,14 @@
                 <Font name="System Bold" size="27.0"/>
             </font>
         </Button>
-        <ListView fx:id="allPlayers" layoutX="179.0" layoutY="83.0" prefHeight="462.0" prefWidth="221.0"/>
+        <ListView fx:id="allPlayers" layoutX="179.0" layoutY="83.0" prefHeight="462.0" prefWidth="221.0"
+                  onDragDropped="#removeE"/>
         <ListView fx:id="invitedPlayers" layoutX="635.0" layoutY="83.0" prefHeight="462.0" prefWidth="235.0"/>
         <Text layoutX="215.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Players List"
-              textAlignment="CENTER" wrappingWidth="148.6708984375">
-            <font>
-                <Font size="25.0"/>
-            </font>
+              textAlignment="CENTER" wrappingWidth="148.6708984375" styleClass="font">
         </Text>
         <Text layoutX="655.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Players Invited"
-              textAlignment="CENTER">
-            <font>
-                <Font size="27.0"/>
-            </font>
+              textAlignment="CENTER" styleClass="font">
         </Text>
         <Button fx:id="addButton" layoutX="458.0" layoutY="438.0" mnemonicParsing="false" onAction="#addPlayer"
                 prefHeight="36.0" prefWidth="133.0" text="add">

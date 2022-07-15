@@ -56,6 +56,7 @@ public class ProfileMenuController {
         UserController.getCurrentUser().setAvatarFilePath(filePath.getPath());
         ImagePattern pattern = new ImagePattern(new Image(filePath.getPath()));
         this.profilePic.setImage(pattern.getImage());
+        showConfirm("profile avatar changed successfully!");
     }
 
 

@@ -30,3 +30,8 @@
     -fx-border-radius: 3px;
     -fx-text-fill: #debf09;
 }
+.font {
+    -fx-font-family: Algerian;
+    -fx-font-size: 40;
+    -fx-fill: #119b51;
+}
