@@ -35,7 +35,6 @@ public class newGameController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("no players are added!");
             alert.show();
-            Polygon polygon = new Polygon();
             return;
         }
         ArrayList<User> players = new ArrayList<>();
