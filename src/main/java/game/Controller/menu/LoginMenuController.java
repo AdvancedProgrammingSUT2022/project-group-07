@@ -1,6 +1,7 @@
 package game.Controller.menu;
 
 import game.Controller.UserController;
+import game.Controller.menu.ProfileValidation;
 import game.Enum.MenuName;
 import game.Main;
 import game.Model.User;

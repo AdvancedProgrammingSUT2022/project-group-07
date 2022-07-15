@@ -4,14 +4,17 @@ import game.Controller.UserController;
 import game.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class AvatarMenuController {
+public class AvatarMenuController implements Initializable {
     @FXML
     private ImageView photo1;
     @FXML
@@ -76,5 +79,10 @@ public class AvatarMenuController {
 
     public void back(ActionEvent actionEvent) throws IOException {
         Main.changeScene("profileMenu");
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        UserController.getCurrentUser().setAvatarFilePath(null);
     }
 }
