@@ -1,6 +1,7 @@
 package game.Controller.menu;
 
 import game.Controller.UserController;
+import game.Controller.menu.ProfileValidation;
 import game.Enum.MenuName;
 import game.Main;
 import game.Model.User;
@@ -8,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -64,9 +66,16 @@ public class ProfileMenuController implements Initializable {
         fileChooser.setTitle("choose image");
 
         this.filePath = fileChooser.showOpenDialog(stage);
-        UserController.getCurrentUser().setAvatarFilePath(filePath.getPath());
-        ImagePattern pattern = new ImagePattern(new Image(filePath.getPath()));
-        this.profilePic.setImage(pattern.getImage());
+        if (this.filePath != null) {
+            UserController.getCurrentUser().setAvatarFilePath(filePath.getPath());
+            ImagePattern pattern = new ImagePattern(new Image(filePath.getPath()));
+            this.profilePic.setImage(pattern.getImage());
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please choose an avatar!");
+            alert.show();
+        }
     }
 
     public String menuNavigation(Matcher matcher) {
