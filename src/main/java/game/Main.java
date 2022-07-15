@@ -1,16 +1,6 @@
 package game;
 
 import game.Controller.UserController;
-import game.Controller.game.GameController;
-import game.Controller.menu.GameMenuController;
-import game.Controller.menu.LoginMenuController;
-import game.Controller.menu.MainMenuController;
-import game.Controller.menu.ProfileMenuController;
-import game.Enum.MenuName;
-import game.View.GameMenu;
-import game.View.LoginMenu;
-import game.View.MainMenu;
-import game.View.ProfileMenu;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +9,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Scanner;
 
 public class Main extends Application {
 
