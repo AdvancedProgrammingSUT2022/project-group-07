@@ -24,8 +24,8 @@ public class MainMenu extends Menu{
             input = scanner.nextLine();
 
             if (MainMenuCommands.getMatcher(input , MainMenuCommands.EXIT) != null) {
-                String result = mainMenuController.exit();
-                System.out.println(result);
+//                String result = mainMenuController.exit();
+//                System.out.println(result);
             }
             else if ((matcher = MainMenuCommands.getMatcher(input , MainMenuCommands.MENU_NAVIGATION)) != null) {
                 String result = mainMenuController.menuNavigation(matcher);
@@ -34,10 +34,10 @@ public class MainMenu extends Menu{
             else if ((matcher = MainMenuCommands.getMatcher(input , MainMenuCommands.SHOW_CURRENT_MENU)) != null) {
                 System.out.println("game.Main Menu");
             }
-            else if ((matcher = MainMenuCommands.getMatcher(input , MainMenuCommands.LOGOUT)) != null) {
-                String result = mainMenuController.logout();
-                System.out.println(result);
-            }
+//            else if ((matcher = MainMenuCommands.getMatcher(input , MainMenuCommands.LOGOUT)) != null) {
+//                String result = mainMenuController.logout();
+//                System.out.println(result);
+//            }
             else if ((matcher = MainMenuCommands.getMatcher(input , MainMenuCommands.PLAY_GAME)) != null) {
                 String result = mainMenuController.playGame(matcher , gameController);
                 System.out.println(result);

@@ -4,17 +4,28 @@ import game.Controller.UserController;
 import game.Controller.game.GameController;
 import game.Controller.game.LogAndNotification.NotificationController;
 import game.Enum.MenuName;
+import game.Main;
 import game.Model.User;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 
 public class MainMenuController {
-    public String exit() {
-        MenuName.setCurrentMenu(MenuName.LOGIN_MENU);
-        return "exited to Login Menu";
-    }
+
+    public Button gameMenu;
+    public Button scoreBoard;
+    public Button chatMenu;
+    @FXML
+    private Button back;
+    @FXML
+    private Button logout;
+    @FXML
+    private Button profileMenu;
 
     public String menuNavigation(Matcher matcher) {
         String menuName = matcher.group("menuName");
@@ -30,13 +41,6 @@ public class MainMenuController {
         return "invalid command";
     }
 
-    public String logout() {
-        MenuName.setCurrentMenu(MenuName.LOGIN_MENU);
-        UserController.getCurrentUser().setLoggedIn(false);
-        UserController.setCurrentUser(null);
-        return "user logged out successfully!";
-    }
-
     public String playGame(Matcher matcher, GameController gameController) {
         String input = matcher.group();
         String[] listOfAllPlayers = input.split("--");
@@ -47,7 +51,7 @@ public class MainMenuController {
         playerUsers.add(UserController.getCurrentUser());
         for (String playerUsername : playerUsernames) {
             if (UserController.getUserByUsername(playerUsername) == null)
-                return "user with username " + playerUsername + " does not exist!";
+                return "user with username  " + playerUsername + " does not exist!";
             playerUsers.add(UserController.getUserByUsername(playerUsername));
         }
         gameController.setPlayers(playerUsers);
@@ -73,5 +77,25 @@ public class MainMenuController {
             getPlayers.put(Integer.parseInt(listOfAllPlayers[i].substring(6 , 7)) , listOfAllPlayers[i].substring(8).trim());
         }
         return getPlayers;
+    }
+
+    public void logout(ActionEvent actionEvent) throws IOException {
+        UserController.getCurrentUser().setLoggedIn(false);
+        UserController.setCurrentUser(null);
+        Main.changeScene("loginMenu");
+    }
+
+    public void goToProfile(ActionEvent actionEvent) throws IOException {
+        Main.changeScene("profileMenu");
+    }
+
+    public void goToChatMenu(ActionEvent actionEvent) {
+    }
+
+    public void goToScoreBoard(ActionEvent actionEvent) {
+    }
+
+    public void goToGameMenu(ActionEvent actionEvent) throws IOException {
+        Main.changeScene("gameMenu");
     }
 }

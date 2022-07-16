@@ -22,8 +22,8 @@ public class ProfileMenu extends Menu{
         while (MenuName.getCurrentMenu() == MenuName.PROFILE_MENU) {
             input = scanner.nextLine();
             if (ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.EXIT) != null) {
-                String result = profileMenuController.exit();
-                System.out.println(result);
+//                String result = profileMenuController.exit();
+//                System.out.println(result);
             }
             else if (ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.SHOW_CURRENT_MENU) != null){
                 System.out.println("Profile Menu");
@@ -32,15 +32,15 @@ public class ProfileMenu extends Menu{
                 String result = profileMenuController.menuNavigation(matcher);
                 System.out.println(result);
             }
-            else if ((matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.CHANGE_NICKNAME)) != null) {
-                String result = profileMenuController.changeNickname(matcher);
-                System.out.println(result);
-            }
-            else if ((matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.CHANGE_PASSWORD_1)) != null
-            || (matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.CHANGE_PASSWORD_2)) != null) {
-                String result = profileMenuController.changePassword(matcher);
-                System.out.println(result);
-            }
+//            else if ((matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.CHANGE_NICKNAME)) != null) {
+//                String result = profileMenuController.changeNickname(matcher);
+//                System.out.println(result);
+//            }
+//            else if ((matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.CHANGE_PASSWORD_1)) != null
+//            || (matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.CHANGE_PASSWORD_2)) != null) {
+//                String result = profileMenuController.changePassword(matcher);
+//                System.out.println(result);
+//            }
             else if ((matcher = ProfileMenuCommands.getMatcher(input , ProfileMenuCommands.CHANGE_USERNAME)) != null) {
                 System.out.println("you can't change your username!");
             }
