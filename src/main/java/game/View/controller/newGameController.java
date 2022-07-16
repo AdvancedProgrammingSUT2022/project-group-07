@@ -42,6 +42,7 @@ public class newGameController {
             return;
         }
         ArrayList<User> players = new ArrayList<>();
+        players.add(UserController.getCurrentUser());
         for (User user : UserController.getUsers()) {
             if (playersToStartTheGame.contains(user.getNickname()))
                 players.add(user);
