@@ -92,7 +92,8 @@ public class MainMenuController {
     public void goToChatMenu(ActionEvent actionEvent) {
     }
 
-    public void goToScoreBoard(ActionEvent actionEvent) {
+    public void goToScoreBoard(ActionEvent actionEvent) throws IOException {
+        Main.changeScene("scoreboardMenu") ;
     }
 
     public void goToGameMenu(ActionEvent actionEvent) throws IOException {

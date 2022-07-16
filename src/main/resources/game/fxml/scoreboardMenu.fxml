@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.Controller.menu.ScoreboardMenuController">
+   <VBox fx:id="vBox" prefHeight="200.0" prefWidth="286.0" />
+   <Button layoutX="530.0" layoutY="597.0" mnemonicParsing="false" onMouseClicked="#backToMainMenu" text="Back" />
+
+</AnchorPane>
