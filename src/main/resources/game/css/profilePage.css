@@ -1,11 +1,7 @@
 .anchorPane {
-    -fx-background-image: url("../assets/Backgrounds/18.png");
+    -fx-background-image: url("../assets/Backgrounds/heey.jpg");
     -fx-background-size: cover;
-}
-.font {
-    -fx-font-family: Algerian;
-    -fx-font-size: 30;
-    -fx-fill: rgba(13, 5, 108, 0.7);
+    -fx-background-color: transparent;
 }
 .button {
     -fx-background-image: url("../assets/Button_Normal.png");
@@ -44,4 +40,9 @@
 .text-field:focused{
     -fx-text-fill: #03035e;
     -fx-font-weight: bold;
+}
+.font {
+    -fx-font-family: Algerian;
+    -fx-font-size: 30;
+    -fx-fill: rgb(255, 255, 255);
 }
