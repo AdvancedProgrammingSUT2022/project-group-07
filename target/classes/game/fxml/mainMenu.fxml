@@ -1,46 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.Controller.menu.MainMenuController">
-   <children>
-      <Button fx:id="back" layoutX="39.0" layoutY="612.0" mnemonicParsing="false" onAction="#logout" prefHeight="50.0" prefWidth="134.0" text="Back">
-         <font>
-            <Font name="System Bold" size="23.0" />
-         </font>
-      </Button>
-      <Button fx:id="logout" layoutX="86.0" layoutY="324.0" mnemonicParsing="false" onAction="#logout" text="Logout">
-         <font>
-            <Font name="System Bold" size="26.0" />
-         </font>
-      </Button>
-      <Button fx:id="profileMenu" layoutX="233.0" layoutY="324.0" mnemonicParsing="false" onAction="#goToProfile" text="Profile Menu">
-         <font>
-            <Font name="System Bold" size="26.0" />
-         </font>
-      </Button>
-      <Text layoutX="418.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Main Menu">
-         <font>
-            <Font name="System Bold" size="49.0" />
-         </font>
-      </Text>
-      <Button fx:id="gameMenu" layoutX="445.0" layoutY="324.0" mnemonicParsing="false" onAction="#goToGameMenu" prefHeight="56.0" prefWidth="210.0" text="Game Menu">
-         <font>
-            <Font name="System Bold" size="26.0" />
-         </font>
-      </Button>
-      <Button fx:id="scoreBoard" layoutX="674.0" layoutY="324.0" mnemonicParsing="false" onAction="#goToScoreBoard" prefHeight="50.0" prefWidth="195.0" text="ScoreBoard">
-         <font>
-            <Font name="System Bold" size="26.0" />
-         </font>
-      </Button>
-      <Button fx:id="chatMenu" layoutX="882.0" layoutY="324.0" mnemonicParsing="false" onAction="#goToChatMenu" prefHeight="56.0" prefWidth="175.0" text="Chat Menu">
-         <font>
-            <Font name="System Bold" size="26.0" />
-         </font>
-      </Button>
-   </children>
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.MainMenuController">
+    <stylesheets>
+        <URL value="@../css/mainPage.css"/>
+    </stylesheets>
+    <children>
+        <Button fx:id="back" layoutX="290.0" layoutY="604.0" mnemonicParsing="false" onAction="#logout"
+                prefHeight="14.0" prefWidth="520.0" text="Back">
+            <font>
+                <Font name="System Bold" size="23.0"/>
+            </font>
+        </Button>
+        <Button fx:id="logout" layoutX="290.0" layoutY="533.0" mnemonicParsing="false" onAction="#logout"
+                prefHeight="56.0" prefWidth="520.0" text="Logout">
+            <font>
+                <Font name="System Bold" size="26.0"/>
+            </font>
+        </Button>
+        <Button fx:id="profileMenu" layoutX="290.0" layoutY="331.0" mnemonicParsing="false" onAction="#goToProfile"
+                prefHeight="56.0" prefWidth="520.0" text="Profile Menu">
+            <font>
+                <Font name="System Bold" size="26.0"/>
+            </font>
+        </Button>
+        <Button fx:id="gameMenu" layoutX="290.0" layoutY="264.0" mnemonicParsing="false" onAction="#goToGameMenu"
+                prefHeight="56.0" prefWidth="520.0" text="Game Menu">
+            <font>
+                <Font name="System Bold" size="26.0"/>
+            </font>
+        </Button>
+        <Button fx:id="scoreBoard" layoutX="290.0" layoutY="466.0" mnemonicParsing="false" onAction="#goToScoreBoard"
+                prefHeight="56.0" prefWidth="520.0" text="ScoreBoard">
+            <font>
+                <Font name="System Bold" size="26.0"/>
+            </font>
+        </Button>
+        <Button fx:id="chatMenu" layoutX="290.0" layoutY="399.0" mnemonicParsing="false" onAction="#goToChatMenu"
+                prefHeight="13.0" prefWidth="520.0" text="Chat Menu">
+            <font>
+                <Font name="System Bold" size="26.0"/>
+            </font>
+        </Button>
+    </children>
 </AnchorPane>
