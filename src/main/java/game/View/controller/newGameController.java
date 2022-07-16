@@ -3,6 +3,7 @@ package game.View.controller;
 import game.Controller.UserController;
 import game.Controller.game.GameController;
 import game.Main;
+import game.Model.Terrain;
 import game.Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 
 import java.awt.*;
 import java.io.IOException;
@@ -47,10 +49,10 @@ public class newGameController {
             if (playersToStartTheGame.contains(user.getNickname()))
                 players.add(user);
         }
-        GameController gameController = new GameController();
+        GameController gameController = GameController.getInstance();
         gameController.setPlayers(players);
         gameController.initialize();
-        Main.changeScene("game");
+        Main.changeScene("gamePage");
     }
 
     public void addPlayer(ActionEvent actionEvent) {
@@ -59,12 +61,14 @@ public class newGameController {
         allPlayersAvailable.remove(selectedItem);
         playersToStartTheGame.add(selectedItem);
     }
+
     public void remove(ActionEvent actionEvent) {
         String selectedItem = invitedPlayers.getSelectionModel().getSelectedItem();
         if (selectedItem == null) return;
         playersToStartTheGame.remove(selectedItem);
         allPlayersAvailable.add(selectedItem);
     }
+
     public void initialize() {
         ArrayList<User> users = UserController.getUsers();
         User current = UserController.getCurrentUser();

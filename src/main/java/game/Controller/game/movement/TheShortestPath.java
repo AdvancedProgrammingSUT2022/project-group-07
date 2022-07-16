@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class TheShortestPath {
     // TODO check in removing later
-    private static int height = GameController.getMapHeight();
-    private static int width = GameController.getMapWidth();
+    private static int height = GameController.getInstance().getMapHeight();
+    private static int width = GameController.getInstance().getMapWidth();
     private static int[][] mpMap = new int[height * width][height * width];
     private static int[][] distance = new int[height * width][height * width];
     private static int[][] nextTerrain = new int[height * width][height * width];
@@ -30,7 +30,7 @@ public class TheShortestPath {
     }
 
     private static void initializeNeighbors(int i) {
-        Terrain[][] terrain = GameController.map;
+        Terrain[][] terrain = GameController.getInstance().getMap();
         Terrain left, upLeft, upRight, right, downRight, downLeft;
         int k, s;
         if (i % width == 0) {
@@ -114,7 +114,7 @@ public class TheShortestPath {
 
     // method for FOG OF WAR
     public static ArrayList<Terrain> showPath(Location origin, Location destination) {
-        Terrain[][] terrain = GameController.map;
+        Terrain[][] terrain = GameController.getInstance().getMap();
         int start = findStartOrEnd(origin);
         int end = findStartOrEnd(destination);
 
@@ -134,7 +134,7 @@ public class TheShortestPath {
     }
 
     private static int findStartOrEnd(Location location) {
-        Terrain[][] terrain = GameController.map;
+        Terrain[][] terrain = GameController.getInstance().getMap();
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {

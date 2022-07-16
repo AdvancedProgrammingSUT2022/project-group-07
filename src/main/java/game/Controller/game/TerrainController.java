@@ -7,9 +7,9 @@ import game.Model.TerrainOutput;
 
 public class TerrainController {
     public static Terrain getTerrainByLocation(Location location) {
-        Terrain[][] terrains = GameController.getMap();
-        for (int i = 0; i < GameController.getMapHeight(); i++) {
-            for (int j = 0; j < GameController.getMapWidth(); j++) {
+        Terrain[][] terrains = GameController.getInstance().getMap();
+        for (int i = 0; i < GameController.getInstance().getMapHeight(); i++) {
+            for (int j = 0; j < GameController.getInstance().getMapWidth(); j++) {
                 if (location.getX() == terrains[i][j].getLocation().getX()
                 && location.getY() == terrains[i][j].getLocation().getY())
                     return terrains[i][j];

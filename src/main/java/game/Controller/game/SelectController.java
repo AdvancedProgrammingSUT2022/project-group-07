@@ -51,9 +51,9 @@ public class SelectController {
     }
 
     public static boolean positionIsValid(Location location) {
-        return (location.getY() <= GameController.getMapHeight()
+        return (location.getY() <= GameController.getInstance().getMapHeight()
                 && location.getY() >= 0
-                && location.getX() <= GameController.getMapWidth()
+                && location.getX() <= GameController.getInstance().getMapWidth()
                 && location.getX() >= 0);
     }
 
@@ -87,8 +87,8 @@ public class SelectController {
     public static String selectCityByLocation(Matcher matcher , final ArrayList<Civilization> civilizations){
         int x = Integer.parseInt(matcher.group("X")) ;
         int y = Integer.parseInt(matcher.group("Y")) ;
-        int width = GameController.getMapWidth() ;
-        int height = GameController.getMapHeight() ;
+        int width = GameController.getInstance().getMapWidth() ;
+        int height = GameController.getInstance().getMapHeight() ;
         if (!positionIsValid(new Location(x,y)))
             return "invalid location" ;
         for (Civilization civilization : civilizations) {
