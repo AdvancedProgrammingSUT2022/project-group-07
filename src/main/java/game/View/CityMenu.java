@@ -29,7 +29,7 @@ public class CityMenu extends Menu {
         Matcher matcher;
 
         while (true) {
-            MapController.printMap(GameController.getMap() , gameController.getCurrentCivilization() , gameController.getCivilizations());
+            MapController.printMap(GameController.getInstance().getMap() , gameController.getCurrentCivilization() , gameController.getCivilizations());
             input = scanner.nextLine();
             if (CityMenuCommands.getMatcher(input, CityMenuCommands.EXIT) != null)
                 break;
@@ -55,10 +55,13 @@ public class CityMenu extends Menu {
                 String result = CityController.showTilesOwned();
                 System.out.println(result);
             } else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.CITY_SHOW_TILES_AVAILABLE)) != null) {
-                String result = CityController.showTilesAvailable(GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
+                String result = CityController.showTilesAvailable(GameController.getInstance().getMap(),
+                        GameController.getInstance().getMapWidth(), GameController.getInstance().getMapHeight());
                 System.out.println(result);
             } else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.CITY_BUY_TILE)) != null) {
-                String result = CityController.buyTile(matcher, GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight(), gameController.getCurrentCivilization());
+                String result = CityController.buyTile(matcher, GameController.getInstance().getMap(),
+                        GameController.getInstance().getMapWidth(), GameController.getInstance().getMapHeight(),
+                        gameController.getCurrentCivilization());
                 System.out.println(result);
             }
             else if ((CityMenuCommands.getMatcher(input , CityMenuCommands.SHOW_UNEMPLOYED_CITIZENS)) != null) {

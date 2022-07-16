@@ -30,18 +30,21 @@ public class ErrorHandling {
     public static boolean canAttack(Unit unit, Location location) {
         if (unit.getTypeOfUnit().getCombatType() == CombatType.MELEE) {
             ArrayList<Terrain> neighbourTerrains = CivilizationController.getNeighbourTerrainsByRadius1(
-                    unit.getLocation(), GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight()
+                    unit.getLocation(), GameController.getInstance().getMap(), GameController.getInstance().getMapWidth()
+                    , GameController.getInstance().getMapHeight()
             );
             return neighbourTerrains.contains(TerrainController.getTerrainByLocation(location));
 
         } else {
             ArrayList<Terrain> neighbourTerrains = CivilizationController.getNeighbourTerrainsByRadius1(
-                    unit.getLocation() , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()
+                    unit.getLocation() , GameController.getInstance().getMap() , GameController.getInstance().getMapWidth()
+                    , GameController.getInstance().getMapHeight()
             );
             ArrayList<Terrain> allTerrainsInRange = new ArrayList<>(neighbourTerrains);
             for (Terrain terrain : neighbourTerrains) {
                 ArrayList<Terrain> newTerrains = CivilizationController.getNeighbourTerrainsByRadius1(
-                        terrain.getLocation() , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()
+                        terrain.getLocation() , GameController.getInstance().getMap() ,
+                        GameController.getInstance().getMapWidth() , GameController.getInstance().getMapHeight()
                 );
                 for (Terrain newTerrain : newTerrains) {
                     allTerrainsInRange.add(newTerrain);
