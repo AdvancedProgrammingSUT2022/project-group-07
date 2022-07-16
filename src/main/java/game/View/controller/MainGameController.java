@@ -55,7 +55,7 @@ public class MainGameController implements Initializable {
             );
 
             // set up the visuals and a click listener for the tile
-            setFill(new ImagePattern(new Image(getClass().getResource("/game/images/Tiles/Grassland.png").toExternalForm())));
+            setFill(new ImagePattern(new Image(getClass().getResource("/game/images/Tiles/Tundra+Forest+Camp.png").toExternalForm())));
 //            setFill(Color.ANTIQUEWHITE);
             setStrokeWidth(1);
             setStroke(Color.BLACK);
