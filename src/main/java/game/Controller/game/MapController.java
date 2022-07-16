@@ -261,6 +261,7 @@ public class MapController {
         for (int y=0 ; y<mapHeight ; y++){
             for (int x=0 ; x<mapWidth ; x++){
                 TypeOfTerrain typeOfTerrainUsed = generateTypeOfTerrain(new Location(x,y)) ;
+
                 TerrainFeatures typeOfTerrainFeatureUsed = generateTypeOfTerrainFeature(typeOfTerrainUsed);
                 Resources resources = generateResources(typeOfTerrainUsed , typeOfTerrainFeatureUsed);
                 Tile tile = TileController.createTile(typeOfTerrainUsed , typeOfTerrainFeatureUsed , x , y);
