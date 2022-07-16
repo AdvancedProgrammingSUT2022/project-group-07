@@ -32,6 +32,37 @@
 }
 .font {
     -fx-font-family: Algerian;
-    -fx-font-size: 30;
-    -fx-fill: white;
+    -fx-font-size: 40;
+    -fx-fill: #119b51;
+}
+.list-view {
+    -fx-text-alignment: center;
+    -fx-text-fill: #203f04;
+    -fx-font-weight: bold;
+    -fx-font-family: Century;
+    -fx-font-size: 25;
+    -fx-opacity: 75%;
+    -fx-background-image: url("../assets/Background_A.png");
+    -fx-background-size: cover;
+
+}
+.list-view:odd {
+    -fx-text-alignment: center;
+}
+.list-view:even {
+    -fx-text-alignment: center;
+
+}
+#allPlayers .list-cell {
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-text-fill: #426b26;
+    -fx-padding: 10px;
+}
+#invitedPlayers .list-cell {
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-text-fill: #426b26;
+    -fx-padding: 10px;
+
 }
