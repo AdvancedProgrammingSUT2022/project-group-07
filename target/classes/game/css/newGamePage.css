@@ -51,6 +51,7 @@
 }
 .list-view:even {
     -fx-text-alignment: center;
+
 }
 #allPlayers .list-cell {
     -fx-alignment: center;

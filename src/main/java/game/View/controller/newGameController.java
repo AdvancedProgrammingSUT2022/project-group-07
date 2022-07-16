@@ -34,7 +34,7 @@ public class newGameController {
         Main.changeScene("gameMenu");
     }
 
-    public void start(ActionEvent actionEvent) {
+    public void start(ActionEvent actionEvent) throws IOException {
         if (playersToStartTheGame.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("no players are added!");
@@ -50,6 +50,7 @@ public class newGameController {
         GameController gameController = new GameController();
         gameController.setPlayers(players);
         gameController.initialize();
+        Main.changeScene("game");
     }
 
     public void addPlayer(ActionEvent actionEvent) {

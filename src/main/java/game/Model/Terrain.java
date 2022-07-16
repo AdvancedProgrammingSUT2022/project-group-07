@@ -5,6 +5,7 @@ import game.Enum.TerrainFeatures;
 import game.Enum.Resources;
 import game.Enum.RiverSide;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Terrain {
