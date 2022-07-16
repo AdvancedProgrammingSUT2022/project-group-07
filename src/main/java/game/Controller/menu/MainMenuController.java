@@ -89,7 +89,8 @@ public class MainMenuController {
         Main.changeScene("profileMenu");
     }
 
-    public void goToChatMenu(ActionEvent actionEvent) {
+    public void goToChatMenu(ActionEvent actionEvent) throws IOException {
+        Main.changeScene("chatRoomPage");
     }
 
     public void goToScoreBoard(ActionEvent actionEvent) throws IOException {

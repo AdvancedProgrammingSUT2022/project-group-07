@@ -3,8 +3,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.Controller.menu.ScoreboardMenuController">
-   <VBox fx:id="vBox" prefHeight="200.0" prefWidth="286.0" />
-   <Button layoutX="530.0" layoutY="597.0" mnemonicParsing="false" onMouseClicked="#backToMainMenu" text="Back" />
-
-</AnchorPane>
+<BorderPane fx:id="borderPane"
+        prefHeight="700.0" prefWidth="1100.0"
+            xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="game.Controller.menu.fxmlControllers.ScoreboardMenuController">
+    <center>
+        <ScrollPane styleClass="scroll-bar" fx:id="scrollPane">
+            <VBox fx:id="listVBox">
+            </VBox>
+        </ScrollPane>
+    </center>
+    <bottom>
+      <Button styleClass="button" fx:id="backButton"
+              contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#backToMainMenu" text="Back" textAlignment="CENTER" BorderPane.alignment="CENTER" />
+    </bottom>
+</BorderPane>

@@ -1,56 +1,40 @@
 BorderPane{
-    -fx-font-family: Impact;
-    -fx-background-color: White;
+    -fx-font-family: "B Nazanin";
 }
 
 ScrollPane{
-    -fx-background-color: White;
-    -fx-fit-to-width: true;
     -fx-alignment: center;
+    -fx-text-alignment: center;
 }
 
 Label{
-    -fx-pref-width: 200;
-    -fx-pref-height: 75;
-    -fx-background-color: lightgray;
+    -fx-pref-width: 120;
+    -fx-pref-height: 40;
     -fx-text-fill: Black;
     -fx-alignment: center;
     -fx-text-alignment: center;
-    -fx-background-radius: 100;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+
+    -fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
 }
 
+.logginedLabel {
+    -fx-border-width: 2;
+    -fx-border-style: dotted;
+}
 
 HBox{
+    -fx-pref-width: 1000;
+    -fx-max-width: 1100;
     -fx-alignment: center;
     -fx-text-alignment: center;
-    -fx-font-size: 25;
-}
-
-Button{
     -fx-font-size: 20;
-    -fx-text-alignment: center;
-    -fx-text-fill: black;
-    -fx-alignment: center;
-    -fx-pref-width: 200;
-    -fx-pref-height: 40;
-    -fx-opacity: 70%;
-    -fx-background-color: white;
-    -fx-border-width: 1;
-    -fx-border-radius: 8;
-    -fx-border-color: black;
-    -fx-spacing: 20;
+    -fx-fit-to-width: true;
 }
 
-Button:hover{
-    -fx-opacity: 100%;
-    -fx-border-color: black;
-    -fx-text-fill: white;
-    -fx-background-color: black;
-    -fx-background-radius: 8;
-}
-
-
-.scroll-bar:horizontal .track,
 .scroll-bar:vertical .track{
     -fx-background-color :transparent;
     -fx-border-color :transparent;
@@ -58,21 +42,11 @@ Button:hover{
     -fx-border-radius :2.0;
 }
 
-
-.scroll-bar:horizontal .increment-button ,
-.scroll-bar:horizontal .decrement-button {
-    -fx-background-color :transparent;
-    -fx-background-radius : 0.0em;
-    -fx-padding :0.0 0.0 10.0 0.0;
-
-}
-
 .scroll-bar:vertical .increment-button ,
 .scroll-bar:vertical .decrement-button {
     -fx-background-color :transparent;
     -fx-background-radius : 0.0em;
     -fx-padding :0.0 10.0 0.0 0.0;
-
 }
 
 .scroll-bar .increment-arrow,
@@ -87,16 +61,14 @@ Button:hover{
     -fx-padding :0.0 0.15em;
 }
 
-.scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {
-    -fx-background-color :derive(black,90.0%);
+    -fx-background-color : gray ;
     -fx-background-insets : 2.0, 0.0, 0.0;
     -fx-background-radius : 2.0em;
 }
 
-.scroll-bar:horizontal .thumb:hover,
 .scroll-bar:vertical .thumb:hover {
-    -fx-background-color :derive(#4D4C4F,10.0%);
+    -fx-background-color :black ;
     -fx-background-insets : 2.0, 0.0, 0.0;
     -fx-background-radius : 2.0em;
 }
