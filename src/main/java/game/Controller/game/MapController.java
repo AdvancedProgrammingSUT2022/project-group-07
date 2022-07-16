@@ -259,6 +259,7 @@ public class MapController {
         for (int y=0 ; y<mapHeight ; y++){
             for (int x=0 ; x<mapWidth ; x++){
                 TypeOfTerrain typeOfTerrainUsed = generateTypeOfTerrain(new Location(x,y)) ;
+
                 TerrainFeatures typeOfTerrainFeatureUsed = generateTypeOfTerrainFeature(typeOfTerrainUsed);
                 Resources resources = generateResources(typeOfTerrainUsed , typeOfTerrainFeatureUsed);
                 map[y][x] = new Terrain(typeOfTerrainUsed , typeOfTerrainFeatureUsed , resources , new Location(x,y) , null) ;
