@@ -4,6 +4,7 @@ import game.Enum.TypeOfTerrain;
 import game.Enum.TerrainFeatures;
 import game.Enum.Resources;
 import game.Enum.RiverSide;
+import game.View.components.Tile;
 
 import java.util.ArrayList;
 
@@ -18,18 +19,20 @@ public class Terrain {
     private boolean hasRailRoad;
     private boolean hasRoad;
     private boolean pillaged;
+    private Tile tile;
 
-    private ArrayList<RiverSide> riverSides ;
+
+    private ArrayList<RiverSide> riverSides;
 
     public Terrain(TypeOfTerrain typeOfTerrain, TerrainFeatures terrainFeatures,
-                   Resources resource, Location location, Improvement improvement) {
+                   Resources resource, Location location, Tile tile) {
         this.typeOfTerrain = typeOfTerrain;
         this.terrainFeatures = terrainFeatures;
         this.resources = resource;
         this.location = location;
-        this.improvement = improvement;
         this.riverSides = new ArrayList<RiverSide>();
         this.mp = typeOfTerrain.getMpNeeded();
+        this.tile = tile;
         if (terrainFeatures != null)
             this.mp += terrainFeatures.getMp();
     }
@@ -62,11 +65,11 @@ public class Terrain {
         this.mp = mp;
     }
 
-    public int getPrice(){
-        int price = terrainFeatures!=null ? 5 : 0 ;
+    public int getPrice() {
+        int price = terrainFeatures != null ? 5 : 0;
         if (resources != null) price += 5;
-        price += 5 ;
-        return price ;
+        price += 5;
+        return price;
     }
 
     public void setTerrainFeatures(TerrainFeatures terrainFeatures) {
@@ -97,14 +100,14 @@ public class Terrain {
         this.hasRoad = hasRoad;
     }
 
-    public void setRiverSides(ArrayList<RiverSide> terrainRiverSides){
+    public void setRiverSides(ArrayList<RiverSide> terrainRiverSides) {
         for (RiverSide terrainRiverSide : terrainRiverSides) {
             if (!this.riverSides.contains(terrainRiverSide))
                 this.riverSides.add(terrainRiverSide);
         }
     }
 
-    public void addRiverSide (RiverSide riverSide){
+    public void addRiverSide(RiverSide riverSide) {
         if (this.riverSides.contains(riverSide))
             this.riverSides.add(riverSide);
     }
@@ -123,5 +126,13 @@ public class Terrain {
 
     public void setPillaged(boolean pillaged) {
         this.pillaged = pillaged;
+    }
+
+    public Tile getTile() {
+        return tile;
+    }
+
+    public void setTile(Tile tile) {
+        this.tile = tile;
     }
 }

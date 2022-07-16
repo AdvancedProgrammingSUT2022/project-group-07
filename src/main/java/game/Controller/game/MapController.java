@@ -6,7 +6,9 @@ import game.Enum.TypeOfTerrain ;
 import game.Enum.TerrainFeatures ;
 import game.Enum.MapDimension;
 import game.Enum.RiverSide;
+import game.View.components.Tile;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -261,7 +263,8 @@ public class MapController {
                 TypeOfTerrain typeOfTerrainUsed = generateTypeOfTerrain(new Location(x,y)) ;
                 TerrainFeatures typeOfTerrainFeatureUsed = generateTypeOfTerrainFeature(typeOfTerrainUsed);
                 Resources resources = generateResources(typeOfTerrainUsed , typeOfTerrainFeatureUsed);
-                map[y][x] = new Terrain(typeOfTerrainUsed , typeOfTerrainFeatureUsed , resources , new Location(x,y) , null) ;
+                Tile tile = TileController.createTile(typeOfTerrainUsed , typeOfTerrainFeatureUsed , x , y);
+                map[y][x] = new Terrain(typeOfTerrainUsed , typeOfTerrainFeatureUsed , resources , new Location(x,y) , tile) ;
             }
         }
         generateRivers();

@@ -20,10 +20,10 @@ public class NonCombatUnitController {
 
 
     public static Terrain isJungleHere(Location location) {
-        Terrain[][] terrain = GameController.map;
+        Terrain[][] terrain = GameController.getInstance().getMap();
 
-        for (int i = 0; i < GameController.getMapHeight(); i++) {
-            for (int j = 0; j < GameController.getMapWidth(); j++) {
+        for (int i = 0; i < GameController.getInstance().getMapHeight(); i++) {
+            for (int j = 0; j < GameController.getInstance().getMapWidth(); j++) {
                 if (terrain[i][j].getLocation().getX() == location.getX()
                         && terrain[i][j].getLocation().getY() == location.getY()
                         && terrain[i][j].getTerrainFeatures() == TerrainFeatures.JUNGLE)
@@ -34,10 +34,10 @@ public class NonCombatUnitController {
     }
 
     public static Terrain isForestHere(Location location) {
-        Terrain[][] terrain = GameController.map;
+        Terrain[][] terrain = GameController.getInstance().getMap();
 
-        for (int i = 0; i < GameController.getMapHeight(); i++) {
-            for (int j = 0; j < GameController.getMapWidth(); j++) {
+        for (int i = 0; i < GameController.getInstance().getMapHeight(); i++) {
+            for (int j = 0; j < GameController.getInstance().getMapWidth(); j++) {
                 if (terrain[i][j].getLocation().getX() == location.getX()
                         && terrain[i][j].getLocation().getY() == location.getY()
                         && terrain[i][j].getTerrainFeatures() == TerrainFeatures.FOREST)
@@ -48,10 +48,10 @@ public class NonCombatUnitController {
     }
 
     public static Terrain isRouteHere(Location location) {
-        Terrain[][] terrain = GameController.map;
+        Terrain[][] terrain = GameController.getInstance().getMap();
 
-        for (int i = 0; i < GameController.getMapHeight(); i++) {
-            for (int j = 0; j < GameController.getMapWidth(); j++) {
+        for (int i = 0; i < GameController.getInstance().getMapHeight(); i++) {
+            for (int j = 0; j < GameController.getInstance().getMapWidth(); j++) {
                 if (terrain[i][j].getLocation().getX() == location.getX()
                         && terrain[i][j].getLocation().getY() == location.getY()
                         && (terrain[i][j].hasRailRoad()
@@ -63,10 +63,10 @@ public class NonCombatUnitController {
     }
 
     public static Terrain isMarshHere(Location location) {
-        Terrain[][] terrain = GameController.map;
+        Terrain[][] terrain = GameController.getInstance().getMap();
 
-        for (int i = 0; i < GameController.getMapHeight(); i++) {
-            for (int j = 0; j < GameController.getMapWidth(); j++) {
+        for (int i = 0; i < GameController.getInstance().getMapHeight(); i++) {
+            for (int j = 0; j < GameController.getInstance().getMapWidth(); j++) {
                 if (terrain[i][j].getLocation().getX() == location.getX()
                         && terrain[i][j].getLocation().getY() == location.getY()
                         && terrain[i][j].getTerrainFeatures() == TerrainFeatures.MARSH)
