@@ -36,34 +36,34 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //
-        AnchorPane tileMap = new AnchorPane();
-        Scene content = new Scene(tileMap, 1100, 700);
+//        AnchorPane tileMap = new AnchorPane();
+//        Scene content = new Scene(tileMap, 1100, 700);
         //
         mainStage = stage;
         mainStage.setResizable(false);
-//        Parent root = loadFXML("loginMenu");
+        Parent root = loadFXML("loginMenu");
         stage.setTitle("game");
-//        scene = new Scene(root);
+        scene = new Scene(root);
         UserController.loadUsers();
-//        stage.setScene(scene);
-        stage.setScene(content);
+        stage.setScene(scene);
+//        stage.setScene(content);
         //
-        int rowCount = 5; // row
-        int tilesPerRow = 5; // column
-        int xStartOffset = 400; // to right
-        int yStartOffset = 200; // to down
-
-        for (int x = 0; x < tilesPerRow; x++) {
-            for (int y = 0; y < rowCount; y++) {
-                double xCoord = x * TILE_WIDTH + (y % 2) * n + xStartOffset;
-                double yCoord = y * TILE_HEIGHT * 0.75 + yStartOffset;
-
-                Polygon tile = new Tile(xCoord, yCoord);
-                if (xCoord % 2 == 0)
-                    tile.setFill(new ImagePattern(new Image(getClass().getResource("/game/images/avatars/2.png").toExternalForm())));
-                tileMap.getChildren().add(tile);
-            }
-        }
+//        int rowCount = 5; // row
+//        int tilesPerRow = 5; // column
+//        int xStartOffset = 400; // to right
+//        int yStartOffset = 200; // to down
+//
+//        for (int x = 0; x < tilesPerRow; x++) {
+//            for (int y = 0; y < rowCount; y++) {
+//                double xCoord = x * TILE_WIDTH + (y % 2) * n + xStartOffset;
+//                double yCoord = y * TILE_HEIGHT * 0.75 + yStartOffset;
+//
+//                Polygon tile = new Tile(xCoord, yCoord);
+//                if (xCoord % 2 == 0)
+//                    tile.setFill(new ImagePattern(new Image(getClass().getResource("/game/images/avatars/2.png").toExternalForm())));
+//                tileMap.getChildren().add(tile);
+//            }
+//        }
         //
 
 

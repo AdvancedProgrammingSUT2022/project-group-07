@@ -32,6 +32,6 @@
 }
 .font {
     -fx-font-family: Algerian;
-    -fx-font-size: 30;
-    -fx-fill: white;
+    -fx-font-size: 40;
+    -fx-fill: #119b51;
 }
