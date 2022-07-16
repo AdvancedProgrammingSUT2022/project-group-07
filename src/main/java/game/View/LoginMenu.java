@@ -21,8 +21,6 @@ public class LoginMenu extends Menu{
         while (MenuName.getCurrentMenu() == MenuName.LOGIN_MENU) {
             input = scanner.nextLine();
             if (LoginMenuCommands.getMatcher(input , LoginMenuCommands.EXIT) != null) {
-                String result = loginMenuController.exit();
-                System.out.println(result);
             }
             else if (LoginMenuCommands.getMatcher(input , LoginMenuCommands.SHOW_CURRENT_MENU) != null){
                 System.out.println("Login Menu");
@@ -33,21 +31,21 @@ public class LoginMenu extends Menu{
             }
             // create user :
 
-            else if ((matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.CREATE_USER_1)) != null
-            || (matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.CREATE_USER_2)) != null
-            || (matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.CREATE_USER_3)) != null
-            || (matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.CREATE_USER_4)) != null
-            || (matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.CREATE_USER_5)) != null
-            || (matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.CREATE_USER_6)) != null) {
-                String result = loginMenuController.createUser(matcher);
-                System.out.println(result);
-            }
+//            else if ((matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.CREATE_USER_1)) != null
+//            || (matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.CREATE_USER_2)) != null
+//            || (matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.CREATE_USER_3)) != null
+//            || (matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.CREATE_USER_4)) != null
+//            || (matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.CREATE_USER_5)) != null
+//            || (matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.CREATE_USER_6)) != null) {
+//                String result = loginMenuController.createUser(matcher);
+//                System.out.println(result);
+//            }
             // login :
 
             else if ((matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.LOGIN_1)) != null
             || (matcher = LoginMenuCommands.getMatcher(input , LoginMenuCommands.LOGIN_2)) != null) {
-                String result = loginMenuController.login(matcher);
-                System.out.println(result);
+//                String result = loginMenuController.login(matcher);
+//                System.out.println(result);
             }
             else System.out.println("invalid command from ayoub");
         }
