@@ -31,7 +31,7 @@ public class Main extends Application {
         stage.show();
     }
 
-    private static Parent loadFXML(String name){
+    public static Parent loadFXML(String name){
         try {
             URL address = new URL(Main.class.getResource("/game/fxml/" + name + ".fxml").toExternalForm());
             return FXMLLoader.load(address);
@@ -48,5 +48,15 @@ public class Main extends Application {
     public static void changeScene(String fxmlName) throws IOException {
         Parent root = loadFXML(fxmlName);
         scene.setRoot(root);
+    }
+
+    public static void loadNewStage (String stageTitle , String fxmlName){
+        Stage newStage = new Stage();
+        newStage.setTitle(stageTitle);
+        Parent root = loadFXML(fxmlName);
+        assert root != null;
+        scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.show();
     }
 }

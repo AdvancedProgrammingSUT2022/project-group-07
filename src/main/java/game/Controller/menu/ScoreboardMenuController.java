@@ -1,4 +1,4 @@
-package game.Controller.menu.fxmlControllers;
+package game.Controller.menu;
 
 import game.Controller.UserController;
 import game.Main;

@@ -1,17 +1,13 @@
-package game.Controller.menu.fxmlControllers;
+package game.Controller.menu.ChatControllers;
 
 import game.Controller.Chat.ChatGroup;
 import game.Controller.Chat.MessageController;
 import game.Controller.UserController;
 import game.Model.User;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -24,7 +20,7 @@ public class roomChatController implements Initializable {
 
     private static ArrayList<User> users = UserController.getUsers();
     private static Stage stage ;
-    private static chatRoomController updater ;
+    private static ChatMenuController updater ;
 
     public TextField roomName;
     public Button closeBtn;
@@ -36,7 +32,7 @@ public class roomChatController implements Initializable {
         roomChatController.stage = stage;
     }
 
-    public static void setUpdater(chatRoomController chatRoomController) {
+    public static void setUpdater(ChatMenuController chatRoomController) {
         updater = chatRoomController ;
     }
 
@@ -47,8 +43,8 @@ public class roomChatController implements Initializable {
         for (int i=0 ; i<gridPane.getRowCount() ; i++){
             for (int j=0 ; j<gridPane.getColumnCount() ; j++){
                 if (counter>=users.size() )
-                    continue;
-                checkBoxes.add(new CheckBox(users.get(i).getUsername()));
+                    return;
+                checkBoxes.add(new CheckBox(users.get(counter).getUsername()));
                 gridPane.add(checkBoxes.get(checkBoxes.size()-1) , j , i);
                 counter++ ;
             }

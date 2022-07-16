@@ -1,28 +1,30 @@
-package game.Controller.menu.fxmlControllers;
+package game.Controller.menu.ChatControllers;
 
-import game.Controller.Chat.ChatGroup;
-import game.Controller.Chat.Message;
-import game.Controller.Chat.MessageController;
-import game.Controller.Chat.MessageType;
+import game.Controller.Chat.*;
 import game.Controller.UserController;
+import game.Main;
 import game.Model.User;
 import game.tempMain;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class chatRoomController implements Initializable {
+public class ChatMenuController implements Initializable {
 
     ArrayList<ChatGroup> chatGroups ;
 
@@ -34,10 +36,19 @@ public class chatRoomController implements Initializable {
     public VBox chatBoxVBox;
     public TextArea messageTextField;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        updateData();
+    }
+
     public void sendMessage() {
         String messageTextFieldText = messageTextField.getText();
-        if (messageTextFieldText.isEmpty())
+        if (messageTextFieldText.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please use at least one character as your message body !");
+            alert.show();
             return;
+        }
 
         String audienceUsername = currentAudience==null ? "Greater Good" : currentAudience.getUsername();
         Message message = new Message(UserController.getCurrentUser().getUsername()
@@ -67,16 +78,29 @@ public class chatRoomController implements Initializable {
     public void updateData (){
         chatOptionVBox.getChildren().clear();
 
+        // getting all users
         UserController.loadUsers();
+        ArrayList<User> users = UserController.getUsers();
 
+        // loading messages and chat groups
         MessageController.loadMessages();
-
         MessageController.loadChatGroups();
         chatGroups = MessageController.getChatGroups();
 
-        ArrayList<User> users = UserController.getUsers();
-
         // public chat button
+        createPublicChatButton();
+
+        // user chat buttons
+        for (User user : users)
+            createUserChatButton(user);
+
+        // chat room buttons
+        for (ChatGroup chatGroup : chatGroups)
+            createChatGroupButton(chatGroup);
+
+    }
+
+    public void createPublicChatButton (){
         Button publicChatButton = new Button("Public Chat");
         publicChatButton.setOnMouseClicked(mouseEvent -> {
             currentAudience = null ;
@@ -84,37 +108,28 @@ public class chatRoomController implements Initializable {
             loadMessages(MessageController.getPublicMessages());
         });
         chatOptionVBox.getChildren().add(publicChatButton);
-
-        // user chat buttons
-        for (User user : users) {
-            if (user.equals(UserController.getCurrentUser()))
-                continue;
-            Button button = new Button(user.getUsername());
-            button.setOnMouseClicked(mouseEvent -> {
-                currentAudience = user ;
-                messageType = MessageType.PRIVATE ;
-                loadMessages(MessageController.getMessages(UserController.getCurrentUser() , currentAudience));
-            });
-            chatOptionVBox.getChildren().add(button);
-        }
-
-        // chat room buttons
-        for (ChatGroup chatGroup : chatGroups) {
-            Button button = new Button(chatGroup.getName());
-            button.setOnMouseClicked(mouseEvent -> {
-                currentChatGroup = chatGroup ;
-                messageType = MessageType.GROUP ;
-                loadMessages(chatGroup.getMessages());
-            });
-            chatOptionVBox.getChildren().add(button);
-        }
-
     }
 
+    public void createUserChatButton (User user){
+        if (user.equals(UserController.getCurrentUser()))
+            return;
+        Button button = new Button(user.getUsername());
+        button.setOnMouseClicked(mouseEvent -> {
+            currentAudience = user ;
+            messageType = MessageType.PRIVATE ;
+            loadMessages(MessageController.getMessages(UserController.getCurrentUser() , currentAudience));
+        });
+        chatOptionVBox.getChildren().add(button);
+    }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        updateData();
+    public void createChatGroupButton (ChatGroup chatGroup){
+        Button button = new Button(chatGroup.getName());
+        button.setOnMouseClicked(mouseEvent -> {
+            currentChatGroup = chatGroup ;
+            messageType = MessageType.GROUP ;
+            loadMessages(chatGroup.getMessages());
+        });
+        chatOptionVBox.getChildren().add(button);
     }
 
     public void loadMessages (ArrayList<Message> messages){
@@ -132,24 +147,26 @@ public class chatRoomController implements Initializable {
             }
 
             messageHBox.getChildren().add(new Label(message.getMessage()));
+            message.setSeen();
 
-            Button button = new Button("get Message data");
-            button.setOnMouseClicked(mouseEvent -> System.out.println(message));
-            button.setStyle("background-color: Transparent; background-repeat:no-repeat; border: none;");
+            Button editButton = new Button("\uD83D\uDD8A");
+            editButton.setOnMouseClicked(mouseEvent -> openEditMessageWindow(message));
 
-            messageHBox.getChildren().add(button);
+            messageHBox.getChildren().add(editButton);
             chatBoxVBox.getChildren().add(messageHBox) ;
         }
     }
 
-    public void createNewRoom() {
-        Stage stage = new Stage();
-        Parent root = tempMain.loadFXML("roomUserSelectionPage");
-        assert root != null;
-        roomChatController.setStage(stage);
-        roomChatController.setUpdater(this);
-        stage.setScene(new Scene(root));
-        stage.show();
+    public void openEditMessageWindow(Message message){
+        MessageController.setLastMessageToAttend(message);
+        Main.loadNewStage("Edit message" , "editMessageWindow");
     }
 
+    public void createNewRoom() {
+        Main.loadNewStage("new room" , "createNewChatGroupPage");
+    }
+
+    public void backToMainMenu() throws IOException {
+        Main.changeScene("mainMenu");
+    }
 }

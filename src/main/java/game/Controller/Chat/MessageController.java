@@ -15,6 +15,8 @@ public class MessageController {
     private static ArrayList<Message> messages = new ArrayList<>() ;
     private static ArrayList<ChatGroup> chatGroups = new ArrayList<>();
 
+    private static Message lastMessageToAttend ;
+
     public static void loadMessages (){
         try {
             ArrayList<Message> messageArrayList = new ArrayList<>();
@@ -41,6 +43,7 @@ public class MessageController {
 
     public static void addMessage (Message message){
         messages.add(message);
+        message.setSent();
     }
 
     public static void removeMessage (Message message){
@@ -105,5 +108,13 @@ public class MessageController {
                 out.add(message);
         }
         return out;
+    }
+
+    public static void setLastMessageToAttend(Message lastMessageToAttend) {
+        MessageController.lastMessageToAttend = lastMessageToAttend;
+    }
+
+    public static Message getLastMessageToAttend() {
+        return lastMessageToAttend;
     }
 }

@@ -6,7 +6,7 @@
 <BorderPane fx:id="borderPane"
         prefHeight="700.0" prefWidth="1100.0"
             xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="game.Controller.menu.fxmlControllers.ScoreboardMenuController">
+            fx:controller="game.Controller.menu.ScoreboardMenuController">
     <center>
         <ScrollPane styleClass="scroll-bar" fx:id="scrollPane">
             <VBox fx:id="listVBox">
