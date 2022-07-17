@@ -42,7 +42,6 @@ public class Tile extends Polygon {
         }
 
     public void setBackground(String addressType, String addressTypeFeature) {
-        StackPane stackPane = new StackPane();
         URL address = getClass().getResource("/game/assets/civAsset/map/Tiles/terrainsAndFeatures/" + addressTypeFeature);
         if (address == null)
             setFill(new ImagePattern((new Image(getClass().getResource("/game/assets/civAsset/map/Tiles/terrainsAndFeatures/"
