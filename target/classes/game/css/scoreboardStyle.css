@@ -1,0 +1,114 @@
+.anchorPane{
+    -fx-font-family: "B Nazanin";
+    -fx-background-image: url("../assets/Backgrounds/scoreboard.jpg");
+    -fx-background-size: cover;
+}
+
+ScrollPane{
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+
+Label{
+    -fx-pref-width: 120;
+    -fx-pref-height: 40;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-padding: 10px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 10px;
+    -fx-font-family: Algerian;
+    -fx-font-size: 18;
+    -fx-fill: white;
+}
+
+.logginedLabel {
+    -fx-border-width: 2;
+    -fx-border-style: dotted;
+    -fx-border-color: white;
+}
+
+HBox{
+    -fx-pref-width: 1000;
+    -fx-max-width: 1100;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-font-size: 20;
+    -fx-fit-to-width: true;
+    -fx-background-image: url("../assets/Background_A.png");
+    -fx-background-size: cover;
+}
+
+.scroll-bar:vertical .track{
+    -fx-background-color :transparent;
+    -fx-border-color :transparent;
+    -fx-background-radius : 0.0;
+    -fx-border-radius :2.0;
+}
+
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 10.0 0.0 0.0;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow{
+    -fx-shape : " ";
+    -fx-padding :0.15em 0.0;
+}
+
+.scroll-bar:vertical .increment-arrow,
+.scroll-bar:vertical .decrement-arrow{
+    -fx-shape : " ";
+    -fx-padding :0.0 0.15em;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color : gray ;
+    -fx-background-insets : 2.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color : #041c72;
+    -fx-background-insets : 2.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+.button {
+    -fx-background-image: url("../assets/Button_Normal.png");
+    -fx-background-size:  100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-pref-height: 22;
+    -fx-font-size: 18;
+    -fx-font-family: "B Nazanin";
+    -fx-text-fill: #000000;
+    -fx-opacity: 80%;
+}
+.button:hover {
+    -fx-background-image: url("../assets/Button_Down.png");
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+}
+.button:pressed{
+    -fx-background-image: url("../assets/Button_Selected.png");
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-border-color: #0dd214;
+    -fx-border-radius: 3px;
+    -fx-text-fill: #debf09;
+}
+.font {
+    -fx-font-family: Algerian;
+    -fx-font-size: 30;
+    -fx-fill: rgba(13, 5, 108, 0.7);
+}

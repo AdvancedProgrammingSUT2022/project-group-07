@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.GameMenuController">
+    <stylesheets>
+        <URL value="@../css/gamePage.css" />
+    </stylesheets>
+    <children>
+        <Button fx:id="back" layoutX="344.0" layoutY="445.0" mnemonicParsing="false" onAction="#back" prefHeight="43.0" prefWidth="401.0" text="Back">
+            <font>
+                <Font name="System Bold" size="27.0" />
+            </font>
+         <tooltip>
+            <Tooltip text="go back to Main Menu" />
+         </tooltip>
+        </Button>
+        <Button fx:id="newGame" layoutX="344.0" layoutY="197.0" mnemonicParsing="false" onAction="#newGame" prefHeight="57.0" prefWidth="401.0" text="New Game">
+            <font>
+                <Font name="System Bold" size="26.0" />
+            </font>
+         <tooltip>
+            <Tooltip text="starting a new game" />
+         </tooltip>
+        </Button>
+        <Button fx:id="loadGame" layoutX="344.0" layoutY="277.0" mnemonicParsing="false" onAction="#loadGame" prefHeight="57.0" prefWidth="401.0" text="Load Game">
+            <font>
+                <Font name="System Bold" size="26.0" />
+            </font>
+         <tooltip>
+            <Tooltip text="loading a saved game" />
+         </tooltip>
+        </Button>
+        <Button fx:id="playOnline" layoutX="344.0" layoutY="358.0" mnemonicParsing="false" onAction="#playOnline" prefHeight="57.0" prefWidth="401.0" text="Play Online">
+            <font>
+                <Font name="System Bold" size="26.0" />
+            </font>
+         <tooltip>
+            <Tooltip text="playing online with friends" />
+         </tooltip>
+        </Button>
+    </children>
+</AnchorPane>
