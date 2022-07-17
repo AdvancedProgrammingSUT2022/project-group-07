@@ -12,6 +12,8 @@ public class gamePageController {
         for (Terrain[] terrain : terrains) {
             for (Terrain terrain1 : terrain) {
                 game.getChildren().add(terrain1.getTile());
+                if (terrain1.getTile().getFeature() != null)
+                    game.getChildren().add(terrain1.getTile().getFeature());
             }
         }
     }
