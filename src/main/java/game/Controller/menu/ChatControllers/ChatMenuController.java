@@ -5,6 +5,7 @@ import game.Controller.UserController;
 import game.Main;
 import game.Model.User;
 import game.tempMain;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.NodeOrientation;
@@ -32,20 +33,43 @@ public class ChatMenuController implements Initializable {
     ChatGroup currentChatGroup ;
     MessageType messageType ;
 
+    boolean exit ;
+
     public VBox chatOptionVBox;
     public VBox chatBoxVBox;
     public TextArea messageTextField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        messageType = MessageType.PUBLIC ;
+        exit = false ;
         updateData();
+
+        Thread thread = new Thread(() -> {
+            Runnable updater = () -> {
+                switch (messageType){
+                    case PRIVATE -> loadMessages(MessageController.getMessages(UserController.getCurrentUser() , currentAudience));
+                    case GROUP -> loadMessages(currentChatGroup.getMessages());
+                    default -> loadMessages(MessageController.getPublicMessages());
+                }
+            } ;
+            while (!exit) {
+                Platform.runLater(updater);
+                try {Thread.sleep(250);}
+                catch (InterruptedException ignored) {}
+            }
+        });
+        // don't let thread prevent JVM shutdown
+        thread.setDaemon(true);
+        thread.start();
+
     }
 
     public void sendMessage() {
         String messageTextFieldText = messageTextField.getText();
         if (messageTextFieldText.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Please use at least one character as your message body !");
+            alert.setContentText("Message body can't be empty !");
             alert.show();
             return;
         }
@@ -79,11 +103,9 @@ public class ChatMenuController implements Initializable {
         chatOptionVBox.getChildren().clear();
 
         // getting all users
-        UserController.loadUsers();
         ArrayList<User> users = UserController.getUsers();
 
-        // loading messages and chat groups
-        MessageController.loadMessages();
+        // loading chat groups
         MessageController.loadChatGroups();
         chatGroups = MessageController.getChatGroups();
 
@@ -105,7 +127,6 @@ public class ChatMenuController implements Initializable {
         publicChatButton.setOnMouseClicked(mouseEvent -> {
             currentAudience = null ;
             messageType = MessageType.PUBLIC ;
-            loadMessages(MessageController.getPublicMessages());
         });
         chatOptionVBox.getChildren().add(publicChatButton);
     }
@@ -117,7 +138,6 @@ public class ChatMenuController implements Initializable {
         button.setOnMouseClicked(mouseEvent -> {
             currentAudience = user ;
             messageType = MessageType.PRIVATE ;
-            loadMessages(MessageController.getMessages(UserController.getCurrentUser() , currentAudience));
         });
         chatOptionVBox.getChildren().add(button);
     }
@@ -127,13 +147,13 @@ public class ChatMenuController implements Initializable {
         button.setOnMouseClicked(mouseEvent -> {
             currentChatGroup = chatGroup ;
             messageType = MessageType.GROUP ;
-            loadMessages(chatGroup.getMessages());
         });
         chatOptionVBox.getChildren().add(button);
     }
 
     public void loadMessages (ArrayList<Message> messages){
         chatBoxVBox.getChildren().clear();
+
         for (Message message : messages) {
             HBox messageHBox = new HBox();
 
@@ -152,7 +172,9 @@ public class ChatMenuController implements Initializable {
             Button editButton = new Button("\uD83D\uDD8A");
             editButton.setOnMouseClicked(mouseEvent -> openEditMessageWindow(message));
 
-            messageHBox.getChildren().add(editButton);
+            if (message.getSender().equals(UserController.getCurrentUser().getUsername()))
+                messageHBox.getChildren().add(editButton);
+
             chatBoxVBox.getChildren().add(messageHBox) ;
         }
     }
@@ -163,10 +185,12 @@ public class ChatMenuController implements Initializable {
     }
 
     public void createNewRoom() {
-        Main.loadNewStage("new room" , "createNewChatGroupPage");
+        Main.loadNewStage("Create new room" , "createNewChatGroupPage");
     }
 
     public void backToMainMenu() throws IOException {
+        exit = true ;
         Main.changeScene("mainMenu");
     }
+
 }
