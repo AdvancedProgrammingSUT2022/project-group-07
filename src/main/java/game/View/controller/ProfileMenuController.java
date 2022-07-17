@@ -53,10 +53,14 @@ public class ProfileMenuController {
         fileChooser.setTitle("choose image");
 
         this.filePath = fileChooser.showOpenDialog(stage);
-        UserController.getCurrentUser().setAvatarFilePath(filePath.getPath());
-        ImagePattern pattern = new ImagePattern(new Image(filePath.getPath()));
-        this.profilePic.setImage(pattern.getImage());
-        showConfirm("profile avatar changed successfully!");
+        if (this.filePath != null) {
+            UserController.getCurrentUser().setAvatarFilePath(filePath.getPath());
+            ImagePattern pattern = new ImagePattern(new Image(filePath.getPath()));
+            this.profilePic.setImage(pattern.getImage());
+            showConfirm("profile avatar changed successfully!");
+        }
+        else
+            showError("Please choose an avatar!");
     }
 
 
