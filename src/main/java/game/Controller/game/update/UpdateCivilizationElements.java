@@ -91,8 +91,9 @@ public class UpdateCivilizationElements {
         for (Unit currentUnit : currentCivilization.getUnits()) {
             if (currentUnit.getUnitStatus() == UnitStatus.ALERT) {
                 ArrayList<Terrain> neighborTerrains = CivilizationController.getNeighbourTerrainsByRadius1
-                        (currentUnit.getLocation(), GameController.getMap(), GameController.getMapWidth()
-                                , GameController.getMapHeight());
+                        (currentUnit.getLocation(), GameController.getInstance().getMap(),
+                                GameController.getInstance().getMapWidth()
+                                , GameController.getInstance().getMapHeight());
                 for (Civilization civilization : gameController.getCivilizations()) {
                     if (!civilization.equals(currentCivilization)) {
                         for (Unit enemy : civilization.getUnits()) {

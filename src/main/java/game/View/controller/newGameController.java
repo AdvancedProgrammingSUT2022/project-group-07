@@ -3,6 +3,7 @@ package game.View.controller;
 import game.Controller.UserController;
 import game.Controller.game.GameController;
 import game.Main;
+import game.Model.Terrain;
 import game.Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +11,11 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 
 import java.awt.*;
 import java.io.IOException;
@@ -30,7 +36,7 @@ public class newGameController {
         Main.changeScene("gameMenu");
     }
 
-    public void start(ActionEvent actionEvent) {
+    public void start(ActionEvent actionEvent) throws IOException {
         if (playersToStartTheGame.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("no players are added!");
@@ -38,13 +44,15 @@ public class newGameController {
             return;
         }
         ArrayList<User> players = new ArrayList<>();
+        players.add(UserController.getCurrentUser());
         for (User user : UserController.getUsers()) {
             if (playersToStartTheGame.contains(user.getNickname()))
                 players.add(user);
         }
-        GameController gameController = new GameController();
+        GameController gameController = GameController.getInstance();
         gameController.setPlayers(players);
         gameController.initialize();
+        Main.changeScene("gamePage");
     }
 
     public void addPlayer(ActionEvent actionEvent) {
@@ -53,12 +61,14 @@ public class newGameController {
         allPlayersAvailable.remove(selectedItem);
         playersToStartTheGame.add(selectedItem);
     }
+
     public void remove(ActionEvent actionEvent) {
         String selectedItem = invitedPlayers.getSelectionModel().getSelectedItem();
         if (selectedItem == null) return;
         playersToStartTheGame.remove(selectedItem);
         allPlayersAvailable.add(selectedItem);
     }
+
     public void initialize() {
         ArrayList<User> users = UserController.getUsers();
         User current = UserController.getCurrentUser();
@@ -74,4 +84,11 @@ public class newGameController {
     }
 
 
+    public void removeE(DragEvent dragEvent) {
+
+    }
+
+    public void addE(DragEvent dragEvent) {
+
+    }
 }

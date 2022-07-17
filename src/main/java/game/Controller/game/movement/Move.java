@@ -19,12 +19,12 @@ public class Move {
     // check if destination is mountain, ocean or river which are impassable
     // TODO river for destination ?!
     public static String destinationIsValid(Location destination) {
-        Terrain[][] terrain = GameController.map;
+        Terrain[][] terrain = GameController.getInstance().getMap();
         String typeOfTerrain;
         Location terrainLocation;
 
-        for (int i = 0; i < GameController.getMapHeight(); i++) {
-            for (int j = 0; j < GameController.getMapWidth(); j++) {
+        for (int i = 0; i < GameController.getInstance().getMapHeight(); i++) {
+            for (int j = 0; j < GameController.getInstance().getMapWidth(); j++) {
                 terrainLocation = terrain[i][j].getLocation();
                 typeOfTerrain = terrain[i][j].getTypeOfTerrain().getName();
 
@@ -68,7 +68,8 @@ public class Move {
             goThrough.add(terrain);
             if (mp <= 0) {
                 unit.setLocation(terrain.getLocation());
-                CivilizationController.updateFogOfWar(unit.getCivilization(), GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
+                CivilizationController.updateFogOfWar(unit.getCivilization(), GameController.getInstance().getMap(),
+                        GameController.getInstance().getMapWidth(), GameController.getInstance().getMapHeight());
                 unit.setTimesMovedThisTurn(10);
                 updateGonePath(unit, goThrough);
                 return "Selected unit moved to ( " + terrain.getLocation().getX() + " , " + terrain.getLocation().getY() + " )!";
@@ -76,7 +77,8 @@ public class Move {
         }
 
         // updating fog of war using static method of CivilizationController
-        CivilizationController.updateFogOfWar(unit.getCivilization(), GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight());
+        CivilizationController.updateFogOfWar(unit.getCivilization(), GameController.getInstance().getMap(),
+                GameController.getInstance().getMapWidth(), GameController.getInstance().getMapHeight());
 
         unit.setLocation(destination);
         unit.setTimesMovedThisTurn(unit.getTimesMovedThisTurn() + 1);
@@ -86,7 +88,8 @@ public class Move {
 
     private static boolean isInZoneOfControl(Terrain terrain, Unit unit, GameController gameController) {
         ArrayList<Terrain> neighbours = CivilizationController.getNeighbourTerrainsByRadius1(
-                terrain.getLocation() , GameController.getMap() , GameController.getMapWidth() , GameController.getMapHeight()
+                terrain.getLocation() , GameController.getInstance().getMap() ,
+                GameController.getInstance().getMapWidth() , GameController.getInstance().getMapHeight()
         );
         for (Civilization civilization : gameController.getCivilizations()) {
             if (civilization.equals(unit.getCivilization())) continue;

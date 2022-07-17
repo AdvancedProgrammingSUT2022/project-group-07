@@ -1,0 +1,67 @@
+.anchorPane{
+    -fx-background-image: url("../assets/Backgrounds/newGame.jpg");
+    -fx-background-size: cover;
+}
+.button {
+    -fx-background-image: url("../assets/Button_Normal.png");
+    -fx-background-size:  100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-pref-height: 22;
+    -fx-font-size: 18;
+    -fx-font-family: "B Nazanin";
+    -fx-text-fill: #000000;
+    -fx-opacity: 80%;
+}
+.button:hover {
+    -fx-background-image: url("../assets/Button_Down.png");
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+}
+.button:pressed{
+    -fx-background-image: url("../assets/Button_Selected.png");
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-border-color: #0dd214;
+    -fx-border-radius: 3px;
+    -fx-text-fill: #debf09;
+}
+.font {
+    -fx-font-family: Algerian;
+    -fx-font-size: 40;
+    -fx-fill: #119b51;
+}
+.list-view {
+    -fx-text-alignment: center;
+    -fx-text-fill: #203f04;
+    -fx-font-weight: bold;
+    -fx-font-family: Century;
+    -fx-font-size: 25;
+    -fx-opacity: 75%;
+    -fx-background-image: url("../assets/Background_A.png");
+    -fx-background-size: cover;
+
+}
+.list-view:odd {
+    -fx-text-alignment: center;
+}
+.list-view:even {
+    -fx-text-alignment: center;
+
+}
+#allPlayers .list-cell {
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-text-fill: #426b26;
+    -fx-padding: 10px;
+}
+#invitedPlayers .list-cell {
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-text-fill: #426b26;
+    -fx-padding: 10px;
+}

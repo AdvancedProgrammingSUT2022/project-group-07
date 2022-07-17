@@ -79,7 +79,7 @@ public class Information {
         int numberOfTilesOwned = 0 ;
         for (City city : cities)
             numberOfTilesOwned += city.getTerrains().size();
-        float progress = ((float) numberOfTilesOwned*100) / (float)(GameController.getMapHeight()*GameController.getMapWidth()) ;
+        float progress = ((float) numberOfTilesOwned*100) / (float)(GameController.getInstance().getMapHeight()*GameController.getInstance().getMapWidth()) ;
 
         System.out.println("\tTotal gold : " + civilization.getGold());
         System.out.println("\tTotal food : " + civilization.getFood());
@@ -96,7 +96,7 @@ public class Information {
             for (City city : cities)
                 numberOfTilesOwned += city.getTerrains().size();
             progressMap.put(civilization1
-                    , ((float) numberOfTilesOwned*100) / (float)(GameController.getMapHeight()*GameController.getMapWidth()));
+                    , ((float) numberOfTilesOwned*100) / (float)(GameController.getInstance().getMapHeight()*GameController.getInstance().getMapWidth()));
         }
         Map<Civilization, Float> sortedMap =
                 progressMap.entrySet().stream()

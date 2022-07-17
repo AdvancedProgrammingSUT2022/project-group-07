@@ -12,8 +12,8 @@ import java.net.URL;
 
 public class Main extends Application {
 
-    private static Stage mainStage;
-    private static Scene scene;
+    public static Stage mainStage;
+    public static Scene scene;
 
     public static void main(String[] args) {
         launch();
