@@ -10,37 +10,56 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1100.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.LoginMenuController">
-   <stylesheets> <URL value="@../css/loginPage.css" /></stylesheets>
-   <children>
-      <TextField fx:id="nickname" layoutX="230.0" layoutY="246.0" prefHeight="36.0" prefWidth="320.0" promptText="Enter your nickname" />
-      <TextField fx:id="username" layoutX="230.0" layoutY="188.0" prefHeight="36.0" prefWidth="320.0" promptText="Enter your username" />
-      <PasswordField fx:id="password" layoutX="230.0" layoutY="300.0" prefHeight="36.0" prefWidth="320.0" promptText="Enter your password" />
-      <Text layoutX="25.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font" text="Username :" wrappingWidth="179.73670959472656" />
-      <Text layoutX="25.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font" text="Nickname :" wrappingWidth="179.73671555519104" />
-      <Text layoutX="25.0" layoutY="328.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font" text="Password :" wrappingWidth="179.73670959472656" />
-      <Button fx:id="register" layoutX="254.0" layoutY="369.0" mnemonicParsing="false" onAction="#createUser" prefHeight="25.0" prefWidth="254.0" text="Register">
-      </Button>
-      <Text fx:id="registerError" fill="#e10404" layoutX="587.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="465.80311584472656">
-         <font>
-            <Font size="19.0" />
-         </font>
-      </Text>
-      <Button fx:id="exit" layoutX="887.0" layoutY="636.0" mnemonicParsing="false" onAction="#exit"  prefHeight="25.0" prefWidth="199.0" text="Exit">
-      </Button>
-      <Text layoutX="25.0" layoutY="486.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font" text="Username :" wrappingWidth="179.73670959472656" />
-      <TextField fx:id="loginName" layoutX="221.0" layoutY="458.0" prefHeight="36.0" prefWidth="320.0" promptText="Enter your username" />
-      <Text layoutX="25.0" layoutY="548.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font" text="Password :" wrappingWidth="179.73670959472656" />
-      <PasswordField fx:id="loginPass" layoutX="221.0" layoutY="522.0" prefHeight="33.0" prefWidth="320.0" promptText="Enter your password" />
-      <Button fx:id="login" layoutX="254.0" layoutY="586.0" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="254.0" text="Login">
-      </Button>
-      <Text fx:id="loginError" fill="#e10404" layoutX="647.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="374.60316467285156">
-         <font>
-            <Font size="19.0" />
-         </font>
-      </Text>
-      <ImageView fx:id="headTitle" fitHeight="71.0" fitWidth="383.0" layoutX="350.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@../assets/ExeLogo/Civ Logo.png" />
-      </ImageView>
-   </children>
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.LoginMenuController">
+    <stylesheets>
+        <URL value="@../css/loginPage.css"/>
+    </stylesheets>
+    <children>
+        <TextField fx:id="nickname" layoutX="230.0" layoutY="246.0" prefHeight="36.0" prefWidth="320.0"
+                   promptText="Enter your nickname"/>
+        <TextField fx:id="username" layoutX="230.0" layoutY="188.0" prefHeight="36.0" prefWidth="320.0"
+                   promptText="Enter your username"/>
+        <PasswordField fx:id="password" layoutX="230.0" layoutY="300.0" prefHeight="36.0" prefWidth="320.0"
+                       promptText="Enter your password"/>
+        <Text layoutX="25.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font" text="Username :"
+              wrappingWidth="179.73670959472656"/>
+        <Text layoutX="25.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font" text="Nickname :"
+              wrappingWidth="179.73671555519104"/>
+        <Text layoutX="25.0" layoutY="328.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font" text="Password :"
+              wrappingWidth="179.73670959472656"/>
+        <Button fx:id="register" layoutX="254.0" layoutY="369.0" mnemonicParsing="false" onAction="#createUser"
+                prefHeight="25.0" prefWidth="254.0" text="Register">
+        </Button>
+        <Text fx:id="registerError" fill="#e10404" layoutX="587.0" layoutY="272.0" strokeType="OUTSIDE"
+              strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="465.80311584472656">
+            <font>
+                <Font size="19.0"/>
+            </font>
+        </Text>
+        <Button fx:id="exit" layoutX="887.0" layoutY="636.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0"
+                prefWidth="199.0" text="Exit">
+        </Button>
+        <Text layoutX="25.0" layoutY="486.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font" text="Username :"
+              wrappingWidth="179.73670959472656"/>
+        <TextField fx:id="loginName" layoutX="221.0" layoutY="458.0" prefHeight="36.0" prefWidth="320.0"
+                   promptText="Enter your username"/>
+        <Text layoutX="25.0" layoutY="548.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font" text="Password :"
+              wrappingWidth="179.73670959472656"/>
+        <PasswordField fx:id="loginPass" layoutX="221.0" layoutY="522.0" prefHeight="33.0" prefWidth="320.0"
+                       promptText="Enter your password"/>
+        <Button fx:id="login" layoutX="254.0" layoutY="586.0" mnemonicParsing="false" onAction="#login"
+                prefHeight="25.0" prefWidth="254.0" text="Login">
+        </Button>
+        <Text fx:id="loginError" fill="#e10404" layoutX="647.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              textAlignment="CENTER" wrappingWidth="374.60316467285156">
+            <font>
+                <Font size="19.0"/>
+            </font>
+        </Text>
+        <ImageView fx:id="headTitle" fitHeight="71.0" fitWidth="383.0" layoutX="350.0" layoutY="33.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <Image url="@../assets/ExeLogo/Civ Logo.png"/>
+        </ImageView>
+    </children>
 </AnchorPane>

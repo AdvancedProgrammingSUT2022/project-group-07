@@ -23,6 +23,9 @@
     -fx-background-repeat: no-repeat;
     -fx-text-fill: #fff;
     -fx-cursor: hand;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
 }
 .button:pressed{
     -fx-background-image: url("../assets/Button_Selected.png");

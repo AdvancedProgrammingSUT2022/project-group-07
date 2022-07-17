@@ -17,15 +17,6 @@ import java.util.regex.Matcher;
 
 public class MainMenuController {
 
-    public Button gameMenu;
-    public Button scoreBoard;
-    public Button chatMenu;
-    @FXML
-    private Button back;
-    @FXML
-    private Button logout;
-    @FXML
-    private Button profileMenu;
 
     public String menuNavigation(Matcher matcher) {
         String menuName = matcher.group("menuName");
@@ -79,23 +70,4 @@ public class MainMenuController {
         return getPlayers;
     }
 
-    public void logout(ActionEvent actionEvent) throws IOException {
-        UserController.getCurrentUser().setLoggedIn(false);
-        UserController.setCurrentUser(null);
-        Main.changeScene("loginMenu");
-    }
-
-    public void goToProfile(ActionEvent actionEvent) throws IOException {
-        Main.changeScene("profileMenu");
-    }
-
-    public void goToChatMenu(ActionEvent actionEvent) {
-    }
-
-    public void goToScoreBoard(ActionEvent actionEvent) {
-    }
-
-    public void goToGameMenu(ActionEvent actionEvent) throws IOException {
-        Main.changeScene("gameMenu");
-    }
 }

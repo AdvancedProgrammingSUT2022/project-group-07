@@ -137,7 +137,8 @@ public class UpdateCityElements {
         for (City city : cities) {
             if (city.getTurnsTillGrowth() == 0) {
                 ArrayList<Terrain> availableTerrains = CityController.getAvailableTilesToBuy(
-                        city, GameController.getMap(), GameController.getMapWidth(), GameController.getMapHeight()
+                        city, GameController.getInstance().getMap(),
+                        GameController.getInstance().getMapWidth(), GameController.getInstance().getMapHeight()
                 );
                 Terrain terrainToBuy = availableTerrains.get((new Random()).nextInt(availableTerrains.size()));
                 CityController.addTileToCity(city, terrainToBuy);
