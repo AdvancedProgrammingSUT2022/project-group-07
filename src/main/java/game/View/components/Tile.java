@@ -65,12 +65,5 @@ public class Tile extends Polygon {
             this.feature.setLayoutY(this.y);
             this.feature.setImage(imagePattern.getImage());
         }
-//        if (address == null)
-//            setFill(new ImagePattern((new Image(getClass().getResource("/game/assets/civAsset/map/Tiles/terrainsAndFeatures/"
-//                    + addressType).toExternalForm()))));
-
-
-//            this.feature.setImage(new Image(address.toExternalForm()));
-//            setFill(new ImagePattern(new Image(address.toExternalForm())));
     }
 }
