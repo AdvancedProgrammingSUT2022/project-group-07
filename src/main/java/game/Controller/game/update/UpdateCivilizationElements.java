@@ -10,7 +10,6 @@ import game.Enum.UnitStatus;
 import game.Controller.game.LogAndNotification.NotificationController;
 import game.Controller.game.combat.CityDefending;
 
-
 import java.util.ArrayList;
 
 import static game.Controller.game.UnitController.moveUnit;

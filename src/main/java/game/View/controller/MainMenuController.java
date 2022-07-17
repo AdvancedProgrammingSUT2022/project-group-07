@@ -30,10 +30,12 @@ public class MainMenuController {
         Main.changeScene("profileMenu");
     }
 
-    public void goToChatMenu(ActionEvent actionEvent) {
+    public void goToChatMenu(ActionEvent actionEvent) throws IOException {
+        Main.changeScene("chatMenu");
     }
 
-    public void goToScoreBoard(ActionEvent actionEvent) {
+    public void goToScoreBoard(ActionEvent actionEvent) throws IOException {
+        Main.changeScene("scoreboardMenu");
     }
 
     public void goToGameMenu(ActionEvent actionEvent) throws IOException {
