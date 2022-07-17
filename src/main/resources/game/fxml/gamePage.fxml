@@ -11,7 +11,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="game.View.controller.gamePageController"
             prefHeight="700.0" prefWidth="1100.0" fx:id="game"
-            styleClass="anchorPane">
+            styleClass="anchorPane" onKeyPressed="#move">
     <stylesheets>
         <URL value="@../css/game.css"/>
     </stylesheets>
