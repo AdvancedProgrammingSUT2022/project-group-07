@@ -70,4 +70,26 @@ public class MainMenuController {
         return getPlayers;
     }
 
+    public void logout(ActionEvent actionEvent) throws IOException {
+        UserController.getCurrentUser().setLoggedIn(false);
+        UserController.setCurrentUser(null);
+        Main.changeScene("loginMenu");
+    }
+
+    public void goToProfile(ActionEvent actionEvent) throws IOException {
+        Main.changeScene("profileMenu");
+    }
+
+    public void goToChatMenu(ActionEvent actionEvent) throws IOException {
+        Main.changeScene("chatMenu");
+    }
+
+    public void goToScoreBoard(ActionEvent actionEvent) throws IOException {
+        Main.changeScene("scoreboardMenu") ;
+    }
+
+    public void goToGameMenu(ActionEvent actionEvent) throws IOException {
+        Main.changeScene("gameMenu");
+    }
+
 }
