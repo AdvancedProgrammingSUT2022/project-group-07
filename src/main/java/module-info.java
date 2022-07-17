@@ -15,5 +15,5 @@ module game {
     opens game.Controller.menu to javafx.fxml;
 
     exports game;
-    opens game.Controller.menu.ChatControllers to javafx.fxml;
+    opens game.View.controller.ChatControllers to javafx.fxml;
 }

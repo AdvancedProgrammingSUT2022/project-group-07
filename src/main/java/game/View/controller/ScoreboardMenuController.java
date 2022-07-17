@@ -1,4 +1,4 @@
-package game.Controller.menu;
+package game.View.controller;
 
 import game.Controller.UserController;
 import game.Main;
@@ -11,10 +11,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
 
 import java.io.IOException;
 import java.net.URL;
@@ -37,8 +37,7 @@ public class ScoreboardMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         String cssFile1 = this.getClass().getResource("/game/CSS/scoreboardStyle.css").toExternalForm();
-        String cssFile2 = this.getClass().getResource("/game/CSS/loginPage.css").toExternalForm();
-        borderPane.getStylesheets().addAll(cssFile1 , cssFile2) ;
+        borderPane.getStylesheets().add(cssFile1);
 
         UserController.loadUsers();
         ArrayList<User> users = UserController.getUsers();
@@ -76,8 +75,12 @@ public class ScoreboardMenuController implements Initializable {
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
-        if (user.getAvatarFilePath()==null || user.getAvatarFilePath().isEmpty())
-            imageView.setImage(new Image(currentPath+"/src/main/resources/game/images/avatars/"+user.getAvatarNumber()+".png"));
+
+        if (user.getAvatarFilePath()==null || user.getAvatarFilePath().isEmpty()) {
+            ImagePattern avatarPic = new ImagePattern(new Image(getClass().getResource("/game/images/avatars/" +
+                    user.getAvatarNumber() + ".png").toExternalForm()));
+            imageView.setImage(avatarPic.getImage()) ;
+        }
         else
             imageView.setImage(new Image(user.getAvatarFilePath()));
 

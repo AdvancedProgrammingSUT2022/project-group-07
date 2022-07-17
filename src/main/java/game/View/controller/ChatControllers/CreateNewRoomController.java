@@ -1,13 +1,17 @@
-package game.Controller.menu.ChatControllers;
+package game.View.controller.ChatControllers;
 
 import game.Controller.Chat.ChatGroup;
 import game.Controller.Chat.MessageController;
 import game.Controller.UserController;
 import game.Model.User;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -16,11 +20,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
-public class roomChatController implements Initializable {
-
+public class CreateNewRoomController implements Initializable {
+    
     private static ArrayList<User> users = UserController.getUsers();
-    private static Stage stage ;
-    private static ChatMenuController updater ;
 
     public TextField roomName;
     public Button closeBtn;
@@ -28,31 +30,28 @@ public class roomChatController implements Initializable {
 
     public GridPane gridPane;
 
-    public static void setStage(Stage stage) {
-        roomChatController.stage = stage;
-    }
-
-    public static void setUpdater(ChatMenuController chatRoomController) {
-        updater = chatRoomController ;
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        closeBtn.setOnMouseClicked(this::closeStage);
+
         checkBoxes = new ArrayList<>();
         int counter = 0 ;
         for (int i=0 ; i<gridPane.getRowCount() ; i++){
             for (int j=0 ; j<gridPane.getColumnCount() ; j++){
                 if (counter>=users.size() )
                     return;
-                checkBoxes.add(new CheckBox(users.get(counter).getUsername()));
+                CheckBox newCheckBox = new CheckBox(users.get(counter).getUsername()) ;
+                checkBoxes.add(newCheckBox);
+                if (users.get(counter).getUsername().equals(UserController.getCurrentUser().getUsername()))
+                    newCheckBox.setDisable(true);
                 gridPane.add(checkBoxes.get(checkBoxes.size()-1) , j , i);
                 counter++ ;
             }
         }
     }
 
-
-    public void createRoom() {
+    public void createRoom(MouseEvent mouseEvent) {
         ArrayList<User > addedUser = new ArrayList<>();
         int checkedBoxes = 0 ;
         for (int counter=0 ; counter<checkBoxes.size() ; counter++) {
@@ -62,16 +61,26 @@ public class roomChatController implements Initializable {
             }
         }
         String chatName = roomName.getText();
-        if (chatName.isEmpty() || checkedBoxes<=1)
+        if (chatName.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Choose a name for this room !");
+            alert.show();
             return;
+        }
+        if (checkedBoxes == 0 ){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Choose at least one player !");
+            alert.show();
+            return;
+        }
         MessageController.addChatGroup(new ChatGroup(addedUser , chatName));
         MessageController.saveChatGroups();
-        updater.updateData();
-        System.out.println("room created !");
-        stage.close();
+        closeStage(mouseEvent);
     }
 
-    public void cancel() {
+    private void closeStage(MouseEvent mouseEvent) {
+        Node source = (Node) mouseEvent.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
 

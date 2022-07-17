@@ -52,6 +52,7 @@ public class Main extends Application {
 
     public static void loadNewStage (String stageTitle , String fxmlName){
         Stage newStage = new Stage();
+        newStage.setResizable(false);
         newStage.setTitle(stageTitle);
         Parent root = loadFXML(fxmlName);
         assert root != null;

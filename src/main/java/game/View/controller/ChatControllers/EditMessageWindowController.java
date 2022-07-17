@@ -1,4 +1,4 @@
-package game.Controller.menu.ChatControllers;
+package game.View.controller.ChatControllers;
 
 import game.Controller.Chat.Message;
 import game.Controller.Chat.MessageController;

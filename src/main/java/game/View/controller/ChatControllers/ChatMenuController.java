@@ -1,4 +1,4 @@
-package game.Controller.menu.ChatControllers;
+package game.View.controller.ChatControllers;
 
 import game.Controller.Chat.*;
 import game.Controller.UserController;
@@ -25,7 +25,7 @@ public class ChatMenuController implements Initializable {
 
     User currentAudience ;
     ChatGroup currentChatGroup ;
-    MessageType messageType ;
+    MessageType messageType = MessageType.PUBLIC ;
 
     boolean exit ;
 
@@ -35,28 +35,25 @@ public class ChatMenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        messageType = MessageType.PUBLIC ;
         exit = false ;
         updateData();
 
         Thread thread = new Thread(() -> {
-            Runnable updater = () -> {
+            Runnable messageUpdater = () -> {
                 switch (messageType){
                     case PRIVATE -> loadMessages(MessageController.getMessages(UserController.getCurrentUser() , currentAudience));
                     case GROUP -> loadMessages(currentChatGroup.getMessages());
                     default -> loadMessages(MessageController.getPublicMessages());
                 }
             } ;
+
             while (!exit) {
-                Platform.runLater(updater);
-                try {Thread.sleep(250);}
+                Platform.runLater(messageUpdater);
+                try {Thread.sleep(100);}
                 catch (InterruptedException ignored) {}
             }
         });
-        // don't let thread prevent JVM shutdown
-        thread.setDaemon(true);
         thread.start();
-
     }
 
     public void sendMessage() {
@@ -95,25 +92,19 @@ public class ChatMenuController implements Initializable {
 
     public void updateData (){
         chatOptionVBox.getChildren().clear();
-
         // getting all users
         ArrayList<User> users = UserController.getUsers();
-
         // loading chat groups
         MessageController.loadChatGroups();
         chatGroups = MessageController.getChatGroups();
-
         // public chat button
         createPublicChatButton();
-
         // user chat buttons
         for (User user : users)
             createUserChatButton(user);
-
         // chat room buttons
         for (ChatGroup chatGroup : chatGroups)
             createChatGroupButton(chatGroup);
-
     }
 
     public void createPublicChatButton (){
@@ -153,11 +144,9 @@ public class ChatMenuController implements Initializable {
 
             if (message.getSender().equals(UserController.getCurrentUser().getUsername())) {
                 messageHBox.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-                messageHBox.setStyle("-fx-pref-height: 30 ; -fx-background-color: yellow ;");
             }
             else {
                 messageHBox.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
-                messageHBox.setStyle("-fx-pref-height: 30 ; -fx-background-color: red");
             }
 
             messageHBox.getChildren().add(new Label(message.getMessage()));

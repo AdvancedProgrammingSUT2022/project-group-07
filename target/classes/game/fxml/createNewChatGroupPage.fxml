@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.Controller.menu.ChatControllers.roomChatController">
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.ChatControllers.CreateNewRoomController">
    <center>
       <GridPane fx:id="gridPane" alignment="CENTER" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -23,7 +23,7 @@
    <top>
       <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" prefHeight="53.0" prefWidth="160.0" text="Choose a name :" textAlignment="CENTER" />
+            <Label alignment="CENTER" prefHeight="53.0" prefWidth="160.0" text="Choose a name for your room :" textAlignment="CENTER" />
             <TextField fx:id="roomName" />
          </children>
       </HBox>
@@ -31,8 +31,8 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onMouseClicked="#createRoom" text="Create" />
-            <Button fx:id="closeBtn" mnemonicParsing="false" text="Cancel" />
+            <Button mnemonicParsing="false" onMouseClicked="#createRoom" prefHeight="50.0" prefWidth="90.0" text="Create" />
+            <Button fx:id="closeBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="89.0" text="Cancel" />
          </children>
       </HBox>
    </bottom>
