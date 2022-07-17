@@ -1,3 +1,4 @@
 .anchorPane{
-    background-color: #03035e;
+    -fx-background-image: url("../assets/Backgrounds/ocean.jfif");
+    -fx-background-size: cover;
 }

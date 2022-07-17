@@ -2,9 +2,12 @@ package game.View.components;
 
 
 import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
+
+import java.net.URL;
 
 public class Tile extends Polygon {
 
@@ -32,20 +35,19 @@ public class Tile extends Polygon {
                     x + TILE_HEIGHT , y ,
                     x + 1.5 * r , y - n ,
                     x + 0.5 * r , y - n
-//                    x, y,
-//                    x, y + r,
-//                    x + n, y + r * 1.5,
-//                    x + TILE_WIDTH, y + r,
-//                    x + TILE_WIDTH, y,
-//                    x + n, y - r * 0.5
             );
+            setFill(Color.WHITE);
             setStrokeWidth(1);
             setStroke(Color.TRANSPARENT);
         }
 
-    public void setBackground(String address) {
+    public void setBackground(String addressType, String addressTypeFeature) {
+        StackPane stackPane = new StackPane();
+        URL address = getClass().getResource("/game/assets/civAsset/map/Tiles/terrainsAndFeatures/" + addressTypeFeature);
+        if (address == null)
             setFill(new ImagePattern((new Image(getClass().getResource("/game/assets/civAsset/map/Tiles/terrainsAndFeatures/"
-                    + address).toExternalForm()))));
+                    + addressType).toExternalForm()))));
+        else
+            setFill(new ImagePattern(new Image(address.toExternalForm())));
     }
-
 }
