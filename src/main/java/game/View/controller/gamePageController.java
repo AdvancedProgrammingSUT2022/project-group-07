@@ -148,6 +148,7 @@ public class gamePageController implements Initializable {
         selectedUnitImageView.setFitWidth(100);
         selectedUnitImageView.setPreserveRatio(true);
         selectedUnitImageView.setSmooth(true);
+
         try {
             selectedUnitImageView.setImage(new Image(
                     Main.class.getResource("/game/assets/civAsset/units/Units/" + GameController.getInstance().getCurrentCivilization().getUnits().get(0) + ".png").toExternalForm()));
@@ -160,20 +161,18 @@ public class gamePageController implements Initializable {
                     Main.class.getResource("/game/images/icons/Unit.png").toExternalForm()));
             selectedUnitPanel.setDisable(true);
         }
-        // TODO : next line should be deleted !
-//        Unit selectedUnit = new Unit(TypeOfUnit.SETTLER , UnitStatus.ACTIVE , new Location(10,10) , 20 , GameController.getInstance().getCurrentCivilization() , 0) ;
     }
-
 
     public void handleButtonActions(){
         prevUnitButton.setOnMouseClicked(mouseEvent -> {
-            // set selected unit the prev unit
+            SelectController.selectPrevUnit();
+            updateSelectedUnitPanel();
         });
 
         nextUnitButton.setOnMouseClicked(mouseEvent -> {
-            // set selected unit the next unit
+            SelectController.selectNextUnit();
+            updateSelectedUnitPanel();
         });
     }
-
 
 }

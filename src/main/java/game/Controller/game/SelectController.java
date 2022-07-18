@@ -118,4 +118,21 @@ public class SelectController {
         return "no city with this name";
     }
 
+    public static void selectNextUnit (){
+        ArrayList<Unit> units = GameController.getInstance().getCurrentCivilization().getUnits();
+        int index = units.indexOf(selectedUnit);
+        if (index+1<units.size())
+            selectedUnit = units.get(index+1);
+        else
+            selectedUnit = units.get(0);
+    }
+
+    public static void selectPrevUnit (){
+        ArrayList<Unit> units = GameController.getInstance().getCurrentCivilization().getUnits();
+        int index = units.indexOf(selectedUnit);
+        if (index-1>=0)
+            selectedUnit = units.get(index-1);
+        else
+            selectedUnit = units.get(units.size()-1);
+    }
 }
