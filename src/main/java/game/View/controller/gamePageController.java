@@ -3,6 +3,7 @@ package game.View.controller;
 import game.Controller.Chat.MessageController;
 import game.Controller.UserController;
 import game.Controller.game.GameController;
+import game.Controller.game.MapMovement;
 import game.Controller.game.SelectController;
 import game.Enum.TypeOfTechnology;
 import game.Main;
@@ -11,6 +12,8 @@ import game.Model.Terrain;
 import game.View.components.Tile;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import game.Model.Unit;
 import javafx.application.Platform;
@@ -22,7 +25,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.ImagePattern;
 
+import java.awt.*;
 import java.awt.event.KeyListener;
 
 import static java.lang.Math.abs;
@@ -60,6 +65,7 @@ public class gamePageController {
 
 
     public void initialize() {
+        Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
         firstX = game.getTranslateX();
         firstY = game.getTranslateY();
         Terrain[][] terrains = GameController.getInstance().getMap();
@@ -70,68 +76,6 @@ public class gamePageController {
                     game.getChildren().add(terrain1.getTile().getFeature());
             }
         }
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                game.requestFocus();
-            }
-        });
-    }
-
-    public void move(KeyEvent keyEvent) {
-        switch (keyEvent.getCode()) {
-            case LEFT -> moveLeft(game);
-            case RIGHT -> moveRight(game);
-            case UP -> moveUp(game);
-            case DOWN -> moveDown(game);
-        }
-    }
-
-    private void moveLeft(AnchorPane game) {
-        double n = game.getTranslateX() + 10;
-        if (canMoveLeft(n))
-            game.setTranslateX(game.getTranslateX() + 10);
-    }
-
-    private void moveRight(AnchorPane game) {
-        double n = game.getTranslateX() - 10;
-        if (canMoveRight(n))
-            game.setTranslateX(game.getTranslateX() - 10);
-    }
-
-    private void moveUp(AnchorPane game) {
-        double n = game.getTranslateY() + 10;
-        if (canMoveUp(n))
-            game.setTranslateY(game.getTranslateY() + 10);
-    }
-
-    private void moveDown(AnchorPane game) {
-        double n = game.getTranslateY() - 10;
-        if (canMoveDown(n))
-            game.setTranslateY(game.getTranslateY() - 10);
-    }
-
-    private boolean canMoveLeft(double n) {
-        return !(n >= firstX);
-    }
-
-    private boolean canMoveRight(double n) {
-        int width = GameController.getInstance().getMapHeight();
-        double number = 1.5 * width * 75 - 1045;
-        return !(-n >= firstX + number);
-    }
-
-    private boolean canMoveUp(double n) {
-        return !(n >= firstY + 60);
-    }
-
-    private boolean canMoveDown(double n) {
-        int height = GameController.getInstance().getMapWidth();
-        double number = height * Tile.getTileWidth() - 690;
-        return !(-n >= firstY + number);
-    }
-
-
         // initializing panels
         initializeIconPanel();
         initializeResearchPanel();
@@ -163,65 +107,17 @@ public class gamePageController {
                 game.requestFocus();
             }
         });
-
     }
 
     public void move(KeyEvent keyEvent) {
-        if (counter == 1) {
-            firstX = game.getLayoutX();
-            firstY = game.getLayoutY();
-        }
         switch (keyEvent.getCode()) {
-            case LEFT -> moveLeft(game);
-            case RIGHT -> moveRight(game);
-            case UP -> moveUp(game);
-            case DOWN -> moveDown(game);
+            case LEFT -> MapMovement.moveLeft(game, firstX);
+            case RIGHT -> MapMovement.moveRight(game, firstX);
+            case UP -> MapMovement.moveUp(game, firstY);
+            case DOWN -> MapMovement.moveDown(game, firstY);
         }
     }
 
-    private static void moveLeft(AnchorPane game) {
-        double n = game.getTranslateX() + 10;
-//        if (canMoveLeft(n))
-            game.setTranslateX(game.getTranslateX() + 10);
-    }
-
-    private static void moveRight(AnchorPane game) {
-        double n = game.getTranslateX() - 10;
-//        if (canMoveRight(n))
-            game.setTranslateX(game.getTranslateX() - 10);
-    }
-
-    private static void moveUp(AnchorPane game) {
-        double n = game.getTranslateY() + 10;
-//        if (canMoveUp(n))
-            game.setTranslateY(game.getTranslateY() + 10);
-    }
-
-    private static void moveDown(AnchorPane game) {
-        double n = game.getTranslateY() - 10;
-//        if (canMoveDown(n))
-            game.setTranslateY(game.getTranslateY() - 10);
-    }
-
-    private static boolean canMoveRight(double n) {
-        GameController gameController = GameController.getInstance();
-        return !(n <= firstX);
-    }
-
-    private static boolean canMoveLeft(double n) {
-        GameController gameController = GameController.getInstance();
-        return !(n >= firstX + gameController.getMapWidth());
-    }
-
-    private static boolean canMoveUp(double n) {
-        GameController gameController = GameController.getInstance();
-        return !(n <= firstY);
-    }
-
-    private static boolean canMoveDown(double n) {
-        GameController gameController = GameController.getInstance();
-        return !(n >= firstY + gameController.getMapHeight());
-    }
 
     public void initializeIconPanel (){
         initializeIcons();
@@ -346,7 +242,7 @@ public class gamePageController {
         nextTurnImageView.setFitWidth(100);
         nextTurnImageView.setPreserveRatio(true);
         nextTurnImageView.setOnMouseClicked(mouseEvent -> GameController.getInstance().setTurn(GameController.getInstance().getTurn()+1));
-        nextTurnImageView.setImage(new Image(getClass().getResource("/game/images/icons/NEXT_TURN_ICON.png").toExternalForm()));
+//        nextTurnImageView.setImage(new Image(getClass().getResource("/game/images/icons/NEXT_TURN_ICON.png").toExternalForm()));
     }
 
 }
