@@ -3,9 +3,7 @@ package game.View.controller;
 import game.Controller.game.GameController;
 import game.Controller.game.MapMovement;
 import game.Controller.game.SelectController;
-import game.Enum.TypeOfTechnology;
 import game.Main;
-import game.Model.Technology;
 import game.Model.Terrain;
 import game.Model.Unit;
 import javafx.application.Platform;
@@ -16,6 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
+
+import java.io.IOException;
 
 
 public class gamePageController {
@@ -39,8 +39,8 @@ public class gamePageController {
     public ToolBar researchPanel = new ToolBar() ;
 
     // unit panel and stuff
-    public Button prevUnitButton = new Button("prev") ;
-    public Button nextUnitButton = new Button("next") ;
+    public Button prevUnitButton = new Button("⬅") ;
+    public Button nextUnitButton = new Button("➡") ;
     public ImageView selectedUnitImageView = new ImageView() ;
     public Label selectedUnitDataLabel = new Label() ;
     public ToolBar selectedUnitPanel = new ToolBar() ;
@@ -75,7 +75,6 @@ public class gamePageController {
                 updateLabels();
                 updateResearchPanel();
                 updateSelectedUnitPanel();
-                updateInfoPanelPosition();
             } ;
             while (true) {
                 Platform.runLater(runnable);
@@ -84,6 +83,16 @@ public class gamePageController {
             }
         });
         infoPanelThread.start();
+        // updating info panel pos to escape lag !!!
+        Thread posThread = new Thread(() -> {
+            Runnable runnable = this::updateInfoPanelPosition;
+            while (true) {
+                Platform.runLater(runnable);
+                try {Thread.sleep(3);}
+                catch (InterruptedException ignored){}
+            }
+        }) ;
+        posThread.start();
 
         Platform.runLater(new Runnable() {
             @Override
@@ -150,7 +159,7 @@ public class gamePageController {
         researchPanel.setLayoutX(x);
         researchPanel.setLayoutY(40+y);
         selectedUnitPanel.setLayoutX(x);
-        selectedUnitPanel.setLayoutY(600+y);
+        selectedUnitPanel.setLayoutY(520+y);
         nextTurnImageView.setLayoutX(1000+x);
         nextTurnImageView.setLayoutY(600+y);
     }
@@ -163,6 +172,7 @@ public class gamePageController {
         progressBar.getStyleClass().add("technologyProgressBar") ;
         currentResearchImageView.setOnMouseClicked(mouseEvent -> {
             // open technology tree stage
+            Main.loadNewStage("Technology tree" , "technologyTreePage");
         });
     }
 
@@ -189,6 +199,7 @@ public class gamePageController {
 
     public void initializeSelectedUnitPanel (){
         selectedUnitPanel.getItems().clear();
+        selectedUnitPanel.getStyleClass().add("selectedUnitPanel");
         selectedUnitPanel.getItems().addAll(selectedUnitImageView , prevUnitButton , selectedUnitDataLabel , nextUnitButton);
         handleButtonActions();
     }
@@ -206,11 +217,10 @@ public class gamePageController {
                     , selectedUnit.getHp() , selectedUnit.getMp() , selectedUnit.getUnitStatus()
                     , selectedUnit.getLocation().getX() , selectedUnit.getLocation().getY());
             selectedUnitDataLabel.setText(unitData);
-            selectedUnitPanel.setDisable(false);
+            if (!game.getChildren().contains(selectedUnitPanel))
+                game.getChildren().add(selectedUnitPanel);
         } catch (NullPointerException e){
-            selectedUnitImageView.setImage(new Image(
-                    Main.class.getResource("/game/images/icons/Unit.png").toExternalForm()));
-            selectedUnitPanel.setDisable(true);
+            game.getChildren().remove(selectedUnitPanel);
         }
     }
 
@@ -227,13 +237,15 @@ public class gamePageController {
             updateSelectedUnitPanel();
             game.requestFocus();
         });
+        prevUnitButton.getStyleClass().add("arrowButton") ;
+        nextUnitButton.getStyleClass().add("arrowButton") ;
     }
 
     public void initializeNextTurnButton (){
         nextTurnImageView.setFitHeight(100);
         nextTurnImageView.setFitWidth(100);
         nextTurnImageView.setPreserveRatio(true);
-
+        nextTurnImageView.getStyleClass().add("nextTurn") ;
         nextTurnImageView.setOnMouseClicked(mouseEvent -> GameController.getInstance().nextTurn(GameController.getInstance()));
         nextTurnImageView.setImage(new Image(getClass().getResource("/game/images/icons/NEXT_TURN_ICON.png").toExternalForm()));
     }

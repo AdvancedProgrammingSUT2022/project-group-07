@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane fx:controller="game.View.controller.TechnologyTreeController"
+        prefHeight="700.0" prefWidth="1100.0"
+        xmlns="http://javafx.com/javafx/16">
+
+</AnchorPane>
