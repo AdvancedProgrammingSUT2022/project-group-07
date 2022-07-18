@@ -1,5 +1,5 @@
-.anchorPane{
-    -fx-background-color: #275ae5;
+.anchorPane {
+    -fx-background-image: url("../assets/Backgrounds/game.jpg");
     -fx-background-size: cover;
 }
 
@@ -51,6 +51,6 @@
     -fx-border-radius: 20;
 }
 
-.technologyProgressBar:hover{
+.technologyProgressBar:hover {
     -fx-opacity: 0.90;
 }
