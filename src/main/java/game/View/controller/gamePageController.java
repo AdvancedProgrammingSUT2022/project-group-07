@@ -2,6 +2,7 @@ package game.View.controller;
 
 import game.Controller.game.GameController;
 import game.Model.Terrain;
+import game.View.components.Tile;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
@@ -9,15 +10,20 @@ import javafx.scene.layout.AnchorPane;
 
 import java.awt.event.KeyListener;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.random;
+
 public class gamePageController {
 
     public AnchorPane game;
-    public static double firstX;
-    public static double firstY;
-    public static int counter = 0;
+    public double firstX;
+    public double firstY;
 
     public void initialize() {
-        counter++;
+        firstX = game.getTranslateX();
+        firstY = game.getTranslateY();
+        System.out.println("x : " + firstX + "     y : " + firstY);
+
         Terrain[][] terrains = GameController.getInstance().getMap();
         for (Terrain[] terrain : terrains) {
             for (Terrain terrain1 : terrain) {
@@ -35,10 +41,6 @@ public class gamePageController {
     }
 
     public void move(KeyEvent keyEvent) {
-        if (counter == 1) {
-            firstX = game.getLayoutX();
-            firstY = game.getLayoutY();
-        }
         switch (keyEvent.getCode()) {
             case LEFT -> moveLeft(game);
             case RIGHT -> moveRight(game);
@@ -47,47 +49,47 @@ public class gamePageController {
         }
     }
 
-    private static void moveLeft(AnchorPane game) {
+    private void moveLeft(AnchorPane game) {
         double n = game.getTranslateX() + 10;
-//        if (canMoveLeft(n))
+        if (canMoveLeft(n))
             game.setTranslateX(game.getTranslateX() + 10);
     }
 
-    private static void moveRight(AnchorPane game) {
+    private void moveRight(AnchorPane game) {
         double n = game.getTranslateX() - 10;
-//        if (canMoveRight(n))
+        if (canMoveRight(n))
             game.setTranslateX(game.getTranslateX() - 10);
     }
 
-    private static void moveUp(AnchorPane game) {
+    private void moveUp(AnchorPane game) {
         double n = game.getTranslateY() + 10;
-//        if (canMoveUp(n))
+        if (canMoveUp(n))
             game.setTranslateY(game.getTranslateY() + 10);
     }
 
-    private static void moveDown(AnchorPane game) {
+    private void moveDown(AnchorPane game) {
         double n = game.getTranslateY() - 10;
-//        if (canMoveDown(n))
+        if (canMoveDown(n))
             game.setTranslateY(game.getTranslateY() - 10);
     }
 
-    private static boolean canMoveRight(double n) {
-        GameController gameController = GameController.getInstance();
-        return !(n <= firstX);
+    private boolean canMoveLeft(double n) {
+        return !(n >= firstX);
     }
 
-    private static boolean canMoveLeft(double n) {
-        GameController gameController = GameController.getInstance();
-        return !(n >= firstX + gameController.getMapWidth());
+    private boolean canMoveRight(double n) {
+        int width = GameController.getInstance().getMapHeight();
+        double number = 1.5 * width * 75 - 1045;
+        return !(-n >= firstX + number);
     }
 
-    private static boolean canMoveUp(double n) {
-        GameController gameController = GameController.getInstance();
-        return !(n <= firstY);
+    private boolean canMoveUp(double n) {
+        return !(n >= firstY + 60);
     }
 
-    private static boolean canMoveDown(double n) {
-        GameController gameController = GameController.getInstance();
-        return !(n >= firstY + gameController.getMapHeight());
+    private boolean canMoveDown(double n) {
+        int height = GameController.getInstance().getMapWidth();
+        double number = height * Tile.getTileWidth() - 690;
+        return !(-n >= firstY + number);
     }
 }

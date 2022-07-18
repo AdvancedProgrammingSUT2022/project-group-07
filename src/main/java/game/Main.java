@@ -1,6 +1,7 @@
 package game;
 
 import game.Controller.UserController;
+import game.Controller.game.GameController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
