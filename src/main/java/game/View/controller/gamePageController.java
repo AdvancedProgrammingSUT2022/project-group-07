@@ -1,5 +1,7 @@
 package game.View.controller;
 
+import game.Controller.Chat.MessageController;
+import game.Controller.UserController;
 import game.Controller.game.GameController;
 import game.Controller.game.SelectController;
 import game.Enum.TypeOfTechnology;
@@ -54,13 +56,30 @@ public class gamePageController {
                     game.getChildren().add(terrain1.getTile().getFeature());
             }
         }
+
+
+        // initializing panels
         initializeIconPanel();
         initializeResearchPanel();
         initializeSelectedUnitPanel();
-
         game.getChildren().add(iconPanel);
         game.getChildren().add(researchPanel);
         game.getChildren().add(selectedUnitPanel);
+        // updating info panel thread
+        Thread infoPanelThread = new Thread(() -> {
+            Runnable runnable = () -> {
+                updateLabels();
+                updateResearchPanel();
+                updateSelectedUnitPanel();
+                updateInfoPanelPosition();
+            } ;
+            while (true) {
+                Platform.runLater(runnable);
+                try {Thread.sleep(10);}
+                catch (InterruptedException ignored) {}
+            }
+        });
+        infoPanelThread.start();
 
         Platform.runLater(new Runnable() {
             @Override
@@ -68,6 +87,7 @@ public class gamePageController {
                 game.requestFocus();
             }
         });
+
     }
 
     public void move(KeyEvent keyEvent) {
@@ -129,14 +149,12 @@ public class gamePageController {
 
     public void initializeIconPanel (){
         initializeIcons();
-        updateLabels();
         initializeTooltips();
         iconPanel.setPrefWidth(400);
         iconPanel.setPrefHeight(40);
+        iconPanel.getItems().clear();
         iconPanel.getItems().addAll(goldIcon , goldLabel , scienceIcon , scienceLabel , happinessIcon , happinessLabel) ;
         iconPanel.setStyle("-fx-opacity: 0.70 ; -fx-background-color: black");
-        iconPanel.setLayoutX(0);
-        iconPanel.setLayoutY(0);
     }
 
     public void initializeTooltips (){
@@ -166,15 +184,22 @@ public class gamePageController {
         happinessLabel.setText(GameController.getInstance().getCurrentCivilization().getHappiness()+"");
     }
 
+    public void updateInfoPanelPosition(){
+        iconPanel.setLayoutX(game.getTranslateX()*(-1));
+        iconPanel.setLayoutY(game.getTranslateY()*(-1));
+        researchPanel.setLayoutX(game.getTranslateX()*(-1));
+        researchPanel.setLayoutY(40+game.getTranslateY()*(-1));
+        selectedUnitPanel.setLayoutX(game.getTranslateX()*(-1));
+        selectedUnitPanel.setLayoutY(600+game.getTranslateY()*(-1));
+    }
+
     private void initializeResearchPanel() {
         researchPanel.setOrientation(Orientation.VERTICAL);
-        researchPanel.setLayoutX(0);
-        researchPanel.setLayoutY(40);
         researchPanel.setPrefHeight(150);
         researchPanel.setPrefWidth(150);
         researchPanel.setStyle("-fx-background-color: rgba(79,79,79,0.30) ; -fx-alignment: center");
+        researchPanel.getItems().clear();
         researchPanel.getItems().addAll(currentResearchImageView, progressBar);
-        updateResearchPanel();
     }
 
     public void updateResearchPanel (){
@@ -202,8 +227,7 @@ public class gamePageController {
     }
 
     public void initializeSelectedUnitPanel (){
-        selectedUnitPanel.setLayoutX(0);
-        selectedUnitPanel.setLayoutY(600);
+        selectedUnitPanel.getItems().clear();
         selectedUnitPanel.getItems().addAll(selectedUnitImageView , prevUnitButton , selectedUnitDataLabel , nextUnitButton);
         updateSelectedUnitPanel();
     }
