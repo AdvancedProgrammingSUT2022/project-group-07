@@ -10,11 +10,13 @@ import game.Model.Technology;
 import game.Model.Terrain;
 import game.Model.Unit;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class gamePageController {
@@ -45,6 +47,9 @@ public class gamePageController {
     public Label selectedUnitDataLabel = new Label() ;
     public ToolBar selectedUnitPanel = new ToolBar() ;
 
+    // next turn button
+    public ImageView nextTurnImageView = new ImageView() ;
+
 
     public void initialize() {
         counter++;
@@ -62,9 +67,11 @@ public class gamePageController {
         initializeIconPanel();
         initializeResearchPanel();
         initializeSelectedUnitPanel();
+        initializeNextTurnButton();
         game.getChildren().add(iconPanel);
         game.getChildren().add(researchPanel);
         game.getChildren().add(selectedUnitPanel);
+        game.getChildren().add(nextTurnImageView);
         // updating info panel thread
         Thread infoPanelThread = new Thread(() -> {
             Runnable runnable = () -> {
@@ -191,6 +198,8 @@ public class gamePageController {
         researchPanel.setLayoutY(40+game.getTranslateY()*(-1));
         selectedUnitPanel.setLayoutX(game.getTranslateX()*(-1));
         selectedUnitPanel.setLayoutY(600+game.getTranslateY()*(-1));
+        nextTurnImageView.setLayoutX(game.getTranslateX()*(-1)+1000);
+        nextTurnImageView.setLayoutY(game.getTranslateY()*(-1)+600);
     }
 
     private void initializeResearchPanel() {
@@ -261,6 +270,14 @@ public class gamePageController {
             SelectController.selectNextUnit();
             updateSelectedUnitPanel();
         });
+    }
+
+    public void initializeNextTurnButton (){
+        nextTurnImageView.setFitHeight(100);
+        nextTurnImageView.setFitWidth(100);
+        nextTurnImageView.setPreserveRatio(true);
+        nextTurnImageView.setOnMouseClicked(mouseEvent -> GameController.getInstance().setTurn(GameController.getInstance().getTurn()+1));
+        nextTurnImageView.setImage(new Image(getClass().getResource("/game/images/icons/NEXT_TURN_ICON.png").toExternalForm()));
     }
 
 }
