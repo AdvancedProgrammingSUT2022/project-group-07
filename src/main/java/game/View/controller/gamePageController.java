@@ -1,7 +1,5 @@
 package game.View.controller;
 
-import game.Controller.Chat.MessageController;
-import game.Controller.UserController;
 import game.Controller.game.GameController;
 import game.Controller.game.MapMovement;
 import game.Controller.game.SelectController;
@@ -9,29 +7,16 @@ import game.Enum.TypeOfTechnology;
 import game.Main;
 import game.Model.Technology;
 import game.Model.Terrain;
-import game.View.components.Tile;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.input.KeyEvent;
 import game.Model.Unit;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 
-import java.awt.*;
-import java.awt.event.KeyListener;
-
-import static java.lang.Math.abs;
-import static java.lang.Math.random;
 
 public class gamePageController {
 
@@ -62,7 +47,6 @@ public class gamePageController {
 
     // next turn button
     public ImageView nextTurnImageView = new ImageView() ;
-
 
     public void initialize() {
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
@@ -107,6 +91,7 @@ public class gamePageController {
                 game.requestFocus();
             }
         });
+
     }
 
     public void move(KeyEvent keyEvent) {
@@ -118,15 +103,12 @@ public class gamePageController {
         }
     }
 
-
     public void initializeIconPanel (){
         initializeIcons();
         initializeTooltips();
-        iconPanel.setPrefWidth(400);
-        iconPanel.setPrefHeight(40);
         iconPanel.getItems().clear();
         iconPanel.getItems().addAll(goldIcon , goldLabel , scienceIcon , scienceLabel , happinessIcon , happinessLabel) ;
-        iconPanel.setStyle("-fx-opacity: 0.70 ; -fx-background-color: black");
+        iconPanel.getStyleClass().add("iconPanel") ;
     }
 
     public void initializeTooltips (){
@@ -139,6 +121,10 @@ public class gamePageController {
         goldIcon.setImage(new Image(Main.class.getResource("/game/images/icons/GOLD_ICON.png").toExternalForm()));
         scienceIcon.setImage(new Image(Main.class.getResource("/game/images/icons/SCIENCE_ICON.png").toExternalForm()));
         happinessIcon.setImage(new Image(Main.class.getResource("/game/images/icons/HAPPINESS_ICON.png").toExternalForm()));
+
+        goldLabel.getStyleClass().add("iconLabel") ;
+        scienceLabel.getStyleClass().add("iconLabel") ;
+        happinessLabel.getStyleClass().add("iconLabel") ;
         goldIcon.setFitWidth(30);
         goldIcon.setFitHeight(30);
         goldIcon.setPreserveRatio(true);
@@ -157,23 +143,27 @@ public class gamePageController {
     }
 
     public void updateInfoPanelPosition(){
-        iconPanel.setLayoutX(game.getTranslateX()*(-1));
-        iconPanel.setLayoutY(game.getTranslateY()*(-1));
-        researchPanel.setLayoutX(game.getTranslateX()*(-1));
-        researchPanel.setLayoutY(40+game.getTranslateY()*(-1));
-        selectedUnitPanel.setLayoutX(game.getTranslateX()*(-1));
-        selectedUnitPanel.setLayoutY(600+game.getTranslateY()*(-1));
-        nextTurnImageView.setLayoutX(game.getTranslateX()*(-1)+1000);
-        nextTurnImageView.setLayoutY(game.getTranslateY()*(-1)+600);
+        double x = game.getTranslateX() * (-1) ;
+        double y = game.getTranslateY() * (-1) ;
+        iconPanel.setLayoutX(x);
+        iconPanel.setLayoutY(y);
+        researchPanel.setLayoutX(x);
+        researchPanel.setLayoutY(40+y);
+        selectedUnitPanel.setLayoutX(x);
+        selectedUnitPanel.setLayoutY(600+y);
+        nextTurnImageView.setLayoutX(1000+x);
+        nextTurnImageView.setLayoutY(600+y);
     }
 
     private void initializeResearchPanel() {
         researchPanel.setOrientation(Orientation.VERTICAL);
-        researchPanel.setPrefHeight(150);
-        researchPanel.setPrefWidth(150);
-        researchPanel.setStyle("-fx-background-color: rgba(79,79,79,0.30) ; -fx-alignment: center");
+        researchPanel.getStyleClass().add("researchPanel") ;
         researchPanel.getItems().clear();
         researchPanel.getItems().addAll(currentResearchImageView, progressBar);
+        progressBar.getStyleClass().add("technologyProgressBar") ;
+        currentResearchImageView.setOnMouseClicked(mouseEvent -> {
+            // open technology tree stage
+        });
     }
 
     public void updateResearchPanel (){
@@ -181,29 +171,26 @@ public class gamePageController {
         currentResearchImageView.setPreserveRatio(true);
         currentResearchImageView.setSmooth(true);
 
-        // TODO : next line should be deleted in real game !
-        GameController.getInstance().getCurrentCivilization().setCurrentResearch(new Technology(TypeOfTechnology.AGRICULTURE));
-
         try {
             currentResearchImageView.setImage(new Image(
                     Main.class.getResource("/game/images/technologies/" + GameController.getInstance().getCurrentCivilization().getCurrentResearch().getTypeOfTechnology().getName() + ".png").toExternalForm())) ;
             int predictedTurns = GameController.getInstance().getCurrentCivilization().getCurrentResearch().getTypeOfTechnology().getScienceNeeded() / GameController.getInstance().getCurrentCivilization().getScience() ;
             double progress = ((double) GameController.getInstance().getCurrentCivilization().getCurrentResearch().getRemainingTurns()) / ((double) predictedTurns );
             progressBar.setProgress(progress);
-            progressBar.setDisable(false);
+            if (!researchPanel.getItems().contains(progressBar))
+                researchPanel.getItems().add(progressBar) ;
+            progressBar.setTooltip(new Tooltip(GameController.getInstance().getCurrentCivilization().getCurrentResearch().getTypeOfTechnology().getName()));
         } catch (NullPointerException e){
             currentResearchImageView.setImage(new Image(
                     Main.class.getResource("/game/images/icons/Research.png").toExternalForm()));
-            progressBar.setDisable(true);
+            researchPanel.getItems().remove(progressBar);
         }
-        progressBar.setStyle("-fx-background-color: Red ; -fx-background-radius: 20 ;");
-        progressBar.setTooltip(new Tooltip(GameController.getInstance().getCurrentCivilization().getCurrentResearch().getTypeOfTechnology().getName()));
     }
 
     public void initializeSelectedUnitPanel (){
         selectedUnitPanel.getItems().clear();
         selectedUnitPanel.getItems().addAll(selectedUnitImageView , prevUnitButton , selectedUnitDataLabel , nextUnitButton);
-        updateSelectedUnitPanel();
+        handleButtonActions();
     }
 
     public void updateSelectedUnitPanel (){
@@ -212,10 +199,12 @@ public class gamePageController {
         selectedUnitImageView.setSmooth(true);
 
         try {
-            selectedUnitImageView.setImage(new Image(
-                    Main.class.getResource("/game/assets/civAsset/units/Units/" + GameController.getInstance().getCurrentCivilization().getUnits().get(0) + ".png").toExternalForm()));
             Unit selectedUnit = SelectController.selectedUnit ;
-            String unitData = String.format("HP : %d\nMP : %d\nStatus : %s" , selectedUnit.getHp() , selectedUnit.getMp() , selectedUnit.getUnitStatus());
+            selectedUnitImageView.setImage(new Image(
+                    Main.class.getResource("/game/assets/civAsset/units/Units/" + selectedUnit.getTypeOfUnit().getName() + ".png").toExternalForm()));
+            String unitData = String.format("HP : %d\nMP : %d\nStatus : %s\nLocation : (%d,%d)"
+                    , selectedUnit.getHp() , selectedUnit.getMp() , selectedUnit.getUnitStatus()
+                    , selectedUnit.getLocation().getX() , selectedUnit.getLocation().getY());
             selectedUnitDataLabel.setText(unitData);
             selectedUnitPanel.setDisable(false);
         } catch (NullPointerException e){
@@ -226,14 +215,17 @@ public class gamePageController {
     }
 
     public void handleButtonActions(){
+        prevUnitButton.setFocusTraversable(false);
         prevUnitButton.setOnMouseClicked(mouseEvent -> {
             SelectController.selectPrevUnit();
             updateSelectedUnitPanel();
+            game.requestFocus();
         });
-
+        nextUnitButton.setFocusTraversable(false);
         nextUnitButton.setOnMouseClicked(mouseEvent -> {
             SelectController.selectNextUnit();
             updateSelectedUnitPanel();
+            game.requestFocus();
         });
     }
 
@@ -241,8 +233,9 @@ public class gamePageController {
         nextTurnImageView.setFitHeight(100);
         nextTurnImageView.setFitWidth(100);
         nextTurnImageView.setPreserveRatio(true);
-        nextTurnImageView.setOnMouseClicked(mouseEvent -> GameController.getInstance().setTurn(GameController.getInstance().getTurn()+1));
-//        nextTurnImageView.setImage(new Image(getClass().getResource("/game/images/icons/NEXT_TURN_ICON.png").toExternalForm()));
+
+        nextTurnImageView.setOnMouseClicked(mouseEvent -> GameController.getInstance().nextTurn(GameController.getInstance()));
+        nextTurnImageView.setImage(new Image(getClass().getResource("/game/images/icons/NEXT_TURN_ICON.png").toExternalForm()));
     }
 
 }
