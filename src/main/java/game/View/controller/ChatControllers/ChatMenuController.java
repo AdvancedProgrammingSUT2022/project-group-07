@@ -1,6 +1,9 @@
 package game.View.controller.ChatControllers;
 
-import game.Controller.Chat.*;
+import game.Controller.Chat.ChatGroup;
+import game.Controller.Chat.Message;
+import game.Controller.Chat.MessageController;
+import game.Controller.Chat.MessageType;
 import game.Controller.UserController;
 import game.Main;
 import game.Model.User;
@@ -11,6 +14,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -27,17 +32,20 @@ public class ChatMenuController implements Initializable {
     ChatGroup currentChatGroup ;
     MessageType messageType = MessageType.PUBLIC ;
 
-    boolean exit ;
+    boolean exit = false ;
 
     public VBox chatOptionVBox;
     public VBox chatBoxVBox;
     public TextArea messageTextField;
+    public Button backBtn;
+
+
+    private int starter = 0 ;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        exit = false ;
-        updateData();
 
+        // message updater thread
         Thread thread = new Thread(() -> {
             Runnable messageUpdater = () -> {
                 switch (messageType){
@@ -46,14 +54,50 @@ public class ChatMenuController implements Initializable {
                     default -> loadMessages(MessageController.getPublicMessages());
                 }
             } ;
-
             while (!exit) {
                 Platform.runLater(messageUpdater);
-                try {Thread.sleep(100);}
+                try {Thread.sleep(300);}
                 catch (InterruptedException ignored) {}
             }
         });
         thread.start();
+
+        // chat options updater
+        Thread thread1 = new Thread(() -> {
+            Runnable chatOptionsUpdater = () -> {
+                ArrayList<User> users = UserController.getUsers();
+                MessageController.loadChatGroups();
+                chatGroups = MessageController.getChatGroups();
+                // avoid unnecessary loading
+                if (starter == users.size()-1 + chatGroups.size() + 1)
+                    return;
+                // it seems we need to load
+                chatOptionVBox.getChildren().clear();
+                createPublicChatButton();
+                for (User user : users)
+                    createUserChatButton(user);
+                for (ChatGroup chatGroup : chatGroups)
+                    createChatGroupButton(chatGroup);
+                starter = users.size() + chatGroups.size() ;
+            } ;
+            while (!exit) {
+                Platform.runLater(chatOptionsUpdater);
+                try {Thread.sleep(300);}
+                catch (InterruptedException ignored) {}
+            }
+        });
+        thread1.start();
+
+
+        backBtn.setOnMouseClicked(mouseEvent -> {
+            exit = true;
+            try {
+                Main.changeScene("mainMenu");
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        });
     }
 
     public void sendMessage() {
@@ -65,46 +109,22 @@ public class ChatMenuController implements Initializable {
             return;
         }
 
-        String audienceUsername = currentAudience==null ? "Greater Good" : currentAudience.getUsername();
+        String audienceUsername = currentAudience==null ? "Public" : currentAudience.getUsername();
         Message message = new Message(UserController.getCurrentUser().getUsername()
                 , audienceUsername
                 , messageType
                 , messageTextFieldText);
         messageTextField.clear();
         switch (messageType){
-            case PRIVATE -> {
+            case PRIVATE, PUBLIC -> {
                 MessageController.addMessage(message);
                 MessageController.saveMessages();
-                loadMessages(MessageController.getMessages(UserController.getCurrentUser() , currentAudience));
-            }
-            case PUBLIC -> {
-                MessageController.addMessage(message);
-                MessageController.saveMessages();
-                loadMessages(MessageController.getPublicMessages());
             }
             case GROUP -> {
                 currentChatGroup.addMessage(message);
                 MessageController.saveChatGroups();
-                loadMessages(currentChatGroup.getMessages());
             }
         }
-    }
-
-    public void updateData (){
-        chatOptionVBox.getChildren().clear();
-        // getting all users
-        ArrayList<User> users = UserController.getUsers();
-        // loading chat groups
-        MessageController.loadChatGroups();
-        chatGroups = MessageController.getChatGroups();
-        // public chat button
-        createPublicChatButton();
-        // user chat buttons
-        for (User user : users)
-            createUserChatButton(user);
-        // chat room buttons
-        for (ChatGroup chatGroup : chatGroups)
-            createChatGroupButton(chatGroup);
     }
 
     public void createPublicChatButton (){
@@ -149,17 +169,72 @@ public class ChatMenuController implements Initializable {
                 messageHBox.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
             }
 
-            messageHBox.getChildren().add(new Label(message.getMessage()));
-            message.setSeen();
+            if (!message.getSender().equals(UserController.getCurrentUser().getUsername()))
+                message.setSeen();
+
+            messageHBox.getChildren().add(getAvatarImageView(message.getSender())) ;
+
+            Label label = new Label(message.getMessage());
+            label.setStyle("-fx-text-fill: white; -fx-font-size: 20;  -fx-padding: 15px");
+            messageHBox.getChildren().add(label);
+
+            String status = "" ;
+            if (message.isSent()) status += "🗸" ;
+            if (message.isSeen()) status += "🗸" ;
+            status += "\t" + message.getCreationTime().substring(3) ;
+            Label messageStatus = new Label(status);
+            messageStatus.setStyle("-fx-text-fill: white; -fx-font-size: 8 ;  -fx-padding: 10px ; -fx-font-style: italic ;");
+            messageHBox.getChildren().add(messageStatus);
 
             Button editButton = new Button("\uD83D\uDD8A");
+            editButton.setScaleX(0.5);
+            editButton.setScaleY(0.5);
+            //editButton.setStyle("-fx-padding: 10px;");
             editButton.setOnMouseClicked(mouseEvent -> openEditMessageWindow(message));
 
-            if (message.getSender().equals(UserController.getCurrentUser().getUsername()))
+            if (message.getSender().equals(UserController.getCurrentUser().getUsername())) {
+                ImageView imageView = new ImageView(new Image(getClass().getResource(
+                        "/game/assets/Backgrounds/yours.png"
+                ).toExternalForm()));
+                imageView.setFitHeight(100);
+                imageView.setFitWidth(100);
+                messageHBox.getChildren().add(imageView);
                 messageHBox.getChildren().add(editButton);
+            }
+            else {
+                ImageView imageView = new ImageView(new Image(
+                        getClass().getResource("/game/assets/Backgrounds/theirs.png").toExternalForm()
+                ));
+                imageView.setFitWidth(100);
+                imageView.setFitHeight(100);
+                messageHBox.getChildren().add(imageView);
+            }
 
             chatBoxVBox.getChildren().add(messageHBox) ;
         }
+    }
+
+    public ImageView getAvatarImageView (String sender){
+        User senderUser = UserController.getUserByUsername(sender);
+        ImageView avatarImageView = new ImageView();
+        avatarImageView.setFitWidth(50);
+        avatarImageView.setFitHeight(50);
+        avatarImageView.setPreserveRatio(true);
+
+        if (senderUser==null)
+            avatarImageView.setImage(new Image(Main.class.getResource("/game/images/avatars/1.png").toExternalForm()));
+
+        else if (senderUser.getAvatarFilePath()==null || senderUser.getAvatarFilePath().isEmpty()){
+            avatarImageView.setImage(new Image(Main.class.getResource("/game/images/avatars/"+senderUser.getAvatarNumber()+".png").toExternalForm()));
+        }
+        else {
+            try {
+                avatarImageView.setImage(new Image(senderUser.getAvatarFilePath()));
+            } catch (Exception e){
+                avatarImageView.setImage(new Image(Main.class.getResource("/game/images/avatars/1.png").toExternalForm()));
+            }
+        }
+        return avatarImageView ;
     }
 
     public void openEditMessageWindow(Message message){
@@ -169,11 +244,6 @@ public class ChatMenuController implements Initializable {
 
     public void createNewRoom() {
         Main.loadNewStage("Create new room" , "createNewChatGroupPage");
-    }
-
-    public void backToMainMenu() throws IOException {
-        exit = true ;
-        Main.changeScene("mainMenu");
     }
 
 }
