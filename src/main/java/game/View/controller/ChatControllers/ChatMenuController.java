@@ -1,18 +1,21 @@
 package game.View.controller.ChatControllers;
 
-import game.Controller.Chat.*;
+import game.Controller.Chat.ChatGroup;
+import game.Controller.Chat.Message;
+import game.Controller.Chat.MessageController;
+import game.Controller.Chat.MessageType;
 import game.Controller.UserController;
 import game.Main;
 import game.Model.User;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -87,14 +90,11 @@ public class ChatMenuController implements Initializable {
 
 
         backBtn.setOnMouseClicked(mouseEvent -> {
-            System.out.println("back is being clicked");
             exit = true;
             try {
                 Main.changeScene("mainMenu");
-                System.out.println("manteghan menu bayad avaz she");
             } catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("back kar nakard chon ke :");
                 System.out.println(e.getMessage());
             }
         });
@@ -170,7 +170,16 @@ public class ChatMenuController implements Initializable {
                 messageHBox.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
             }
 
+            messageHBox.getChildren().add(getAvatarImageView(message.getSender())) ;
             messageHBox.getChildren().add(new Label(message.getMessage()));
+            String status = "" ;
+            if (message.isSent())
+                status = "🗸" ;
+            if (message.isSeen())
+                status += "🗸" ;
+            Label messageStatus = new Label(status + "\t" + message.getCreationTime().substring(3));
+            messageStatus.setStyle("-fx-font-size: 8 ; -fx-font-style: italic ; -fx-alignment: bottom-center");
+            messageHBox.getChildren().add(messageStatus);
 
             if (!message.getSender().equals(UserController.getCurrentUser().getUsername()))
                 message.setSeen();
@@ -183,6 +192,21 @@ public class ChatMenuController implements Initializable {
 
             chatBoxVBox.getChildren().add(messageHBox) ;
         }
+    }
+
+    public ImageView getAvatarImageView (String sender){
+        User senderUser = UserController.getUserByUsername(sender);
+        ImageView avatarImageView = new ImageView();
+        avatarImageView.setFitWidth(50);
+        avatarImageView.setFitHeight(50);
+        avatarImageView.setPreserveRatio(true);
+
+        if (senderUser.getAvatarFilePath()==null || senderUser.getAvatarFilePath().isEmpty()){
+            avatarImageView.setImage(new Image(Main.class.getResource("/game/images/avatars/"+senderUser.getAvatarNumber()+".png").toExternalForm()));
+        } else {
+            avatarImageView.setImage(new Image(senderUser.getAvatarFilePath()));
+        }
+        return avatarImageView ;
     }
 
     public void openEditMessageWindow(Message message){
