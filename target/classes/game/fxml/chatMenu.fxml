@@ -20,6 +20,6 @@
        </VBox>
    </center>
    <bottom>
-      <Button onMouseClicked="#backToMainMenu" mnemonicParsing="false" text="Back" BorderPane.alignment="CENTER" />
+      <Button fx:id="backBtn" mnemonicParsing="false" text="Back" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>

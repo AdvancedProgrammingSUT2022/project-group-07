@@ -5,12 +5,14 @@ import game.Controller.UserController;
 import game.Main;
 import game.Model.User;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -27,17 +29,20 @@ public class ChatMenuController implements Initializable {
     ChatGroup currentChatGroup ;
     MessageType messageType = MessageType.PUBLIC ;
 
-    boolean exit ;
+    boolean exit = false ;
 
     public VBox chatOptionVBox;
     public VBox chatBoxVBox;
     public TextArea messageTextField;
+    public Button backBtn;
+
+
+    private int starter = 0 ;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        exit = false ;
-        updateData();
 
+        // message updater thread
         Thread thread = new Thread(() -> {
             Runnable messageUpdater = () -> {
                 switch (messageType){
@@ -46,14 +51,53 @@ public class ChatMenuController implements Initializable {
                     default -> loadMessages(MessageController.getPublicMessages());
                 }
             } ;
-
             while (!exit) {
                 Platform.runLater(messageUpdater);
-                try {Thread.sleep(100);}
+                try {Thread.sleep(300);}
                 catch (InterruptedException ignored) {}
             }
         });
         thread.start();
+
+        // chat options updater
+        Thread thread1 = new Thread(() -> {
+            Runnable chatOptionsUpdater = () -> {
+                ArrayList<User> users = UserController.getUsers();
+                MessageController.loadChatGroups();
+                chatGroups = MessageController.getChatGroups();
+                // avoid unnecessary loading
+                if (starter == users.size()-1 + chatGroups.size() + 1)
+                    return;
+                // it seems we need to load
+                chatOptionVBox.getChildren().clear();
+                createPublicChatButton();
+                for (User user : users)
+                    createUserChatButton(user);
+                for (ChatGroup chatGroup : chatGroups)
+                    createChatGroupButton(chatGroup);
+                starter = users.size() + chatGroups.size() ;
+            } ;
+            while (!exit) {
+                Platform.runLater(chatOptionsUpdater);
+                try {Thread.sleep(300);}
+                catch (InterruptedException ignored) {}
+            }
+        });
+        thread1.start();
+
+
+        backBtn.setOnMouseClicked(mouseEvent -> {
+            System.out.println("back is being clicked");
+            exit = true;
+            try {
+                Main.changeScene("mainMenu");
+                System.out.println("manteghan menu bayad avaz she");
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("back kar nakard chon ke :");
+                System.out.println(e.getMessage());
+            }
+        });
     }
 
     public void sendMessage() {
@@ -65,47 +109,24 @@ public class ChatMenuController implements Initializable {
             return;
         }
 
-        String audienceUsername = currentAudience==null ? "Greater Good" : currentAudience.getUsername();
+        String audienceUsername = currentAudience==null ? "Public" : currentAudience.getUsername();
         Message message = new Message(UserController.getCurrentUser().getUsername()
                 , audienceUsername
                 , messageType
                 , messageTextFieldText);
         messageTextField.clear();
         switch (messageType){
-            case PRIVATE -> {
+            case PRIVATE, PUBLIC -> {
                 MessageController.addMessage(message);
                 MessageController.saveMessages();
-                loadMessages(MessageController.getMessages(UserController.getCurrentUser() , currentAudience));
-            }
-            case PUBLIC -> {
-                MessageController.addMessage(message);
-                MessageController.saveMessages();
-                loadMessages(MessageController.getPublicMessages());
             }
             case GROUP -> {
                 currentChatGroup.addMessage(message);
                 MessageController.saveChatGroups();
-                loadMessages(currentChatGroup.getMessages());
             }
         }
     }
 
-    public void updateData (){
-        chatOptionVBox.getChildren().clear();
-        // getting all users
-        ArrayList<User> users = UserController.getUsers();
-        // loading chat groups
-        MessageController.loadChatGroups();
-        chatGroups = MessageController.getChatGroups();
-        // public chat button
-        createPublicChatButton();
-        // user chat buttons
-        for (User user : users)
-            createUserChatButton(user);
-        // chat room buttons
-        for (ChatGroup chatGroup : chatGroups)
-            createChatGroupButton(chatGroup);
-    }
 
     public void createPublicChatButton (){
         Button publicChatButton = new Button("Public Chat");
@@ -150,7 +171,9 @@ public class ChatMenuController implements Initializable {
             }
 
             messageHBox.getChildren().add(new Label(message.getMessage()));
-            message.setSeen();
+
+            if (!message.getSender().equals(UserController.getCurrentUser().getUsername()))
+                message.setSeen();
 
             Button editButton = new Button("\uD83D\uDD8A");
             editButton.setOnMouseClicked(mouseEvent -> openEditMessageWindow(message));
@@ -169,11 +192,6 @@ public class ChatMenuController implements Initializable {
 
     public void createNewRoom() {
         Main.loadNewStage("Create new room" , "createNewChatGroupPage");
-    }
-
-    public void backToMainMenu() throws IOException {
-        exit = true ;
-        Main.changeScene("mainMenu");
     }
 
 }

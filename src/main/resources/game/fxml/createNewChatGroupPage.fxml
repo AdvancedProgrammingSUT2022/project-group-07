@@ -31,7 +31,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onMouseClicked="#createRoom" prefHeight="50.0" prefWidth="90.0" text="Create" />
+            <Button fx:id="createBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="90.0" text="Create" />
             <Button fx:id="closeBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="89.0" text="Cancel" />
          </children>
       </HBox>
