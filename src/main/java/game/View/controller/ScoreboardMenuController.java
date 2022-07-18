@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 public class ScoreboardMenuController implements Initializable {
 
     @FXML
-    BorderPane borderPane;
+    AnchorPane anchorPane;
     @FXML
     Button backButton;
     @FXML
@@ -35,9 +35,8 @@ public class ScoreboardMenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         String cssFile1 = this.getClass().getResource("/game/CSS/scoreboardStyle.css").toExternalForm();
-        borderPane.getStylesheets().add(cssFile1);
+        anchorPane.getStylesheets().add(cssFile1);
 
         UserController.loadUsers();
         ArrayList<User> users = UserController.getUsers();
@@ -70,19 +69,24 @@ public class ScoreboardMenuController implements Initializable {
 
     public void addLabel (int index , User user , HBox hBox){
 
-        String currentPath = System.getProperty("user.dir");
         ImageView imageView = new ImageView();
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
 
         if (user.getAvatarFilePath()==null || user.getAvatarFilePath().isEmpty()) {
-            ImagePattern avatarPic = new ImagePattern(new Image(getClass().getResource("/game/images/avatars/" +
+            ImagePattern avatarPic = new ImagePattern(new Image(Main.class.getResource("/game/images/avatars/" +
                     user.getAvatarNumber() + ".png").toExternalForm()));
             imageView.setImage(avatarPic.getImage()) ;
         }
-        else
-            imageView.setImage(new Image(user.getAvatarFilePath()));
+        else {
+            try {
+                imageView.setImage(new Image(user.getAvatarFilePath()));
+            } catch (Exception e){
+                ImagePattern avatarPic = new ImagePattern(new Image(Main.class.getResource("/game/images/avatars/1.png").toExternalForm()));
+                imageView.setImage(avatarPic.getImage()) ;
+            }
+        }
 
         Label[] labels = new Label[]{
                 new Label(user.getUsername()) ,

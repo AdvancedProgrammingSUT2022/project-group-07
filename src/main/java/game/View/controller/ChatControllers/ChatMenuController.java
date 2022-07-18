@@ -127,7 +127,6 @@ public class ChatMenuController implements Initializable {
         }
     }
 
-
     public void createPublicChatButton (){
         Button publicChatButton = new Button("Public Chat");
         publicChatButton.setOnMouseClicked(mouseEvent -> {
@@ -170,25 +169,46 @@ public class ChatMenuController implements Initializable {
                 messageHBox.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
             }
 
-            messageHBox.getChildren().add(getAvatarImageView(message.getSender())) ;
-            messageHBox.getChildren().add(new Label(message.getMessage()));
-            String status = "" ;
-            if (message.isSent())
-                status = "🗸" ;
-            if (message.isSeen())
-                status += "🗸" ;
-            Label messageStatus = new Label(status + "\t" + message.getCreationTime().substring(3));
-            messageStatus.setStyle("-fx-font-size: 8 ; -fx-font-style: italic ; -fx-alignment: bottom-center");
-            messageHBox.getChildren().add(messageStatus);
-
             if (!message.getSender().equals(UserController.getCurrentUser().getUsername()))
                 message.setSeen();
 
+            messageHBox.getChildren().add(getAvatarImageView(message.getSender())) ;
+
+            Label label = new Label(message.getMessage());
+            label.setStyle("-fx-text-fill: white; -fx-font-size: 20;  -fx-padding: 15px");
+            messageHBox.getChildren().add(label);
+
+            String status = "" ;
+            if (message.isSent()) status += "🗸" ;
+            if (message.isSeen()) status += "🗸" ;
+            status += "\t" + message.getCreationTime().substring(3) ;
+            Label messageStatus = new Label(status);
+            messageStatus.setStyle("-fx-text-fill: white; -fx-font-size: 8 ;  -fx-padding: 10px ; -fx-font-style: italic ;");
+            messageHBox.getChildren().add(messageStatus);
+
             Button editButton = new Button("\uD83D\uDD8A");
+            editButton.setScaleX(0.5);
+            editButton.setScaleY(0.5);
+            //editButton.setStyle("-fx-padding: 10px;");
             editButton.setOnMouseClicked(mouseEvent -> openEditMessageWindow(message));
 
-            if (message.getSender().equals(UserController.getCurrentUser().getUsername()))
+            if (message.getSender().equals(UserController.getCurrentUser().getUsername())) {
+                ImageView imageView = new ImageView(new Image(getClass().getResource(
+                        "/game/assets/Backgrounds/yours.png"
+                ).toExternalForm()));
+                imageView.setFitHeight(100);
+                imageView.setFitWidth(100);
+                messageHBox.getChildren().add(imageView);
                 messageHBox.getChildren().add(editButton);
+            }
+            else {
+                ImageView imageView = new ImageView(new Image(
+                        getClass().getResource("/game/assets/Backgrounds/theirs.png").toExternalForm()
+                ));
+                imageView.setFitWidth(100);
+                imageView.setFitHeight(100);
+                messageHBox.getChildren().add(imageView);
+            }
 
             chatBoxVBox.getChildren().add(messageHBox) ;
         }
@@ -201,10 +221,18 @@ public class ChatMenuController implements Initializable {
         avatarImageView.setFitHeight(50);
         avatarImageView.setPreserveRatio(true);
 
-        if (senderUser.getAvatarFilePath()==null || senderUser.getAvatarFilePath().isEmpty()){
+        if (senderUser==null)
+            avatarImageView.setImage(new Image(Main.class.getResource("/game/images/avatars/1.png").toExternalForm()));
+
+        else if (senderUser.getAvatarFilePath()==null || senderUser.getAvatarFilePath().isEmpty()){
             avatarImageView.setImage(new Image(Main.class.getResource("/game/images/avatars/"+senderUser.getAvatarNumber()+".png").toExternalForm()));
-        } else {
-            avatarImageView.setImage(new Image(senderUser.getAvatarFilePath()));
+        }
+        else {
+            try {
+                avatarImageView.setImage(new Image(senderUser.getAvatarFilePath()));
+            } catch (Exception e){
+                avatarImageView.setImage(new Image(Main.class.getResource("/game/images/avatars/1.png").toExternalForm()));
+            }
         }
         return avatarImageView ;
     }

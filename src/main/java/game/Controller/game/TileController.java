@@ -17,8 +17,13 @@ public class TileController {
     }
 
     private static void findBackGround(Tile tile, TypeOfTerrain typeOfTerrainUsed , TerrainFeatures typeOfTerrainFeatureUsed) {
-        String address;
-        address = typeOfTerrainUsed.getName() + ".png";
-        tile.setBackground(address);
+        String address1, address2 = null;
+        address1 = typeOfTerrainUsed.getName() + ".png";
+
+        if (typeOfTerrainFeatureUsed != null) {
+//            System.out.println("Type of feature = " + typeOfTerrainFeatureUsed.getName() + "    Terrain = " + typeOfTerrainUsed.getName());
+            address2 = typeOfTerrainUsed.getName() + "+" + typeOfTerrainFeatureUsed + ".png";
+        }
+        tile.setBackground(address1, address2);
     }
 }

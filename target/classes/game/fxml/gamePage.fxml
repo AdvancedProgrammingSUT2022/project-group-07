@@ -1,28 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-
-<AnchorPane
-        stylesheets="@../CSS/game.css"
-        fx:id="game" prefHeight="700.0" prefWidth="1100.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.gamePageController">
-
-
-<!--    <ToolBar fx:id="infoPanel" layoutX="35.0" layoutY="15.0">-->
-<!--        <ImageView fx:id="goldIcon" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">-->
-<!--            <Image url="@../images/icons/GOLD_ICON.png" />-->
-<!--        </ImageView>-->
-<!--        <Label fx:id="goldLabel" text="Gold" />-->
-<!--        <ImageView fx:id="scienceIcon" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">-->
-<!--            <Image url="@../images/icons/SCIENCE_ICON.png" />-->
-<!--        </ImageView>-->
-<!--        <Label fx:id="scienceLabel" text="Science" />-->
-<!--        <ImageView fx:id="happinessIcon" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">-->
-<!--            <Image url="@../images/icons/HAPPINESS_ICON.png" />-->
-<!--        </ImageView>-->
-<!--        <Label fx:id="happinessLabel" text="Happiness" />-->
-<!--    </ToolBar>-->
+<?import javafx.scene.layout.AnchorPane?>
+<?import java.net.URL?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="game.View.controller.gamePageController"
+            prefHeight="700.0" prefWidth="1100.0" fx:id="game"
+            styleClass="anchorPane" onKeyPressed="#move">
+    <stylesheets>
+        <URL value="@../css/game.css"/>
+    </stylesheets>
 
 </AnchorPane>

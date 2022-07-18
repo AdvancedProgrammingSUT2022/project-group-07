@@ -1,4 +1,13 @@
-
+.anchorPane {
+    -fx-background-image: url("../assets/Background_B.png");
+    -fx-background-size: cover;
+}
+.font {
+    -fx-font-family: Algerian;
+    -fx-font-size: 25;
+    -fx-fill: white;
+    -fx-text-fill: white;
+}
 .button {
     -fx-background-image: url("../assets/Button_Normal.png");
     -fx-background-size:  100% 100%;
@@ -27,20 +36,13 @@
     -fx-border-radius: 3px;
     -fx-text-fill: #debf09;
 }
-.vBox {
-    -fx-background-image: url("../assets/Background_B.png");
-    -fx-background-size: cover;
+.choice-box {
+    -fx-border-radius: 5px;
+    -fx-border-color: white;
+    -fx-background-color: rgba(83, 80, 129, 0.7);
 }
-.scroll-pane {
-    -fx-background-image: url("../assets/Backgrounds/chattt.jpg");
-    -fx-background-size: cover;
-}
-.text-area {
-    -fx-font-size: 20;
-    -fx-text-fill: #12088c;
+.text-field {
     -fx-text-alignment: center;
-    -fx-alignment: center;
-}
-.text-area.text-field{
-    -fx-text-alignment: center;
+    -fx-text-fill: rgba(11, 2, 96, 0.7);
+    -fx-font-size: 15;
 }
