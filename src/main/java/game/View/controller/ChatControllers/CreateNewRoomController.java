@@ -4,15 +4,11 @@ import game.Controller.Chat.ChatGroup;
 import game.Controller.Chat.MessageController;
 import game.Controller.UserController;
 import game.Model.User;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -27,6 +23,8 @@ public class CreateNewRoomController implements Initializable {
 
     public TextField roomName;
     public Button closeBtn;
+    public Button createBtn ;
+
     private ArrayList<CheckBox> checkBoxes ;
 
     public GridPane gridPane;
@@ -34,7 +32,34 @@ public class CreateNewRoomController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        closeBtn.setOnMouseClicked(this::closeStage);
+        closeBtn.setOnMouseClicked(e -> ((Stage) closeBtn.getScene().getWindow()).close());
+
+        createBtn.setOnMouseClicked(mouseEvent -> {
+            ArrayList<User> addedUser = new ArrayList<>();
+            int checkedBoxes = 0;
+            for (int counter = 0; counter < checkBoxes.size(); counter++) {
+                if (checkBoxes.get(counter).isSelected()) {
+                    checkedBoxes++;
+                    addedUser.add(users.get(counter));
+                }
+            }
+            String chatName = roomName.getText();
+            if (chatName.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Choose a name for this room !");
+                alert.show();
+                return;
+            }
+            if (checkedBoxes == 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Choose at least one player !");
+                alert.show();
+                return;
+            }
+            MessageController.addChatGroup(new ChatGroup(addedUser, chatName));
+            MessageController.saveChatGroups();
+            ((Stage) createBtn.getScene().getWindow()).close();
+        });
 
         checkBoxes = new ArrayList<>();
         int counter = 0 ;
@@ -50,39 +75,6 @@ public class CreateNewRoomController implements Initializable {
                 counter++ ;
             }
         }
-    }
-
-    public void createRoom(MouseEvent mouseEvent) {
-        ArrayList<User > addedUser = new ArrayList<>();
-        int checkedBoxes = 0 ;
-        for (int counter=0 ; counter<checkBoxes.size() ; counter++) {
-            if (checkBoxes.get(counter).isSelected()) {
-                checkedBoxes++;
-                addedUser.add(users.get(counter));
-            }
-        }
-        String chatName = roomName.getText();
-        if (chatName.isEmpty()){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Choose a name for this room !");
-            alert.show();
-            return;
-        }
-        if (checkedBoxes == 0 ){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Choose at least one player !");
-            alert.show();
-            return;
-        }
-        MessageController.addChatGroup(new ChatGroup(addedUser , chatName));
-        MessageController.saveChatGroups();
-        closeStage(mouseEvent);
-    }
-
-    private void closeStage(MouseEvent mouseEvent) {
-        Node source = (Node) mouseEvent.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
     }
 
 }
