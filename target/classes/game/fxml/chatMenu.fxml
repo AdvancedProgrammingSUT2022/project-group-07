@@ -28,6 +28,6 @@
         </VBox>
     </center>
     <bottom>
-        <Button mnemonicParsing="false" onMouseClicked="#backToMainMenu" prefHeight="29.0" prefWidth="282.0" text="Back" BorderPane.alignment="CENTER" />
+        <Button fx:id="backBtn" mnemonicParsing="false" prefHeight="29.0" prefWidth="282.0" text="Back" BorderPane.alignment="CENTER" />
     </bottom>
 </BorderPane>
