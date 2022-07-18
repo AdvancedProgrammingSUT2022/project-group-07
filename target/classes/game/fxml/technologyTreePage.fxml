@@ -2,8 +2,19 @@
 
 
 <?import javafx.scene.layout.AnchorPane?>
+<?import java.net.URL?>
 <AnchorPane fx:controller="game.View.controller.TechnologyTreeController"
-        prefHeight="700.0" prefWidth="1100.0"
-        xmlns="http://javafx.com/javafx/16">
+            fx:id="anchorPane"
+            prefWidth="800.0"
+            prefHeight="600.0"
+            maxWidth="800.0"
+            maxHeight="600.0"
+            onKeyPressed="#movePage"
+            onMouseDragged="#movePageWithMouse"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml">
+    <stylesheets>
+        <URL value="@../CSS/technologyTree.css" />
+    </stylesheets>
 
 </AnchorPane>

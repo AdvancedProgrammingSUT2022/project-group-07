@@ -171,7 +171,6 @@ public class gamePageController {
         researchPanel.getItems().addAll(currentResearchImageView, progressBar);
         progressBar.getStyleClass().add("technologyProgressBar") ;
         currentResearchImageView.setOnMouseClicked(mouseEvent -> {
-            // open technology tree stage
             Main.loadNewStage("Technology tree" , "technologyTreePage");
         });
     }
