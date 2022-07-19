@@ -5,6 +5,7 @@ import game.Model.*;
 import game.Enum.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class GameController {
@@ -89,7 +90,7 @@ public class GameController {
     }
 
     public void initialize() {
-        mapDimension = MapDimension.STANDARD;
+        mapDimension = chooseRandomMap();
         mapWidth = mapDimension.getX();
         mapHeight = mapDimension.getY();
         map = new Terrain[mapHeight][mapWidth];
@@ -98,6 +99,16 @@ public class GameController {
         TheShortestPath.run();
         setCurrentCivilization(civilizations.get(0));
         //MapController.setMapCenter(currentCivilization.getUnits().get(0).getLocation());
+    }
+
+    private static MapDimension chooseRandomMap() {
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(15);
+        if (randomNumber % 3 == 0)
+            return MapDimension.SMALL;
+        if (randomNumber % 4 == 0)
+            return MapDimension.LARGE;
+        return MapDimension.STANDARD;
     }
 
     public void run() {
@@ -138,4 +149,17 @@ public class GameController {
         this.turn = turn;
     }
 
+    public void nextTurn(GameController gameController) {
+        int index = gameController.getCivilizations().indexOf(gameController.getCurrentCivilization());
+        if (index == gameController.getCivilizations().size() - 1) {
+            gameController.setTurn(gameController.getTurn() + 1);
+            gameController.setCurrentCivilization(gameController.getCivilizations().get(0));
+        }
+        else
+            gameController.setCurrentCivilization(gameController.getCivilizations().get(index + 1));
+        SelectController.selectedUnit = null;
+        SelectController.selectedCity = null;
+        MapController.setMapCenter(gameController.getCurrentCivilization().getUnits().get(0).getLocation());
+        CivilizationController.updateCivilizationElements(gameController);
+    }
 }

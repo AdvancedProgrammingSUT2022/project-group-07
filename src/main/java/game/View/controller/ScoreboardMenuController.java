@@ -36,6 +36,7 @@ public class ScoreboardMenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         String cssFile1 = this.getClass().getResource("/game/CSS/scoreboardStyle.css").toExternalForm();
         anchorPane.getStylesheets().add(cssFile1);
 
@@ -77,12 +78,18 @@ public class ScoreboardMenuController implements Initializable {
         imageView.setFitHeight(50);
 
         if (user.getAvatarFilePath()==null || user.getAvatarFilePath().isEmpty()) {
-            ImagePattern avatarPic = new ImagePattern(new Image(getClass().getResource("/game/images/avatars/" +
+            ImagePattern avatarPic = new ImagePattern(new Image(Main.class.getResource("/game/images/avatars/" +
                     user.getAvatarNumber() + ".png").toExternalForm()));
             imageView.setImage(avatarPic.getImage()) ;
         }
-        else
-            imageView.setImage(new Image(user.getAvatarFilePath()));
+        else {
+            try {
+                imageView.setImage(new Image(user.getAvatarFilePath()));
+            } catch (Exception e){
+                ImagePattern avatarPic = new ImagePattern(new Image(Main.class.getResource("/game/images/avatars/1.png").toExternalForm()));
+                imageView.setImage(avatarPic.getImage()) ;
+            }
+        }
 
         Label[] labels = new Label[]{
                 new Label(user.getUsername()) ,
