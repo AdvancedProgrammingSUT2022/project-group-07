@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NotificationController {
-    private static GameController gameController ;
-    private static final HashMap<Civilization , ArrayList<Notification>> notifications = new HashMap<>() ;
+    private static GameController gameController  ;
+    private static HashMap<Civilization , ArrayList<Notification>> notifications = new HashMap<>() ;
 
     public static void runNotification (final GameController gameController){
-        NotificationController.gameController = gameController ;
-        for (Civilization civilization : gameController.getCivilizations())
+        NotificationController.gameController = GameController.getInstance() ;
+        for (Civilization civilization : GameController.getInstance().getCivilizations())
             notifications.put(civilization , new ArrayList<>());
     }
 
@@ -85,7 +85,7 @@ public class NotificationController {
     }
 
     public static void setNotification (Civilization civilization , String message ){
-        notifications.get(civilization).add(new Notification(message , gameController.getTurn()));
+        notifications.get(civilization).add(new Notification(message , GameController.getInstance().getTurn()));
     }
 
 }
