@@ -4,9 +4,9 @@
 }
 .iconPanel {
     -fx-opacity: 0.75 ;
-    -fx-background-image: url("../assets/TransparentButton/bg.png");
-    -fx-background-size: 100% 100%;
-    -fx-background-repeat: no-repeat;
+    -fx-background-image: url("../assets/TransparentButton/bg@2x.png");
+    /*-fx-background-size: 100% 100%;*/
+    -fx-background-size: cover ;
     -fx-pref-width: 300;
     -fx-pref-height: 40;
     -fx-label-padding: 15px;
@@ -35,8 +35,8 @@
     -fx-opacity: 0.75;
     -fx-background-color: gray ;
     -fx-alignment: center;
-    -fx-pref-width: 150px;
-    -fx-pref-height: 150px;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 200px;
 }
 
 .researchPanel:hover{
@@ -52,4 +52,62 @@
 
 .technologyProgressBar:hover {
     -fx-opacity: 0.90;
+}
+
+.nextTurn {
+    -fx-opacity: 0.75;
+    -fx-scale-x: 100%;
+    -fx-scale-y: 100%;
+    -fx-scale-z: 100%;
+}
+
+.nextTurn:hover{
+    -fx-opacity: 0.90;
+    -fx-scale-x: 120%;
+    -fx-scale-y: 120%;
+    -fx-scale-z: 120%;
+}
+
+.selectedUnitPanel {
+    -fx-opacity: 0.5;
+    -fx-background-image: url("../images/backgrounds/UnitBackground.png");
+    -fx-background-size: cover ;
+    -fx-pref-width: 350;
+    -fx-pref-height: 180;
+    -fx-label-padding: 15px;
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+}
+
+.arrowButton {
+    -fx-pref-width: 30;
+    -fx-pref-height: 30;
+    -fx-text-alignment: center;
+    -fx-background-radius: 20;
+    -fx-text-fill: white;
+    -fx-background-color: rgba(0, 0, 0, 0.05);
+    -fx-font-size: 18px;
+}
+.arrowButton:hover{
+    -fx-background-color: rgba(0,0,0,0.5);
+}
+
+.selectedUnitPanel:hover {
+    -fx-opacity: 0.75;
+}
+
+.othersPanel {
+    -fx-opacity: 0.75 ;
+    -fx-background-image: url("../assets/TransparentButton/bg@2x.png");
+    -fx-background-size: cover ;
+    -fx-pref-width: 800;
+    -fx-pref-height: 40;
+    -fx-label-padding: 15px;
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+}
+
+.othersPanel:hover{
+    -fx-opacity: 0.90 ;
+    -fx-label-padding: 20px;
 }

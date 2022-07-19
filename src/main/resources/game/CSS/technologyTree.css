@@ -1,0 +1,32 @@
+.technologyHBox{
+    -fx-opacity: 0.75;
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+    -fx-text-fill: black;
+    -fx-font-size: 20;
+    -fx-text-alignment: center;
+    -fx-label-padding: 10px;
+}
+
+.technologyHBox:hover{
+    -fx-opacity: 0.90;
+    -fx-background-radius: 30;
+    -fx-border-width: 2;
+    -fx-border-color: white;
+    -fx-text-fill: white;
+    -fx-scale-x: 110%;
+    -fx-scale-y: 110%;
+    -fx-scale-z: 110%;
+}
+
+.grayBox {
+    -fx-background-color: gray;
+}
+
+.blueBox {
+    -fx-background-color: cyan;
+}
+
+.greenBox {
+    -fx-background-color: lightgreen;
+}
