@@ -1,6 +1,7 @@
 package game.Controller.game.LogAndNotification;
 
 import game.Controller.game.GameController;
+import game.Enum.TypeOfRuin;
 import game.Model.*;
 import game.Enum.TypeOfTechnology;
 import game.Enum.TypeOfUnit;
@@ -78,6 +79,18 @@ public class NotificationController {
     public static void logImprovementCreated (final TypeOfImprovement typeOfImprovement , final Civilization civilization){
         String message = "Improvement " + typeOfImprovement.getName() + " created successfully !";
         setNotification(civilization,message);
+    }
+
+    public static void logRuinDiscovered (final TypeOfRuin typeOfRuin , final Civilization civilization , final TypeOfTechnology typeOfTechnology) {
+        String message = "You gained " ;
+        switch (typeOfRuin){
+            case FREE_TECHNOLOGY -> message += typeOfTechnology.getName() ;
+            case FREE_POPULATION -> message += "1 citizen " ;
+            case FREE_GOLD -> message += "20 gold " ;
+            default -> message += "nothing " ;
+        }
+        message += " from ruin !" ;
+        setNotification(civilization , message);
     }
 
     public static HashMap<Civilization, ArrayList<Notification>> getNotifications() {
