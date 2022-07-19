@@ -6,7 +6,6 @@ import game.Enum.TypeOfTechnology;
 import game.Main;
 import game.Model.Civilization;
 import game.Model.Technology;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
