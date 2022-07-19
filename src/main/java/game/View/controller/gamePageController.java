@@ -6,7 +6,6 @@ import game.Controller.game.MapMovement;
 import game.Controller.game.SelectController;
 import game.Enum.Building;
 import game.Enum.TypeOfUnit;
-import game.Enum.UnitStatus;
 import game.Main;
 import game.Model.*;
 import javafx.application.Platform;
@@ -20,7 +19,6 @@ import javafx.scene.paint.ImagePattern;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-
 
 public class gamePageController {
 
@@ -64,7 +62,6 @@ public class gamePageController {
     public Label militaryLabel = new Label("Military Panel") ;
     public ImageView economicImageView = new ImageView() ;
     public Label economicLabel = new Label("Economic Panel") ;
-
 
     public void initialize() {
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
