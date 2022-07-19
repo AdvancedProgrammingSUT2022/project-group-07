@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -53,6 +54,7 @@ public class Main extends Application {
 
     public static void loadNewStage (String stageTitle , String fxmlName){
         Stage newStage = new Stage();
+        newStage.initModality(Modality.APPLICATION_MODAL);
         newStage.setResizable(false);
         newStage.setTitle(stageTitle);
         Parent root = loadFXML(fxmlName);
