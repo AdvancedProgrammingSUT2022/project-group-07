@@ -2,6 +2,7 @@ package game.View.controller;
 
 import game.Controller.UserController;
 import game.Controller.game.GameController;
+import game.Controller.game.LogAndNotification.NotificationController;
 import game.Main;
 import game.Model.Terrain;
 import game.Model.User;
@@ -52,6 +53,7 @@ public class newGameController {
         GameController gameController = GameController.getInstance();
         gameController.setPlayers(players);
         gameController.initialize();
+        NotificationController.runNotification(gameController);
         Main.changeScene("gamePage");
     }
 
