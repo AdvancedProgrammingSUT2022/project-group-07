@@ -73,6 +73,17 @@ public class gamePageController {
                 game.getChildren().add(terrain1.getTile());
                 if (terrain1.getTile().getFeature() != null)
                     game.getChildren().add(terrain1.getTile().getFeature());
+                if (terrain1.hasRuin()
+                        && GameController.getInstance().getCurrentCivilization().getVisibleTerrains().contains(terrain1))
+                {
+                    ImageView imageView = new ImageView(new Image(getClass().getResource("/game/images/Tiles/Ruin.png").toExternalForm()));
+                    imageView.setFitWidth(60);
+                    imageView.setFitHeight(60);
+                    imageView.setLayoutX(terrain1.getTile().getX());
+                    imageView.setLayoutY(terrain1.getTile().getY());
+                    Tooltip.install(imageView , new Tooltip("Gives you " + terrain1.getTypeOfRuin().toString().replace("FREE_" , "")+" !"));
+                    game.getChildren().add(imageView);
+                }
             }
         }
         // initializing panels
@@ -100,6 +111,7 @@ public class gamePageController {
                 catch (InterruptedException ignored) {}
             }
         });
+        infoPanelThread.setDaemon(true);
         infoPanelThread.start();
         // updating info panel pos to escape lag !!!
         Thread posThread = new Thread(() -> {
@@ -110,6 +122,7 @@ public class gamePageController {
                 catch (InterruptedException ignored){}
             }
         }) ;
+        posThread.setDaemon(true);
         posThread.start();
         // updating mini panels
         Thread miniPanelsThread = new Thread(() -> {
@@ -120,6 +133,7 @@ public class gamePageController {
                 catch (InterruptedException ignored){}
             }
         }) ;
+        miniPanelsThread.setDaemon(true);
         miniPanelsThread.start();
 
         Platform.runLater(new Runnable() {
@@ -190,6 +204,8 @@ public class gamePageController {
         selectedUnitPanel.setLayoutY(520+y);
         nextTurnImageView.setLayoutX(1000+x);
         nextTurnImageView.setLayoutY(600+y);
+        othersPanel.setLayoutX(300+x);
+        othersPanel.setLayoutY(0+y);
     }
 
     private void initializeResearchPanel() {

@@ -12,9 +12,9 @@ public class Civilization {
     private ArrayList<Terrain> knownTerrains ;
     // visible terrain is a tile very close to a unit or a terrain of civilization
     // a civilization can always see all improvements and ownership while a unit is near this tile
-    private ArrayList<Terrain> visibleTerrains ;
-    private ArrayList<Technology> gainedTechnologies ;
-    private ArrayList<TypeOfTechnology> gainedTypeOfTechnologies ;
+    private ArrayList<Terrain> visibleTerrains = new ArrayList<>() ;
+    private ArrayList<Technology> gainedTechnologies;
+    private ArrayList<TypeOfTechnology> gainedTypeOfTechnologies = new ArrayList<>() ;
     private String name ;
     private City capital ;
     private int score ;
