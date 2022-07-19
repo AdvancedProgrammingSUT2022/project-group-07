@@ -66,4 +66,12 @@ public class Tile extends Polygon {
             this.feature.setImage(imagePattern.getImage());
         }
     }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
 }

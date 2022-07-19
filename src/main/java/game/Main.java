@@ -59,6 +59,10 @@ public class Main extends Application {
         newStage.setTitle(stageTitle);
         Parent root = loadFXML(fxmlName);
         assert root != null;
+        if (fxmlName.equals("technologyTreePage")){
+            newStage.setWidth(1200);
+            newStage.setHeight(750);
+        }
         scene = new Scene(root);
         newStage.setScene(scene);
         newStage.show();

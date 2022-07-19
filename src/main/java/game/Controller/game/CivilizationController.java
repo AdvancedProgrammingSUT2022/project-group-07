@@ -87,6 +87,7 @@ public class CivilizationController {
     public static void updateCivilizationElements(GameController gameController) {
         Civilization civilization = gameController.getCurrentCivilization();
         UpdateCivilizationElements.UnitMovementsUpdate(civilization , gameController);
+        UpdateCivilizationElements.updateRuinsEffects(civilization);
         UpdateCityElements.citizensIncome(civilization);
         UpdateCityElements.maintenance(civilization);
         UpdateCivilizationElements.update(civilization , gameController);
