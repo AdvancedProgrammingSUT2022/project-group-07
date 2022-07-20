@@ -276,7 +276,7 @@ public class MapController {
 
                 TerrainFeatures typeOfTerrainFeatureUsed = generateTypeOfTerrainFeature(typeOfTerrainUsed);
                 Resources resources = generateResources(typeOfTerrainUsed , typeOfTerrainFeatureUsed);
-                Tile tile = TileController.createTile(typeOfTerrainUsed , typeOfTerrainFeatureUsed , x , y);
+                Tile tile = TileController.createTile(typeOfTerrainUsed , typeOfTerrainFeatureUsed , x , y, resources);
                 map[y][x] = new Terrain(typeOfTerrainUsed , typeOfTerrainFeatureUsed , resources , new Location(x,y) , tile) ;
             }
         }
