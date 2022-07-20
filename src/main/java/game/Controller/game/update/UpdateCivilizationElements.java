@@ -4,6 +4,7 @@ import game.Controller.game.CivilizationController;
 import game.Controller.game.GameController;
 
 import game.Controller.game.TerrainController;
+import game.Enum.TypeOfTechnology;
 import game.Model.*;
 import game.Enum.UnitStatus;
 
@@ -11,6 +12,7 @@ import game.Controller.game.LogAndNotification.NotificationController;
 import game.Controller.game.combat.CityDefending;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import static game.Controller.game.UnitController.moveUnit;
 
@@ -116,4 +118,35 @@ public class UpdateCivilizationElements {
             }
         }
     }
+
+    /**
+     * a function to handle effect of knowing a terrain with ruin in it
+     * @param civilization civilization to handle
+     */
+    public static void updateRuinsEffects (Civilization civilization){
+        Random rand = new Random();
+        for (Terrain knownTerrain : civilization.getKnownTerrains()) {
+            if (!knownTerrain.hasRuin())
+                continue;
+            switch (knownTerrain.getTypeOfRuin()){
+                case FREE_GOLD -> {
+                    civilization.setGold(civilization.getGold()+20);
+                    NotificationController.logRuinDiscovered(knownTerrain.getTypeOfRuin() , civilization , null);
+                }
+                case FREE_POPULATION -> {
+                    City city = civilization.getCities().get(rand.nextInt(civilization.getCities().size())) ;
+                    city.addCitizen(new Citizen(city.getCitizens().size()));
+                    NotificationController.logRuinDiscovered(knownTerrain.getTypeOfRuin() , civilization , null);
+                }
+                case FREE_TECHNOLOGY -> {
+                    TypeOfTechnology typeOfTechnology = TypeOfTechnology.values()[rand.nextInt(TypeOfTechnology.values().length)] ;
+                    civilization.addTechnology(new Technology(typeOfTechnology));
+                    NotificationController.logRuinDiscovered(knownTerrain.getTypeOfRuin() , civilization , typeOfTechnology);
+                }
+                default -> NotificationController.logRuinDiscovered(knownTerrain.getTypeOfRuin() , civilization , null);
+            }
+            knownTerrain.setHasRuin(false);
+        }
+    }
+
 }

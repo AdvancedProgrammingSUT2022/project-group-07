@@ -268,4 +268,12 @@ public class Tile extends Polygon {
         text.setLayoutY(45);
         return text;
     }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
 }

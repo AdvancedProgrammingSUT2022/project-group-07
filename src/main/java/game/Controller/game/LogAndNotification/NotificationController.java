@@ -1,6 +1,7 @@
 package game.Controller.game.LogAndNotification;
 
 import game.Controller.game.GameController;
+import game.Enum.TypeOfRuin;
 import game.Model.*;
 import game.Enum.TypeOfTechnology;
 import game.Enum.TypeOfUnit;
@@ -10,12 +11,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NotificationController {
-    private static GameController gameController ;
-    private static final HashMap<Civilization , ArrayList<Notification>> notifications = new HashMap<>() ;
+    private static GameController gameController  ;
+    private static HashMap<Civilization , ArrayList<Notification>> notifications = new HashMap<>() ;
 
     public static void runNotification (final GameController gameController){
-        NotificationController.gameController = gameController ;
-        for (Civilization civilization : gameController.getCivilizations())
+        NotificationController.gameController = GameController.getInstance() ;
+        for (Civilization civilization : GameController.getInstance().getCivilizations())
             notifications.put(civilization , new ArrayList<>());
     }
 
@@ -80,12 +81,24 @@ public class NotificationController {
         setNotification(civilization,message);
     }
 
+    public static void logRuinDiscovered (final TypeOfRuin typeOfRuin , final Civilization civilization , final TypeOfTechnology typeOfTechnology) {
+        String message = "You gained " ;
+        switch (typeOfRuin){
+            case FREE_TECHNOLOGY -> message += typeOfTechnology.getName() ;
+            case FREE_POPULATION -> message += "1 citizen " ;
+            case FREE_GOLD -> message += "20 gold " ;
+            default -> message += "nothing " ;
+        }
+        message += " from ruin !" ;
+        setNotification(civilization , message);
+    }
+
     public static HashMap<Civilization, ArrayList<Notification>> getNotifications() {
         return notifications;
     }
 
     public static void setNotification (Civilization civilization , String message ){
-        notifications.get(civilization).add(new Notification(message , gameController.getTurn()));
+        notifications.get(civilization).add(new Notification(message , GameController.getInstance().getTurn()));
     }
 
 }
