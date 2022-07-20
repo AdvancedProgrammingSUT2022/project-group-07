@@ -2,12 +2,14 @@ package game.View.controller;
 
 import game.Controller.game.GameController;
 import game.Controller.game.LogAndNotification.NotificationController;
+import game.Controller.game.MapController;
 import game.Controller.game.MapMovement;
 import game.Controller.game.SelectController;
 import game.Enum.Building;
 import game.Enum.TypeOfUnit;
 import game.Main;
 import game.Model.*;
+import game.View.components.Tile;
 import javafx.application.Platform;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;
@@ -19,6 +21,7 @@ import javafx.scene.paint.ImagePattern;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Map;
 
 public class gamePageController {
 
@@ -67,14 +70,15 @@ public class gamePageController {
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
         firstX = game.getTranslateX();
         firstY = game.getTranslateY();
-        Terrain[][] terrains = GameController.getInstance().getMap();
-        for (Terrain[] terrain : terrains) {
-            for (Terrain terrain1 : terrain) {
-                game.getChildren().add(terrain1.getTile());
-                if (terrain1.getTile().getFeature() != null)
-                    game.getChildren().add(terrain1.getTile().getFeature());
+        Tile[][] tiles = GameController.getInstance().getMap();
+        for (Tile[] tile : tiles) {
+            for (Tile tile1 : tile) {
+                game.getChildren().add(tile1);
+                if (tile1.getFeature() != null) game.getChildren().add(tile1.getFeature());
             }
         }
+        MapController.setMapCenter(GameController.getInstance().getCurrentCivilization().getUnits().get(0).getLocation() ,
+                game);
         // initializing panels
         initializeIconPanel();
         initializeResearchPanel();

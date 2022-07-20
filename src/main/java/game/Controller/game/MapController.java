@@ -7,6 +7,7 @@ import game.Enum.TerrainFeatures;
 import game.Enum.MapDimension;
 import game.Enum.RiverSide;
 import game.View.components.Tile;
+import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 
 public class MapController {
-    private static Terrain[][] map;
+    private static Tile[][] map;
     private static final TypeOfTerrain[] typeOfTerrains = TypeOfTerrain.values();
     private static int mapHeight;
     private static int mapWidth;
@@ -44,7 +45,7 @@ public class MapController {
         for (int row = upperRow; row <= y; row++) {
             for (int col = leftCol; col <= x; col++) {
                 if (row != y || col != x)
-                    out.add(map[row][col].getTypeOfTerrain());
+                    out.add(map[row][col].getTerrain().getTypeOfTerrain());
             }
         }
         return out;
@@ -145,9 +146,8 @@ public class MapController {
      */
     private static boolean generateRiverChance(Terrain terrain) {
         ArrayList<Terrain> neighbours = CivilizationController.getNeighbourTerrainsByRadius1(terrain.getLocation(), map, mapWidth, mapHeight);
-        for (Terrain neighbour : neighbours) {
-            if (neighbour.getTypeOfTerrain() == TypeOfTerrain.DESERT)
-                return false;
+        for (Terrain terrain1 : neighbours) {
+            if (terrain1.getTypeOfTerrain() == TypeOfTerrain.DESERT) return false;
         }
         return new Random().nextInt(6) == 0;
     }
@@ -158,10 +158,10 @@ public class MapController {
     private static void generateRivers() {
         for (int y = 0; y < mapHeight; y++) {
             for (int x = 0; x < mapWidth; x++) {
-                boolean hasRiver = generateRiverChance(map[y][x]);
+                boolean hasRiver = generateRiverChance(map[y][x].getTerrain());
                 if (!hasRiver)
                     continue;
-                map[y][x].setRiverSides(generateRiverSidesPattern());
+                map[y][x].getTerrain().setRiverSides(generateRiverSidesPattern());
             }
         }
     }
@@ -240,7 +240,7 @@ public class MapController {
 
         if (!isPostionValid(xToModify, yToModify))
             return;
-        map[yToModify][xToModify].addRiverSide(oppositeRiverSides.get(riverSide));
+        map[yToModify][xToModify].getTerrain().addRiverSide(oppositeRiverSides.get(riverSide));
     }
 
     /**
@@ -249,7 +249,7 @@ public class MapController {
     private static void syncRiverSides() {
         for (int y = 0; y < mapHeight; y++) {
             for (int x = 0; x < mapWidth; x++) {
-                for (RiverSide riverSide : map[y][x].getRiverSides())
+                for (RiverSide riverSide : map[y][x].getTerrain().getRiverSides())
                     handleRiverSide(riverSide, y, x);
             }
         }
@@ -260,8 +260,8 @@ public class MapController {
      *
      * @return map initialized map
      */
-    public static Terrain[][] createMap(int mapWidth, int mapHeight) {
-        map = new Terrain[mapHeight][mapWidth];
+    public static Tile[][] createMap(int mapWidth, int mapHeight) {
+        map = new Tile[mapHeight][mapWidth];
         MapController.mapHeight = mapHeight;
         MapController.mapWidth = mapWidth;
         for (int y = 0; y < mapHeight; y++) {
@@ -269,8 +269,12 @@ public class MapController {
                 TypeOfTerrain typeOfTerrainUsed = generateTypeOfTerrain(new Location(x, y));
                 TerrainFeatures typeOfTerrainFeatureUsed = generateTypeOfTerrainFeature(typeOfTerrainUsed);
                 Resources resources = generateResources(typeOfTerrainUsed, typeOfTerrainFeatureUsed);
-                Tile tile = TileController.createTile(typeOfTerrainUsed, typeOfTerrainFeatureUsed, x, y);
-                map[y][x] = new Terrain(typeOfTerrainUsed, typeOfTerrainFeatureUsed, resources, new Location(x, y), tile);
+                map[y][x] = TileController.createTile(
+                         new Terrain(
+                                 typeOfTerrainUsed , typeOfTerrainFeatureUsed , resources ,
+                                 new Location(x , y)
+                         ), x , y
+                );
             }
         }
         generateRivers();
@@ -278,13 +282,17 @@ public class MapController {
         return map;
     }
 
-    public static void setMapCenter(Location location) {
-        if (mapCenter == null)
-            mapCenter = new Location(location.getX(), location.getY());
-        else {
-            mapCenter.setX(location.getX());
-            mapCenter.setY(location.getY());
-        }
+    public static void setMapCenter(Location location , AnchorPane gamePage) {
+        System.out.println(location.getX());
+        System.out.println(location.getY());
+        gamePage.setTranslateX(-location.getY()* 80);
+        gamePage.setTranslateY(-location.getX()*100);
+//        if (mapCenter == null)
+//            mapCenter = new Location(location.getX(), location.getY());
+//        else {
+//            mapCenter.setX(location.getX());
+//            mapCenter.setY(location.getY());
+//        }
     }
 
     public static String moveMap(Matcher matcher) {
@@ -302,11 +310,11 @@ public class MapController {
         return "moved map to direction " + direction;
     }
 
-    public static void printMap(Terrain[][] map, Civilization currentCivilization, ArrayList<Civilization> civilizations) {
+    public static void printMap(Tile[][] map, Civilization currentCivilization, ArrayList<Civilization> civilizations) {
         CivilizationController.updateFogOfWar(currentCivilization, map, mapWidth, mapHeight);
         if (frame != null)
             frame.dispose();
-        frame = new MapFrame(MapDimension.STANDARD, map, mapCenter, civilizations, currentCivilization, SelectController.selectedCity);
+        //frame = new MapFrame(MapDimension.STANDARD, map, mapCenter, civilizations, currentCivilization, SelectController.selectedCity);
     }
 
     public static String showMapOnLocation(Matcher matcher) {
@@ -314,7 +322,7 @@ public class MapController {
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
         if (x < mapWidth && x >= 0 && y < mapHeight && y >= 0) {
-            setMapCenter(new Location(x, y));
+            //setMapCenter(new Location(x, y));
             out = "map set to " + x + " , " + y;
         } else
             out = "invalid location";
@@ -329,8 +337,8 @@ public class MapController {
             cities.addAll(civilization.getCities());
         for (City city : cities) {
             if (city.getName().equalsIgnoreCase(cityName)) {
-                setMapCenter(new Location(city.getTerrains().get(0).getLocation().getX()
-                        , city.getTerrains().get(0).getLocation().getY()));
+                //setMapCenter(new Location(city.getTerrains().get(0).getLocation().getX()
+                 //       , city.getTerrains().get(0).getLocation().getY()));
                 out = "map set to city " + cityName;
                 break;
             }
@@ -338,4 +346,11 @@ public class MapController {
         return out;
     }
 
+    public static void setBackgrounds(Tile[][] map) {
+        for (Tile[] tiles : map) {
+            for (Tile tile : tiles) {
+                TileController.findBackGround(tile);
+            }
+        }
+    }
 }

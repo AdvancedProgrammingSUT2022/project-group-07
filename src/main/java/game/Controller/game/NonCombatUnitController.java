@@ -3,6 +3,7 @@ package game.Controller.game;
 import game.Model.*;
 import game.Enum.TerrainFeatures;
 import game.Enum.TypeOfUnit;
+import game.View.components.Tile;
 
 public class NonCombatUnitController {
 
@@ -20,57 +21,57 @@ public class NonCombatUnitController {
 
 
     public static Terrain isJungleHere(Location location) {
-        Terrain[][] terrain = GameController.getInstance().getMap();
+        Tile[][] tiles = GameController.getInstance().getMap();
 
         for (int i = 0; i < GameController.getInstance().getMapHeight(); i++) {
             for (int j = 0; j < GameController.getInstance().getMapWidth(); j++) {
-                if (terrain[i][j].getLocation().getX() == location.getX()
-                        && terrain[i][j].getLocation().getY() == location.getY()
-                        && terrain[i][j].getTerrainFeatures() == TerrainFeatures.JUNGLE)
-                    return terrain[i][j];
+                if (tiles[i][j].getTerrain().getLocation().getX() == location.getX()
+                        && tiles[i][j].getTerrain().getLocation().getY() == location.getY()
+                        && tiles[i][j].getTerrain().getTerrainFeatures() == TerrainFeatures.JUNGLE)
+                    return tiles[i][j].getTerrain();
             }
         }
         return null;
     }
 
     public static Terrain isForestHere(Location location) {
-        Terrain[][] terrain = GameController.getInstance().getMap();
+        Tile[][] tiles = GameController.getInstance().getMap();
 
         for (int i = 0; i < GameController.getInstance().getMapHeight(); i++) {
             for (int j = 0; j < GameController.getInstance().getMapWidth(); j++) {
-                if (terrain[i][j].getLocation().getX() == location.getX()
-                        && terrain[i][j].getLocation().getY() == location.getY()
-                        && terrain[i][j].getTerrainFeatures() == TerrainFeatures.FOREST)
-                    return terrain[i][j];
+                if (tiles[i][j].getTerrain().getLocation().getX() == location.getX()
+                        && tiles[i][j].getTerrain().getLocation().getY() == location.getY()
+                        && tiles[i][j].getTerrain().getTerrainFeatures() == TerrainFeatures.FOREST)
+                    return tiles[i][j].getTerrain();
             }
         }
         return null;
     }
 
     public static Terrain isRouteHere(Location location) {
-        Terrain[][] terrain = GameController.getInstance().getMap();
+        Tile[][] tiles = GameController.getInstance().getMap();
 
         for (int i = 0; i < GameController.getInstance().getMapHeight(); i++) {
             for (int j = 0; j < GameController.getInstance().getMapWidth(); j++) {
-                if (terrain[i][j].getLocation().getX() == location.getX()
-                        && terrain[i][j].getLocation().getY() == location.getY()
-                        && (terrain[i][j].hasRailRoad()
-                        || terrain[i][j].hasRoad()))
-                    return terrain[i][j];
+                if (tiles[i][j].getTerrain().getLocation().getX() == location.getX()
+                        && tiles[i][j].getTerrain().getLocation().getY() == location.getY()
+                        && (tiles[i][j].getTerrain().hasRailRoad()
+                        || tiles[i][j].getTerrain().hasRoad()))
+                    return tiles[i][j].getTerrain();
             }
         }
         return null;
     }
 
     public static Terrain isMarshHere(Location location) {
-        Terrain[][] terrain = GameController.getInstance().getMap();
+        Tile[][] tiles = GameController.getInstance().getMap();
 
         for (int i = 0; i < GameController.getInstance().getMapHeight(); i++) {
             for (int j = 0; j < GameController.getInstance().getMapWidth(); j++) {
-                if (terrain[i][j].getLocation().getX() == location.getX()
-                        && terrain[i][j].getLocation().getY() == location.getY()
-                        && terrain[i][j].getTerrainFeatures() == TerrainFeatures.MARSH)
-                    return terrain[i][j];
+                if (tiles[i][j].getTerrain().getLocation().getX() == location.getX()
+                        && tiles[i][j].getTerrain().getLocation().getY() == location.getY()
+                        && tiles[i][j].getTerrain().getTerrainFeatures() == TerrainFeatures.MARSH)
+                    return tiles[i][j].getTerrain();
             }
         }
         return null;

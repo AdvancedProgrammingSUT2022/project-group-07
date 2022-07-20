@@ -1,6 +1,9 @@
 package game.View.components;
 
 
+import game.Controller.game.GameController;
+import game.Model.Terrain;
+import javafx.animation.Transition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -9,6 +12,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Tile extends Polygon {
 
@@ -19,7 +23,7 @@ public class Tile extends Polygon {
     private double x;
     private double y;
     private ImageView feature;
-
+    private Terrain terrain;
     public ImageView getFeature() {
         return feature;
     }
@@ -34,7 +38,15 @@ public class Tile extends Polygon {
             return n;
         }
 
-    public Tile(double x, double y) {
+    public Terrain getTerrain() {
+        return terrain;
+    }
+
+    public void setTerrain(Terrain terrain) {
+        this.terrain = terrain;
+    }
+
+    public Tile(double x, double y , Terrain terrain) {
         this.x = x + 18;
         this.y = y - 50;
     // creates the polygon using the corner coordinates
@@ -48,7 +60,8 @@ public class Tile extends Polygon {
         );
         setFill(Color.WHITE);
         setStrokeWidth(1);
-        setStroke(Color.TRANSPARENT);
+        setStroke(Color.WHITE);
+        this.terrain = terrain;
     }
 
     public void setBackground(String addressType, String addressTypeFeature) {
