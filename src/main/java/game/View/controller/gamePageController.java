@@ -1,10 +1,7 @@
 package game.View.controller;
 
-import game.Controller.game.GameController;
+import game.Controller.game.*;
 import game.Controller.game.LogAndNotification.NotificationController;
-import game.Controller.game.MapController;
-import game.Controller.game.MapMovement;
-import game.Controller.game.SelectController;
 import game.Enum.Building;
 import game.Enum.TypeOfUnit;
 import game.Main;
@@ -75,8 +72,11 @@ public class gamePageController {
             for (Tile tile1 : tile) {
                 game.getChildren().add(tile1);
                 if (tile1.getFeature() != null) game.getChildren().add(tile1.getFeature());
+                tile1.updateUnitBackground();
+                if (tile1.getCivilUnit() != null) game.getChildren().add(tile1.getCivilUnit());
             }
         }
+
         MapController.setMapCenter(GameController.getInstance().getCurrentCivilization().getUnits().get(0).getLocation() ,
                 game);
         // initializing panels
