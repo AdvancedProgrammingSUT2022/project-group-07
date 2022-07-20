@@ -277,11 +277,4 @@ public class Tile extends Polygon {
         return y;
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
 }
