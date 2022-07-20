@@ -89,7 +89,7 @@ public class Tile extends Polygon {
     private Text setMainTypeOfTerrain(AnchorPane anchorPane, TypeOfTerrain typeOfTerrain,
                                       double mainPos, double typePos, double effectPos) {
         Text main = new Text("\"Tile Info\"");
-        Text terrainType = new Text("● Terrain Type: " + typeOfTerrain.getName() + " ➙ ");
+        Text terrainType = new Text("● Terrain Type: " + typeOfTerrain.getName() + "➙ ");
         Text terrainTypeEffect = terrainTypeEffect(typeOfTerrain);
 
         main.setLayoutY(20);
@@ -120,13 +120,13 @@ public class Tile extends Polygon {
             anchorPane.setStyle("-fx-background-color: rgba(255,255,255,0.49)");
             anchorPane.setMinSize(100, 100);
 
-            Text terrainType = setMainTypeOfTerrain(anchorPane, typeOfTerrain, 75.0, 60.0, 215.0);
+            Text terrainType = setMainTypeOfTerrain(anchorPane, typeOfTerrain, 75.0, 60.0, 220.0);
             Text combat, mpNumber;
 
             if (feature != null) {
                 mpNumber = new Text("● MP: " + findMp(typeOfTerrain, feature));
                 combat = new Text("● Change of Combat: % " + findCombatChange(typeOfTerrain, feature));
-                setStyles(anchorPane, feature, 120.0, 60.0, 215.0);
+                setStyles(anchorPane, feature, 120.0, 60.0, 220.0);
             } else {
                 combat = new Text("● Change of Combat: % " + typeOfTerrain.getChangeOfCombat() * 100);
                 mpNumber = new Text("● MP: " + typeOfTerrain.getMpNeeded());
@@ -160,7 +160,7 @@ public class Tile extends Polygon {
             Text terrainType = setMainTypeOfTerrain(anchorPane, typeOfTerrain, 150.0, 150.0, 305.0);
             Text resource = new Text("● Resources:");
             Text type = new Text(resources.getName() + " --> " +
-                    resources.getTypeOfResource().toString().toLowerCase(Locale.ROOT) + " ➙ ");
+                    resources.getTypeOfResource().toString().toLowerCase(Locale.ROOT) + "➙ ");
             Text resEffect = resourceEffect(resources);
             Text mpNumber, combat;
 
@@ -222,7 +222,7 @@ public class Tile extends Polygon {
     private void setStyles(AnchorPane anchorPane, TerrainFeatures feature,
                            double featureName, double title, double featureEffect) {
         Text tFeature = new Text("● Feature:");
-        Text f = new Text(feature.getName() + " ➙ ");
+        Text f = new Text(feature.getName() + "➙ ");
         Text effect = featureEffect(feature);
 
         tFeature.setLayoutY(190);
