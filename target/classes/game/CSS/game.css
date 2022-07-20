@@ -1,6 +1,5 @@
-.anchorPane {
-    -fx-background-image: url("../assets/Backgrounds/game.jpg");
-    -fx-background-size: cover;
+.anchorPane{
+    -fx-background-image: url("../assets/Backgrounds/blue.jpg");
 }
 
 .iconPanel {
