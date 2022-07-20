@@ -86,6 +86,31 @@ public class Tile extends Polygon {
         }
     }
 
+    private Text setMainTypeOfTerrain(AnchorPane anchorPane, TypeOfTerrain typeOfTerrain,
+                                      double mainPos, double typePos, double effectPos) {
+        Text main = new Text("\"Tile Info\"");
+        Text terrainType = new Text("● Terrain Type: " + typeOfTerrain.getName() + " ➙ ");
+        Text terrainTypeEffect = terrainTypeEffect(typeOfTerrain);
+
+        main.setLayoutY(20);
+        terrainType.setLayoutY(60);
+
+        main.setStyle("-fx-font-weight: bold;" +
+                "-fx-font-size: 15;" +
+                "-fx-fill: #651426");
+        terrainType.setStyle("-fx-font-weight: bold;" +
+                "-fx-fill: #87009a");
+
+        AnchorPane.setLeftAnchor(main, mainPos);
+        AnchorPane.setLeftAnchor(terrainType, typePos);
+        AnchorPane.setLeftAnchor(terrainTypeEffect, effectPos);
+
+        anchorPane.getChildren().add(main);
+        anchorPane.getChildren().add(terrainTypeEffect);
+
+        return terrainType;
+    }
+
     private void checkMouseAction(TypeOfTerrain typeOfTerrain, TerrainFeatures feature) {
         setOnMouseClicked(mouseEvent -> {
             Window window = Main.scene.getWindow();
@@ -95,36 +120,27 @@ public class Tile extends Polygon {
             anchorPane.setStyle("-fx-background-color: rgba(255,255,255,0.49)");
             anchorPane.setMinSize(100, 100);
 
-            Text main = new Text("\"Tile Info\"");
-            Text terrainType = new Text("● Terrain Type: " + typeOfTerrain.getName());
+            Text terrainType = setMainTypeOfTerrain(anchorPane, typeOfTerrain, 75.0, 60.0, 215.0);
             Text combat, mpNumber;
 
             if (feature != null) {
                 mpNumber = new Text("● MP: " + findMp(typeOfTerrain, feature));
                 combat = new Text("● Change of Combat: % " + findCombatChange(typeOfTerrain, feature));
-                setStyles(anchorPane, feature, 120.0, 60.0, 205.0);
+                setStyles(anchorPane, feature, 120.0, 60.0, 215.0);
             } else {
                 combat = new Text("● Change of Combat: % " + typeOfTerrain.getChangeOfCombat() * 100);
                 mpNumber = new Text("● MP: " + typeOfTerrain.getMpNeeded());
             }
 
-            main.setLayoutY(20);
-            terrainType.setLayoutY(60);
             mpNumber.setLayoutY(95);
             combat.setLayoutY(130);
 
-            main.setStyle("-fx-font-weight: bold;" +
-                    "-fx-font-size: 15;" +
-                    "-fx-fill: #651426");
-            terrainType.setStyle("-fx-font-weight: bold;" +
-                    "-fx-fill: #87009a");
+            mpNumber.setStyle("-fx-font-weight: bold");
+            combat.setStyle("-fx-font-weight: bold");
 
-            AnchorPane.setLeftAnchor(main, 75.0);
-            AnchorPane.setLeftAnchor(terrainType, 60.0);
             AnchorPane.setLeftAnchor(mpNumber, 60.0);
             AnchorPane.setLeftAnchor(combat, 60.0);
 
-            anchorPane.getChildren().add(main);
             openPopup(window, anchorPane, terrainType, mpNumber, combat);
         });
     }
@@ -141,52 +157,41 @@ public class Tile extends Polygon {
                     + resources.getName() + ".png").toExternalForm()));
             anchorPane.getChildren().add(new ImageView(image));
 
-            Text main = new Text("\"Tile Info\"");
+            Text terrainType = setMainTypeOfTerrain(anchorPane, typeOfTerrain, 150.0, 150.0, 305.0);
             Text resource = new Text("● Resources:");
             Text type = new Text(resources.getName() + " --> " +
                     resources.getTypeOfResource().toString().toLowerCase(Locale.ROOT) + " ➙ ");
             Text resEffect = resourceEffect(resources);
-            Text terrainType = new Text("● Terrain Type: " + typeOfTerrain.getName());
             Text mpNumber, combat;
 
             if (feature != null) {
                 mpNumber = new Text("● MP: " + findMp(typeOfTerrain, feature));
                 combat = new Text("● Change of Combat: % " + findCombatChange(typeOfTerrain, feature));
-                setStyles(anchorPane, feature, 210.0, 150.0, 295.0);
+                setStyles(anchorPane, feature, 210.0, 150.0, 305.0);
             }
             else {
                 combat = new Text("● Change of Combat: % " + typeOfTerrain.getChangeOfCombat()*100);
                 mpNumber = new Text("● MP: " + typeOfTerrain.getMpNeeded());
             }
 
-            resource.setLayoutY(65);
-            type.setLayoutY(80);
-            main.setLayoutY(20);
-            mpNumber.setLayoutY(110);
-            combat.setLayoutY(135);
-            terrainType.setLayoutY(45);
+            resource.setLayoutY(105);
+            type.setLayoutY(120);
+            mpNumber.setLayoutY(140);
+            combat.setLayoutY(160);
 
             mpNumber.setStyle("-fx-font-weight: bold");
-            main.setStyle("-fx-font-weight: bold;" +
-                    "-fx-font-size: 15;" +
-                    "-fx-fill: #651426");
             resource.setStyle("-fx-font-weight: bold");
             combat.setStyle("-fx-font-weight: bold");
-            terrainType.setStyle("-fx-font-weight: bold;" +
-                    "-fx-fill: #87009a");
 
             AnchorPane.setLeftAnchor(type, 170.0);
             AnchorPane.setLeftAnchor(resource, 150.0);
             AnchorPane.setLeftAnchor(mpNumber, 150.0);
-            AnchorPane.setLeftAnchor(main, 150.0);
-            AnchorPane.setLeftAnchor(resEffect, 295.0);
+            AnchorPane.setLeftAnchor(resEffect, 305.0);
             AnchorPane.setLeftAnchor(combat, 150.0);
-            AnchorPane.setLeftAnchor(terrainType, 150.0);
 
             anchorPane.getChildren().add(type);
             anchorPane.getChildren().add(resource);
             anchorPane.getChildren().add(mpNumber);
-            anchorPane.getChildren().add(main);
             openPopup(window, anchorPane, resEffect, terrainType, combat);
         });
     }
@@ -220,8 +225,8 @@ public class Tile extends Polygon {
         Text f = new Text(feature.getName() + " ➙ ");
         Text effect = featureEffect(feature);
 
-        tFeature.setLayoutY(170);
-        f.setLayoutY(170);
+        tFeature.setLayoutY(190);
+        f.setLayoutY(190);
         tFeature.setStyle("-fx-font-weight: bold");
 
         AnchorPane.setLeftAnchor(f, featureName);
@@ -240,7 +245,7 @@ public class Tile extends Polygon {
         int gold = resource.getGold();
         Text text = new Text("‣ food: " + food + "\n‣ production: "
                 + production + "\n‣ gold: " + gold);
-        text.setLayoutY(65);
+        text.setLayoutY(105);
         return text;
     }
 
@@ -250,7 +255,17 @@ public class Tile extends Polygon {
         int gold = terrainFeature.getGold();
         Text text = new Text("‣ food: " + food + "\n‣ production: "
                 + production + "\n‣ gold: " + gold);
-        text.setLayoutY(160);
+        text.setLayoutY(180);
+        return text;
+    }
+
+    private Text terrainTypeEffect(TypeOfTerrain typeOfTerrain) {
+        int food = typeOfTerrain.getFood();
+        int production = typeOfTerrain.getProduction();
+        int gold = typeOfTerrain.getGold();
+        Text text = new Text("‣ food: " + food + "\n‣ production: "
+                + production + "\n‣ gold: " + gold);
+        text.setLayoutY(45);
         return text;
     }
 }
