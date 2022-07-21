@@ -4,11 +4,8 @@ import game.Controller.game.SelectController;
 import game.Enum.Building;
 import game.Enum.TypeOfTechnology;
 import game.Model.City;
-import game.Model.Civilization;
 import game.Model.UnderConstructionBuilding;
-import game.Model.User;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -45,8 +42,11 @@ public class BuildingPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        city = SelectController.selectedCity ;
-        city = new City("sample city" , new Civilization("sample civilization" , new User()));
+        city = SelectController.selectedCity ;
+
+        city.addBuilding(Building.ARSENAL);
+        city.addBuilding(Building.BARRACKS);
+        city.addBuilding(Building.ARSENAL);
 
         anchorPane.getStyleClass().add("anchorPane") ;
 
@@ -68,6 +68,7 @@ public class BuildingPageController implements Initializable {
             };
             while (true) {
                 Platform.runLater(runnable);
+                System.out.println(city.getUnderConstructionBuilding());
                 try {Thread.sleep(5000);}
                 catch (InterruptedException ignored){}
             }
@@ -82,7 +83,7 @@ public class BuildingPageController implements Initializable {
         int row = 0 ;
         for (Building building : buildings) {
             anchorPane.getChildren().remove(getNodeFromGridPane(ownedBuildingsGridPane , col , row)) ;
-            ImageView imageView = getImageView(building);
+            ImageView imageView = getImageView(building , true);
             ownedBuildingsGridPane.add(imageView , col , row);
             GridPane.setHalignment(imageView, HPos.CENTER);
             GridPane.setValignment(imageView, VPos.CENTER);
@@ -97,6 +98,8 @@ public class BuildingPageController implements Initializable {
 
     private void initializeAvailableBuildings (){
         ArrayList<Building> buildings = city.getBuildings() ;
+        UnderConstructionBuilding underConstructionBuilding = city.getUnderConstructionBuilding();
+
         int col = 0 ;
         int row = 0 ;
         for (Building building : Building.values()) {
@@ -104,12 +107,16 @@ public class BuildingPageController implements Initializable {
             if (buildings.contains(building))
                 continue;
 
+            if (underConstructionBuilding != null
+                && underConstructionBuilding.getBuilding().equals(building))
+                    continue;
+
             // check if we have tech needed for this building
             TypeOfTechnology techNeeded = building.getTechnologyRequired() ;
             if (techNeeded != null && !city.getOwnership().getGainedTypeOfTechnologies().contains(techNeeded))
                 continue;
 
-            ImageView imageView = getImageView(building) ;
+            ImageView imageView = getImageView(building , false) ;
             addActionToAvailableBuildings(imageView , building);
 
             availableBuildingsGridPane.getChildren().remove(getNodeFromGridPane(availableBuildingsGridPane , col , row)) ;
@@ -125,14 +132,17 @@ public class BuildingPageController implements Initializable {
         }
     }
 
-    public ImageView getImageView (Building building){
+    public ImageView getImageView (Building building , boolean isOwned){
         ImageView imageView = new ImageView();
         imageView.setImage(new Image(getClass().getResource("/game/images/buildings/" + building + ".png").toExternalForm()));
         imageView.setFitHeight(45);
         imageView.setFitWidth(45);
 
         String techNeeded = building.getTechnologyRequired()==null ? "Nothing " : building.getTechnologyRequired().getName().replace("_" , " ") ;
-        String tip = String.format("%s\nTechnology required : %s\ncost to build : %d\nmaintenance : %d", building , techNeeded , building.getCost() , building.getMaintenance()) ;
+        String tip = String.format("%s\nTechnology required : %s\nmaintenance : %d\n", building, techNeeded , building.getMaintenance());
+        if (!isOwned)
+            tip += String.format("Turns to construct : %d\nCost to buy : %d" , calculateTurns(building , city) , building.getCost()) ;
+
         Tooltip tooltip = new Tooltip(tip);
         tooltip.setStyle("-fx-font-size: 14; -fx-text-fill: white; -fx-text-alignment: left;");
         Tooltip.install(imageView , tooltip);
@@ -184,17 +194,23 @@ public class BuildingPageController implements Initializable {
         UnderConstructionBuilding underConstructionBuilding = city.getUnderConstructionBuilding() ;
 
         if (underConstructionBuilding != null){
+
+            if (underConstructionBuilding.getBuilding().equals(building)){
+                Alert information = new Alert(Alert.AlertType.INFORMATION);
+                information.setContentText("Already working on it sir !");
+                information.show();
+                return;
+            }
+
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
             confirmation.setTitle("Changing construction");
             confirmation.setHeaderText(underConstructionBuilding.getBuilding().toString().replace("_" , " ") + " is already under construction ! Are you sure you want to change construction ?");
             confirmation.setContentText("Please choose :");
 
             Optional<ButtonType> option = confirmation.showAndWait();
-            if (option.get() == null) {
-                return;
-            }
+            if (option.get() == null) return;
             else if (option.get() == ButtonType.OK) {
-                int turns = Math.min(building.getCost() / city.getCitizens().size()+city.getTerrains().size() , 15) ;
+                int turns = calculateTurns(building , city);
                 city.setUnderConstructionBuilding(new UnderConstructionBuilding(building , turns));
                 Alert done = new Alert(Alert.AlertType.INFORMATION);
                 done.setContentText("Building replaced !");
@@ -209,7 +225,7 @@ public class BuildingPageController implements Initializable {
         }
 
         else {
-            int turns = Math.min(building.getCost() / city.getCitizens().size()+city.getTerrains().size() , 15) ;
+            int turns = calculateTurns(building , city) ;
             city.setUnderConstructionBuilding(new UnderConstructionBuilding(building , turns));
             Alert done = new Alert(Alert.AlertType.INFORMATION);
             done.setContentText("Building added !");
@@ -217,5 +233,9 @@ public class BuildingPageController implements Initializable {
         }
     }
 
+
+    public int calculateTurns (Building building , City city){
+        return Math.min(building.getCost() / city.getCitizens().size()+city.getTerrains().size() , 15) ;
+    }
 
 }
