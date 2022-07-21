@@ -5,6 +5,7 @@ import game.Model.*;
 import game.Enum.TypeOfUnit;
 import game.Enum.UnitStatus;
 import game.Enum.TypeOfTerrain;
+import game.View.components.Tile;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -29,7 +30,7 @@ public class CityController {
         return out.toString();
     }
 
-    public static ArrayList<Terrain> getAvailableTilesToBuy(City selectedCity , final Terrain[][] map , int mapWidth , int mapHeight){
+    public static ArrayList<Terrain> getAvailableTilesToBuy(City selectedCity , final Tile[][] map , int mapWidth , int mapHeight){
         ArrayList<Terrain> tileAvailable = new ArrayList<>();
         ArrayList<Terrain> allCivilizationOwnedTiles = new ArrayList<>();
         for (City city : selectedCity.getOwnership().getCities())
@@ -47,7 +48,7 @@ public class CityController {
         return tileAvailable ;
     }
 
-    public static String showTilesAvailable(final Terrain[][] map , int mapWidth , int mapHeight){
+    public static String showTilesAvailable(final Tile[][] map , int mapWidth , int mapHeight){
         StringBuilder out = new StringBuilder("available tiles : \n");
         if (!isCitySelected())
             return "select a city first" ;
@@ -62,7 +63,7 @@ public class CityController {
         return out.toString();
     }
 
-    public static String buyTile (Matcher matcher , final Terrain[][] map , int mapWidth , int mapHeight, Civilization civilization){
+    public static String buyTile (Matcher matcher , final Tile[][] map , int mapWidth , int mapHeight, Civilization civilization){
         int x = Integer.parseInt(matcher.group("X"));
         int y = Integer.parseInt(matcher.group("Y"));
         if (!isCitySelected())

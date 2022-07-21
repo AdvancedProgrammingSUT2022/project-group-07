@@ -4,15 +4,16 @@ import game.Model.Civilization;
 import game.Model.Location;
 import game.Model.Terrain;
 import game.Model.TerrainOutput;
+import game.View.components.Tile;
 
 public class TerrainController {
     public static Terrain getTerrainByLocation(Location location) {
-        Terrain[][] terrains = GameController.getInstance().getMap();
+        Tile[][] tiles = GameController.getInstance().getMap();
         for (int i = 0; i < GameController.getInstance().getMapHeight(); i++) {
             for (int j = 0; j < GameController.getInstance().getMapWidth(); j++) {
-                if (location.getX() == terrains[i][j].getLocation().getX()
-                && location.getY() == terrains[i][j].getLocation().getY())
-                    return terrains[i][j];
+                if (location.getX() == tiles[i][j].getTerrain().getLocation().getX()
+                && location.getY() == tiles[i][j].getTerrain().getLocation().getY())
+                    return tiles[i][j].getTerrain();
             }
         }
         return null;

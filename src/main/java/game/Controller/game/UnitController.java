@@ -61,6 +61,9 @@ public class UnitController {
             return 0;
         return 1;
     }
+    public static boolean isCivilUnit(Unit unit) {
+        return unit.getTypeOfUnit() == TypeOfUnit.SETTLER || unit.getTypeOfUnit() == TypeOfUnit.WORKER;
+    }
 
     public static boolean hasOwnerShip(Unit currentUnit, GameController gameController) {
         for (Unit unit : gameController.getCurrentCivilization().getUnits()) {
