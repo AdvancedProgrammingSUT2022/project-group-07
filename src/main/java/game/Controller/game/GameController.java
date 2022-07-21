@@ -3,6 +3,7 @@ package game.Controller.game;
 import game.Controller.game.movement.TheShortestPath;
 import game.Model.*;
 import game.Enum.*;
+import game.View.components.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public class GameController {
     private int mapWidth;
     private int mapHeight;
     private MapDimension mapDimension;
-    public Terrain[][] map;
+    public Tile[][] map;
     private ArrayList<User> players = new ArrayList<>();
     private ArrayList<Civilization> civilizations;
     private int time;
@@ -48,8 +49,8 @@ public class GameController {
         Random rand = new Random();
         int x = rand.nextInt(mapWidth), y = rand.nextInt(mapHeight);
         while (locations.contains(new Location(x, y))
-                || map[y][x].getTypeOfTerrain() == TypeOfTerrain.OCEAN
-                || map[y][x].getTypeOfTerrain() == TypeOfTerrain.MOUNTAIN) {
+                || map[y][x].getTerrain().getTypeOfTerrain() == TypeOfTerrain.OCEAN
+                || map[y][x].getTerrain().getTypeOfTerrain() == TypeOfTerrain.MOUNTAIN) {
             x = rand.nextInt(mapWidth);
             y = rand.nextInt(mapHeight);
         }
@@ -73,6 +74,7 @@ public class GameController {
             newUnitLocation = generateSettlerUnitLocation(locations);
             locations.add(newUnitLocation);
             civilization.addUnit(new Unit(TypeOfUnit.SETTLER, UnitStatus.ACTIVE, newUnitLocation, TypeOfUnit.SETTLER.getHp(), civilization, 0));
+            civilization.getKnownTerrains().add(TerrainController.getTerrainByLocation(newUnitLocation));
             civilization.addTechnology(new Technology(TypeOfTechnology.AGRICULTURE));
         }
     }
@@ -85,7 +87,7 @@ public class GameController {
         this.players = players;
     }
 
-    public Terrain[][] getMap() {
+    public Tile[][] getMap() {
         return map;
     }
 
@@ -93,12 +95,13 @@ public class GameController {
         mapDimension = chooseRandomMap();
         mapWidth = mapDimension.getX();
         mapHeight = mapDimension.getY();
-        map = new Terrain[mapHeight][mapWidth];
+        map = new Tile[mapHeight][mapWidth];
         map = MapController.createMap(mapWidth, mapHeight);
         initializeCivilizations(players);
-        TheShortestPath.run();
         setCurrentCivilization(civilizations.get(0));
-        //MapController.setMapCenter(currentCivilization.getUnits().get(0).getLocation());
+        CivilizationController.updateFogOfWar(currentCivilization , map , mapWidth , mapHeight);
+        TheShortestPath.run();
+        MapController.setBackgrounds(map);
     }
 
     private static MapDimension chooseRandomMap() {
@@ -158,7 +161,7 @@ public class GameController {
             gameController.setCurrentCivilization(gameController.getCivilizations().get(index + 1));
         SelectController.selectedUnit = null;
         SelectController.selectedCity = null;
-        MapController.setMapCenter(gameController.getCurrentCivilization().getUnits().get(0).getLocation());
+//        MapController.setMapCenter(gameController.getCurrentCivilization().getUnits().get(0).getLocation());
         CivilizationController.updateCivilizationElements(gameController);
     }
 }

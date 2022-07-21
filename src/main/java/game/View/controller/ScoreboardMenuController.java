@@ -12,6 +12,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
@@ -35,6 +36,7 @@ public class ScoreboardMenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         String cssFile1 = this.getClass().getResource("/game/CSS/scoreboardStyle.css").toExternalForm();
         anchorPane.getStylesheets().add(cssFile1);
 
@@ -69,6 +71,7 @@ public class ScoreboardMenuController implements Initializable {
 
     public void addLabel (int index , User user , HBox hBox){
 
+        String currentPath = System.getProperty("user.dir");
         ImageView imageView = new ImageView();
         imageView.setPreserveRatio(true);
         imageView.setFitWidth(50);

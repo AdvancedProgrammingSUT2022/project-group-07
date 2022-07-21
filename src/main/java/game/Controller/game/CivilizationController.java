@@ -5,6 +5,7 @@ import game.Controller.game.update.UpdateCivilizationElements;
 import game.Controller.game.update.UpdateHappiness;
 import game.Model.*;
 import game.Enum.* ;
+import game.View.components.Tile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,8 +23,8 @@ public class CivilizationController {
 
 
     public static ArrayList<Terrain> getNeighbourTerrainsByRadius1
-            (Location location , Terrain[][]map , int mapWidth , int mapHeight){
-        ArrayList<Terrain> out = new ArrayList<Terrain>();
+            (Location location , Tile[][]map , int mapWidth , int mapHeight){
+        ArrayList<Tile> out = new ArrayList<Tile>();
         int x = location.getX();
         int y = location.getY();
         int upperRow = Math.max(0,y-1);
@@ -42,10 +43,14 @@ public class CivilizationController {
             out.add(map[lowerRow][rightCol]);
         else
             out.add(map[lowerRow][leftCol]);
-        return out ;
+        ArrayList<Terrain> outt = new ArrayList<>();
+        for (Tile tile : out) {
+            outt.add(tile.getTerrain());
+        }
+        return outt ;
     }
 
-    public static void updateFogOfWar(final Civilization civilization , final Terrain[][] map , int mapWidth , int mapHeight){
+    public static void updateFogOfWar(final Civilization civilization , final Tile[][] map , int mapWidth , int mapHeight){
         // TODO: update civilization fog of war using it's owned units across the whole map
         // to do this , we first iterate on this civilization units and add first layer neighbours
         // every unit can see all 6 neighbours of itself , we add these 6 neighbours to an array
@@ -55,8 +60,8 @@ public class CivilizationController {
         // also after buying a tile , radius 2 of it should become known
         ArrayList<Unit> units = civilization.getUnits();
         ArrayList<City> cities = civilization.getCities();
-        ArrayList<Terrain> shouldBeAdd = new ArrayList<Terrain>();
-        ArrayList<Terrain> visibleTerrains = new ArrayList<Terrain>();
+        ArrayList<Terrain> shouldBeAdd = new ArrayList<>();
+        ArrayList<Terrain> visibleTerrains = new ArrayList<>();
         for (Unit unit : units) {
             ArrayList<Terrain> firstLayerNeighbours = getNeighbourTerrainsByRadius1(unit.getLocation() , map , mapWidth , mapHeight) ;
             shouldBeAdd.addAll(firstLayerNeighbours);

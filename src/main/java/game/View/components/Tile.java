@@ -5,11 +5,24 @@ import game.Enum.Resources;
 import game.Enum.TerrainFeatures;
 import game.Enum.TypeOfTerrain;
 import game.Main;
+import game.Controller.game.GameController;
+import game.Controller.game.TerrainController;
+import game.Controller.game.UnitController;
+import game.Main;
+import game.Model.Civilization;
+import game.Model.Terrain;
+import game.Model.Unit;
+import javafx.animation.Transition;
+import game.Enum.Resources;
+import game.Enum.TerrainFeatures;
+import game.Enum.TypeOfTerrain;
+import game.Main;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
@@ -17,6 +30,7 @@ import javafx.stage.Window;
 
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class Tile extends Polygon {
@@ -28,6 +42,10 @@ public class Tile extends Polygon {
     private double x;
     private double y;
     private ImageView feature;
+    private Terrain terrain;
+    private Circle attackUnit;
+    private Circle civilUnit;
+
     private Popup popup;
 
     public Popup getPopup() {
@@ -36,31 +54,46 @@ public class Tile extends Polygon {
     public ImageView getFeature() {
         return feature;
     }
-    public static double getTileHeight() {return TILE_HEIGHT;}
-    public static double getTileWidth() {
-            return TILE_WIDTH;
-        }
-    public static double getR(){
-            return r;
-        }
-    public static double getN(){
-            return n;
-        }
 
-    public Tile(double x, double y) {
+    public static double getTileHeight() {
+        return TILE_HEIGHT;
+    }
+
+    public static double getTileWidth() {
+        return TILE_WIDTH;
+    }
+
+    public static double getR() {
+        return r;
+    }
+
+    public static double getN() {
+        return n;
+    }
+
+    public Terrain getTerrain() {
+        return terrain;
+    }
+
+    public void setTerrain(Terrain terrain) {
+        this.terrain = terrain;
+    }
+
+    public Tile(double x, double y, Terrain terrain) {
         this.x = x + 18;
         this.y = y - 50;
         getPoints().addAll(
-                x,y,
-                x + 0.5*r , y + n,
-                x + 1.5*r , y + n,
-                x + TILE_HEIGHT , y ,
-                x + 1.5 * r , y - n ,
-                x + 0.5 * r , y - n
+                x, y,
+                x + 0.5 * r, y + n,
+                x + 1.5 * r, y + n,
+                x + TILE_HEIGHT, y,
+                x + 1.5 * r, y - n,
+                x + 0.5 * r, y - n
         );
         setFill(Color.WHITE);
         setStrokeWidth(1);
-        setStroke(Color.TRANSPARENT);
+        setStroke(Color.WHITE);
+        this.terrain = terrain;
     }
 
     public void setBackground(String addressType, String addressTypeFeature, Resources resources,

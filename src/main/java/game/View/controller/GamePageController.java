@@ -1,13 +1,12 @@
 package game.View.controller;
 
-import game.Controller.game.GameController;
+import game.Controller.game.*;
 import game.Controller.game.LogAndNotification.NotificationController;
-import game.Controller.game.MapMovement;
-import game.Controller.game.SelectController;
 import game.Enum.Building;
 import game.Enum.TypeOfUnit;
 import game.Main;
 import game.Model.*;
+import game.View.components.Tile;
 import javafx.application.Platform;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;
@@ -19,6 +18,7 @@ import javafx.scene.paint.ImagePattern;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Map;
 
 public class GamePageController {
 
@@ -67,25 +67,31 @@ public class GamePageController {
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
         firstX = game.getTranslateX();
         firstY = game.getTranslateY();
-        Terrain[][] terrains = GameController.getInstance().getMap();
-        for (Terrain[] terrain : terrains) {
-            for (Terrain terrain1 : terrain) {
-                game.getChildren().add(terrain1.getTile());
-                if (terrain1.getTile().getFeature() != null)
-                    game.getChildren().add(terrain1.getTile().getFeature());
-                if (terrain1.hasRuin()
-                        && GameController.getInstance().getCurrentCivilization().getVisibleTerrains().contains(terrain1))
+        Tile[][] map = GameController.getInstance().getMap();
+        for (Tile[] tiles : map) {
+            for (Tile tile  : tiles) {
+                game.getChildren().add(tile);
+                if (tile.getFeature() != null)
+                    game.getChildren().add(tile.getFeature());
+                tile.updateUnitBackground();
+                if (tile.getCivilUnit() != null) game.getChildren().add(tile.getCivilUnit());
+
+                if (tile.getTerrain().hasRuin()
+                        && GameController.getInstance().getCurrentCivilization().getVisibleTerrains().contains(tile.getTerrain()))
                 {
                     ImageView imageView = new ImageView(new Image(getClass().getResource("/game/images/Tiles/Ruin.png").toExternalForm()));
                     imageView.setFitWidth(60);
                     imageView.setFitHeight(60);
-                    imageView.setLayoutX(terrain1.getTile().getX());
-                    imageView.setLayoutY(terrain1.getTile().getY());
-                    Tooltip.install(imageView , new Tooltip("Gives you " + terrain1.getTypeOfRuin().toString().replace("FREE_" , "")+" !"));
+                    imageView.setLayoutX(tile.getX());
+                    imageView.setLayoutY(tile.getY());
+                    Tooltip.install(imageView , new Tooltip("Gives you " + tile.getTerrain().getTypeOfRuin().toString().replace("FREE_" , "")+" !"));
                     game.getChildren().add(imageView);
                 }
             }
         }
+
+        MapController.setMapCenter(GameController.getInstance().getCurrentCivilization().getUnits().get(0).getLocation() ,
+                game);
         // initializing panels
         initializeIconPanel();
         initializeResearchPanel();
