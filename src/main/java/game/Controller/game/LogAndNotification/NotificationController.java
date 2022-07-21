@@ -1,11 +1,8 @@
 package game.Controller.game.LogAndNotification;
 
 import game.Controller.game.GameController;
-import game.Enum.TypeOfRuin;
+import game.Enum.*;
 import game.Model.*;
-import game.Enum.TypeOfTechnology;
-import game.Enum.TypeOfUnit;
-import game.Enum.TypeOfImprovement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -91,6 +88,11 @@ public class NotificationController {
         }
         message += " from ruin !" ;
         setNotification(civilization , message);
+    }
+
+    public static void logBuildingAddedToCity (final Building building , final City city){
+        String message = "Building " + building.toString().replace("_" , " ") + " added to city " + city.getName() ;
+        setNotification(city.getOwnership() , message);
     }
 
     public static HashMap<Civilization, ArrayList<Notification>> getNotifications() {

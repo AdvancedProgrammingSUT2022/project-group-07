@@ -169,6 +169,7 @@ public class UpdateCityElements {
 
             if (underConstructionBuilding.getRemainingTurns()==0) {
                 city.addBuilding(underConstructionBuilding.getBuilding());
+                NotificationController.logBuildingAddedToCity(underConstructionBuilding.getBuilding() , city);
                 city.setUnderConstructionBuilding(null);
             }
             else

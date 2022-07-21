@@ -2,25 +2,32 @@ package game.View.controller;
 
 import game.Controller.game.SelectController;
 import game.Enum.Building;
+import game.Enum.TypeOfTechnology;
 import game.Model.City;
 import game.Model.Civilization;
+import game.Model.UnderConstructionBuilding;
 import game.Model.User;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class BuildingPageController implements Initializable {
@@ -93,13 +100,19 @@ public class BuildingPageController implements Initializable {
         int col = 0 ;
         int row = 0 ;
         for (Building building : Building.values()) {
+            // check if we already have this building !
             if (buildings.contains(building))
+                continue;
+
+            // check if we have tech needed for this building
+            TypeOfTechnology techNeeded = building.getTechnologyRequired() ;
+            if (techNeeded != null && !city.getOwnership().getGainedTypeOfTechnologies().contains(techNeeded))
                 continue;
 
             ImageView imageView = getImageView(building) ;
             addActionToAvailableBuildings(imageView , building);
 
-            anchorPane.getChildren().remove(getNodeFromGridPane(availableBuildingsGridPane , col , row)) ;
+            availableBuildingsGridPane.getChildren().remove(getNodeFromGridPane(availableBuildingsGridPane , col , row)) ;
 
             availableBuildingsGridPane.add(imageView , col , row);
             GridPane.setHalignment(imageView, HPos.CENTER);
@@ -130,17 +143,9 @@ public class BuildingPageController implements Initializable {
 
     public void addActionToAvailableBuildings (ImageView imageView , Building building){
         imageView.setOnMouseClicked(mouseEvent -> {
-            if (city.getOwnership().getGold() < building.getCost()){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("You don't have enough gold to purchase this building !");
-                alert.show();
-            }
-            else {
-                city.addBuilding(building);
-                city.getOwnership().setGold(city.getOwnership().getGold()-building.getCost());
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("Building " + building.toString().replace("_" , " ")+ " added to city " + city.getName());
-                alert.show();
+            switch (mouseEvent.getButton()){
+                case PRIMARY -> handleCreatingBuilding(building);
+                case SECONDARY -> handleBuyingBuilding(building);
             }
         });
     }
@@ -153,5 +158,64 @@ public class BuildingPageController implements Initializable {
         }
         return null;
     }
+
+    public void exitPage(MouseEvent mouseEvent) {
+        Node  source = (Node)  mouseEvent.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
+
+    private void handleBuyingBuilding (Building building){
+        if (city.getOwnership().getGold() < building.getCost()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You don't have enough gold to purchase this building !");
+            alert.show();
+        }
+        else {
+            city.addBuilding(building);
+            city.getOwnership().setGold(city.getOwnership().getGold()-building.getCost());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Building " + building.toString().replace("_" , " ")+ " added to city " + city.getName());
+            alert.show();
+        }
+    }
+
+    private void handleCreatingBuilding (Building building){
+        UnderConstructionBuilding underConstructionBuilding = city.getUnderConstructionBuilding() ;
+
+        if (underConstructionBuilding != null){
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmation.setTitle("Changing construction");
+            confirmation.setHeaderText(underConstructionBuilding.getBuilding().toString().replace("_" , " ") + " is already under construction ! Are you sure you want to change construction ?");
+            confirmation.setContentText("Please choose :");
+
+            Optional<ButtonType> option = confirmation.showAndWait();
+            if (option.get() == null) {
+                return;
+            }
+            else if (option.get() == ButtonType.OK) {
+                int turns = Math.min(building.getCost() / city.getCitizens().size()+city.getTerrains().size() , 15) ;
+                city.setUnderConstructionBuilding(new UnderConstructionBuilding(building , turns));
+                Alert done = new Alert(Alert.AlertType.INFORMATION);
+                done.setContentText("Building replaced !");
+                done.show();
+            }
+            else if (option.get() == ButtonType.CANCEL) {
+                Alert done = new Alert(Alert.AlertType.INFORMATION);
+                done.setContentText("Cancelled");
+                done.show();
+            }
+
+        }
+
+        else {
+            int turns = Math.min(building.getCost() / city.getCitizens().size()+city.getTerrains().size() , 15) ;
+            city.setUnderConstructionBuilding(new UnderConstructionBuilding(building , turns));
+            Alert done = new Alert(Alert.AlertType.INFORMATION);
+            done.setContentText("Building added !");
+            done.show();
+        }
+    }
+
 
 }
