@@ -27,8 +27,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         mainStage = stage;
         mainStage.setResizable(false);
-//        Parent root = loadFXML("loginMenu");
-        Parent root = loadFXML("buildingPage");
+        Parent root = loadFXML("loginMenu");
         stage.setTitle("game");
         scene = new Scene(root);
         UserController.loadUsers();
@@ -57,12 +56,9 @@ public class Main extends Application {
 
     public static void loadNewStage (String stageTitle , String fxmlName){
         Stage newStage = new Stage();
-        newStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                newStage.toBack();
-                newStage.close();
-            }
+        newStage.setOnCloseRequest(windowEvent -> {
+            newStage.toBack();
+            newStage.close();
         });
 //        newStage.initModality(Modality.APPLICATION_MODAL);
         newStage.setResizable(false);

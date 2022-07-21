@@ -7,7 +7,9 @@ import game.Main;
 import game.Model.Civilization;
 import game.Model.Technology;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -17,20 +19,19 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class TechnologyTreeController implements Initializable {
 
     public AnchorPane anchorPane;
+    public Button backButton ;
 
     ArrayList<TypeOfTechnology> reachedTypeOfTechnology = new ArrayList<>();
-    ArrayList<Label> labels = new ArrayList<>();
     ArrayList<Line> lines = new ArrayList<>() ;
 
     ArrayList<String > allPaths = new ArrayList<>() ;
@@ -38,6 +39,9 @@ public class TechnologyTreeController implements Initializable {
     ArrayList<HBox> hBoxes = new ArrayList<>() ;
 
     int totalRows = 0 ;
+
+    int numberOfIntervals = 0 ;
+    HashMap<Integer , Integer> intervals = new HashMap<>() ;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -48,9 +52,13 @@ public class TechnologyTreeController implements Initializable {
             doTheJobDeeply(value , "");
         correctPaths();
 
+        int numberBefore = 0 ;
         for (String allPath : allPaths) {
             drawOnePath(allPath, -100);
-            totalRows += 1 ;
+            setIntervalsOfYS();
+            if (numberBefore != numberOfIntervals)
+                totalRows += 1;
+            numberBefore = numberOfIntervals ;
         }
 
         anchorPane.getChildren().addAll(lines);
@@ -95,14 +103,17 @@ public class TechnologyTreeController implements Initializable {
     public void drawOnePath (String path , int x){
         ArrayList<String> components = new ArrayList<>(Arrays.asList(path.split("\\|")));
         for (int i = 0; i < components.size(); i++) {
-            Label availableLabel = getAvailableLabelByTechnologyName(components.get(i)) ;
-            if ( availableLabel == null ) {
+            HBox availableHBox = getAvailableHBoxByTechnologyName(components.get(i)) ;
+            if ( availableHBox == null ) {
                 Label label = new Label(components.get(i));
-                hBoxes.add(getHBox(label , x , totalRows*15 + 10));
-                labels.add(label);
+                HBox hBoxToAdd = getHBox(label , x , totalRows*42 + 5) ;
+                hBoxes.add(hBoxToAdd);
                 if (i != 0 ){
-                    Label last = getAvailableLabelByTechnologyName(components.get(i-1));
-                    Line line = new Line(last.getLayoutX() , last.getLayoutY() , label.getLayoutX() , label.getLayoutY());
+                    HBox last = getAvailableHBoxByTechnologyName(components.get(i-1));
+                    Line line = new Line(last.getLayoutX()+40 , last.getLayoutY()+20 , hBoxToAdd.getLayoutX() , hBoxToAdd.getLayoutY()+20);
+                    line.setStrokeWidth(10);
+                    line.setFill(Color.WHITE);
+                    line.setSmooth(true);
                     lines.add(line);
                 }
             }
@@ -119,8 +130,8 @@ public class TechnologyTreeController implements Initializable {
             image = new Image(Main.class.getResource("/game/images/technologies/Agriculture.png").toExternalForm()) ;
         }
         output.setImage(image);
-        output.setFitWidth(50);
-        output.setFitHeight(50);
+        output.setFitWidth(38);
+        output.setFitHeight(38);
         return output ;
     }
 
@@ -128,8 +139,8 @@ public class TechnologyTreeController implements Initializable {
         HBox hBox = new HBox();
         hBox.getStyleClass().add("technologyHBox") ;
         label.setTooltip(new Tooltip(getTechnologyByName(label.getText()).getScienceNeeded()+""));
-        hBox.setPrefHeight(40);
-        hBox.setPrefWidth(100);
+        hBox.setPrefHeight(35);
+        hBox.setPrefWidth(90);
         hBox.setLayoutX(x);
         hBox.setLayoutY(y);
         hBox.getChildren().add(getImageView(label.getText()));
@@ -137,12 +148,13 @@ public class TechnologyTreeController implements Initializable {
         return hBox ;
     }
 
-    public Label getAvailableLabelByTechnologyName (String name){
-        for (Label label : labels) {
+    public HBox getAvailableHBoxByTechnologyName (String name){
+        for (HBox hBox : hBoxes) {
+            Label label = (Label) hBox.getChildren().get(1) ;
             if (label.getText().equals(name))
-                return label;
+                return hBox;
         }
-        return null ;
+        return null;
     }
 
     public TypeOfTechnology getTechnologyByName (String name){
@@ -243,5 +255,21 @@ public class TechnologyTreeController implements Initializable {
             return -40 ;
         return Math.min(y, 840);
     }
+
+    public void exitPage(MouseEvent mouseEvent) {
+        Node  source = (Node)  mouseEvent.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
+
+    public void setIntervalsOfYS (){
+        intervals.clear();
+
+        for (HBox hBox : hBoxes)
+            intervals.put((int) (hBox.getLayoutY()/35), 1) ;
+
+        numberOfIntervals = intervals.keySet().size();
+    }
+
 }
 
