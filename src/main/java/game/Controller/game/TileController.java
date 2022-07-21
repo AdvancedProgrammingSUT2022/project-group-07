@@ -1,5 +1,6 @@
 package game.Controller.game;
 
+import game.Enum.Resources;
 import game.Enum.TerrainFeatures;
 import game.Enum.TypeOfTerrain;
 import game.Enum.TypeOfUnit;
@@ -40,7 +41,8 @@ public class TileController {
             address2 = tile.getTerrain().getTypeOfTerrain().getName() + "+"
                     + tile.getTerrain().getTerrainFeatures().getName() + ".png";
         }
-        tile.setBackground(address1, address2);
+        tile.setBackground(address1, address2, tile.getTerrain().getResources()
+                , tile.getTerrain().getTypeOfTerrain() ,
+                tile.getTerrain().getTerrainFeatures());
     }
-
 }

@@ -67,13 +67,26 @@ public class gamePageController {
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
         firstX = game.getTranslateX();
         firstY = game.getTranslateY();
-        Tile[][] tiles = GameController.getInstance().getMap();
-        for (Tile[] tile : tiles) {
-            for (Tile tile1 : tile) {
-                game.getChildren().add(tile1);
-                if (tile1.getFeature() != null) game.getChildren().add(tile1.getFeature());
-                tile1.updateUnitBackground();
-                if (tile1.getCivilUnit() != null) game.getChildren().add(tile1.getCivilUnit());
+        Tile[][] map = GameController.getInstance().getMap();
+        for (Tile[] tiles : map) {
+            for (Tile tile  : tiles) {
+                game.getChildren().add(tile);
+                if (tile.getFeature() != null)
+                    game.getChildren().add(tile.getFeature());
+                tile.updateUnitBackground();
+                if (tile.getCivilUnit() != null) game.getChildren().add(tile.getCivilUnit());
+
+                if (tile.getTerrain().hasRuin()
+                        && GameController.getInstance().getCurrentCivilization().getVisibleTerrains().contains(tile.getTerrain()))
+                {
+                    ImageView imageView = new ImageView(new Image(getClass().getResource("/game/images/Tiles/Ruin.png").toExternalForm()));
+                    imageView.setFitWidth(60);
+                    imageView.setFitHeight(60);
+                    imageView.setLayoutX(tile.getX());
+                    imageView.setLayoutY(tile.getY());
+                    Tooltip.install(imageView , new Tooltip("Gives you " + tile.getTerrain().getTypeOfRuin().toString().replace("FREE_" , "")+" !"));
+                    game.getChildren().add(imageView);
+                }
             }
         }
 
@@ -104,6 +117,7 @@ public class gamePageController {
                 catch (InterruptedException ignored) {}
             }
         });
+        infoPanelThread.setDaemon(true);
         infoPanelThread.start();
         // updating info panel pos to escape lag !!!
         Thread posThread = new Thread(() -> {
@@ -114,6 +128,7 @@ public class gamePageController {
                 catch (InterruptedException ignored){}
             }
         }) ;
+        posThread.setDaemon(true);
         posThread.start();
         // updating mini panels
         Thread miniPanelsThread = new Thread(() -> {
@@ -124,6 +139,7 @@ public class gamePageController {
                 catch (InterruptedException ignored){}
             }
         }) ;
+        miniPanelsThread.setDaemon(true);
         miniPanelsThread.start();
 
         Platform.runLater(new Runnable() {
@@ -194,6 +210,8 @@ public class gamePageController {
         selectedUnitPanel.setLayoutY(520+y);
         nextTurnImageView.setLayoutX(1000+x);
         nextTurnImageView.setLayoutY(600+y);
+        othersPanel.setLayoutX(300+x);
+        othersPanel.setLayoutY(0+y);
     }
 
     private void initializeResearchPanel() {

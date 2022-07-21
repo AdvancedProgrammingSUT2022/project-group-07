@@ -3,7 +3,7 @@
     -fx-background-radius: 30;
     -fx-border-radius: 30;
     -fx-text-fill: black;
-    -fx-font-size: 20;
+    -fx-font-size: 12;
     -fx-text-alignment: center;
     -fx-label-padding: 10px;
 }
@@ -29,4 +29,11 @@
 
 .greenBox {
     -fx-background-color: lightgreen;
+}
+
+.anchorPane {
+    -fx-background-image: url("../images/backgrounds/UnitBackground.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100% 100%;
+    -fx-opacity: 0.8;
 }

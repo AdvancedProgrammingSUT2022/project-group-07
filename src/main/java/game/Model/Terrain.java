@@ -1,9 +1,6 @@
 package game.Model;
 
-import game.Enum.TypeOfTerrain;
-import game.Enum.TerrainFeatures;
-import game.Enum.Resources;
-import game.Enum.RiverSide;
+import game.Enum.*;
 import game.View.components.Tile;
 
 import java.awt.*;
@@ -20,6 +17,8 @@ public class Terrain {
     private boolean hasRailRoad;
     private boolean hasRoad;
     private boolean pillaged;
+    private boolean hasRuin ;
+    private TypeOfRuin typeOfRuin ;
 
 
     private ArrayList<RiverSide> riverSides;
@@ -34,6 +33,7 @@ public class Terrain {
         this.mp = typeOfTerrain.getMpNeeded();
         if (terrainFeatures != null)
             this.mp += terrainFeatures.getMp();
+        hasRuin = false ;
     }
 
     public TypeOfTerrain getTypeOfTerrain() {
@@ -127,4 +127,21 @@ public class Terrain {
         this.pillaged = pillaged;
     }
 
+
+    public void setHasRuin(boolean hasRuin) {
+        this.hasRuin = hasRuin;
+    }
+
+    public boolean hasRuin (){
+        return hasRuin ;
+    }
+
+    public void setTypeOfRuin(TypeOfRuin typeOfRuin) {
+        setHasRuin(true);
+        this.typeOfRuin = typeOfRuin;
+    }
+
+    public TypeOfRuin getTypeOfRuin (){
+        return typeOfRuin ;
+    }
 }

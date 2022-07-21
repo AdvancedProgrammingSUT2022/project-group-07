@@ -1,7 +1,7 @@
-.anchorPane {
+.anchorPane{
     -fx-background-image: url("../assets/Backgrounds/blue.jpg");
-    -fx-background-size: cover;
 }
+
 .iconPanel {
     -fx-opacity: 0.75 ;
     -fx-background-image: url("../assets/TransparentButton/bg@2x.png");

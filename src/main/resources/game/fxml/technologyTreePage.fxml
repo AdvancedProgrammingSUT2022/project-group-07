@@ -5,14 +5,13 @@
 <?import java.net.URL?>
 <AnchorPane fx:controller="game.View.controller.TechnologyTreeController"
             fx:id="anchorPane"
-            prefWidth="800.0"
-            prefHeight="600.0"
-            maxWidth="800.0"
-            maxHeight="600.0"
-            onKeyPressed="#movePage"
-            onMouseDragged="#movePageWithMouse"
             xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml">
+<!--            onKeyPressed="#movePage"-->
+<!--            onMouseClicked="#movePageWithMouseClick"-->
+<!--            onMouseDragged="#movePageWithMouse"-->
+<!--            xmlns="http://javafx.com/javafx"-->
+<!--            xmlns:fx="http://javafx.com/fxml">-->
     <stylesheets>
         <URL value="@../css/technologyTree.css" />
     </stylesheets>

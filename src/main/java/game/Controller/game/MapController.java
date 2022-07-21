@@ -1,11 +1,7 @@
 package game.Controller.game;
 
+import game.Enum.*;
 import game.Model.*;
-import game.Enum.Resources;
-import game.Enum.TypeOfTerrain;
-import game.Enum.TerrainFeatures;
-import game.Enum.MapDimension;
-import game.Enum.RiverSide;
 import game.View.components.Tile;
 import javafx.scene.layout.AnchorPane;
 
@@ -251,6 +247,23 @@ public class MapController {
             for (int x = 0; x < mapWidth; x++) {
                 for (RiverSide riverSide : map[y][x].getTerrain().getRiverSides())
                     handleRiverSide(riverSide, y, x);
+            }
+        }
+    }
+
+    /**
+     * a function to generate random ruins after creation of map
+     * @param mapWidth width
+     * @param mapHeight height
+     */
+    public static void generateRuins (int mapWidth , int mapHeight){
+        Random random = new Random();
+        for (Tile[] tiles : map) {
+            for (Tile tile : tiles) {
+                if (!tile.getTerrain().getTypeOfTerrain().equals(TypeOfTerrain.OCEAN) && random.nextInt()%18==0 ){
+                    TypeOfRuin typeOfRuin = TypeOfRuin.values()[random.nextInt(TypeOfRuin.values().length)] ;
+                    tile.getTerrain().setTypeOfRuin(typeOfRuin) ;
+                }
             }
         }
     }

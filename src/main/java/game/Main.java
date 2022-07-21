@@ -3,11 +3,13 @@ package game;
 import game.Controller.UserController;
 import game.Controller.game.GameController;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -54,13 +56,24 @@ public class Main extends Application {
 
     public static void loadNewStage (String stageTitle , String fxmlName){
         Stage newStage = new Stage();
+        newStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                newStage.toBack();
+                newStage.close();
+            }
+        });
 //        newStage.initModality(Modality.APPLICATION_MODAL);
         newStage.setResizable(false);
         newStage.setTitle(stageTitle);
         Parent root = loadFXML(fxmlName);
         assert root != null;
-        scene = new Scene(root);
-        newStage.setScene(scene);
+        if (fxmlName.equals("technologyTreePage")){
+            newStage.setWidth(1200);
+            newStage.setHeight(750);
+        }
+        Scene newScene = new Scene(root);
+        newStage.setScene(newScene);
         newStage.show();
     }
 }

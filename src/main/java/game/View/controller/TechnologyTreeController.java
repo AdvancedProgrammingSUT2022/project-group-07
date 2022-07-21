@@ -6,7 +6,6 @@ import game.Enum.TypeOfTechnology;
 import game.Main;
 import game.Model.Civilization;
 import game.Model.Technology;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -14,6 +13,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -42,18 +42,19 @@ public class TechnologyTreeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        anchorPane.getStyleClass().add("anchorPane");
+
         for (TypeOfTechnology value : TypeOfTechnology.values())
             doTheJobDeeply(value , "");
         correctPaths();
 
         for (String allPath : allPaths) {
-            drawOnePath(allPath, 10);
+            drawOnePath(allPath, -100);
             totalRows += 1 ;
         }
 
         anchorPane.getChildren().addAll(lines);
         anchorPane.getChildren().addAll(hBoxes);
-        anchorPane.requestFocus();
         handleBoxes();
     }
 
@@ -105,7 +106,7 @@ public class TechnologyTreeController implements Initializable {
                     lines.add(line);
                 }
             }
-            x += 300;
+            x += 100;
         }
     }
 
@@ -127,8 +128,8 @@ public class TechnologyTreeController implements Initializable {
         HBox hBox = new HBox();
         hBox.getStyleClass().add("technologyHBox") ;
         label.setTooltip(new Tooltip(getTechnologyByName(label.getText()).getScienceNeeded()+""));
-        hBox.setPrefHeight(50);
-        hBox.setPrefWidth(200);
+        hBox.setPrefHeight(40);
+        hBox.setPrefWidth(100);
         hBox.setLayoutX(x);
         hBox.setLayoutY(y);
         hBox.getChildren().add(getImageView(label.getText()));
@@ -154,10 +155,10 @@ public class TechnologyTreeController implements Initializable {
 
     public void movePage(KeyEvent keyEvent) {
         switch (keyEvent.getCode()){
-            case A -> anchorPane.setTranslateX(anchorPane.getTranslateX() +10);
-            case D -> anchorPane.setTranslateX(anchorPane.getTranslateX() -10) ;
-            case W -> anchorPane.setTranslateY(anchorPane.getTranslateY() +10) ;
-            case S -> anchorPane.setTranslateY(anchorPane.getTranslateY() -10) ;
+            case A , LEFT -> anchorPane.setTranslateX(anchorPane.getTranslateX() + 10);
+            case D , RIGHT-> anchorPane.setTranslateX(anchorPane.getTranslateX() -10) ;
+            case W , UP -> anchorPane.setTranslateY(anchorPane.getTranslateY() +10) ;
+            case S , DOWN -> anchorPane.setTranslateY(anchorPane.getTranslateY() -10) ;
         }
     }
 
@@ -223,5 +224,24 @@ public class TechnologyTreeController implements Initializable {
         }
     }
 
+    public void movePageWithMouseClick(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton().equals(MouseButton.SECONDARY)){
+            System.out.println("move");
+            anchorPane.setTranslateX(validX((int) (mouseEvent.getX()-200)));
+            anchorPane.setTranslateY(validY((int) (mouseEvent.getY()-300)));
+        }
+    }
+
+    public int validX (int x){
+        if (x<= -60)
+            return -60 ;
+        return Math.min(x, 1260);
+    }
+
+    public int validY (int y){
+        if (y<= -40)
+            return -40 ;
+        return Math.min(y, 840);
+    }
 }
 
