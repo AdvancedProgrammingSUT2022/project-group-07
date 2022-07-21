@@ -9,6 +9,8 @@ import game.Model.Terrain;
 import game.Enum.TerrainFeatures;
 import game.Model.Unit;
 import game.Enum.TypeOfUnit;
+import game.View.components.Tile;
+
 import java.util.ArrayList;
 
 
@@ -19,14 +21,14 @@ public class Move {
     // check if destination is mountain, ocean or river which are impassable
     // TODO river for destination ?!
     public static String destinationIsValid(Location destination) {
-        Terrain[][] terrain = GameController.getInstance().getMap();
+        Tile[][] tiles = GameController.getInstance().getMap();
         String typeOfTerrain;
         Location terrainLocation;
 
         for (int i = 0; i < GameController.getInstance().getMapHeight(); i++) {
             for (int j = 0; j < GameController.getInstance().getMapWidth(); j++) {
-                terrainLocation = terrain[i][j].getLocation();
-                typeOfTerrain = terrain[i][j].getTypeOfTerrain().getName();
+                terrainLocation = tiles[i][j].getTerrain().getLocation();
+                typeOfTerrain = tiles[i][j].getTerrain().getTypeOfTerrain().getName();
 
                 if ((typeOfTerrain.equals("mountain")
                         || typeOfTerrain.equals("ocean"))
@@ -34,8 +36,8 @@ public class Move {
                         && terrainLocation.getY() == destination.getY())
                     return typeOfTerrain;
 
-                if (terrain[i][j].getTerrainFeatures() != null
-                        && terrain[i][j].getTerrainFeatures() == TerrainFeatures.ICE
+                if (tiles[i][j].getTerrain().getTerrainFeatures() != null
+                        && tiles[i][j].getTerrain().getTerrainFeatures() == TerrainFeatures.ICE
                         && terrainLocation.getX() == destination.getX()
                         && terrainLocation.getY() == destination.getY())
                     return "ice";

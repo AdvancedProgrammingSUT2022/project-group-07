@@ -4,6 +4,8 @@ import game.Controller.game.GameController;
 import game.Model.Location;
 import game.Model.Terrain;
 import game.Enum.RiverSide;
+import game.View.components.Tile;
+
 import java.util.ArrayList;
 
 public class TheShortestPath {
@@ -30,7 +32,7 @@ public class TheShortestPath {
     }
 
     private static void initializeNeighbors(int i) {
-        Terrain[][] terrain = GameController.getInstance().getMap();
+        Tile[][] tiles = GameController.getInstance().getMap();
         Terrain left, upLeft, upRight, right, downRight, downLeft;
         int k, s;
         if (i % width == 0) {
@@ -42,38 +44,38 @@ public class TheShortestPath {
         }
         mpMap[i - 1][i - 1] = 0;
         if (s > 0) {
-            left = terrain[k][s - 1];
+            left = tiles[k][s - 1].getTerrain();
             mpMap[i - 1][i - 2] = getDestinationMp(left , RiverSide.LEFT);
         }
         if (k > 0) {
-            if (k % 2 == 0 && s > 0) upLeft = terrain[k - 1][s - 1];
-            else upLeft = terrain[k - 1][s];
+            if (k % 2 == 0 && s > 0) upLeft = tiles[k - 1][s - 1].getTerrain();
+            else upLeft = tiles[k - 1][s].getTerrain();
             mpMap[i - 1][i - width - 1] = getDestinationMp(upLeft , RiverSide.UPPER_LEFT);
         }
         if (k > 0) {
-            if (k % 2 == 0) upRight = terrain[k - 1][s];
+            if (k % 2 == 0) upRight = tiles[k - 1][s].getTerrain();
             else {
-                if (s != width - 1) upRight = terrain[k - 1][s + 1];
+                if (s != width - 1) upRight = tiles[k - 1][s + 1].getTerrain();
                 else upRight = null;
             }
             if (upRight != null) mpMap[i - 1][i - width] = getDestinationMp(upRight , RiverSide.UPPER_RIGHT);
         }
         if (s < width - 1) {
-            right = terrain[k][s + 1];
+            right = tiles[k][s + 1].getTerrain();
             mpMap[i - 1][i] = getDestinationMp(right , RiverSide.RIGHT);
         }
         if (k < height - 1) {
-            if (k % 2 == 0 && s != 0) downLeft = terrain[k + 1][s - 1];
-            else downLeft = terrain[k + 1][s];
+            if (k % 2 == 0 && s != 0) downLeft = tiles[k + 1][s - 1].getTerrain();
+            else downLeft = tiles[k + 1][s].getTerrain();
             mpMap[i - 1][i + width - 1] = getDestinationMp(downLeft , RiverSide.LOWER_LEFT);
         }
         if (k < height - 1) {
             if (k % 2 == 0) {
-                downRight = terrain[k + 1][s];
+                downRight = tiles[k + 1][s].getTerrain();
                 mpMap[i - 1][i + width - 1] = getDestinationMp(downRight , RiverSide.LOWER_RIGHT);
             } else {
                 if (s != width - 1) {
-                    downRight = terrain[k + 1][s + 1];
+                    downRight = tiles[k + 1][s + 1].getTerrain();
                     mpMap[i - 1][i + width] = getDestinationMp(downRight , RiverSide.LOWER_RIGHT);
                 }
             }
@@ -114,7 +116,7 @@ public class TheShortestPath {
 
     // method for FOG OF WAR
     public static ArrayList<Terrain> showPath(Location origin, Location destination) {
-        Terrain[][] terrain = GameController.getInstance().getMap();
+        Tile[][] tiles = GameController.getInstance().getMap();
         int start = findStartOrEnd(origin);
         int end = findStartOrEnd(destination);
 
@@ -122,24 +124,24 @@ public class TheShortestPath {
         if (start != -1 && end != -1) {
             if (nextTerrain[start][end] == -1)
                 return null;
-            if (start % width == 0) knownTerrains.add(terrain[start / width - 1][width - 1]);
-            else knownTerrains.add(terrain[start / width][start % width - 1]);
+            if (start % width == 0) knownTerrains.add(tiles[start / width - 1][width - 1].getTerrain());
+            else knownTerrains.add(tiles[start / width][start % width - 1].getTerrain());
             while (start != end) {
                 start = nextTerrain[start][end];
-                if (start % width == 0) knownTerrains.add(terrain[start / width - 1][width - 1]);
-                else knownTerrains.add(terrain[start / width][start % width - 1]);
+                if (start % width == 0) knownTerrains.add(tiles[start / width - 1][width - 1].getTerrain());
+                else knownTerrains.add(tiles[start / width][start % width - 1].getTerrain());
             }
         }
         return knownTerrains;
     }
 
     private static int findStartOrEnd(Location location) {
-        Terrain[][] terrain = GameController.getInstance().getMap();
+        Tile[][] tiles = GameController.getInstance().getMap();
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (terrain[i][j].getLocation().getX() == location.getX()
-                        && terrain[i][j].getLocation().getY() == location.getY())
+                if (tiles[i][j].getTerrain().getLocation().getX() == location.getX()
+                        && tiles[i][j].getTerrain().getLocation().getY() == location.getY())
                     return width * i + j + 1;
             }
         }

@@ -17,7 +17,6 @@ public class Terrain {
     private boolean hasRailRoad;
     private boolean hasRoad;
     private boolean pillaged;
-    private Tile tile;
     private boolean hasRuin ;
     private TypeOfRuin typeOfRuin ;
 
@@ -25,14 +24,13 @@ public class Terrain {
     private ArrayList<RiverSide> riverSides;
 
     public Terrain(TypeOfTerrain typeOfTerrain, TerrainFeatures terrainFeatures,
-                   Resources resource, Location location, Tile tile) {
+                   Resources resource, Location location) {
         this.typeOfTerrain = typeOfTerrain;
         this.terrainFeatures = terrainFeatures;
         this.resources = resource;
         this.location = location;
         this.riverSides = new ArrayList<RiverSide>();
         this.mp = typeOfTerrain.getMpNeeded();
-        this.tile = tile;
         if (terrainFeatures != null)
             this.mp += terrainFeatures.getMp();
         hasRuin = false ;
@@ -129,13 +127,6 @@ public class Terrain {
         this.pillaged = pillaged;
     }
 
-    public Tile getTile() {
-        return tile;
-    }
-
-    public void setTile(Tile tile) {
-        this.tile = tile;
-    }
 
     public void setHasRuin(boolean hasRuin) {
         this.hasRuin = hasRuin;
