@@ -7,10 +7,7 @@
 <AnchorPane fx:controller="game.View.controller.TechnologyTreeController"
             fx:id="anchorPane"
             xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            onKeyPressed="#movePage"
-            onMouseClicked="#movePageWithMouseClick"
-            onMouseDragged="#movePageWithMouse">
+            xmlns:fx="http://javafx.com/fxml">
 
     <stylesheets>
         <URL value="@../css/technologyTree.css" />

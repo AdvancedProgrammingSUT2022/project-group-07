@@ -1,6 +1,7 @@
 package game.Controller.game.update;
 
 import game.Controller.game.CivilizationController;
+import game.Controller.game.DiplomacyController;
 import game.Controller.game.GameController;
 
 import game.Controller.game.TerrainController;
@@ -146,6 +147,14 @@ public class UpdateCivilizationElements {
                 default -> NotificationController.logRuinDiscovered(knownTerrain.getTypeOfRuin() , civilization , null);
             }
             knownTerrain.setHasRuin(false);
+        }
+    }
+
+    public static void updateDiplomacyRequests (Civilization civilization){
+        for (DiplomacyRequest diplomacyRequest : DiplomacyController.getDiplomacyRequestsForCivilization(civilization)) {
+            if (diplomacyRequest.isAcceptedByReceiver()){
+                diplomacyRequest.handle() ;
+            }
         }
     }
 
