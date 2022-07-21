@@ -20,7 +20,7 @@ import javafx.scene.paint.ImagePattern;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class gamePageController {
+public class GamePageController {
 
     public AnchorPane game;
     public double firstX;
