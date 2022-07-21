@@ -3,6 +3,8 @@ package game.View.controller;
 import game.Controller.game.SelectController;
 import game.Enum.Building;
 import game.Model.City;
+import game.Model.Civilization;
+import game.Model.User;
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
@@ -36,7 +38,8 @@ public class BuildingPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        city = SelectController.selectedCity ;
+//        city = SelectController.selectedCity ;
+        city = new City("sample city" , new Civilization("sample civilization" , new User()));
 
         anchorPane.getStyleClass().add("anchorPane") ;
 

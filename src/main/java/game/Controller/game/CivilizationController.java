@@ -100,6 +100,7 @@ public class CivilizationController {
         UpdateCityElements.citizenGrowth(civilization);
         UpdateCityElements.update(civilization, gameController);
         UpdateCityElements.foodConsumption(civilization);
+        UpdateCityElements.updateUnderConstructionBuildings(civilization);
         UpdateHappiness.update(civilization, gameController);
         //TODO harchidige ke moond!
     }
