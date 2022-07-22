@@ -4,22 +4,27 @@ import game.Controller.UserController;
 import game.Controller.game.DiplomacyController;
 import game.Controller.game.GameController;
 import game.Controller.game.LogAndNotification.NotificationController;
+import game.Enum.Resources;
 import game.Enum.TypeOfDiplomacy;
 import game.Enum.TypeOfRelation;
-import game.Model.Civilization;
-import game.Model.DiplomacyRequest;
-import game.Model.User;
+import game.Model.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class DiplomacyMenuController implements Initializable {
@@ -45,6 +50,17 @@ public class DiplomacyMenuController implements Initializable {
     public VBox outgoingDiplomacyRequestsVBox;
     public VBox incomingDiplomacyRequestsVBox;
 
+    // trade page stuff
+    public ChoiceBox<String> diplomacyChooseCivilizationChoiceBoxForTrade;
+    public GridPane whatYouWillGetGridPane;
+    public GridPane whatTheyWillGetGridPane;
+    public ImageView whatYouWillGetImageView;
+    public ImageView whatTheyWillGetImageView;
+    private TradingAsset whatYouWillGetTradingAsset ;
+    private TradingAsset whatTheyWillGetTradingAsset ;
+    int rowCount = 5 ;
+    int colCount = 4 ;
+
 
     // for controller itself
     private String selectedPage = "Diplomacy Page" ;
@@ -67,7 +83,7 @@ public class DiplomacyMenuController implements Initializable {
             } ;
             while (true) {
                 Platform.runLater(runnable);
-                try {Thread.sleep(400);}
+                try {Thread.sleep(500);}
                 catch (InterruptedException ignored) {}
             }
         });
@@ -110,7 +126,6 @@ public class DiplomacyMenuController implements Initializable {
     public void nextTurn() {
         GameController.getInstance().nextTurn(GameController.getInstance());
         currentCivilization = GameController.getInstance().getCurrentCivilization();
-        loadDiplomacyChoiceBox(GameController.getInstance());
     }
 
     public void showNullCivilizationAlert (){
@@ -129,7 +144,7 @@ public class DiplomacyMenuController implements Initializable {
 
     // diplomacy page methods
     public void loadDiplomacyPage (){
-        loadDiplomacyChoiceBox(GameController.getInstance());
+        loadDiplomacyChoiceBox(GameController.getInstance() , diplomacyChooseCivilizationChoiceBox);
         loadDiplomacyButtonActions() ;
         if (receiverCivilization == null)
             return;
@@ -189,23 +204,161 @@ public class DiplomacyMenuController implements Initializable {
 
     }
 
-    public void loadDiplomacyChoiceBox (GameController gameController){
+    public void loadDiplomacyChoiceBox (GameController gameController , ChoiceBox<String> choiceBox){
         ArrayList<String > names = new ArrayList<>();
         for (Civilization civilization : gameController.getCivilizations()) {
             if (gameController.getCurrentCivilization().equals(civilization)) continue;
             names.add(civilization.getName());
         }
-        diplomacyChooseCivilizationChoiceBox.setItems(FXCollections.observableArrayList(names));
-        diplomacyChooseCivilizationChoiceBox.setOnAction(actionEvent -> {
-            receiverCivilization = getReceiverCivilization(diplomacyChooseCivilizationChoiceBox.getSelectionModel().getSelectedItem());
+        choiceBox.setItems(FXCollections.observableArrayList(names));
+        choiceBox.setOnAction(actionEvent -> {
+            receiverCivilization = getReceiverCivilization(choiceBox.getSelectionModel().getSelectedItem());
             updateScreen();
         });
     }
 
     // trade page methods
     private void loadTradePage() {
+        loadDiplomacyChoiceBox(GameController.getInstance() , diplomacyChooseCivilizationChoiceBoxForTrade);
+        whatYouWillGetGridPane.getChildren().clear();
+        whatTheyWillGetGridPane.getChildren().clear();
+        whatYouWillGetImageView.setImage(null);
+        whatTheyWillGetImageView.setImage(null);
+        whatYouWillGetTradingAsset = null ;
+        whatTheyWillGetTradingAsset = null ;
+
+        loadGridPaneFor(whatYouWillGetGridPane , false);
+        loadGridPaneFor(whatTheyWillGetGridPane , true);
     }
-    
+
+    private void loadGridPaneFor (GridPane gridPane , boolean isThisYou ){
+        if (currentCivilization == null || receiverCivilization == null) return;
+
+        if (isThisYou)
+            fillGridPaneForCivilization(whatTheyWillGetGridPane , currentCivilization);
+        else
+            fillGridPaneForCivilization(whatYouWillGetGridPane , receiverCivilization);
+
+    }
+
+    private void fillGridPaneForCivilization (GridPane gridPane , Civilization civilization){
+        gridPane.getChildren().clear();
+//        ArrayList<Resources> resources = civilization.getAllAvailableResources();
+        ArrayList<Resources> resources = new ArrayList<>(List.of(Resources.values()));
+
+        addCoinValueToTrade(gridPane , civilization);
+
+        int counter = 0 ;
+
+        for (int y=1 ; y<rowCount ; y++){
+            for (int x=0 ; x<colCount ; x++){
+                if (counter >= resources.size()) continue;
+                Resources resource = resources.get(counter);
+                counter++ ;
+                ImageView resourceImageView = new ImageView(new Image(getClass().getResource("/game/assets/civAsset/resources/"+resource.getName()+".png").toExternalForm()));
+                resourceImageView.setFitHeight(30);
+                resourceImageView.setFitWidth(30);
+
+                if ( civilization.equals(currentCivilization)){
+                    resourceImageView.setOnMouseClicked(mouseEvent -> {
+                        whatTheyWillGetTradingAsset = new TradingAsset(resource);
+                        whatTheyWillGetImageView.setImage(resourceImageView.getImage());
+                        System.out.println("they will get " + resource);
+                    });
+                } else {
+                    resourceImageView.setOnMouseClicked(mouseEvent -> {
+                        whatYouWillGetTradingAsset = new TradingAsset(resource);
+                        whatYouWillGetImageView.setImage(resourceImageView.getImage());
+                        System.out.println("you will get " + resource);
+                    });
+                }
+
+                gridPane.add(resourceImageView , x , y);
+            }
+        }
+    }
+
+    public void addCoinValueToTrade (GridPane gridPane , Civilization civilization){
+        ImageView gold5 = new ImageView(new Image(getClass().getResource("/game/images/icons/GOLD_ICON.png").toExternalForm())) ;
+        ImageView gold10 = new ImageView(new Image(getClass().getResource("/game/images/icons/GOLD_ICON.png").toExternalForm())) ;
+        ImageView gold50 = new ImageView(new Image(getClass().getResource("/game/images/icons/GOLD_ICON.png").toExternalForm())) ;
+        gold5.setFitWidth(30);
+        gold5.setFitHeight(30);
+        gold10.setFitWidth(30);
+        gold10.setFitHeight(30);
+        gold50.setFitWidth(30);
+        gold50.setFitHeight(30);
+        gridPane.add(gold5 , 0 , 0);
+        gridPane.add(gold10 , 1 , 0);
+        gridPane.add(gold50 , 2 , 0);
+
+        if (civilization.equals(currentCivilization)){
+            gold5.setOnMouseClicked(mouseEvent -> {
+                whatTheyWillGetTradingAsset = new TradingAsset(5);
+                whatTheyWillGetImageView.setImage(gold5.getImage());
+            });
+            gold10.setOnMouseClicked(mouseEvent -> {
+                whatTheyWillGetTradingAsset = new TradingAsset(10);
+                whatTheyWillGetImageView.setImage(gold10.getImage());
+            });
+            gold50.setOnMouseClicked(mouseEvent -> {
+                whatTheyWillGetTradingAsset = new TradingAsset(50);
+                whatTheyWillGetImageView.setImage(gold50.getImage());
+            });
+        } else {
+            gold5.setOnMouseClicked(mouseEvent -> {
+                whatYouWillGetTradingAsset = new TradingAsset(5);
+                whatYouWillGetImageView.setImage(gold5.getImage());
+            });
+            gold10.setOnMouseClicked(mouseEvent -> {
+                whatYouWillGetTradingAsset = new TradingAsset(10);
+                whatYouWillGetImageView.setImage(gold10.getImage());
+            });
+            gold50.setOnMouseClicked(mouseEvent -> {
+                whatYouWillGetTradingAsset = new TradingAsset(50);
+                whatYouWillGetImageView.setImage(gold50.getImage());
+            });
+        }
+
+        gold5.setDisable(false);
+        gold10.setDisable(false);
+        gold50.setDisable(false);
+        if (civilization.getGold()<50) gold50.setDisable(true);
+        if (civilization.getGold()<10) gold10.setDisable(true);
+        if (civilization.getGold()<5) gold5.setDisable(true);
+    }
+
+    public void sendOffer() {
+
+        if (whatYouWillGetTradingAsset == null ){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("You can't gift anything to others unless they demand it ! THIS IS REAL LIFE SON ! WAKE UP !");
+            alert.show();
+            return;
+        }
+
+        if (whatTheyWillGetTradingAsset == null ){
+            DiplomacyRequest diplomacyRequest = new DiplomacyRequest(currentCivilization , receiverCivilization , TypeOfDiplomacy.DEMAND);
+            diplomacyRequest.setTrade(
+                    new Trade(currentCivilization , whatYouWillGetTradingAsset
+                            , receiverCivilization , null));
+            DiplomacyController.addDiplomacyRequest(diplomacyRequest);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Your demand was sent to " + receiverCivilization.getName());
+            alert.show();
+            return;
+        }
+
+        DiplomacyRequest diplomacyRequest = new DiplomacyRequest(currentCivilization , receiverCivilization , TypeOfDiplomacy.TRADE);
+        diplomacyRequest.setTrade(
+                new Trade(currentCivilization , whatYouWillGetTradingAsset
+                        , receiverCivilization , whatTheyWillGetTradingAsset));
+        DiplomacyController.addDiplomacyRequest(diplomacyRequest);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Your trade offer was sent to " + receiverCivilization.getName());
+        alert.show();
+
+    }
 
     // demand page methods
     private void loadDemandPage() {

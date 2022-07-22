@@ -17,10 +17,16 @@
 /*}*/
 
 .requestVBox {
-    -fx-border-radius: 20;
+    -fx-border-radius: 30;
+    -fx-opacity: 0.8;
     -fx-background-radius: 20;
     -fx-padding: 10px ;
     -fx-spacing: 10;
+    -fx-text-alignment: center;
+}
+
+.requestVBox:hover {
+    -fx-opacity: 0.95;
 }
 
 .cancelRequestButton{

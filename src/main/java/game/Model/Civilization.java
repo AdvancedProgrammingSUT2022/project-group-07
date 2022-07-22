@@ -267,6 +267,8 @@ public class Civilization {
     }
 
     public void addResource (Resources resource){
+        if (cities.size() == 0 )
+            return;
         Random random = new Random() ;
         ArrayList<Terrain> terrains = this.cities.get(random.nextInt(this.cities.size())).getTerrains() ;
         terrains.get(random.nextInt(terrains.size())).setResources(resource);
@@ -281,6 +283,17 @@ public class Civilization {
                 }
             }
         }
+    }
+
+    public ArrayList<Resources> getAllAvailableResources (){
+        ArrayList<Resources> out = new ArrayList<>();
+        for (City city : this.cities) {
+            for (Terrain terrain : city.getTerrains()) {
+                if (terrain.getResources() != null && !out.contains(terrain.getResources()))
+                    out.add(terrain.getResources());
+            }
+        }
+        return out ;
     }
 
 }
