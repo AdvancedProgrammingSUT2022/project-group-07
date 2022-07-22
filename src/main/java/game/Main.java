@@ -27,8 +27,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         mainStage = stage;
         mainStage.setResizable(false);
-//        Parent root = loadFXML("loginMenu");
-        Parent root = loadFXML("diplomacyMenu");
+        Parent root = loadFXML("loginMenu");
         stage.setTitle("game");
         scene = new Scene(root);
         UserController.loadUsers();

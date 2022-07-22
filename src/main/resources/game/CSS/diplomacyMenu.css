@@ -46,3 +46,8 @@
     -fx-text-alignment: center;
 }
 
+.tabPane {
+    -fx-font-family: "B Nazanin";
+    -fx-background-image: url("../assets/Backgrounds/scoreboard.jpg");
+    -fx-background-size: cover;
+}

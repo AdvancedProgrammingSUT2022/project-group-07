@@ -68,7 +68,7 @@ public class DiplomacyMenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        init();
+//        init();
         currentCivilization = GameController.getInstance().getCurrentCivilization();
         for (Tab tab : tabPane.getTabs())
             tab.setOnSelectionChanged(event -> selectedPage = tabPane.getSelectionModel().getSelectedItem().getText());
@@ -96,11 +96,11 @@ public class DiplomacyMenuController implements Initializable {
         switch (selectedPage){
             case "Diplomacy Page" -> loadDiplomacyPage();
             case "Trade Page" -> loadTradePage() ;
-            case "DemandPage" -> loadDemandPage();
             case "Diplomacy Requests History" -> loadDiplomacyRequestsHistory() ;
         }
     }
 
+    // a function to test menu
     public void init (){
         UserController.setCurrentUser(new User());
         ArrayList<User> players = new ArrayList<>();
@@ -243,8 +243,8 @@ public class DiplomacyMenuController implements Initializable {
 
     private void fillGridPaneForCivilization (GridPane gridPane , Civilization civilization){
         gridPane.getChildren().clear();
-//        ArrayList<Resources> resources = civilization.getAllAvailableResources();
-        ArrayList<Resources> resources = new ArrayList<>(List.of(Resources.values()));
+        ArrayList<Resources> resources = civilization.getAllAvailableResources();
+//        ArrayList<Resources> resources = new ArrayList<>(List.of(Resources.values()));
 
         addCoinValueToTrade(gridPane , civilization);
 
@@ -263,13 +263,11 @@ public class DiplomacyMenuController implements Initializable {
                     resourceImageView.setOnMouseClicked(mouseEvent -> {
                         whatTheyWillGetTradingAsset = new TradingAsset(resource);
                         whatTheyWillGetImageView.setImage(resourceImageView.getImage());
-                        System.out.println("they will get " + resource);
                     });
                 } else {
                     resourceImageView.setOnMouseClicked(mouseEvent -> {
                         whatYouWillGetTradingAsset = new TradingAsset(resource);
                         whatYouWillGetImageView.setImage(resourceImageView.getImage());
-                        System.out.println("you will get " + resource);
                     });
                 }
 
@@ -358,10 +356,6 @@ public class DiplomacyMenuController implements Initializable {
         alert.setHeaderText("Your trade offer was sent to " + receiverCivilization.getName());
         alert.show();
 
-    }
-
-    // demand page methods
-    private void loadDemandPage() {
     }
 
     // diplomacy requests history page methods
