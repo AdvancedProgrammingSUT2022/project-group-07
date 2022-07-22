@@ -152,9 +152,12 @@ public class UpdateCivilizationElements {
 
     public static void updateDiplomacyRequests (Civilization civilization){
         for (DiplomacyRequest diplomacyRequest : DiplomacyController.getDiplomacyRequestsForCivilization(civilization)) {
-            if (diplomacyRequest.isAcceptedByReceiver()){
+            if (!diplomacyRequest.isHandled() && diplomacyRequest.isAcceptedByReceiver())
                 diplomacyRequest.handle() ;
-            }
+        }
+        for (DiplomacyRequest diplomacyRequest : DiplomacyController.getDiplomacyRequestsOfCivilization(civilization)) {
+            if (!diplomacyRequest.isHandled() && diplomacyRequest.isAcceptedByReceiver())
+                diplomacyRequest.handle() ;
         }
     }
 

@@ -11,6 +11,7 @@ public class DiplomacyRequest {
     private boolean isAcceptedByReceiver ;
     private boolean isRejectedByReceiver ;
     private Trade trade ;
+    private boolean isHandled = false ;
 
     public DiplomacyRequest (Civilization sender , Civilization receiver , TypeOfDiplomacy typeOfDiplomacy){
         this.sender = sender ;
@@ -78,15 +79,33 @@ public class DiplomacyRequest {
 
     public void handle (){
         switch (typeOfDiplomacy){
+            case BREAK_PEACE -> {
+                sender.addRelationWithCivilization(TypeOfRelation.NEUTRAL , receiver);
+                receiver.addRelationWithCivilization(TypeOfRelation.NEUTRAL , sender);
+                isHandled = true ;
+            }
             case PEACE -> {
                 sender.addRelationWithCivilization(TypeOfRelation.ALLY , receiver);
                 receiver.addRelationWithCivilization(TypeOfRelation.ALLY , sender);
+                isHandled = true ;
             }
             case DECLARE_WAR -> {
                 sender.addRelationWithCivilization(TypeOfRelation.ENEMY , receiver);
                 receiver.addRelationWithCivilization(TypeOfRelation.ENEMY , sender);
+                isHandled = true ;
             }
-            case TRADE, DEMAND -> trade.handle() ;
+            case TRADE, DEMAND -> {
+                trade.handle() ;
+                isHandled = true ;
+            }
         }
+    }
+
+    public boolean isStillPending (){
+        return !isAcceptedByReceiver && !isRejectedByReceiver;
+    }
+
+    public boolean isHandled() {
+        return isHandled;
     }
 }
