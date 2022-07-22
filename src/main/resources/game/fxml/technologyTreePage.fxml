@@ -3,17 +3,15 @@
 
 <?import javafx.scene.layout.AnchorPane?>
 <?import java.net.URL?>
+<?import javafx.scene.control.Button?>
 <AnchorPane fx:controller="game.View.controller.TechnologyTreeController"
             fx:id="anchorPane"
             xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml">
-<!--            onKeyPressed="#movePage"-->
-<!--            onMouseClicked="#movePageWithMouseClick"-->
-<!--            onMouseDragged="#movePageWithMouse"-->
-<!--            xmlns="http://javafx.com/javafx"-->
-<!--            xmlns:fx="http://javafx.com/fxml">-->
+
     <stylesheets>
         <URL value="@../css/technologyTree.css" />
     </stylesheets>
+    <Button onMouseClicked="#exitPage" layoutX="1050" layoutY="650" styleClass="backButton" fx:id="backButton" text="Back"/>
 
 </AnchorPane>

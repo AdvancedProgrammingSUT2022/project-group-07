@@ -18,6 +18,7 @@ public class City {
     private int turnsTillGrowth ;
     private int defencePower;
     private Unit garrison;
+    private UnderConstructionBuilding underConstructionBuilding ;
 
     public City (String name , Civilization ownership){
         this.terrains = new ArrayList<Terrain>();
@@ -121,5 +122,13 @@ public class City {
 
     public void setGarrison(Unit garrison) {
         this.garrison = garrison;
+    }
+
+    public void setUnderConstructionBuilding(UnderConstructionBuilding underConstructionBuilding) {
+        this.underConstructionBuilding = underConstructionBuilding;
+    }
+
+    public UnderConstructionBuilding getUnderConstructionBuilding() {
+        return underConstructionBuilding;
     }
 }

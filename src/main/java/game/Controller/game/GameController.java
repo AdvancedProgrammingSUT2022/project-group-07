@@ -99,9 +99,20 @@ public class GameController {
         map = MapController.createMap(mapWidth, mapHeight);
         initializeCivilizations(players);
         setCurrentCivilization(civilizations.get(0));
+        setStartingRelations () ;
         CivilizationController.updateFogOfWar(currentCivilization , map , mapWidth , mapHeight);
         TheShortestPath.run();
         MapController.setBackgrounds(map);
+    }
+
+    private void setStartingRelations() {
+        for (Civilization civilization1 : civilizations) {
+            for (Civilization civilization2 : civilizations) {
+                if (civilization1.equals(civilization2))
+                    continue;
+                civilization1.addRelationWithCivilization(TypeOfRelation.NEUTRAL , civilization2);
+            }
+        }
     }
 
     private static MapDimension chooseRandomMap() {

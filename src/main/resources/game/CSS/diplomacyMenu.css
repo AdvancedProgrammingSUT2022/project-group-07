@@ -1,0 +1,53 @@
+/*.pendingHBox {*/
+/*    -fx-background-color: gray;*/
+/*    -fx-padding: 10 , 10 , 10 , 10;*/
+/*    -fx-spacing: 10;*/
+/*}*/
+
+/*.acceptedHBox {*/
+/*    -fx-background-color: lightgreen;*/
+/*    -fx-padding: 10 , 10 , 10 , 10;*/
+/*    -fx-spacing: 10;*/
+/*}*/
+
+/*.rejectedHBox {*/
+/*    -fx-background-color: red;*/
+/*    -fx-padding: 10 , 10 , 10 , 10;*/
+/*    -fx-spacing: 10;*/
+/*}*/
+
+.requestVBox {
+    -fx-border-radius: 30;
+    -fx-opacity: 0.8;
+    -fx-background-radius: 20;
+    -fx-padding: 10px ;
+    -fx-spacing: 10;
+    -fx-text-alignment: center;
+}
+
+.requestVBox:hover {
+    -fx-opacity: 0.95;
+}
+
+.cancelRequestButton{
+    -fx-background-color: yellow;
+    -fx-pref-width: 50;
+    -fx-pref-height: 50;
+    -fx-border-radius: 20;
+}
+
+.acceptRequestButton{
+    -fx-background-color: green;
+    -fx-text-alignment: center;
+}
+
+.rejectRequestButton {
+    -fx-background-color: red;
+    -fx-text-alignment: center;
+}
+
+.tabPane {
+    -fx-font-family: "B Nazanin";
+    -fx-background-image: url("../assets/Backgrounds/scoreboard.jpg");
+    -fx-background-size: cover;
+}

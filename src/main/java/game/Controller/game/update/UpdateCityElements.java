@@ -161,4 +161,19 @@ public class UpdateCityElements {
             }
         }
     }
+
+    public static void updateUnderConstructionBuildings(Civilization civilization) {
+        for (City city : civilization.getCities()) {
+            UnderConstructionBuilding underConstructionBuilding = city.getUnderConstructionBuilding() ;
+            if (underConstructionBuilding==null) continue;
+
+            if (underConstructionBuilding.getRemainingTurns()==0) {
+                city.addBuilding(underConstructionBuilding.getBuilding());
+                NotificationController.logBuildingAddedToCity(underConstructionBuilding.getBuilding() , city);
+                city.setUnderConstructionBuilding(null);
+            }
+            else
+                underConstructionBuilding.setRemainingTurns(underConstructionBuilding.getRemainingTurns()-1);
+        }
+    }
 }
