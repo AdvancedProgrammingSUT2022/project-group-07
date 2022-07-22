@@ -1,14 +1,16 @@
 .imageView {
+    -fx-opacity: 0.8;
     -fx-border-width: 5;
     -fx-border-color: black;
     -fx-border-radius: 20;
 }
 
 .imageView:hover{
+    -fx-opacity: 1;
     -fx-border-width: 8;
-    -fx-scale-x: 120%;
-    -fx-scale-y: 120%;
-    -fx-scale-z: 120%;
+    -fx-scale-x: 130%;
+    -fx-scale-y: 130%;
+    -fx-scale-z: 130%;
 }
 
 .label {
@@ -21,4 +23,33 @@
     -fx-background-repeat: no-repeat;
     -fx-background-size: 100% 100%;
     -fx-opacity: 0.90;
+}
+
+.exitButton {
+    -fx-background-image: url("../assets/Button_Normal.png");
+    -fx-background-size:  100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-pref-height: 22;
+    -fx-font-size: 18;
+    -fx-font-family: "B Nazanin";
+    -fx-text-fill: #000000;
+    -fx-opacity: 80%;
+}
+.exitButton:hover {
+    -fx-background-image: url("../assets/Button_Down.png");
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+}
+.exitButton:pressed{
+    -fx-background-image: url("../assets/Button_Selected.png");
+    -fx-background-size: 100% 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-border-color: #0dd214;
+    -fx-border-radius: 3px;
+    -fx-text-fill: #debf09;
 }

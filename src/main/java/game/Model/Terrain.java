@@ -144,4 +144,8 @@ public class Terrain {
     public TypeOfRuin getTypeOfRuin (){
         return typeOfRuin ;
     }
+
+    public void setResources(Resources resources) {
+        this.resources = resources;
+    }
 }

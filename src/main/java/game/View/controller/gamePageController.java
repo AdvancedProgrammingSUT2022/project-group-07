@@ -1,7 +1,10 @@
 package game.View.controller;
 
-import game.Controller.game.*;
+import game.Controller.game.GameController;
 import game.Controller.game.LogAndNotification.NotificationController;
+import game.Controller.game.MapController;
+import game.Controller.game.MapMovement;
+import game.Controller.game.SelectController;
 import game.Enum.Building;
 import game.Enum.TypeOfUnit;
 import game.Main;
@@ -18,7 +21,6 @@ import javafx.scene.paint.ImagePattern;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Map;
 
 public class gamePageController {
 
@@ -63,6 +65,9 @@ public class gamePageController {
     public ImageView economicImageView = new ImageView() ;
     public Label economicLabel = new Label("Economic Panel") ;
 
+    // diplomacy panel stuff
+    public Button diplomacyPanelButton = new Button("Diplomacy Panel") ;
+
     public void initialize() {
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
         firstX = game.getTranslateX();
@@ -99,11 +104,15 @@ public class gamePageController {
         initializeNextTurnButton();
         initializeOthersPanel() ;
 
+        diplomacyPanelButton.setOnMouseClicked(mouseEvent -> Main.loadNewStage("Diplomacy panel" , "diplomacyMenu"));
+
         game.getChildren().add(iconPanel);
         game.getChildren().add(researchPanel);
         game.getChildren().add(selectedUnitPanel);
         game.getChildren().add(nextTurnImageView);
         game.getChildren().add(othersPanel) ;
+        game.getChildren().add(diplomacyPanelButton) ;
+
         // updating info panel thread
         Thread infoPanelThread = new Thread(() -> {
             Runnable runnable = () -> {
@@ -212,6 +221,8 @@ public class gamePageController {
         nextTurnImageView.setLayoutY(600+y);
         othersPanel.setLayoutX(300+x);
         othersPanel.setLayoutY(0+y);
+        diplomacyPanelButton.setLayoutX(x);
+        diplomacyPanelButton.setLayoutY(y+480);
     }
 
     private void initializeResearchPanel() {

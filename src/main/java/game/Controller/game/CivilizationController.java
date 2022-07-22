@@ -93,6 +93,7 @@ public class CivilizationController {
         Civilization civilization = gameController.getCurrentCivilization();
         UpdateCivilizationElements.UnitMovementsUpdate(civilization , gameController);
         UpdateCivilizationElements.updateRuinsEffects(civilization);
+        UpdateCivilizationElements.updateDiplomacyRequests(civilization);
         UpdateCityElements.citizensIncome(civilization);
         UpdateCityElements.maintenance(civilization);
         UpdateCivilizationElements.update(civilization , gameController);
@@ -100,6 +101,7 @@ public class CivilizationController {
         UpdateCityElements.citizenGrowth(civilization);
         UpdateCityElements.update(civilization, gameController);
         UpdateCityElements.foodConsumption(civilization);
+        UpdateCityElements.updateUnderConstructionBuildings(civilization);
         UpdateHappiness.update(civilization, gameController);
         //TODO harchidige ke moond!
     }
