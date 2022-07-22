@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane
+        stylesheets="@../CSS/diplomacyMenu.css"
+        fx:id="tabPane" prefHeight="500.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.DiplomacyMenuController">
+
+    <Tab text="Diplomacy Page">
+        <AnchorPane fx:id="diplomacyAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <ChoiceBox fx:id="diplomacyChooseCivilizationChoiceBox" layoutX="225.0" layoutY="103.0" prefWidth="150.0" />
+            <Label alignment="CENTER" layoutX="220.0" layoutY="41.0" prefHeight="40.0" prefWidth="160.0" text="Choose a civilization" />
+            <Button fx:id="offerPeaceButton" layoutX="144.0" layoutY="311.0" mnemonicParsing="false" text="Offer Peace" />
+            <Button fx:id="declareWarButton" layoutX="257.0" layoutY="311.0" mnemonicParsing="false" text="Declare War" />
+            <Button fx:id="breakPeaceButton" layoutX="377.0" layoutY="311.0" mnemonicParsing="false" text="Break Peace" />
+            <Label fx:id="currentStatusLabel" alignment="CENTER" layoutX="230.0" layoutY="211.0" prefHeight="49.0" prefWidth="140.0" text="Current status" />
+         <Button layoutX="14.0" layoutY="432.0" mnemonicParsing="false" onMouseClicked="#nextTurn" text="NextTurn" />
+        </AnchorPane>
+    </Tab>
+    <Tab text="Trade Page">
+        <AnchorPane fx:id="tradeAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+    </Tab>
+    <Tab text="Demand Page">
+        <AnchorPane fx:id="demandAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+    </Tab>
+    <Tab text="Diplomacy Requests History">
+        <AnchorPane fx:id="diplomacyRequestsHistoryAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                    prefWidth="200.0">
+            <Separator layoutX="295.0" layoutY="35.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="10.0"/>
+            <Label layoutX="100.0" layoutY="28.0" text="Outgoing Requests"/>
+            <Label layoutX="393.0" layoutY="28.0" text="Incoming Requests"/>
+            <VBox fx:id="outgoingDiplomacyRequestsVBox" layoutX="51.0" layoutY="66.0" prefHeight="370.0" prefWidth="201.0"/>
+            <VBox fx:id="incomingDiplomacyRequestsVBox" layoutX="343.0" layoutY="66.0" prefHeight="370.0" prefWidth="201.0"/>
+        </AnchorPane>
+    </Tab>
+</TabPane>
