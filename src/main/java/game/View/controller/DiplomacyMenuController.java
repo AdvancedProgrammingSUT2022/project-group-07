@@ -22,7 +22,6 @@ import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class DiplomacyMenuController implements Initializable {
@@ -56,11 +55,11 @@ public class DiplomacyMenuController implements Initializable {
     public ImageView whatYouWillGetImageView;
     public ImageView whatTheyWillGetImageView;
     public Label receiverCivilizationLabelInTradePage;
+
     private TradingAsset whatYouWillGetTradingAsset ;
     private TradingAsset whatTheyWillGetTradingAsset ;
     int rowCount = 5 ;
     int colCount = 4 ;
-
 
     // for controller itself
     private String selectedPage = "Diplomacy Page" ;
@@ -70,6 +69,7 @@ public class DiplomacyMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        init();
         currentCivilization = GameController.getInstance().getCurrentCivilization();
+
         for (Tab tab : tabPane.getTabs()) {
             tab.setOnSelectionChanged(event -> selectedPage = tabPane.getSelectionModel().getSelectedItem().getText());
             tab.getStyleClass().add("tab") ;
@@ -348,7 +348,6 @@ public class DiplomacyMenuController implements Initializable {
     }
 
     public void sendOffer() {
-
         if (whatYouWillGetTradingAsset == null && whatTheyWillGetTradingAsset==null){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("It is neither a deal nor a demand ! What do you want SON ?!");
@@ -457,7 +456,6 @@ public class DiplomacyMenuController implements Initializable {
             case "Accepted" -> vBox.setStyle("-fx-background-color: lightgreen;");
             case "Rejected" -> vBox.setStyle("-fx-background-color: rgba(255,0,0,0.75);");
         }
-
         if (diplomacyRequest.getTypeOfDiplomacy().equals(TypeOfDiplomacy.DEMAND)){
             HBox hBox = new HBox();
             hBox.setAlignment(Pos.CENTER);
@@ -474,13 +472,11 @@ public class DiplomacyMenuController implements Initializable {
             hBox.getChildren().addAll(senderTradingAssetImageView , label , receiverTradingAssetImageView);
             vBox.getChildren().add(hBox);
         }
-
         if (status.equals("Still Pending")) {
             HBox hBox = new HBox(getAcceptButton(diplomacyRequest), getRejectButton(diplomacyRequest));
             hBox.setAlignment(Pos.CENTER);
             vBox.getChildren().add(hBox);
         }
-
         return vBox;
     }
 
