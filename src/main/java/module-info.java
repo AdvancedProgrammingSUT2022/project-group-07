@@ -13,7 +13,13 @@ module game {
     opens game.Controller.Chat to com.google.gson ;
     opens game.View.controller to javafx.fxml;
     opens game.Controller.menu to javafx.fxml;
+    opens game.Controller.game to com.google.gson ;
+    opens game.View.components to com.google.gson ;
+    opens game.Enum to com.google.gson ;
 
+    exports game.Enum to com.google.gson ;
+    exports game.Model to com.google.gson ;
+    exports game.Controller to com.google.gson ;
     exports game;
     opens game.View.controller.ChatControllers to javafx.fxml;
 }

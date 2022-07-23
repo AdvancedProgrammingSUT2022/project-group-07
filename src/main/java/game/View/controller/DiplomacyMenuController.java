@@ -75,6 +75,20 @@ public class DiplomacyMenuController implements Initializable {
             tab.getStyleClass().add("tab") ;
         }
 
+        Thread updateCurrent = new Thread(() -> {
+            Runnable runnable = () -> {
+                currentCivilization = GameController.getInstance().getCurrentCivilization();
+                System.out.println("current civ in dip menu is " + currentCivilization + "\t" + currentCivilization.getName());
+            } ;
+            while (true) {
+                Platform.runLater(runnable);
+                try {Thread.sleep(300);}
+                catch (InterruptedException ignored) {}
+            }
+        });
+        updateCurrent.setDaemon(true);
+        updateCurrent.start();
+
         Thread updateScreen = new Thread(() -> {
             Runnable runnable = () -> {
                 if (!lastPage.equals(selectedPage)) {
@@ -193,7 +207,7 @@ public class DiplomacyMenuController implements Initializable {
                 DiplomacyRequest diplomacyRequest = new DiplomacyRequest(currentCivilization , receiverCivilization , TypeOfDiplomacy.DECLARE_WAR);
                 currentCivilization.addRelationWithCivilization(TypeOfRelation.ENEMY , receiverCivilization);
                 diplomacyRequest.setAcceptedByReceiver();
-                DiplomacyController.addDiplomacyRequest(diplomacyRequest);
+                DiplomacyController.addDiplomacy(diplomacyRequest);
                 loadDiplomacyPage();
             }
         });
@@ -203,7 +217,7 @@ public class DiplomacyMenuController implements Initializable {
                 showNullCivilizationAlert();
             else {
                 DiplomacyRequest diplomacyRequest = new DiplomacyRequest(currentCivilization , receiverCivilization , TypeOfDiplomacy.PEACE);
-                DiplomacyController.addDiplomacyRequest(diplomacyRequest);
+                DiplomacyController.addDiplomacy(diplomacyRequest);
             }
         });
 
@@ -214,7 +228,7 @@ public class DiplomacyMenuController implements Initializable {
                 DiplomacyRequest diplomacyRequest = new DiplomacyRequest(currentCivilization , receiverCivilization , TypeOfDiplomacy.BREAK_PEACE);
                 currentCivilization.addRelationWithCivilization(TypeOfRelation.NEUTRAL , receiverCivilization);
                 diplomacyRequest.setAcceptedByReceiver();
-                DiplomacyController.addDiplomacyRequest(diplomacyRequest);
+                DiplomacyController.addDiplomacy(diplomacyRequest);
                 loadDiplomacyPage();
             }
         });
@@ -366,7 +380,7 @@ public class DiplomacyMenuController implements Initializable {
             diplomacyRequest.setTrade(
                     new Trade(currentCivilization , whatYouWillGetTradingAsset
                             , receiverCivilization , null));
-            DiplomacyController.addDiplomacyRequest(diplomacyRequest);
+            DiplomacyController.addDiplomacy(diplomacyRequest);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Your demand was sent to " + receiverCivilization.getName());
             alert.show();
@@ -377,7 +391,7 @@ public class DiplomacyMenuController implements Initializable {
         diplomacyRequest.setTrade(
                 new Trade(currentCivilization , whatYouWillGetTradingAsset
                         , receiverCivilization , whatTheyWillGetTradingAsset));
-        DiplomacyController.addDiplomacyRequest(diplomacyRequest);
+        DiplomacyController.addDiplomacy(diplomacyRequest);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Your trade offer was sent to " + receiverCivilization.getName());
         alert.show();

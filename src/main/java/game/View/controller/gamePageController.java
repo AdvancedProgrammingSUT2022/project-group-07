@@ -11,11 +11,13 @@ import game.Main;
 import game.Model.*;
 import game.View.components.Tile;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 
@@ -68,6 +70,9 @@ public class gamePageController {
     // diplomacy panel stuff
     public ImageView diplomacyPanelImageView = new ImageView(new Image(getClass().getResource("/game/images/icons/DIPLOMACY_ICON.png").toExternalForm())) ;
 
+    // save button
+    public Button saveButton = new Button("Save") ;
+
     public void initialize() {
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
         firstX = game.getTranslateX();
@@ -112,6 +117,11 @@ public class gamePageController {
         game.getChildren().add(othersPanel) ;
         game.getChildren().add(diplomacyPanelImageView) ;
 
+        game.getChildren().add(saveButton);
+        saveButton.setOnMouseClicked(mouseEvent -> {
+            GameController.getInstance().saveData(GameController.getInstance() , "sample");
+        });
+
         // updating info panel thread
         Thread infoPanelThread = new Thread(() -> {
             Runnable runnable = () -> {
@@ -149,6 +159,22 @@ public class gamePageController {
         }) ;
         miniPanelsThread.setDaemon(true);
         miniPanelsThread.start();
+
+        // hell of a test bro
+        Thread test = new Thread(() -> {
+            Runnable runnable = () -> {
+                for (Civilization civilization : GameController.getInstance().getCivilizations()) {
+                    System.out.println(civilization + "\t" + civilization.getName());
+                }
+            } ;
+            while (true) {
+                Platform.runLater(runnable);
+                try {Thread.sleep(500);}
+                catch (InterruptedException ignored) {}
+            }
+        });
+        test.setDaemon(true);
+        test.start();
 
         Platform.runLater(new Runnable() {
             @Override
@@ -230,6 +256,8 @@ public class gamePageController {
         othersPanel.setLayoutY(0+y);
         diplomacyPanelImageView.setLayoutX(x+1000);
         diplomacyPanelImageView.setLayoutY(y+80);
+        saveButton.setLayoutX(x+400);
+        saveButton.setLayoutY(y+300);
     }
 
     private void initializeResearchPanel() {

@@ -9,7 +9,7 @@ public class Unit {
     private UnitStatus unitStatus;
     private Location location;
     private int hp;
-    private Civilization civilization;
+    private transient Civilization civilization;
     private int turn;
     private int mp;
     private ArrayList<Terrain> pathToGo;

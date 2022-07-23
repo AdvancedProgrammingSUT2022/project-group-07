@@ -12,7 +12,7 @@ public class City {
     private int food;
     private int production;
     private int hp;
-    private Civilization ownership;
+    private transient Civilization ownership;
     private ArrayList<Building> buildings;
     private ArrayList<TypeOfUnit> wantedUnits;
     private int turnsTillGrowth ;
