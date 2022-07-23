@@ -1,6 +1,11 @@
 package game.Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+
+import game.Enum.Resources;
+import game.Enum.TypeOfRelation;
 import game.Enum.TypeOfTechnology;
 
 public class Civilization {
@@ -27,6 +32,7 @@ public class Civilization {
     private int numberOfRailroadsAndRoads;
     private ArrayList<Route> routsAboutToBeBuilt;
     private ArrayList<Improvement> improvementsAboutToBeCreated;
+    private HashMap<Civilization , TypeOfRelation> relationWithOtherCivilizations = new HashMap<>() ;
 
     public Civilization (String name , User owner){
         this.owner = owner;
@@ -247,4 +253,47 @@ public class Civilization {
     public void addRoutsAboutToBeBuilt(Route rout) {
         this.routsAboutToBeBuilt.add(rout);
     }
+
+    public void addRelationWithCivilization (TypeOfRelation typeOfRelation , Civilization civilization){
+        this.relationWithOtherCivilizations.put(civilization , typeOfRelation);
+    }
+
+    public HashMap<Civilization, TypeOfRelation> getRelationWithOtherCivilizations() {
+        return relationWithOtherCivilizations;
+    }
+
+    public TypeOfRelation getRelationWithCivilization (Civilization civilization){
+        return relationWithOtherCivilizations.get(civilization);
+    }
+
+    public void addResource (Resources resource){
+        if (cities.size() == 0 )
+            return;
+        Random random = new Random() ;
+        ArrayList<Terrain> terrains = this.cities.get(random.nextInt(this.cities.size())).getTerrains() ;
+        terrains.get(random.nextInt(terrains.size())).setResources(resource);
+    } 
+
+    public void removeResource (Resources resources){
+        for (City city : this.cities) {
+            for (Terrain terrain : city.getTerrains()) {
+                if (terrain.getResources() != null && terrain.getResources().equals(resources)) {
+                    terrain.setResources(null);
+                    return;
+                }
+            }
+        }
+    }
+
+    public ArrayList<Resources> getAllAvailableResources (){
+        ArrayList<Resources> out = new ArrayList<>();
+        for (City city : this.cities) {
+            for (Terrain terrain : city.getTerrains()) {
+                if (terrain.getResources() != null && !out.contains(terrain.getResources()))
+                    out.add(terrain.getResources());
+            }
+        }
+        return out ;
+    }
+
 }

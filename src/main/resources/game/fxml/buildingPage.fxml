@@ -34,4 +34,5 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
     </GridPane>
+   <Button layoutX="24.0" layoutY="519.0" mnemonicParsing="false" onMouseClicked="#exitPage" prefHeight="14.0" prefWidth="101.0" styleClass="exitButton" text="Back" />
 </AnchorPane>
