@@ -3,17 +3,15 @@ package game.Controller.game;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import game.Controller.game.movement.TheShortestPath;
-import game.Model.*;
 import game.Enum.*;
+import game.Model.*;
 import game.View.components.Tile;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class GameController {
@@ -21,6 +19,7 @@ public class GameController {
     public int mapHeight;
     public MapDimension mapDimension;
     public Tile[][] map;
+    public Terrain[][] terrains = new Terrain[mapHeight][mapWidth] ;
     public ArrayList<User> players = new ArrayList<>();
     public ArrayList<Civilization> civilizations;
     public int time;
@@ -110,6 +109,7 @@ public class GameController {
         CivilizationController.updateFogOfWar(currentCivilization , map , mapWidth , mapHeight);
         TheShortestPath.run();
         MapController.setBackgrounds(map);
+        createTerrainsFromMap();
     }
 
     private void setStartingRelations() {
@@ -206,6 +206,11 @@ public class GameController {
             String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/game/database/games/"+name+".json")));
             GameControllerDecoy gameControllerDecoy = new Gson().fromJson(json , new TypeToken<GameControllerDecoy>(){}.getType());
             deepCopy(gameControllerDecoy);
+            for (Tile[] tiles : map) {
+                for (Tile tile : tiles) {
+                    //
+                }
+            }
         }
         catch (IOException e){
             e.printStackTrace();
@@ -217,14 +222,16 @@ public class GameController {
     }
 
     public void deepCopy (GameControllerDecoy gameController){
-        mapDimension = gameController.getMapDimension() ;
-        mapWidth = gameController.getMapWidth() ;
-        mapHeight = gameController.getMapHeight();
+        this.mapDimension = gameController.getMapDimension() ;
+        this.mapWidth = gameController.getMapWidth() ;
+        this.mapHeight = gameController.getMapHeight();
         this.players = gameController.getPlayers() ;
         this.civilizations = gameController.getCivilizations() ;
         this.time = gameController.getTime() ;
         this.turn = gameController.getTurn() ;
         this.currentCivilization = gameController.getCurrentCivilization();
+        this.terrains = gameController.getTerrains() ;
+        loadTilesFromTerrains();
     }
 
     public Civilization getCivilizationByName (String name){
@@ -233,5 +240,41 @@ public class GameController {
                 return civilization;
         }
         return null ;
+    }
+
+    private void createTerrainsFromMap (){
+        terrains = new Terrain[mapHeight][mapWidth] ;
+        for (int row=0 ; row<mapHeight ; row++){
+            for (int col=0 ; col<mapWidth ; col++)
+                terrains[row][col] = map[row][col].getTerrain() ;
+        }
+    }
+
+//    private void loadTilesFromTerrains (){
+//        if (map == null) map = new Tile[mapHeight][mapWidth] ;
+//        for (int y = 0; y < mapHeight; y++) {
+//            for (int x = 0; x < mapWidth; x++) {
+//                map[y][x] = TileController.createTile(terrains[y][x] , x , y);
+//                System.out.println("terrain " + x + " " + y + " loaded to tile " + map[y][x]);
+//            }
+//        }
+//    }
+
+    private void loadTilesFromTerrains (){
+        this.map = new Tile[mapHeight][mapWidth];
+//        this.map = MapController.createMap(mapWidth, mapHeight);
+        for (int y = 0; y < mapHeight; y++) {
+            for (int x = 0; x < mapWidth; x++) {
+                map[y][x] = TileController.createTile(terrains[y][x] , x , y);
+                System.out.println("terrain " + x + " " + y + " loaded to tile " + map[y][x]);
+            }
+        }
+        CivilizationController.updateFogOfWar(currentCivilization , map , mapWidth , mapHeight);
+        TheShortestPath.run();
+        MapController.setBackgrounds(map);
+    }
+
+    public Terrain[][] getTerrains() {
+        return terrains;
     }
 }

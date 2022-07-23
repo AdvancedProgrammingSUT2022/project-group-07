@@ -22,6 +22,7 @@ public class GameControllerDecoy {
     public int time;
     public int turn;
     public Civilization currentCivilization;
+    public Terrain[][] terrains ;
 
     public GameControllerDecoy (GameController gameController){
         this.mapWidth = gameController.getMapWidth() ;
@@ -32,6 +33,7 @@ public class GameControllerDecoy {
         this.time = gameController.getTime() ;
         this.turn = gameController.getTurn() ;
         this.currentCivilization = gameController.getCurrentCivilization();
+        this.terrains = gameController.getTerrains() ;
     }
 
     public int getMapWidth() {
@@ -64,5 +66,9 @@ public class GameControllerDecoy {
 
     public Civilization getCurrentCivilization() {
         return currentCivilization;
+    }
+
+    public Terrain[][] getTerrains() {
+        return terrains;
     }
 }

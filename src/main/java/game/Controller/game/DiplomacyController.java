@@ -11,15 +11,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class DiplomacyController {
 
     public static ArrayList<DiplomacyRequest> getDiplomacyRequests() {
-        ArrayList<DiplomacyRequest> diplomacyRequests = new ArrayList<>();
+        HashSet<DiplomacyRequest> diplomacyRequests = new HashSet<>();
         for (Civilization civilization : GameController.getInstance().getCivilizations())
             diplomacyRequests.addAll(civilization.getDiplomacyRequests()) ;
-        return diplomacyRequests;
+        return new ArrayList<DiplomacyRequest>(diplomacyRequests);
     }
 
     public static void addDiplomacy(DiplomacyRequest diplomacyRequest){

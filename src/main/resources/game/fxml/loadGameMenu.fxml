@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/16"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.loadGameMenu">
+
+   <Button layoutX="387.0" layoutY="321.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="210.0"
+           text="Load Sample" onMouseClicked="#loadSample"/>
+</AnchorPane>
