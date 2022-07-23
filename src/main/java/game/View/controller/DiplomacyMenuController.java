@@ -10,13 +10,11 @@ import game.Enum.TypeOfRelation;
 import game.Model.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -43,8 +41,9 @@ public class DiplomacyMenuController implements Initializable {
     public Button offerPeaceButton ;
     public Button declareWarButton ;
     public Button breakPeaceButton ;
-    public Label currentStatusLabel;
-
+    public Label currentStatusLabel = new Label();
+    public HBox currentStatusHBox;
+    public Label receiverCivilizationLabel;
 
     // diplomacy requests history page stuff
     public VBox outgoingDiplomacyRequestsVBox;
@@ -56,6 +55,7 @@ public class DiplomacyMenuController implements Initializable {
     public GridPane whatTheyWillGetGridPane;
     public ImageView whatYouWillGetImageView;
     public ImageView whatTheyWillGetImageView;
+    public Label receiverCivilizationLabelInTradePage;
     private TradingAsset whatYouWillGetTradingAsset ;
     private TradingAsset whatTheyWillGetTradingAsset ;
     int rowCount = 5 ;
@@ -70,8 +70,10 @@ public class DiplomacyMenuController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        init();
         currentCivilization = GameController.getInstance().getCurrentCivilization();
-        for (Tab tab : tabPane.getTabs())
+        for (Tab tab : tabPane.getTabs()) {
             tab.setOnSelectionChanged(event -> selectedPage = tabPane.getSelectionModel().getSelectedItem().getText());
+            tab.getStyleClass().add("tab") ;
+        }
 
         Thread updateScreen = new Thread(() -> {
             Runnable runnable = () -> {
@@ -148,24 +150,39 @@ public class DiplomacyMenuController implements Initializable {
         loadDiplomacyButtonActions() ;
         if (receiverCivilization == null)
             return;
-        currentStatusLabel.setText(currentCivilization.getRelationWithCivilization(receiverCivilization).toString());
+
+        currentStatusHBox.getChildren().clear();
+        currentStatusHBox.setAlignment(Pos.CENTER);
+        currentStatusHBox.getChildren().add(getStatusImageView(currentCivilization.getRelationWithCivilization(receiverCivilization)));
+        currentStatusHBox.getChildren().add(new Label(currentCivilization.getRelationWithCivilization(receiverCivilization).toString()));
+
         switch (currentCivilization.getRelationWithCivilization(receiverCivilization)){
             case ENEMY -> {
                 declareWarButton.setDisable(true);
                 offerPeaceButton.setDisable(false);
                 breakPeaceButton.setDisable(true);
+                currentStatusHBox.setStyle("-fx-background-color: red");
             }
             case ALLY -> {
                 declareWarButton.setDisable(false);
                 offerPeaceButton.setDisable(true);
                 breakPeaceButton.setDisable(false);
+                currentStatusHBox.setStyle("-fx-background-color: lightgreen");
             }
             case NEUTRAL -> {
                 declareWarButton.setDisable(false) ;
                 offerPeaceButton.setDisable(false) ;
                 breakPeaceButton.setDisable(true) ;
+                currentStatusHBox.setStyle("-fx-background-color: white");
             }
         }
+    }
+
+    public ImageView getStatusImageView (TypeOfRelation typeOfRelation){
+        ImageView imageView = new ImageView(new Image(getClass().getResource("/game/images/status/"+typeOfRelation+".png").toExternalForm()));
+        imageView.setFitWidth(60);
+        imageView.setFitHeight(60);
+        return imageView ;
     }
 
     public void loadDiplomacyButtonActions (){
@@ -213,6 +230,8 @@ public class DiplomacyMenuController implements Initializable {
         choiceBox.setItems(FXCollections.observableArrayList(names));
         choiceBox.setOnAction(actionEvent -> {
             receiverCivilization = getReceiverCivilization(choiceBox.getSelectionModel().getSelectedItem());
+            receiverCivilizationLabel.setText(receiverCivilization.getName());
+            receiverCivilizationLabelInTradePage.setText(receiverCivilization.getName());
             updateScreen();
         });
     }
@@ -227,11 +246,11 @@ public class DiplomacyMenuController implements Initializable {
         whatYouWillGetTradingAsset = null ;
         whatTheyWillGetTradingAsset = null ;
 
-        loadGridPaneFor(whatYouWillGetGridPane , false);
-        loadGridPaneFor(whatTheyWillGetGridPane , true);
+        loadGridPaneFor(false);
+        loadGridPaneFor(true);
     }
 
-    private void loadGridPaneFor (GridPane gridPane , boolean isThisYou ){
+    private void loadGridPaneFor(boolean isThisYou){
         if (currentCivilization == null || receiverCivilization == null) return;
 
         if (isThisYou)
@@ -245,9 +264,7 @@ public class DiplomacyMenuController implements Initializable {
         gridPane.getChildren().clear();
         ArrayList<Resources> resources = civilization.getAllAvailableResources();
 //        ArrayList<Resources> resources = new ArrayList<>(List.of(Resources.values()));
-
         addCoinValueToTrade(gridPane , civilization);
-
         int counter = 0 ;
 
         for (int y=1 ; y<rowCount ; y++){
@@ -258,7 +275,7 @@ public class DiplomacyMenuController implements Initializable {
                 ImageView resourceImageView = new ImageView(new Image(getClass().getResource("/game/assets/civAsset/resources/"+resource.getName()+".png").toExternalForm()));
                 resourceImageView.setFitHeight(30);
                 resourceImageView.setFitWidth(30);
-
+                Tooltip.install(resourceImageView , new Tooltip(resource.getTypeOfResource() + " Resource \n" + resource.getName().toUpperCase()));
                 if ( civilization.equals(currentCivilization)){
                     resourceImageView.setOnMouseClicked(mouseEvent -> {
                         whatTheyWillGetTradingAsset = new TradingAsset(resource);
@@ -289,6 +306,10 @@ public class DiplomacyMenuController implements Initializable {
         gridPane.add(gold5 , 0 , 0);
         gridPane.add(gold10 , 1 , 0);
         gridPane.add(gold50 , 2 , 0);
+
+        Tooltip.install(gold5 , new Tooltip("5 Gold"));
+        Tooltip.install(gold10 , new Tooltip("10 Gold"));
+        Tooltip.install(gold50 , new Tooltip("50 Gold"));
 
         if (civilization.equals(currentCivilization)){
             gold5.setOnMouseClicked(mouseEvent -> {
@@ -328,7 +349,13 @@ public class DiplomacyMenuController implements Initializable {
 
     public void sendOffer() {
 
-        if (whatYouWillGetTradingAsset == null ){
+        if (whatYouWillGetTradingAsset == null && whatTheyWillGetTradingAsset==null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("It is neither a deal nor a demand ! What do you want SON ?!");
+            alert.show();
+            return;
+        }
+        if (whatYouWillGetTradingAsset == null){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("You can't gift anything to others unless they demand it ! THIS IS REAL LIFE SON ! WAKE UP !");
             alert.show();
@@ -395,9 +422,9 @@ public class DiplomacyMenuController implements Initializable {
         vBox.getChildren().add(new Label("For " + diplomacyRequest.getReceiver().getName())) ;
         vBox.getChildren().add(new Label(status)) ;
         switch (status){
-            case "Still Pending" -> vBox.setStyle("-fx-background-color: gray;");
+            case "Still Pending" -> vBox.setStyle("-fx-background-color: lightgray;");
             case "Accepted" -> vBox.setStyle("-fx-background-color: lightgreen;");
-            case "Rejected" -> vBox.setStyle("-fx-background-color: red;");
+            case "Rejected" -> vBox.setStyle("-fx-background-color: rgba(255,0,0,0.75);");
         }
 
         if (status.equals("Still Pending"))
@@ -426,15 +453,46 @@ public class DiplomacyMenuController implements Initializable {
         vBox.getChildren().add(new Label(diplomacyRequest.getTypeOfDiplomacy().toString()));
         vBox.getChildren().add(new Label("From " + diplomacyRequest.getReceiver().getName())) ;
         switch (status){
-            case "Still Pending" -> vBox.setStyle("-fx-background-color: gray;");
+            case "Still Pending" -> vBox.setStyle("-fx-background-color: lightgray;");
             case "Accepted" -> vBox.setStyle("-fx-background-color: lightgreen;");
-            case "Rejected" -> vBox.setStyle("-fx-background-color: red;");
+            case "Rejected" -> vBox.setStyle("-fx-background-color: rgba(255,0,0,0.75);");
         }
 
-        if (status.equals("Still Pending"))
-            vBox.getChildren().add(new HBox(getAcceptButton(diplomacyRequest) , getRejectButton(diplomacyRequest)));
+        if (diplomacyRequest.getTypeOfDiplomacy().equals(TypeOfDiplomacy.DEMAND)){
+            HBox hBox = new HBox();
+            hBox.setAlignment(Pos.CENTER);
+            ImageView senderTradingAssetImageView = getTradingAssetImageView(diplomacyRequest.getTrade().getSenderTradingAsset());
+            hBox.getChildren().addAll(senderTradingAssetImageView);
+            vBox.getChildren().add(hBox);
+        }
+        else if (diplomacyRequest.getTypeOfDiplomacy().equals(TypeOfDiplomacy.TRADE)){
+            HBox hBox = new HBox();
+            hBox.setAlignment(Pos.CENTER);
+            ImageView senderTradingAssetImageView = getTradingAssetImageView(diplomacyRequest.getTrade().getSenderTradingAsset());
+            Label label = new Label("\tfor\t");
+            ImageView receiverTradingAssetImageView = getTradingAssetImageView(diplomacyRequest.getTrade().getReceiverTradingAsset()) ;
+            hBox.getChildren().addAll(senderTradingAssetImageView , label , receiverTradingAssetImageView);
+            vBox.getChildren().add(hBox);
+        }
+
+        if (status.equals("Still Pending")) {
+            HBox hBox = new HBox(getAcceptButton(diplomacyRequest), getRejectButton(diplomacyRequest));
+            hBox.setAlignment(Pos.CENTER);
+            vBox.getChildren().add(hBox);
+        }
 
         return vBox;
+    }
+
+    private ImageView getTradingAssetImageView (TradingAsset tradingAsset){
+        ImageView imageView = new ImageView();
+        switch (tradingAsset.getTypeOfTrade()){
+            case RESOURCE -> imageView.setImage(new Image(getClass().getResource("/game/assets/civAsset/resources/"+tradingAsset.getResource().toString()+".png").toExternalForm()));
+            case GOLD -> imageView.setImage(new Image(getClass().getResource("/game/images/icons/GOLD_ICON").toExternalForm()));
+        }
+        imageView.setFitHeight(20);
+        imageView.setFitWidth(20);
+        return imageView ;
     }
 
     private Button getAcceptButton (DiplomacyRequest diplomacyRequest){
