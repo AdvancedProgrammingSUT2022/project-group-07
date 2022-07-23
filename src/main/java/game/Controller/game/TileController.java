@@ -18,6 +18,7 @@ import javafx.scene.shape.Polygon;
 public class TileController {
     private static Image image = new Image(Main.class.getResource("/game/assets/civAsset/map/Tiles/fogOfWar.jpg").toExternalForm());
     public static Tile createTile(Terrain terrain , int x, int y) {
+
         double yCoord = x * Tile.getTileWidth() + (y % 2) * Tile.getN() + 10;
         double xCoord = y * Tile.getTileHeight() * 0.75 + 10;
 
@@ -41,7 +42,6 @@ public class TileController {
                     + tile.getTerrain().getTerrainFeatures().getName() + ".png";
         }
         tile.setBackground(address1, address2, tile.getTerrain().getResources()
-                , tile.getTerrain().getTypeOfTerrain() ,
-                tile.getTerrain().getTerrainFeatures());
+                , tile.getTerrain().getTypeOfTerrain());
     }
 }

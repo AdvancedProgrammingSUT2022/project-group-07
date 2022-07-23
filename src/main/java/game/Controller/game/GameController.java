@@ -161,7 +161,6 @@ public class GameController {
             gameController.setCurrentCivilization(gameController.getCivilizations().get(index + 1));
         SelectController.selectedUnit = null;
         SelectController.selectedCity = null;
-//        MapController.setMapCenter(gameController.getCurrentCivilization().getUnits().get(0).getLocation());
         CivilizationController.updateCivilizationElements(gameController);
     }
 }
