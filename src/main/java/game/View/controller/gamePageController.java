@@ -66,7 +66,7 @@ public class gamePageController {
     public Label economicLabel = new Label("Economic Panel") ;
 
     // diplomacy panel stuff
-    public Button diplomacyPanelButton = new Button("Diplomacy Panel") ;
+    public ImageView diplomacyPanelImageView = new ImageView(new Image(getClass().getResource("/game/images/icons/DIPLOMACY_ICON.png").toExternalForm())) ;
 
     public void initialize() {
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
@@ -103,15 +103,14 @@ public class gamePageController {
         initializeSelectedUnitPanel();
         initializeNextTurnButton();
         initializeOthersPanel() ;
-
-        diplomacyPanelButton.setOnMouseClicked(mouseEvent -> Main.loadNewStage("Diplomacy panel" , "diplomacyMenu"));
+        initializeDiplomacyPanel() ;
 
         game.getChildren().add(iconPanel);
         game.getChildren().add(researchPanel);
         game.getChildren().add(selectedUnitPanel);
         game.getChildren().add(nextTurnImageView);
         game.getChildren().add(othersPanel) ;
-        game.getChildren().add(diplomacyPanelButton) ;
+        game.getChildren().add(diplomacyPanelImageView) ;
 
         // updating info panel thread
         Thread infoPanelThread = new Thread(() -> {
@@ -169,6 +168,14 @@ public class gamePageController {
         }
     }
 
+    private void initializeDiplomacyPanel() {
+        diplomacyPanelImageView.setFitWidth(80);
+        diplomacyPanelImageView.setFitHeight(80);
+        Tooltip.install(diplomacyPanelImageView , new Tooltip("Diplomacy Panel"));
+        diplomacyPanelImageView.getStyleClass().add("diplomacyPanelImageView") ;
+        diplomacyPanelImageView.setOnMouseClicked(mouseEvent -> Main.loadNewStage("Diplomacy panel" , "diplomacyMenu"));
+    }
+
     public void initializeIconPanel (){
         initializeIcons();
         initializeTooltips();
@@ -221,8 +228,8 @@ public class gamePageController {
         nextTurnImageView.setLayoutY(600+y);
         othersPanel.setLayoutX(300+x);
         othersPanel.setLayoutY(0+y);
-        diplomacyPanelButton.setLayoutX(x);
-        diplomacyPanelButton.setLayoutY(y+480);
+        diplomacyPanelImageView.setLayoutX(x+1000);
+        diplomacyPanelImageView.setLayoutY(y+80);
     }
 
     private void initializeResearchPanel() {
