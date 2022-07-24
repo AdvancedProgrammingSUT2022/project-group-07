@@ -1,12 +1,15 @@
 package game.Model;
 
+import game.Controller.game.GameController;
 import game.Enum.TypeOfDiplomacy;
 import game.Enum.TypeOfRelation;
 
 public class DiplomacyRequest {
 
-    private Civilization sender ;
-    private Civilization receiver ;
+//    private Civilization sender ;
+//    private Civilization receiver ;
+    private String sender ;
+    private String receiver ;
     private TypeOfDiplomacy typeOfDiplomacy ;
     private boolean isAcceptedByReceiver ;
     private boolean isRejectedByReceiver ;
@@ -14,27 +17,27 @@ public class DiplomacyRequest {
     private boolean isHandled = false ;
 
     public DiplomacyRequest (Civilization sender , Civilization receiver , TypeOfDiplomacy typeOfDiplomacy){
-        this.sender = sender ;
-        this.receiver = receiver ;
+        this.sender = sender.getName() ;
+        this.receiver = receiver.getName() ;
         this.typeOfDiplomacy = typeOfDiplomacy ;
         isAcceptedByReceiver = false ;
         isRejectedByReceiver = false ;
     }
 
     public Civilization getSender() {
-        return sender;
+        return GameController.getInstance().getCivilizationByName(sender);
     }
 
     public void setSender(Civilization sender) {
-        this.sender = sender;
+        this.sender = sender.getName();
     }
 
     public Civilization getReceiver() {
-        return receiver;
+        return GameController.getInstance().getCivilizationByName(receiver);
     }
 
     public void setReceiver(Civilization receiver) {
-        this.receiver = receiver;
+        this.receiver = receiver.getName();
     }
 
     public TypeOfDiplomacy getTypeOfDiplomacy() {
@@ -78,6 +81,8 @@ public class DiplomacyRequest {
     }
 
     public void handle (){
+        Civilization sender = GameController.getInstance().getCivilizationByName(this.sender);
+        Civilization receiver = GameController.getInstance().getCivilizationByName(this.receiver);
         switch (typeOfDiplomacy){
             case BREAK_PEACE -> {
                 sender.addRelationWithCivilization(TypeOfRelation.NEUTRAL , receiver);

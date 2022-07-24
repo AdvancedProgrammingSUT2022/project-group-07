@@ -12,13 +12,16 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -61,6 +64,8 @@ public class DiplomacyMenuController implements Initializable {
     int rowCount = 5 ;
     int colCount = 4 ;
 
+    boolean exit = false ;
+
     // for controller itself
     private String selectedPage = "Diplomacy Page" ;
     private String lastPage = "null" ;
@@ -75,6 +80,19 @@ public class DiplomacyMenuController implements Initializable {
             tab.getStyleClass().add("tab") ;
         }
 
+        Thread updateCurrent = new Thread(() -> {
+            Runnable runnable = () -> {
+                currentCivilization = GameController.getInstance().getCurrentCivilization();
+            } ;
+            while (!exit) {
+                Platform.runLater(runnable);
+                try {Thread.sleep(300);}
+                catch (InterruptedException ignored) {}
+            }
+        });
+        updateCurrent.setDaemon(true);
+        updateCurrent.start();
+
         Thread updateScreen = new Thread(() -> {
             Runnable runnable = () -> {
                 if (!lastPage.equals(selectedPage)) {
@@ -83,7 +101,7 @@ public class DiplomacyMenuController implements Initializable {
                     lastPage = selectedPage ;
                 }
             } ;
-            while (true) {
+            while (!exit) {
                 Platform.runLater(runnable);
                 try {Thread.sleep(500);}
                 catch (InterruptedException ignored) {}
@@ -193,7 +211,7 @@ public class DiplomacyMenuController implements Initializable {
                 DiplomacyRequest diplomacyRequest = new DiplomacyRequest(currentCivilization , receiverCivilization , TypeOfDiplomacy.DECLARE_WAR);
                 currentCivilization.addRelationWithCivilization(TypeOfRelation.ENEMY , receiverCivilization);
                 diplomacyRequest.setAcceptedByReceiver();
-                DiplomacyController.addDiplomacyRequest(diplomacyRequest);
+                DiplomacyController.addDiplomacy(diplomacyRequest);
                 loadDiplomacyPage();
             }
         });
@@ -203,7 +221,7 @@ public class DiplomacyMenuController implements Initializable {
                 showNullCivilizationAlert();
             else {
                 DiplomacyRequest diplomacyRequest = new DiplomacyRequest(currentCivilization , receiverCivilization , TypeOfDiplomacy.PEACE);
-                DiplomacyController.addDiplomacyRequest(diplomacyRequest);
+                DiplomacyController.addDiplomacy(diplomacyRequest);
             }
         });
 
@@ -214,7 +232,7 @@ public class DiplomacyMenuController implements Initializable {
                 DiplomacyRequest diplomacyRequest = new DiplomacyRequest(currentCivilization , receiverCivilization , TypeOfDiplomacy.BREAK_PEACE);
                 currentCivilization.addRelationWithCivilization(TypeOfRelation.NEUTRAL , receiverCivilization);
                 diplomacyRequest.setAcceptedByReceiver();
-                DiplomacyController.addDiplomacyRequest(diplomacyRequest);
+                DiplomacyController.addDiplomacy(diplomacyRequest);
                 loadDiplomacyPage();
             }
         });
@@ -366,7 +384,7 @@ public class DiplomacyMenuController implements Initializable {
             diplomacyRequest.setTrade(
                     new Trade(currentCivilization , whatYouWillGetTradingAsset
                             , receiverCivilization , null));
-            DiplomacyController.addDiplomacyRequest(diplomacyRequest);
+            DiplomacyController.addDiplomacy(diplomacyRequest);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Your demand was sent to " + receiverCivilization.getName());
             alert.show();
@@ -377,7 +395,7 @@ public class DiplomacyMenuController implements Initializable {
         diplomacyRequest.setTrade(
                 new Trade(currentCivilization , whatYouWillGetTradingAsset
                         , receiverCivilization , whatTheyWillGetTradingAsset));
-        DiplomacyController.addDiplomacyRequest(diplomacyRequest);
+        DiplomacyController.addDiplomacy(diplomacyRequest);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Your trade offer was sent to " + receiverCivilization.getName());
         alert.show();
@@ -511,4 +529,10 @@ public class DiplomacyMenuController implements Initializable {
         return rejectButton ;
     }
 
+    public void back(MouseEvent mouseEvent) {
+        exit = true ;
+        Node source = (Node)  mouseEvent.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
 }

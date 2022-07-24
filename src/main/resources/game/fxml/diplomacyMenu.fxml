@@ -9,18 +9,20 @@
     <Tab text="Diplomacy Page">
         <AnchorPane fx:id="diplomacyAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
             <ChoiceBox fx:id="diplomacyChooseCivilizationChoiceBox" layoutX="225.0" layoutY="103.0" prefWidth="150.0" styleClass="chooseCivilizationChoiceBox" />
-            <Label styleClass="receiverCivilizationLabel" fx:id="receiverCivilizationLabel" alignment="CENTER" layoutX="220.0" layoutY="41.0" prefHeight="40.0" prefWidth="160.0" text="Choose a civilization" />
+            <Label fx:id="receiverCivilizationLabel" alignment="CENTER" layoutX="220.0" layoutY="41.0" prefHeight="40.0" prefWidth="160.0" styleClass="receiverCivilizationLabel" text="Choose a civilization" />
             <Button fx:id="offerPeaceButton" layoutX="134.0" layoutY="359.0" mnemonicParsing="false" prefHeight="60" prefWidth="100" styleClass="offerPeaceButton" text="Offer Peace" />
             <Button fx:id="declareWarButton" layoutX="247.0" layoutY="359.0" mnemonicParsing="false" prefHeight="60" prefWidth="100" styleClass="declareWarButton" text="Declare War" />
             <Button fx:id="breakPeaceButton" layoutX="367.0" layoutY="359.0" mnemonicParsing="false" prefHeight="60" prefWidth="100" styleClass="breakPeaceButton" text="Break Peace" />
-         <HBox styleClass="currentStatusHBox" fx:id="currentStatusHBox" layoutX="150.0" layoutY="161.0" prefHeight="150.0" prefWidth="300.0" />
+         <HBox fx:id="currentStatusHBox" layoutX="150.0" layoutY="161.0" prefHeight="150.0" prefWidth="300.0" styleClass="currentStatusHBox" />
+
+            <Button onMouseClicked="#back" layoutX="517.0" layoutY="418.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="69.0" styleClass="backButton" text="Back" />
 <!--         <Button layoutX="14.0" layoutY="432.0" mnemonicParsing="false" onMouseClicked="#nextTurn" text="NextTurn" />-->
         </AnchorPane>
     </Tab>
 
     <Tab text="Trade Page">
         <AnchorPane fx:id="tradeAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <Label styleClass="receiverCivilizationLabel" fx:id="receiverCivilizationLabelInTradePage" alignment="CENTER" layoutX="220.0" layoutY="32.0" prefHeight="49.0" prefWidth="160.0" text="Choose a civilization" />
+            <Label fx:id="receiverCivilizationLabelInTradePage" alignment="CENTER" layoutX="220.0" layoutY="32.0" prefHeight="49.0" prefWidth="160.0" styleClass="receiverCivilizationLabel" text="Choose a civilization" />
             <ChoiceBox fx:id="diplomacyChooseCivilizationChoiceBoxForTrade" layoutX="225.0" layoutY="103.0" prefWidth="150.0" styleClass="chooseCivilizationChoiceBox" />
          <Separator layoutX="295.0" layoutY="128.0" orientation="VERTICAL" prefHeight="330.0" prefWidth="10.0" />
          <GridPane fx:id="whatYouWillGetGridPane" layoutX="50.0" layoutY="171.0" prefHeight="200.0" prefWidth="200.0" styleClass="tradeGridPane">
@@ -58,6 +60,7 @@
          <Button layoutX="250.0" layoutY="413.0" mnemonicParsing="false" onMouseClicked="#sendOffer" prefHeight="35.0" prefWidth="100.0" styleClass="sendOfferButton" text="Send Offer" />
          <ImageView fx:id="whatYouWillGetImageView" fitHeight="40.0" fitWidth="40.0" layoutX="205.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true" />
          <ImageView fx:id="whatTheyWillGetImageView" fitHeight="40.0" fitWidth="40.0" layoutX="350.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true" />
+         <Button onMouseClicked="#back" layoutX="517.0" layoutY="418.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="69.0" styleClass="backButton" text="Back" />
         </AnchorPane>
     </Tab>
 
@@ -68,6 +71,7 @@
             <Label layoutX="364.0" layoutY="22.0" styleClass="whatSomeoneWillGetLabel" text="Incoming Requests" />
             <VBox fx:id="outgoingDiplomacyRequestsVBox" layoutX="50.0" layoutY="66.0" prefHeight="370.0" prefWidth="200.0" />
             <VBox fx:id="incomingDiplomacyRequestsVBox" layoutX="340.0" layoutY="66.0" prefHeight="370.0" prefWidth="200.0" />
+            <Button onMouseClicked="#back" layoutX="517.0" layoutY="418.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="69.0" styleClass="backButton" text="Back" />
         </AnchorPane>
     </Tab>
 </TabPane>
