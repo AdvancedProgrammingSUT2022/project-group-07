@@ -192,7 +192,6 @@ public class GameController {
                 FileWriter fileWriter = new FileWriter("./src/main/resources/game/database/games/"+saveName+".json");
                 fileWriter.write(new Gson().toJson(gameControllerDecoy));
                 fileWriter.close();
-                loadGame("sample");
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -206,15 +205,8 @@ public class GameController {
             String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/game/database/games/"+name+".json")));
             GameControllerDecoy gameControllerDecoy = new Gson().fromJson(json , new TypeToken<GameControllerDecoy>(){}.getType());
             deepCopy(gameControllerDecoy);
-            for (Tile[] tiles : map) {
-                for (Tile tile : tiles) {
-                    //
-                }
-            }
         }
-        catch (IOException e){
-            e.printStackTrace();
-        }
+        catch (IOException e){e.printStackTrace();}
     }
 
     public MapDimension getMapDimension() {
@@ -250,24 +242,12 @@ public class GameController {
         }
     }
 
-//    private void loadTilesFromTerrains (){
-//        if (map == null) map = new Tile[mapHeight][mapWidth] ;
-//        for (int y = 0; y < mapHeight; y++) {
-//            for (int x = 0; x < mapWidth; x++) {
-//                map[y][x] = TileController.createTile(terrains[y][x] , x , y);
-//                System.out.println("terrain " + x + " " + y + " loaded to tile " + map[y][x]);
-//            }
-//        }
-//    }
 
     private void loadTilesFromTerrains (){
         this.map = new Tile[mapHeight][mapWidth];
-//        this.map = MapController.createMap(mapWidth, mapHeight);
         for (int y = 0; y < mapHeight; y++) {
-            for (int x = 0; x < mapWidth; x++) {
+            for (int x = 0; x < mapWidth; x++)
                 map[y][x] = TileController.createTile(terrains[y][x] , x , y);
-                System.out.println("terrain " + x + " " + y + " loaded to tile " + map[y][x]);
-            }
         }
         CivilizationController.updateFogOfWar(currentCivilization , map , mapWidth , mapHeight);
         TheShortestPath.run();

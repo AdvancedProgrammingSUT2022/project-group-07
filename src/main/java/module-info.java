@@ -8,6 +8,7 @@ module game {
     requires java.xml;
     requires org.controlsfx.controls;
     requires javafx.media;
+    requires org.apache.commons.io;
     opens game.Controller to com.google.gson;
     opens game.Model to com.google.gson;
     opens game.Controller.Chat to com.google.gson ;

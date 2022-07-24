@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<AnchorPane fx:id="anchorPane" prefHeight="700.0" prefWidth="1100.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.loadGameMenuController">
+   <stylesheets>
+      <URL value="@../CSS/loadGameMenu.css" />
+   </stylesheets>
 
-<AnchorPane prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/16"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.loadGameMenu">
+   <Button onMouseClicked="#back" layoutX="425.0" layoutY="558.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" text="back" />
 
-   <Button layoutX="387.0" layoutY="321.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="210.0"
-           text="Load Sample" onMouseClicked="#loadSample"/>
 </AnchorPane>
