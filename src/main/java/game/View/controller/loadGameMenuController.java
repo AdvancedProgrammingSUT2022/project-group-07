@@ -15,6 +15,8 @@ import javafx.scene.layout.AnchorPane;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -72,7 +74,7 @@ public class loadGameMenuController implements Initializable {
     }
 
     public void deleteSave (String name) throws FileNotFoundException {
-        File file = new File("D:\\Sharif\\Daneshgah stuff\\AP\\AP-Project\\project-group-07\\src\\main\\resources\\game\\database\\games\\"+name+".json") ;
+        File file = new File(System.getProperty("user.dir")+"/src/main/resources/game/database/games/"+name+".json") ;
         PrintWriter writer = new PrintWriter(file);
         writer.print("");
         writer.close();
@@ -83,7 +85,7 @@ public class loadGameMenuController implements Initializable {
     public void disableButton (int index , Button button){
         try {
             // TODO : handle next line !
-            File file = new File("D:\\Sharif\\Daneshgah stuff\\AP\\AP-Project\\project-group-07\\src\\main\\resources\\game\\database\\games\\save"+index+".json") ;
+            File file = new File(System.getProperty("user.dir")+"/src/main/resources/game/database/games/save"+index+".json") ;
             if (isFileEmpty(file)) button.setDisable(true);
         } catch (Exception e){System.out.println(e.getMessage());}
     }
@@ -94,7 +96,7 @@ public class loadGameMenuController implements Initializable {
     }
 
     public boolean loadSave (String name) throws IOException {
-        File file = new File("D:\\Sharif\\Daneshgah stuff\\AP\\AP-Project\\project-group-07\\src\\main\\resources\\game\\database\\games\\"+name+".json") ;
+        File file = new File(System.getProperty("user.dir")+"/src/main/resources/game/database/games/"+name+".json") ;
         if (isFileEmpty(file)) return false;
 
         GameController gameController = GameController.getInstance() ;
@@ -102,15 +104,6 @@ public class loadGameMenuController implements Initializable {
         gameController.setPlayers(gameController.getPlayers());
         NotificationController.runNotification(gameController);
         return true ;
-    }
-
-    // TODO : delete next method
-    public void loadSample() throws IOException {
-        GameController gameController = GameController.getInstance() ;
-        gameController.loadGame("sample");
-        gameController.setPlayers(gameController.getPlayers());
-        NotificationController.runNotification(gameController);
-        Main.changeScene("gamePage");
     }
 
     public void back() throws IOException {
