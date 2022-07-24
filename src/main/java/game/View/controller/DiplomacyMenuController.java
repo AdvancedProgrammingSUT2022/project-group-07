@@ -12,13 +12,16 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -61,6 +64,8 @@ public class DiplomacyMenuController implements Initializable {
     int rowCount = 5 ;
     int colCount = 4 ;
 
+    boolean exit = false ;
+
     // for controller itself
     private String selectedPage = "Diplomacy Page" ;
     private String lastPage = "null" ;
@@ -78,9 +83,8 @@ public class DiplomacyMenuController implements Initializable {
         Thread updateCurrent = new Thread(() -> {
             Runnable runnable = () -> {
                 currentCivilization = GameController.getInstance().getCurrentCivilization();
-                System.out.println("current civ in dip menu is " + currentCivilization + "\t" + currentCivilization.getName());
             } ;
-            while (true) {
+            while (!exit) {
                 Platform.runLater(runnable);
                 try {Thread.sleep(300);}
                 catch (InterruptedException ignored) {}
@@ -97,7 +101,7 @@ public class DiplomacyMenuController implements Initializable {
                     lastPage = selectedPage ;
                 }
             } ;
-            while (true) {
+            while (!exit) {
                 Platform.runLater(runnable);
                 try {Thread.sleep(500);}
                 catch (InterruptedException ignored) {}
@@ -525,4 +529,10 @@ public class DiplomacyMenuController implements Initializable {
         return rejectButton ;
     }
 
+    public void back(MouseEvent mouseEvent) {
+        exit = true ;
+        Node source = (Node)  mouseEvent.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
 }

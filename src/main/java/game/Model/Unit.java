@@ -1,4 +1,5 @@
 package game.Model;
+import game.Controller.game.GameController;
 import game.Enum.TypeOfUnit;
 import game.Enum.UnitStatus;
 
@@ -9,7 +10,8 @@ public class Unit {
     private UnitStatus unitStatus;
     private Location location;
     private int hp;
-    private transient Civilization civilization;
+//    private transient Civilization civilization;
+    private String civilization ;
     private int turn;
     private int mp;
     private ArrayList<Terrain> pathToGo;
@@ -27,7 +29,7 @@ public class Unit {
         this.unitStatus = unitStatus;
         this.location = location;
         this.hp = hp;
-        this.civilization = civilization;
+        this.civilization = civilization.getName();
         this.turn = turn;
         this.mp = typeOfUnit.getMp();
         this.timesMovedThisTurn = 0;
@@ -63,11 +65,15 @@ public class Unit {
     }
 
     public Civilization getCivilization() {
-        return civilization;
+        for (Civilization civilization1 : GameController.getInstance().getCivilizations()) {
+            if (civilization1.getName().equals(civilization))
+                return civilization1 ;
+        }
+        return null ;
     }
 
     public void setCivilization(Civilization civilization) {
-        this.civilization = civilization;
+        this.civilization = civilization.getName();
     }
 
     public int getMp() {
