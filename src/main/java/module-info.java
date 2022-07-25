@@ -8,12 +8,18 @@ module game {
     requires java.xml;
     requires org.controlsfx.controls;
     requires javafx.media;
-    opens game.Controller to com.google.gson;
-    opens game.Model to com.google.gson;
-    opens game.Controller.Chat to com.google.gson ;
-    opens game.View.controller to javafx.fxml;
-    opens game.Controller.menu to javafx.fxml;
+    opens game.Server.Controller to com.google.gson;
+    opens game.Common.Model to com.google.gson;
+    opens game.Server.Controller.Chat to com.google.gson ;
+    opens game.Common.Model.Network to com.google.gson ;
+    opens game.Common.Enum to com.google.gson ;
 
-    exports game;
-    opens game.View.controller.ChatControllers to javafx.fxml;
+    exports game.Common.Enum.Network to com.google.gson ;
+    exports game.Common.Model to com.google.gson ;
+
+    opens game.Client.View.controller to javafx.fxml;
+    opens game.Server.Controller.menu to javafx.fxml;
+
+    opens game.Client.View.controller.ChatControllers to javafx.fxml;
+    exports game.Client;
 }

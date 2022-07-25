@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="700.0" stylesheets="@../CSS/buildingPage.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.BuildingPageController">
+<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="700.0" stylesheets="@../CSS/buildingPage.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.Client.View.controller.BuildingPageController">
     <Label fx:id="ownedLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="14.0" prefHeight="17.0" prefWidth="300.0" text="Owned" textAlignment="CENTER" />
     <Label fx:id="availableLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="300.0" prefHeight="17.0" prefWidth="300.0" text="Available" textAlignment="CENTER" />
 

@@ -1,13 +1,9 @@
-import game.Controller.game.ResearchController;
-import game.Enum.regexes.GameMenuCommands;
-import game.Model.Civilization;
-import game.Model.Technology;
-import game.Enum.*;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.* ;
-
-import game.Model.User;
+import game.Common.Enum.TypeOfTechnology;
+import game.Common.Enum.regexes.GameMenuCommands;
+import game.Common.Model.Civilization;
+import game.Common.Model.Technology;
+import game.Common.Model.User;
+import game.Server.Controller.game.ResearchController;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -17,6 +13,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ResearchTest {

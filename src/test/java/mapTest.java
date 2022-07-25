@@ -1,5 +1,5 @@
-import game.Controller.game.GameController;
-import game.Model.User;
+import game.Server.Controller.game.GameController;
+import game.Common.Model.User;
 
 import java.util.ArrayList;
 

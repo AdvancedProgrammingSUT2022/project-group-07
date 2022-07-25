@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane fx:id="tabPane" prefHeight="500.0" prefWidth="600.0" styleClass="tabPane" stylesheets="@../CSS/diplomacyMenu.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.DiplomacyMenuController">
+<TabPane fx:id="tabPane" prefHeight="500.0" prefWidth="600.0" styleClass="tabPane" stylesheets="@../CSS/diplomacyMenu.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.Client.View.controller.DiplomacyMenuController">
 
     <Tab text="Diplomacy Page">
         <AnchorPane fx:id="diplomacyAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
