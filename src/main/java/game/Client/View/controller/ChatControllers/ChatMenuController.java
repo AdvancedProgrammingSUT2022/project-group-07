@@ -61,6 +61,7 @@ public class ChatMenuController implements Initializable {
             }
         });
         thread.start();
+        thread.setDaemon(true);
 
         // chat options updater
         Thread thread1 = new Thread(() -> {
@@ -82,12 +83,12 @@ public class ChatMenuController implements Initializable {
             } ;
             while (!exit) {
                 Platform.runLater(chatOptionsUpdater);
-                try {Thread.sleep(300);}
+                try {Thread.sleep(500);}
                 catch (InterruptedException ignored) {}
             }
         });
         thread1.start();
-
+        thread1.setDaemon(true);
 
         backBtn.setOnMouseClicked(mouseEvent -> {
             exit = true;

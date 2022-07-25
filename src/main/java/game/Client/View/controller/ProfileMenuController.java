@@ -1,5 +1,11 @@
 package game.Client.View.controller;
 
+import game.Client.ClientDataController;
+import game.Common.Enum.Network.TypeOfRequest;
+import game.Common.Enum.Network.TypeOfRequestParameter;
+import game.Common.Enum.TypeOfResponse;
+import game.Common.Model.Network.ClientRequest;
+import game.Common.Model.ServerResponse;
 import game.Server.Controller.UserController;
 import game.Server.Controller.menu.ProfileValidation;
 import game.Client.Main;
@@ -20,6 +26,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class ProfileMenuController {
 
@@ -64,44 +71,62 @@ public class ProfileMenuController {
     }
 
 
-    public void changeNickname(ActionEvent actionEvent) {
-        User user = UserController.getCurrentUser();
+    public void changeNickname(ActionEvent actionEvent) throws IOException {
         String newNickname = nickname.getText();
 
-        if (!ProfileValidation.nicknameIsValid(newNickname))
-            showError("invalid nickname : nickname can only have letters");
-        else if (ProfileValidation.nicknameIsUsed(newNickname))
-            showError("user with nickname " + newNickname + " already exists");
-        else {
-            user.setNickname(newNickname);
-            showConfirm("nickname changed successfully!");
-        }
+        HashMap<TypeOfRequestParameter , Object> params = new HashMap<>() ;
+        params.put(TypeOfRequestParameter.USERNAME , ClientDataController.getCurrentUser().getUsername());
+        params.put(TypeOfRequestParameter.NICKNAME , newNickname);
+
+        Main.getClientHandler().sendRequest(new ClientRequest(TypeOfRequest.UPDATE_PROFILE_CHANGE_NICKNAME , params));
+
+        ServerResponse serverResponse = Main.getClientHandler().getResponse();
+
+        if (serverResponse.getTypeOfResponse().equals(TypeOfResponse.OK)) {
+            HashMap<TypeOfRequestParameter , Object> paramss = new HashMap<>();
+            paramss.put(TypeOfRequestParameter.USERNAME , ClientDataController.getCurrentUser().getUsername()) ;
+            Main.getClientHandler().sendRequest(new ClientRequest(TypeOfRequest.LOGOUT ,paramss));
+
+            ServerResponse logoutResponse = Main.getClientHandler().getResponse() ;
+
+            if (logoutResponse.getTypeOfResponse().equals(TypeOfResponse.OK)){
+                ClientDataController.setCurrentUser(null);
+                Main.changeScene("loginMenu");
+            }
+        } else
+            showError(serverResponse.getMessage());
     }
 
     public void back(ActionEvent actionEvent) throws IOException {
         Main.changeScene("mainMenu");
     }
 
-    public void changePassword(ActionEvent actionEvent) {
-        String oldPass = oldPassword.getText();
-        String newPass = newPassword.getText();
-        User user = UserController.getCurrentUser();
+    public void changePassword(ActionEvent actionEvent) throws IOException {
 
-        if (!user.getPassword().equals(oldPass))
-            showError("old password is invalid");
-        else if (oldPass.equals(newPass))
-            showError("please enter a new password");
-        else if (!ProfileValidation.passwordIsValid(newPass))
-            showError("invalid new password : must have at least 4" +
-                    " characters (a capital and a small letter) and a number");
-        else {
-            user.setPassword(newPass);
-            showConfirm("password changed successfully!");
-        }
+        HashMap<TypeOfRequestParameter , Object> params = new HashMap<>() ;
+        params.put(TypeOfRequestParameter.USERNAME , ClientDataController.getCurrentUser().getUsername());
+        params.put(TypeOfRequestParameter.PASSWORD , oldPassword.getText());
+        params.put(TypeOfRequestParameter.NEW_PASSWORD , newPassword.getText());
+
+        Main.getClientHandler().sendRequest(new ClientRequest(TypeOfRequest.UPDATE_PROFILE_CHANGE_PASSWORD , params));
+
+        ServerResponse serverResponse = Main.getClientHandler().getResponse();
+
+        if (serverResponse.getTypeOfResponse().equals(TypeOfResponse.OK)) {
+            HashMap<TypeOfRequestParameter , Object> paramss = new HashMap<>();
+            paramss.put(TypeOfRequestParameter.USERNAME , ClientDataController.getCurrentUser().getUsername()) ;
+            Main.getClientHandler().sendRequest(new ClientRequest(TypeOfRequest.LOGOUT ,paramss));
+            if (Main.getClientHandler().getResponse().getTypeOfResponse().equals(TypeOfResponse.OK)){
+                ClientDataController.setCurrentUser(null);
+                Main.changeScene("loginMenu");
+            }
+        } else
+            showError(serverResponse.getMessage());
+
     }
 
     public void initialize() {
-        User currentUser = UserController.getCurrentUser();
+        User currentUser = ClientDataController.getCurrentUser();
         ImagePattern profilePic;
         if (currentUser.getAvatarFilePath() == null) {
             profilePic = new ImagePattern(new Image(getClass().getResource("/game/images/avatars/" +

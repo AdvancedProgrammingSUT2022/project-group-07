@@ -5,5 +5,5 @@ public enum TypeOfRequestParameter {
     PASSWORD ,
     NICKNAME ,
     IMAGE  ,
-    USER ;
+    USER, NEW_PASSWORD;
 }

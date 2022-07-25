@@ -1,7 +1,6 @@
 package game.Server;
 
 import game.Common.Enum.Network.TypeOfRequestParameter;
-import game.Common.Enum.Network.TypeOfResponseParameter;
 import game.Common.Enum.TypeOfResponse;
 import game.Common.Model.Network.ClientRequest;
 import game.Common.Model.ServerResponse;
@@ -10,7 +9,6 @@ import game.Server.Controller.UserController;
 import game.Server.Controller.menu.ProfileValidation;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 public class RequestHandler {
 
@@ -22,6 +20,8 @@ public class RequestHandler {
             case LOGIN -> response = handleLogin (clientRequest);
             case LOGOUT -> response = handleLogout(clientRequest);
             case GET_SCOREBOARD -> response = handleGetScoreBoard(clientRequest);
+            case UPDATE_PROFILE_CHANGE_NICKNAME -> response = handleUpdateProfileChangeNickname(clientRequest);
+            case UPDATE_PROFILE_CHANGE_PASSWORD -> response = handleUpdateProfileChangePassword(clientRequest);
         }
 
         System.out.println("handled");
@@ -87,4 +87,43 @@ public class RequestHandler {
     private static ServerResponse handleGetScoreBoard(ClientRequest clientRequest) {
         return new ServerResponse(TypeOfResponse.OK , UserController.getUsers()) ;
     }
+
+    private static ServerResponse handleUpdateProfileChangeNickname(ClientRequest clientRequest) {
+        String newNickname = (String) clientRequest.getParams().get(TypeOfRequestParameter.NICKNAME) ;
+
+        if (!ProfileValidation.nicknameIsValid(newNickname))
+            return new ServerResponse(TypeOfResponse.FORBIDDEN , "invalid nickname : nickname can only have letters");
+        else if (ProfileValidation.nicknameIsUsed(newNickname))
+            return new ServerResponse(TypeOfResponse.FORBIDDEN , "user with nickname " + newNickname + " already exists");
+        else {
+            User user = UserController.getUserByUsername((String) clientRequest.getParams().get(TypeOfRequestParameter.USERNAME)) ;
+            assert user != null;
+            user.setNickname(newNickname);
+            return new ServerResponse(TypeOfResponse.OK);
+        }
+    }
+
+    private static ServerResponse handleUpdateProfileChangePassword(ClientRequest clientRequest) {
+        String username = (String) clientRequest.getParams().get(TypeOfRequestParameter.USERNAME);
+        String oldPass = (String) clientRequest.getParams().get(TypeOfRequestParameter.PASSWORD);
+        String newPass = (String) clientRequest.getParams().get(TypeOfRequestParameter.NEW_PASSWORD);
+
+        User user = UserController.getUserByUsername(username) ;
+
+        assert user != null;
+        if (!user.getPassword().equals(oldPass))
+            return new ServerResponse(TypeOfResponse.FORBIDDEN ,"old password is invalid");
+        else if (oldPass.equals(newPass))
+            return new ServerResponse(TypeOfResponse.FORBIDDEN ,"please enter a new password");
+        else if (!ProfileValidation.passwordIsValid(newPass))
+            return new ServerResponse(TypeOfResponse.FORBIDDEN ,"invalid new password : must have at least 4" +
+                    " characters (a capital and a small letter) and a number");
+        else {
+            user.setPassword(newPass);
+            return new ServerResponse(TypeOfResponse.OK);
+        }
+    }
+
+    
+
 }
