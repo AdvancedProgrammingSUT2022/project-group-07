@@ -111,3 +111,9 @@
     -fx-opacity: 0.90 ;
     -fx-label-padding: 20px;
 }
+
+.diplomacyPanelImageView:hover{
+    -fx-scale-x: 110%;
+    -fx-scale-y: 110%;
+    -fx-scale-z: 110%;
+}

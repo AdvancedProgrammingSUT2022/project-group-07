@@ -68,8 +68,13 @@ public class GamePageController {
     public Label economicLabel = new Label("Economic Panel") ;
 
     // diplomacy panel stuff
-    public Button diplomacyPanelButton = new Button("Diplomacy Panel") ;
+    public ImageView diplomacyPanelImageView = new ImageView(new Image(getClass().getResource("/game/images/icons/DIPLOMACY_ICON.png").toExternalForm())) ;
 
+    // save button
+    public Button saveButton = new Button("Save") ;
+
+    // current civilization Label
+    public Label currentCivilizationLabel = new Label() ;
     public Button cityPanelButton = new Button("City Panel");
 
     public void initialize() {
@@ -107,8 +112,8 @@ public class GamePageController {
         initializeSelectedUnitPanel();
         initializeNextTurnButton();
         initializeOthersPanel() ;
+        initializeDiplomacyPanel() ;
 
-        diplomacyPanelButton.setOnMouseClicked(mouseEvent -> Main.loadNewStage("Diplomacy panel" , "diplomacyMenu"));
         cityPanelButton.setOnMouseClicked(mouseEvent -> CityPanelController.openCityPanel());
 
         game.getChildren().add(iconPanel);
@@ -116,7 +121,13 @@ public class GamePageController {
         game.getChildren().add(selectedUnitPanel);
         game.getChildren().add(nextTurnImageView);
         game.getChildren().add(othersPanel) ;
-        game.getChildren().add(diplomacyPanelButton) ;
+        game.getChildren().add(diplomacyPanelImageView) ;
+
+        game.getChildren().add(currentCivilizationLabel);
+        game.getChildren().add(saveButton);
+        saveButton.setOnMouseClicked(mouseEvent -> {
+            GameController.getInstance().saveData(GameController.getInstance() , "save1");
+        });
         game.getChildren().add(cityPanelButton);
 
         // updating info panel thread
@@ -157,6 +168,21 @@ public class GamePageController {
         miniPanelsThread.setDaemon(true);
         miniPanelsThread.start();
 
+        // hell of a test bro
+        Thread test = new Thread(() -> {
+            Runnable runnable = () -> {
+                currentCivilizationLabel.setText(GameController.getInstance().getCurrentCivilization().getName());
+                currentCivilizationLabel.setStyle("-fx-font-size: 20");
+            } ;
+            while (true) {
+                Platform.runLater(runnable);
+                try {Thread.sleep(400);}
+                catch (InterruptedException ignored) {}
+            }
+        });
+        test.setDaemon(true);
+        test.start();
+
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -173,6 +199,14 @@ public class GamePageController {
             case UP -> MapMovement.moveUp(game, firstY);
             case DOWN -> MapMovement.moveDown(game, firstY);
         }
+    }
+
+    private void initializeDiplomacyPanel() {
+        diplomacyPanelImageView.setFitWidth(80);
+        diplomacyPanelImageView.setFitHeight(80);
+        Tooltip.install(diplomacyPanelImageView , new Tooltip("Diplomacy Panel"));
+        diplomacyPanelImageView.getStyleClass().add("diplomacyPanelImageView") ;
+        diplomacyPanelImageView.setOnMouseClicked(mouseEvent -> Main.loadNewStage("Diplomacy panel" , "diplomacyMenu"));
     }
 
     public void initializeIconPanel (){
@@ -227,8 +261,12 @@ public class GamePageController {
         nextTurnImageView.setLayoutY(600+y);
         othersPanel.setLayoutX(300+x);
         othersPanel.setLayoutY(0+y);
-        diplomacyPanelButton.setLayoutX(x);
-        diplomacyPanelButton.setLayoutY(y+480);
+        diplomacyPanelImageView.setLayoutX(x+1000);
+        diplomacyPanelImageView.setLayoutY(y+80);
+        saveButton.setLayoutX(x+400);
+        saveButton.setLayoutY(y+300);
+        currentCivilizationLabel.setLayoutX(x+300);
+        currentCivilizationLabel.setLayoutY(y+200);
         cityPanelButton.setLayoutX(x);
         cityPanelButton.setLayoutY(y+510);
     }

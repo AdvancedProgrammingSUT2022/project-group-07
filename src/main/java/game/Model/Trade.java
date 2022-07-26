@@ -1,24 +1,29 @@
 package game.Model;
 
+import game.Controller.game.GameController;
 import game.Enum.Resources;
 import game.Enum.TypeOfTrade;
 
 public class Trade {
 
-    Civilization sender ;
-    Civilization receiver ;
+//    Civilization sender ;
+//    Civilization receiver ;
+    String sender ;
+    String receiver ;
 
     TradingAsset senderTradingAsset ;
     TradingAsset receiverTradingAsset ;
 
     public Trade(Civilization sender, TradingAsset senderTradingAsset, Civilization receiver, TradingAsset receiverTradingAsset) {
-        this.sender = sender;
-        this.receiver = receiver;
+        this.sender = sender.getName();
+        this.receiver = receiver.getName();
         this.senderTradingAsset = senderTradingAsset;
         this.receiverTradingAsset = receiverTradingAsset;
     }
 
     public void handle () {
+        Civilization sender = GameController.getInstance().getCivilizationByName(this.sender);
+        Civilization receiver = GameController.getInstance().getCivilizationByName(this.receiver);
         if (receiverTradingAsset == null) {
             if (senderTradingAsset.getTypeOfTrade().equals(TypeOfTrade.GOLD)) {
                 sender.setGold(sender.getGold() + senderTradingAsset.getGold());
