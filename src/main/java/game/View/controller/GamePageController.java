@@ -18,6 +18,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
+import javafx.stage.Popup;
+import javafx.stage.Window;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -68,6 +70,8 @@ public class GamePageController {
     // diplomacy panel stuff
     public Button diplomacyPanelButton = new Button("Diplomacy Panel") ;
 
+    public Button cityPanelButton = new Button("City Panel");
+
     public void initialize() {
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
         firstX = game.getTranslateX();
@@ -105,6 +109,7 @@ public class GamePageController {
         initializeOthersPanel() ;
 
         diplomacyPanelButton.setOnMouseClicked(mouseEvent -> Main.loadNewStage("Diplomacy panel" , "diplomacyMenu"));
+        cityPanelButton.setOnMouseClicked(mouseEvent -> CityPanelController.openCityPanel());
 
         game.getChildren().add(iconPanel);
         game.getChildren().add(researchPanel);
@@ -112,6 +117,7 @@ public class GamePageController {
         game.getChildren().add(nextTurnImageView);
         game.getChildren().add(othersPanel) ;
         game.getChildren().add(diplomacyPanelButton) ;
+        game.getChildren().add(cityPanelButton);
 
         // updating info panel thread
         Thread infoPanelThread = new Thread(() -> {
@@ -223,6 +229,8 @@ public class GamePageController {
         othersPanel.setLayoutY(0+y);
         diplomacyPanelButton.setLayoutX(x);
         diplomacyPanelButton.setLayoutY(y+480);
+        cityPanelButton.setLayoutX(x);
+        cityPanelButton.setLayoutY(y+510);
     }
 
     private void initializeResearchPanel() {

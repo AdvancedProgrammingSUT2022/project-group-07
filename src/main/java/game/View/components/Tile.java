@@ -1,18 +1,16 @@
 package game.View.components;
 
 
+import game.Controller.game.*;
 import game.Enum.Resources;
-import game.Enum.TerrainFeatures;
 import game.Enum.TypeOfTerrain;
 import game.Main;
-import game.Controller.game.GameController;
-import game.Controller.game.TerrainController;
-import game.Controller.game.UnitController;
 import game.Model.Civilization;
 import game.Model.Terrain;
 import game.Model.Unit;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -24,10 +22,15 @@ import javafx.stage.Window;
 
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class Tile extends Polygon {
 
+    // left click ---> tile info
+    // right click ---> select city center
+
+    private static ArrayList<Tile> tiles = new ArrayList<>();
     private static final double r = 75;
     private static final double n = Math.sqrt(r * r * 0.75);
     private final static double TILE_HEIGHT = 2 * r;
@@ -38,39 +41,8 @@ public class Tile extends Polygon {
     private Terrain terrain;
     private Circle attackUnit;
     private Circle civilUnit;
-
     private Popup popup;
-
-    public Popup getPopup() {
-        return popup;
-    }
-    public ImageView getFeature() {
-        return feature;
-    }
-
-    public static double getTileHeight() {
-        return TILE_HEIGHT;
-    }
-
-    public static double getTileWidth() {
-        return TILE_WIDTH;
-    }
-
-    public static double getR() {
-        return r;
-    }
-
-    public static double getN() {
-        return n;
-    }
-
-    public Terrain getTerrain() {
-        return terrain;
-    }
-
-    public void setTerrain(Terrain terrain) {
-        this.terrain = terrain;
-    }
+    private Unit unit;
 
     public Tile(double x, double y, Terrain terrain) {
         this.x = x + 18;
@@ -87,12 +59,23 @@ public class Tile extends Polygon {
         setStrokeWidth(1);
         setStroke(Color.WHITE);
         this.terrain = terrain;
+        tiles.add(this);
+    }
+
+    public static ArrayList<Tile> getTiles() {
+        return tiles;
     }
 
     public void setBackground(String addressType, String addressTypeFeature,
                               Resources resources, TypeOfTerrain typeOfTerrain)
     {
         URL address = getClass().getResource("/game/assets/civAsset/map/Tiles/terrainsAndFeatures/" + addressTypeFeature);
+        try {
+            setFill(new ImagePattern((new Image(getClass().getResource("/game/assets/civAsset/map/Tiles/terrainsAndFeatures/"
+                    + addressType).toExternalForm()))));
+        } catch (Exception e) {
+            System.out.println(addressType);
+        }
         if (address != null) {
             ImagePattern imagePattern = new ImagePattern(new Image(address.toExternalForm()));
             this.feature = new ImageView();
@@ -137,86 +120,95 @@ public class Tile extends Polygon {
 
     private void checkMouseAction() {
         setOnMouseClicked(mouseEvent -> {
-            Window window = Main.scene.getWindow();
-            this.popup = new Popup();
-
-            AnchorPane anchorPane = new AnchorPane();
-            anchorPane.setStyle("-fx-background-color: rgba(255,255,255,0.49)");
-            anchorPane.setMinSize(100, 100);
-
-            Text terrainType = setMainTypeOfTerrain(anchorPane, 75.0, 60.0, 220.0);
-            Text combat, mpNumber;
-
-            if (feature != null) {
-                mpNumber = new Text("● MP: " + findMp());
-                combat = new Text("● Change of Combat: % " + findCombatChange());
-                setStyles(anchorPane, 120.0, 60.0, 220.0);
-            } else {
-                combat = new Text("● Change of Combat: % " + this.terrain.getTypeOfTerrain().getChangeOfCombat() * 100);
-                mpNumber = new Text("● MP: " + this.terrain.getTypeOfTerrain().getMpNeeded());
+            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                CityController.checkCityCenter(this);
             }
+            else {
+                Window window = Main.scene.getWindow();
+                this.popup = new Popup();
 
-            mpNumber.setLayoutY(95);
-            combat.setLayoutY(130);
+                AnchorPane anchorPane = new AnchorPane();
+                anchorPane.setStyle("-fx-background-color: rgba(255,255,255,0.49)");
+                anchorPane.setMinSize(100, 100);
 
-            mpNumber.setStyle("-fx-font-weight: bold");
-            combat.setStyle("-fx-font-weight: bold");
+                Text terrainType = setMainTypeOfTerrain(anchorPane, 75.0, 60.0, 220.0);
+                Text combat, mpNumber;
 
-            AnchorPane.setLeftAnchor(mpNumber, 60.0);
-            AnchorPane.setLeftAnchor(combat, 60.0);
+                if (feature != null) {
+                    mpNumber = new Text("● MP: " + findMp());
+                    combat = new Text("● Change of Combat: % " + findCombatChange());
+                    setStyles(anchorPane, 120.0, 60.0, 220.0);
+                } else {
+                    combat = new Text("● Change of Combat: % " + this.terrain.getTypeOfTerrain().getChangeOfCombat() * 100);
+                    mpNumber = new Text("● MP: " + this.terrain.getTypeOfTerrain().getMpNeeded());
+                }
 
-            openPopup(window, anchorPane, terrainType, mpNumber, combat);
+                mpNumber.setLayoutY(95);
+                combat.setLayoutY(130);
+
+                mpNumber.setStyle("-fx-font-weight: bold");
+                combat.setStyle("-fx-font-weight: bold");
+
+                AnchorPane.setLeftAnchor(mpNumber, 60.0);
+                AnchorPane.setLeftAnchor(combat, 60.0);
+
+                openPopup(window, anchorPane, terrainType, mpNumber, combat);
+//                CityController.checkCityCenter(this);
+            }
         });
     }
 
     private void checkMouseAction(Resources resources) {
         setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                CityController.checkCityCenter(this);
+            }else {
+                Window window = Main.scene.getWindow();
+                this.popup = new Popup();
 
-            Window window = Main.scene.getWindow();
-            this.popup = new Popup();
+                AnchorPane anchorPane = new AnchorPane();
+                anchorPane.setStyle("-fx-background-color: rgba(255,255,255,0.49)");
+                Image image = (new Image(getClass().getResource("/game/assets/civAsset/resources/"
+                        + resources.getName() + ".png").toExternalForm()));
+                anchorPane.getChildren().add(new ImageView(image));
 
-            AnchorPane anchorPane = new AnchorPane();
-            anchorPane.setStyle("-fx-background-color: rgba(255,255,255,0.49)");
-            Image image = (new Image(getClass().getResource("/game/assets/civAsset/resources/"
-                    + resources.getName() + ".png").toExternalForm()));
-            anchorPane.getChildren().add(new ImageView(image));
+                Text terrainType = setMainTypeOfTerrain(anchorPane, 150.0, 150.0, 305.0);
+                Text resource = new Text("● Resources:");
+                Text type = new Text(resources.getName() + " --> " +
+                        resources.getTypeOfResource().toString().toLowerCase(Locale.ROOT) + "➙ ");
+                Text resEffect = resourceEffect(resources);
+                Text mpNumber, combat;
 
-            Text terrainType = setMainTypeOfTerrain(anchorPane, 150.0, 150.0, 305.0);
-            Text resource = new Text("● Resources:");
-            Text type = new Text(resources.getName() + " --> " +
-                    resources.getTypeOfResource().toString().toLowerCase(Locale.ROOT) + "➙ ");
-            Text resEffect = resourceEffect(resources);
-            Text mpNumber, combat;
+                if (feature != null) {
+                    mpNumber = new Text("● MP: " + findMp());
+                    combat = new Text("● Change of Combat: % " + findCombatChange());
+                    setStyles(anchorPane, 210.0, 150.0, 305.0);
+                } else {
+                    combat = new Text("● Change of Combat: % " + this.terrain.getTypeOfTerrain().getChangeOfCombat() * 100);
+                    mpNumber = new Text("● MP: " + this.terrain.getTypeOfTerrain().getMpNeeded());
+                }
 
-            if (feature != null) {
-                mpNumber = new Text("● MP: " + findMp());
-                combat = new Text("● Change of Combat: % " + findCombatChange());
-                setStyles(anchorPane, 210.0, 150.0, 305.0);
+                resource.setLayoutY(105);
+                type.setLayoutY(120);
+                mpNumber.setLayoutY(140);
+                combat.setLayoutY(160);
+
+                mpNumber.setStyle("-fx-font-weight: bold");
+                resource.setStyle("-fx-font-weight: bold");
+                combat.setStyle("-fx-font-weight: bold");
+
+                AnchorPane.setLeftAnchor(type, 170.0);
+                AnchorPane.setLeftAnchor(resource, 150.0);
+                AnchorPane.setLeftAnchor(mpNumber, 150.0);
+                AnchorPane.setLeftAnchor(resEffect, 305.0);
+                AnchorPane.setLeftAnchor(combat, 150.0);
+
+                anchorPane.getChildren().add(type);
+                anchorPane.getChildren().add(resource);
+                anchorPane.getChildren().add(mpNumber);
+                openPopup(window, anchorPane, resEffect, terrainType, combat);
             }
-            else {
-                combat = new Text("● Change of Combat: % " + this.terrain.getTypeOfTerrain().getChangeOfCombat()*100);
-                mpNumber = new Text("● MP: " + this.terrain.getTypeOfTerrain().getMpNeeded());
-            }
-
-            resource.setLayoutY(105);
-            type.setLayoutY(120);
-            mpNumber.setLayoutY(140);
-            combat.setLayoutY(160);
-
-            mpNumber.setStyle("-fx-font-weight: bold");
-            resource.setStyle("-fx-font-weight: bold");
-            combat.setStyle("-fx-font-weight: bold");
-
-            AnchorPane.setLeftAnchor(type, 170.0);
-            AnchorPane.setLeftAnchor(resource, 150.0);
-            AnchorPane.setLeftAnchor(mpNumber, 150.0);
-            AnchorPane.setLeftAnchor(resEffect, 305.0);
-            AnchorPane.setLeftAnchor(combat, 150.0);
-
-            anchorPane.getChildren().add(type);
-            anchorPane.getChildren().add(resource);
-            anchorPane.getChildren().add(mpNumber);
-            openPopup(window, anchorPane, resEffect, terrainType, combat);
+//                CityController.checkCityCenter(this);
         });
     }
 
@@ -293,6 +285,73 @@ public class Tile extends Polygon {
         return text;
     }
 
+    public void updateUnitBackground() {
+        GameController gameController = GameController.getInstance();
+        for (Civilization civilization : gameController.getCivilizations()) {
+            for (Unit unit : civilization.getUnits()) {
+                if (TerrainController.getTerrainByLocation(unit.getLocation()).equals(this.getTerrain())) {
+                    this.unit = unit;
+                    setUnitBackground(unit);
+                }
+            }
+        }
+    }
+
+    private void setUnitBackground(Unit unit) {
+        if (UnitController.isCivilUnit(unit)) {
+            if (this.civilUnit == null) this.civilUnit = new Circle(this.x - 10, this.y, 35);
+            this.civilUnit.setFill(new ImagePattern(new Image(Main.class.getResource(
+                    "/game/assets/civAsset/units/Units/" + unit.getTypeOfUnit().getName() + ".png"
+            ).toExternalForm())));
+        } else {
+            if (this.attackUnit == null) {
+                this.attackUnit = new Circle(this.x - 20, this.y, 35);
+            }
+            this.attackUnit.setFill(new ImagePattern(new Image(Main.class.getResource(
+                    "/game/assets/civAsset/units/Units/" + unit.getTypeOfUnit().getName() + ".png"
+            ).toExternalForm())));
+        }
+    }
+
+    public Popup getPopup() {
+        return popup;
+    }
+    public ImageView getFeature() {
+        return feature;
+    }
+
+    public static double getTileHeight() {
+        return TILE_HEIGHT;
+    }
+
+    public static double getTileWidth() {
+        return TILE_WIDTH;
+    }
+
+    public static double getR() {
+        return r;
+    }
+
+    public static double getN() {
+        return n;
+    }
+
+    public Terrain getTerrain() {
+        return terrain;
+    }
+
+    public void setTerrain(Terrain terrain) {
+        this.terrain = terrain;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
     public Circle getAttackUnit() {
         return attackUnit;
     }
@@ -317,31 +376,4 @@ public class Tile extends Polygon {
         return y;
     }
 
-
-    public void updateUnitBackground() {
-        GameController gameController = GameController.getInstance();
-        for (Civilization civilization : gameController.getCivilizations()) {
-            for (Unit unit : civilization.getUnits()) {
-                if (TerrainController.getTerrainByLocation(unit.getLocation()).equals(this.getTerrain())) {
-                    setUnitBackground(unit);
-                }
-            }
-        }
-    }
-
-    private void setUnitBackground(Unit unit) {
-        if (UnitController.isCivilUnit(unit)) {
-            if (this.civilUnit == null) this.civilUnit = new Circle(this.x - 10, this.y, 35);
-            this.civilUnit.setFill(new ImagePattern(new Image(Main.class.getResource(
-                    "/game/assets/civAsset/units/Units/" + unit.getTypeOfUnit().getName() + ".png"
-            ).toExternalForm())));
-        } else {
-            if (this.attackUnit == null) {
-                this.attackUnit = new Circle(this.x - 20, this.y, 35);
-            }
-            this.attackUnit.setFill(new ImagePattern(new Image(Main.class.getResource(
-                    "/game/assets/civAsset/units/Units/" + unit.getTypeOfUnit().getName() + ".png"
-            ).toExternalForm())));
-        }
-    }
 }

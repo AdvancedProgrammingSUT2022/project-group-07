@@ -46,23 +46,23 @@ public class CityMenu extends Menu {
                 String result = CreateUnit.removeUnitConstruction(matcher);
                 System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.EMPLOY_CITIZEN_TO_TILE)) != null) {
-                String result = CitizenController.lock(city, matcher, gameController);
-                System.out.println(result);
+//                String result = CitizenController.lock(city, matcher, gameController);
+//                System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.UNLOCK_CITIZEN)) != null) {
-                String result = CitizenController.unlock(city, matcher);
-                System.out.println(result);
+//                String result = CitizenController.unlock(city, matcher);
+//                System.out.println(result);
             } else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.CITY_SHOW_TILES_OWNED)) != null) {
                 String result = CityController.showTilesOwned();
                 System.out.println(result);
             } else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.CITY_SHOW_TILES_AVAILABLE)) != null) {
-                String result = CityController.showTilesAvailable(GameController.getInstance().getMap(),
-                        GameController.getInstance().getMapWidth(), GameController.getInstance().getMapHeight());
-                System.out.println(result);
+//                String result = CityController.showTilesAvailable(GameController.getInstance().getMap(),
+//                        GameController.getInstance().getMapWidth(), GameController.getInstance().getMapHeight());
+//                System.out.println(result);
             } else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.CITY_BUY_TILE)) != null) {
-                String result = CityController.buyTile(matcher, GameController.getInstance().getMap(),
-                        GameController.getInstance().getMapWidth(), GameController.getInstance().getMapHeight(),
-                        gameController.getCurrentCivilization());
-                System.out.println(result);
+//                String result = CityController.buyTile(matcher, GameController.getInstance().getMap(),
+//                        GameController.getInstance().getMapWidth(), GameController.getInstance().getMapHeight(),
+//                        gameController.getCurrentCivilization());
+//                System.out.println(result);
             }
             else if ((CityMenuCommands.getMatcher(input , CityMenuCommands.SHOW_UNEMPLOYED_CITIZENS)) != null) {
                 String result = CityController.showUnemployedCitizens(city);
