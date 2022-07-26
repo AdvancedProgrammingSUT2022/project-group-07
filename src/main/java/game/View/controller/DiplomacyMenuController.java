@@ -144,7 +144,7 @@ public class DiplomacyMenuController implements Initializable {
     }
 
     public void nextTurn() {
-        GameController.getInstance().nextTurn(GameController.getInstance());
+        //GameController.getInstance().nextTurn(GameController.getInstance() , );
         currentCivilization = GameController.getInstance().getCurrentCivilization();
     }
 

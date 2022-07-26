@@ -6,6 +6,7 @@ import game.Controller.game.movement.TheShortestPath;
 import game.Enum.*;
 import game.Model.*;
 import game.View.components.Tile;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -170,7 +171,7 @@ public class GameController {
         this.turn = turn;
     }
 
-    public void nextTurn(GameController gameController) {
+    public void nextTurn(GameController gameController , AnchorPane game) {
         int index = gameController.getCivilizations().indexOf(gameController.getCurrentCivilization());
         if (index == gameController.getCivilizations().size() - 1) {
             gameController.setTurn(gameController.getTurn() + 1);
@@ -180,8 +181,10 @@ public class GameController {
             gameController.setCurrentCivilization(gameController.getCivilizations().get(index + 1));
         SelectController.selectedUnit = null;
         SelectController.selectedCity = null;
-//        MapController.setMapCenter(gameController.getCurrentCivilization().getUnits().get(0).getLocation());
+        MapController.setMapCenter(gameController.getCurrentCivilization().getUnits().get(0).getLocation() , game);
         CivilizationController.updateCivilizationElements(gameController);
+        CivilizationController.updateFogOfWar(currentCivilization , map , mapWidth , mapHeight);
+        MapController.setBackgrounds(map);
     }
 
     // save stuff
