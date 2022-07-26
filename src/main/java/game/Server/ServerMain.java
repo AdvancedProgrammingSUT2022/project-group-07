@@ -1,5 +1,8 @@
 package game.Server;
 
+import game.Server.Controller.FriendshipRequestController;
+import game.Server.Controller.UserController;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,6 +13,9 @@ public class ServerMain {
     private static ServerSocket serverSocket ;
 
     public static void main(String[] args) {
+
+        UserController.loadUsers();
+        FriendshipRequestController.loadFriendshipRequests();
 
         try {
             serverSocket = new ServerSocket(PORT_NUMBER);

@@ -1,5 +1,7 @@
 package game.Common.Model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class User {
@@ -10,6 +12,8 @@ public class User {
     private boolean isLoggedIn;
     private int avatarNumber;
     private String avatarFilePath;
+    byte[] byteImageArray ;
+    private HashSet<String> friends = new HashSet<>() ;
 
     public User(String username, String password, String nickname) {
         this.username = username;
@@ -77,6 +81,22 @@ public class User {
 
     public void setAvatarFilePath(String avatarFilePath) {
         this.avatarFilePath = avatarFilePath;
+    }
+
+    public void setByteImageArray(byte[] byteImageArray) {
+        this.byteImageArray = byteImageArray;
+    }
+
+    public byte[] getByteImageArray() {
+        return byteImageArray;
+    }
+
+    public void addFriend (String username){
+        this.friends.add(username);
+    }
+
+    public HashSet<String> getFriends() {
+        return friends;
     }
 
     @Override

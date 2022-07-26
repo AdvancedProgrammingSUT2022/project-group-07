@@ -1,10 +1,13 @@
 package game.Server;
 
 import game.Common.Enum.Network.TypeOfRequestParameter;
+import game.Common.Enum.Network.TypeOfResponseParameter;
 import game.Common.Enum.TypeOfResponse;
+import game.Common.Model.FriendshipRequest;
 import game.Common.Model.Network.ClientRequest;
 import game.Common.Model.ServerResponse;
 import game.Common.Model.User;
+import game.Server.Controller.FriendshipRequestController;
 import game.Server.Controller.UserController;
 import game.Server.Controller.menu.ProfileValidation;
 
@@ -22,9 +25,16 @@ public class RequestHandler {
             case GET_SCOREBOARD -> response = handleGetScoreBoard(clientRequest);
             case UPDATE_PROFILE_CHANGE_NICKNAME -> response = handleUpdateProfileChangeNickname(clientRequest);
             case UPDATE_PROFILE_CHANGE_PASSWORD -> response = handleUpdateProfileChangePassword(clientRequest);
+            case UPDATE_PROFILE_CHANGE_AVATAR -> response = handleUpdateProfileChangeAvatar(clientRequest);
+            case GET_USER_BY_USERNAME -> response = handleGetUserByUsername(clientRequest);
+            case GET_FRIENDS -> response = handleGetFriends(clientRequest);
+            case SEND_FRIENDSHIP_REQUEST -> response = handleSendFriendshipRequest(clientRequest);
+            case GET_REQUESTS_FOR -> response = handleGetRequestsFor(clientRequest);
+            case GET_REQUESTS_OF -> response = handleGetRequestsOf(clientRequest);
+            case ACCEPT_FRIENDSHIP_REQUEST -> response = handleAcceptFriendshipRequest(clientRequest);
+            case REJECT_FRIENDSHIP_REQUEST -> response = handleRejectFriendshipRequest(clientRequest);
         }
-
-        System.out.println("handled");
+        System.out.println("handled "+ clientRequest.getTypeOfRequest() +" in a proper way");
         return response ;
     }
 
@@ -124,6 +134,61 @@ public class RequestHandler {
         }
     }
 
-    
+    private static ServerResponse handleUpdateProfileChangeAvatar(ClientRequest clientRequest) {
+        User user = UserController.getUserByUsername((String) clientRequest.getParams().get(TypeOfRequestParameter.USERNAME)) ;
+        if (user != null) return new ServerResponse(TypeOfResponse.WAITING , clientRequest.getImageSize());
+        else return new ServerResponse(TypeOfResponse.BAD_REQUEST_FORMAT);
+    }
+
+    private static ServerResponse handleGetUserByUsername(ClientRequest clientRequest) {
+        String username = (String) clientRequest.getParams().get(TypeOfRequestParameter.USERNAME);
+        User user = UserController.getUserByUsername(username);
+        if (user == null) return new ServerResponse(TypeOfResponse.NOT_FOUND , "No user with username " + username + " !");
+        return new ServerResponse(TypeOfResponse.OK , user);
+    }
+
+    private static ServerResponse handleGetFriends(ClientRequest clientRequest) {
+        String username = (String) clientRequest.getParams().get(TypeOfRequestParameter.USERNAME);
+        User user = UserController.getUserByUsername(username);
+        if (user == null) return new ServerResponse(TypeOfResponse.NOT_FOUND , "No user with username " + username + " !");
+
+        HashMap<TypeOfResponseParameter, Object> responseHashMap = new HashMap<>() ;
+        responseHashMap.put(TypeOfResponseParameter.USER , user.getFriends());
+        return new ServerResponse(TypeOfResponse.OK , responseHashMap);
+    }
+
+    private static ServerResponse handleSendFriendshipRequest(ClientRequest clientRequest) {
+        String sender = (String) clientRequest.getParams().get(TypeOfRequestParameter.SENDER);
+        String receiver = (String) clientRequest.getParams().get(TypeOfRequestParameter.RECEIVER);
+
+        FriendshipRequestController.addFriendshipRequest(new FriendshipRequest(sender , receiver));
+        return new ServerResponse(TypeOfResponse.OK) ;
+    }
+
+    private static ServerResponse handleGetRequestsFor(ClientRequest clientRequest) {
+        return new ServerResponse(TypeOfResponse.OK , FriendshipRequestController.getRequestsForPlayer((String) clientRequest.getParams().get(TypeOfRequestParameter.USERNAME)) , true);
+    }
+
+    private static ServerResponse handleGetRequestsOf(ClientRequest clientRequest) {
+        return new ServerResponse(TypeOfResponse.OK , FriendshipRequestController.getRequestsOfPlayer((String) clientRequest.getParams().get(TypeOfRequestParameter.USERNAME)) , true);
+    }
+
+    private static ServerResponse handleRejectFriendshipRequest(ClientRequest clientRequest) {
+        FriendshipRequest friendshipRequest = clientRequest.getFriendshipRequest();
+        FriendshipRequest real = FriendshipRequestController.getFriendshipRequest(friendshipRequest);
+        if (real == null) return new ServerResponse(TypeOfResponse.BAD_REQUEST_FORMAT);
+        real.setRejected();
+        FriendshipRequestController.saveFriendshipRequests();
+        return new ServerResponse(TypeOfResponse.OK);
+    }
+
+    private static ServerResponse handleAcceptFriendshipRequest(ClientRequest clientRequest) {
+        FriendshipRequest friendshipRequest = clientRequest.getFriendshipRequest();
+        FriendshipRequest real = FriendshipRequestController.getFriendshipRequest(friendshipRequest);
+        if (real == null) return new ServerResponse(TypeOfResponse.BAD_REQUEST_FORMAT);
+        real.setAccepted();
+        FriendshipRequestController.saveFriendshipRequests();
+        return new ServerResponse(TypeOfResponse.OK);
+    }
 
 }

@@ -2,10 +2,13 @@ package game.Server;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import game.Common.Enum.TypeOfResponse;
 import game.Common.Model.Network.ClientRequest;
 import game.Common.Model.ServerResponse;
 import game.Common.Model.User;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
 import java.util.List;

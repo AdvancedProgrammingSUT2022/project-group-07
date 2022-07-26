@@ -20,7 +20,8 @@ public class GameMenuController {
     public void loadGame(ActionEvent actionEvent) {
     }
 
-    public void playOnline(ActionEvent actionEvent) {
+    public void playOnline(ActionEvent actionEvent) throws IOException {
+        Main.changeScene("playOnlineMenu");
     }
 
     public void newGame(ActionEvent actionEvent) throws IOException{

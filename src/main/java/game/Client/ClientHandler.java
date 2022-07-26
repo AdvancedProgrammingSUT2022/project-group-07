@@ -2,6 +2,7 @@ package game.Client;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import game.Common.Enum.TypeOfResponse;
 import game.Common.Model.Network.ClientRequest;
 import game.Common.Model.ServerResponse;
 
@@ -16,6 +17,10 @@ public class ClientHandler{
     protected DataInputStream dataInputStream ;
 
     protected ServerResponse serverResponse ;
+
+    public Socket getSocket() {
+        return socket;
+    }
 
     public ClientHandler(Socket socket){
         this.socket = socket ;

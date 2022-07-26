@@ -5,5 +5,7 @@ public enum TypeOfRequestParameter {
     PASSWORD ,
     NICKNAME ,
     IMAGE  ,
-    USER, NEW_PASSWORD;
+    USER, NEW_PASSWORD ,
+    SENDER , RECEIVER ,
+    FRIENDSHIP_REQUEST ;
 }

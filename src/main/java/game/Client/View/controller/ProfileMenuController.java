@@ -24,8 +24,11 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class ProfileMenuController {
@@ -54,14 +57,13 @@ public class ProfileMenuController {
     private FileChooser fileChooser;
     private File filePath;
 
-    public void chooseFileAvatar(ActionEvent actionEvent) {
+    public void chooseFileAvatar(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
         fileChooser = new FileChooser();
         fileChooser.setTitle("choose image");
 
         this.filePath = fileChooser.showOpenDialog(stage);
         if (filePath != null) {
-            UserController.getCurrentUser().setAvatarFilePath(filePath.getPath());
             ImagePattern pattern = new ImagePattern(new Image(filePath.getPath()));
             this.profilePic.setImage(pattern.getImage());
             showConfirm("profile avatar changed successfully!");
@@ -127,9 +129,11 @@ public class ProfileMenuController {
 
     public void initialize() {
         User currentUser = ClientDataController.getCurrentUser();
+        System.out.println(currentUser.getAvatarFilePath());
+        System.out.println(currentUser.getAvatarNumber());
         ImagePattern profilePic;
         if (currentUser.getAvatarFilePath() == null) {
-            profilePic = new ImagePattern(new Image(getClass().getResource("/game/images/avatars/" +
+            profilePic = new ImagePattern(new Image(Main.class.getResource("/game/images/avatars/" +
                     currentUser.getAvatarNumber() + ".png").toExternalForm()));
         }
         else {
