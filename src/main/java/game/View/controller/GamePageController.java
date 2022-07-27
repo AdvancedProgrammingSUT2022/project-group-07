@@ -317,10 +317,12 @@ public class GamePageController {
         unitActions.getItems().clear();
         Button foundCity = new Button("found city");
         Button move = new Button("move");
-        unitActions.getItems().addAll(foundCity , move);
+        Button deleteUnit = new Button("delete unit");
+        Button sleep = new Button("sleep");
+        unitActions.getItems().addAll(foundCity , move , deleteUnit , sleep);
         ArrayList<Button> buttons = new ArrayList<>();
-        buttons.add(foundCity); buttons.add(move);
-        Movement.initializeActionButtons(buttons);
+        buttons.add(foundCity); buttons.add(move); buttons.add(deleteUnit); buttons.add(sleep);
+        Movement.initializeActionButtons(buttons , game);
     }
 
 
