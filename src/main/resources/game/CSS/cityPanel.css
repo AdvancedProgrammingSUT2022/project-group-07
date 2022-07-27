@@ -29,3 +29,9 @@
     -fx-font-weight: bold;
     -fx-fill: rgb(227, 194, 138);
 }
+.imageView:hover {
+    -fx-cursor: hand;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+    -fx-scale-z: 1.2;
+}

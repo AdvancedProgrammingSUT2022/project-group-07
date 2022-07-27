@@ -1,8 +1,7 @@
-.anchorPane{
-    -fx-background-image: url("../assets/Backgrounds/cityPanel.jpg");
+.anchorPane {
+    -fx-background-image: url("../assets/Backgrounds/purchase.jpg");
     -fx-background-size: cover;
 }
-
 .button {
     -fx-background-image: url("../assets/Button_Normal.png");
     -fx-background-size:  100% 100%;
@@ -25,13 +24,6 @@
 }
 .font {
     -fx-font-family: Algerian;
-    -fx-font-size: 20;
-    -fx-font-weight: bold;
-    -fx-fill: rgb(227, 194, 138);
-}
-.imageView:hover {
-    -fx-cursor: hand;
-    -fx-scale-x: 1.2;
-    -fx-scale-y: 1.2;
-    -fx-scale-z: 1.2;
+    -fx-font-size: 30;
+    -fx-fill: rgb(13, 13, 107);
 }

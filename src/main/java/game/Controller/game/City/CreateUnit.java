@@ -7,6 +7,8 @@ import game.Enum.TypeOfUnit;
 import game.Enum.TypeOfTechnology;
 import game.Enum.Resources;
 import game.Enum.UnitStatus;
+import game.View.controller.CityPanelController;
+import game.View.controller.UnitMenuController;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,31 +18,35 @@ import static game.Controller.game.SelectController.selectedCity;
 
 public class CreateUnit {
 
-    public static String checkRequiredTechsAndResourcesToCreateUnit(Matcher matcher, GameController gameController) {
-        if (selectedCity == null)
-            return "Select a city first!";
+    public static boolean createUnit(String name) {
+        GameController gameController = GameController.getInstance();
+        if (selectedCity == null) {
+            UnitMenuController.showError("Select a city first!");
+            return false;
+        }
 
-        String unitName = matcher.group("unit");
         Civilization currentCivilization = gameController.getCurrentCivilization();
         Terrain cityCenter = selectedCity.getTerrains().get(0);
 
         for (TypeOfUnit typeOfUnit : TypeOfUnit.values()) {
-            if (typeOfUnit.getName().equals(unitName)) {
+            if (typeOfUnit.getName().equals(name)) {
                 if (selectedCity.getProduction() >= typeOfUnit.getCost()) {
                     TypeOfTechnology requiredTech = typeOfUnit.getTechnologyRequired();
 
-                    if (requiredTech == null)
-                        return checkRequiredResourceWhenTechIsNull(currentCivilization, typeOfUnit, cityCenter, gameController);
-
-                    return checkTechAndResource(currentCivilization, typeOfUnit, cityCenter, gameController);
+                    if (requiredTech == null) {
+                        checkRequiredResourceWhenTechIsNull(currentCivilization, typeOfUnit, cityCenter, gameController);
+                        return false;
+                    }
+                    checkTechAndResource(currentCivilization, typeOfUnit, cityCenter, gameController);
                 }
                 else {
                     selectedCity.addWantedUnit(typeOfUnit);
-                    return "Unit will be created in next turns!";
+                    UnitMenuController.showConfirm("Unit will be created in next turns!");
                 }
+                return true;
             }
         }
-        return "Unit name is not valid!";
+        return true;
     }
 
     private static boolean cityHasRequiredResource(Resources requiredResource) {
@@ -52,7 +58,7 @@ public class CreateUnit {
         return ownedResources.contains(requiredResource);
     }
 
-    private static String checkTechAndResource(Civilization currentCivilization, TypeOfUnit typeOfUnit, Terrain cityCenter,
+    private static boolean checkTechAndResource(Civilization currentCivilization, TypeOfUnit typeOfUnit, Terrain cityCenter,
                                                GameController gameController) {
         ArrayList<Technology> ownedTechs = currentCivilization.getGainedTechnologies();
         TypeOfTechnology requiredTech = typeOfUnit.getTechnologyRequired();
@@ -61,32 +67,33 @@ public class CreateUnit {
         for (Technology ownedTech : ownedTechs) {
             if (ownedTech.getTypeOfTechnology() == requiredTech) {
                 Resources requiredResource = typeOfUnit.getResources();
-                if ((check = hasRequiredResource(requiredResource, typeOfUnit)) != null)
-                    return check;
-                return "Your city doesn't have the required resource to create this unit!";
+                if ((check = hasRequiredResource(requiredResource, typeOfUnit)) != null) {
+                    UnitMenuController.showConfirm(check);
+                    return true;
+                }
+                else {
+                    UnitMenuController.showError("Your city doesn't have the required resource to create this unit!");
+                    return false;
+                }
             }
         }
-        return "Your civilization doesn't have the required tech to create this unit!";
+        UnitMenuController.showError("Your civilization doesn't have the required tech to create this unit!");
+        return false;
     }
 
-    private static String checkRequiredResourceWhenTechIsNull(Civilization currentCivilization, TypeOfUnit typeOfUnit, Terrain cityCenter,
+    private static void checkRequiredResourceWhenTechIsNull(Civilization currentCivilization, TypeOfUnit typeOfUnit, Terrain cityCenter,
                                                               GameController gameController) {
         Resources requiredResource = typeOfUnit.getResources();
         String check = hasRequiredResource(requiredResource, typeOfUnit);
         if (check != null)
-            return check;
-
-        return "Your city doesn't have the required resource to create this unit!";
+            UnitMenuController.showConfirm(check);
+        else
+            UnitMenuController.showError("Your city doesn't have the required resource to create this unit!");
     }
 
-    //
     private static String hasRequiredResource(Resources requiredResource, TypeOfUnit typeOfUnit) {
-        if (requiredResource == null) {
-            selectedCity.addWantedUnit(typeOfUnit);
-            return "Unit will be created in next turns!";
-        }
-
-        if (cityHasRequiredResource(requiredResource)) {
+        if (requiredResource == null
+                || cityHasRequiredResource(requiredResource)) {
             selectedCity.addWantedUnit(typeOfUnit);
             return "Unit will be created in next turns!";
         }
@@ -114,18 +121,29 @@ public class CreateUnit {
                 + location.getX() + " , " + location.getY() + " ) !";
     }
 
-    public static String changeUnitConstruction(Matcher matcher) {
-        int first = Integer.parseInt(matcher.group("first")) - 1;
-        int second = Integer.parseInt(matcher.group("second")) - 1;
+    public static boolean changeUnitConstruction(String input) {
+        String[] string = input.split(" ");
+        int first = Integer.parseInt(string[0]) - 1;
+        int second = Integer.parseInt(string[1]) - 1;
+        if (selectedCity == null) {
+            CityPanelController.showError("select a city first!");
+            return false;
+        }
+
         ArrayList<TypeOfUnit> wantedUnits = selectedCity.getWantedUnits();
 
-        if (numberIsNotValid(first))
-            return "First number is not valid!";
-        if (numberIsNotValid(second))
-            return "Second number is not valid!";
+        if (numberIsNotValid(first)) {
+            CityPanelController.showError("First number is not valid!");
+            return false;
+        }
+        if (numberIsNotValid(second)) {
+            CityPanelController.showError("Second number is not valid!");
+            return false;
+        }
 
         Collections.swap(wantedUnits, first, second);
-        return "Unit construction changed successfully!";
+        CityPanelController.showConfirm("Unit construction changed successfully!");
+        return true;
     }
 
     public static String removeUnitConstruction(Matcher matcher) {

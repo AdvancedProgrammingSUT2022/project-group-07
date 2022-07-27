@@ -75,7 +75,8 @@ public class GamePageController {
 
     // current civilization Label
     public Label currentCivilizationLabel = new Label() ;
-    public Button cityPanelButton = new Button("City Panel");
+
+    public ImageView cityPanelImageView = new ImageView(new Image(getClass().getResource("/game/assets/Civ_LEADER_CATHERINE_DE_MEDICI.png").toExternalForm())) ;
 
     public void initialize() {
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
@@ -113,8 +114,7 @@ public class GamePageController {
         initializeNextTurnButton();
         initializeOthersPanel() ;
         initializeDiplomacyPanel() ;
-
-        cityPanelButton.setOnMouseClicked(mouseEvent -> CityPanelController.openCityPanel());
+        CityPanelController.initializeCityPanel(cityPanelImageView);
 
         game.getChildren().add(iconPanel);
         game.getChildren().add(researchPanel);
@@ -122,13 +122,13 @@ public class GamePageController {
         game.getChildren().add(nextTurnImageView);
         game.getChildren().add(othersPanel) ;
         game.getChildren().add(diplomacyPanelImageView) ;
+        game.getChildren().add(cityPanelImageView);
 
         game.getChildren().add(currentCivilizationLabel);
         game.getChildren().add(saveButton);
         saveButton.setOnMouseClicked(mouseEvent -> {
             GameController.getInstance().saveData(GameController.getInstance() , "save1");
         });
-        game.getChildren().add(cityPanelButton);
 
         // updating info panel thread
         Thread infoPanelThread = new Thread(() -> {
@@ -267,8 +267,8 @@ public class GamePageController {
         saveButton.setLayoutY(y+300);
         currentCivilizationLabel.setLayoutX(x+300);
         currentCivilizationLabel.setLayoutY(y+200);
-        cityPanelButton.setLayoutX(x);
-        cityPanelButton.setLayoutY(y+510);
+        cityPanelImageView.setLayoutX(x+1000);
+        cityPanelImageView.setLayoutY(y+180);
     }
 
     private void initializeResearchPanel() {

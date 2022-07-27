@@ -34,14 +34,14 @@ public class CityMenu extends Menu {
             if (CityMenuCommands.getMatcher(input, CityMenuCommands.EXIT) != null)
                 break;
             else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.CREATE_UNIT)) != null) {
-                String result = CreateUnit.checkRequiredTechsAndResourcesToCreateUnit(matcher, gameController);
-                System.out.println(result);
+//                String result = CreateUnit.checkRequiredTechsAndResourcesToCreateUnit(matcher, gameController);
+//                System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.BUY_UNIT_WITH_GOLD)) != null) {
                 String result = CreateUnit.buyUnitWithGold(gameController);
                 System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.CHANGE_UNIT_CONSTRUCTION)) != null) {
-                String result = CreateUnit.changeUnitConstruction(matcher);
-                System.out.println(result);
+//                String result = CreateUnit.changeUnitConstruction(matcher);
+//                System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.REMOVE_UNIT_CONSTRUCTION)) != null) {
                 String result = CreateUnit.removeUnitConstruction(matcher);
                 System.out.println(result);
