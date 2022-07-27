@@ -9,12 +9,12 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="950.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.CityPanelController">
+<AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="950.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.CityPanelController" >
    <stylesheets>
       <URL value="@../css/cityPanel.css" />
    </stylesheets>
 
-   <Button fx:id="buyTileButton" layoutX="707.0" layoutY="161.0" mnemonicParsing="false" onAction="#buyTile" prefHeight="40.0" prefWidth="150.0" styleClass="font" text="Buy Tile" />
+   <Button fx:id="buyTileButton" layoutX="700.0" layoutY="177.0" mnemonicParsing="false" onAction="#buyTile" prefHeight="40.0" prefWidth="150.0" styleClass="font" text="Buy Tile" />
    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#46060a" height="376.0" layoutY="276.0" stroke="BLACK" strokeType="INSIDE" width="265.0" />
    <Text layoutX="63.0" layoutY="408.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font" text="Food : " />
    <Text layoutX="63.0" layoutY="455.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font" text="Production :" />
@@ -49,11 +49,12 @@
    </ImageView>
    <Button fx:id="lockButton" layoutX="220.0" layoutY="30.0" mnemonicParsing="false" onAction="#lockCitizen" prefHeight="37.0" prefWidth="254.0" styleClass="font" text="lock citizen to tile" />
    <Button fx:id="removeButton" layoutX="220.0" layoutY="97.0" mnemonicParsing="false" onAction="#removeCitizenWork" prefHeight="37.0" prefWidth="254.0" styleClass="font" text="remove citizen work" />
-   <ImageView fitHeight="81.0" fitWidth="116.0" layoutX="741.0" layoutY="26.0" styleClass="imageView" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true">
+   <ImageView fitHeight="81.0" fitWidth="116.0" layoutX="741.0" layoutY="26.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true" styleClass="imageView">
       <Image url="@../assets/cityInfo/close.png" />
    </ImageView>
    <TextField fx:id="citizen" layoutX="12.0" layoutY="67.0" prefHeight="30.0" prefWidth="191.0" promptText="please initialize citizen" />
    <Button fx:id="changeButton" layoutX="220.0" layoutY="195.0" mnemonicParsing="false" onAction="#changeConstruction" prefHeight="37.0" prefWidth="306.0" styleClass="font" text="change unit construction" />
    <TextField fx:id="constructionText" layoutX="12.0" layoutY="198.0" prefHeight="30.0" prefWidth="191.0" promptText="[first unit] [second unit]" />
-   <Button fx:id="purchaseButton" layoutX="707.0" layoutY="213.0" mnemonicParsing="false" onAction="#purchase" prefHeight="40.0" prefWidth="150.0" styleClass="font" text="Purchase" />
+   <Button fx:id="purchaseButton" layoutX="700.0" layoutY="232.0" mnemonicParsing="false" onAction="#purchase" prefHeight="40.0" prefWidth="150.0" styleClass="font" text="Purchase" />
+   <Button fx:id="showCitizenButton" layoutX="622.0" layoutY="288.0" mnemonicParsing="false" onAction="#showUnemployedCitizens" prefHeight="37.0" prefWidth="306.0" styleClass="font" text="show unemployed citizens" />
 </AnchorPane>

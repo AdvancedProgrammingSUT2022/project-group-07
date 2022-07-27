@@ -10,7 +10,7 @@ module game {
     requires javafx.media;
     requires org.apache.commons.io;
     opens game.Controller to com.google.gson;
-    opens game.Model to com.google.gson;
+    opens game.Model to com.google.gson, javafx.base;
     opens game.Controller.Chat to com.google.gson ;
     opens game.View.controller to javafx.fxml;
     opens game.Controller.menu to javafx.fxml;

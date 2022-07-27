@@ -85,6 +85,7 @@ public class Tile extends Polygon {
         setStroke(Color.WHITE);
         this.terrain = terrain;
         tiles.add(this);
+        if (this.equals(tiles.get(0))) TileController.changeStroke(this, Color.rgb(255,9,0), 5);
     }
 
     public static ArrayList<Tile> getTiles() {
