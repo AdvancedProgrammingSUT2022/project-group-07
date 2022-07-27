@@ -170,7 +170,7 @@ public class GameController {
         this.turn = turn;
     }
 
-    public void nextTurn(GameController gameController) {
+    public void nextTurn(GameController gameController, AnchorPane game) {
         int index = gameController.getCivilizations().indexOf(gameController.getCurrentCivilization());
         if (index == gameController.getCivilizations().size() - 1) {
             gameController.setTurn(gameController.getTurn() + 1);

@@ -4,6 +4,7 @@ package game.View.components;
 import game.Controller.game.*;
 import game.Controller.game.SelectController;
 import game.Enum.Resources;
+import game.Enum.TerrainFeatures;
 import game.Enum.TypeOfTerrain;
 import game.Main;
 import game.Model.Civilization;
@@ -92,7 +93,7 @@ public class Tile extends Polygon {
 
 
     public void setBackground(String addressType, String addressTypeFeature, Resources resources,
-                              TypeOfTerrain typeOfTerrain, TerrainFeatures tFeature)
+                              TypeOfTerrain typeOfTerrain)
     {
         URL address = getClass().getResource("/game/assets/civAsset/map/Tiles/terrainsAndFeatures/" + addressTypeFeature);
         setFill(new ImagePattern((new Image(getClass().getResource("/game/assets/civAsset/map/Tiles/terrainsAndFeatures/"
