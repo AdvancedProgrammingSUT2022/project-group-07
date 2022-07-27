@@ -1,5 +1,6 @@
 package game.Client.View.controller;
 
+import game.Client.ClientDataController;
 import game.Common.Enum.Resources;
 import game.Common.Enum.TypeOfDiplomacy;
 import game.Common.Enum.TypeOfRelation;
@@ -68,7 +69,7 @@ public class DiplomacyMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        init();
-        currentCivilization = GameController.getInstance().getCurrentCivilization();
+        currentCivilization = ClientDataController.getGameController().getCurrentCivilization();
 
         for (Tab tab : tabPane.getTabs()) {
             tab.setOnSelectionChanged(event -> selectedPage = tabPane.getSelectionModel().getSelectedItem().getText());
@@ -110,7 +111,7 @@ public class DiplomacyMenuController implements Initializable {
         players.add(new User());
         players.add(new User());
 
-        GameController gameController = GameController.getInstance();
+        GameController gameController = ClientDataController.getGameController();
         gameController.setPlayers(players);
         gameController.initialize();
         NotificationController.runNotification(gameController);
@@ -125,11 +126,6 @@ public class DiplomacyMenuController implements Initializable {
         }
     }
 
-    public void nextTurn() {
-        GameController.getInstance().nextTurn(GameController.getInstance());
-        currentCivilization = GameController.getInstance().getCurrentCivilization();
-    }
-
     public void showNullCivilizationAlert (){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText("Please choose a civilization to deal with !");
@@ -137,7 +133,7 @@ public class DiplomacyMenuController implements Initializable {
     }
 
     public Civilization getReceiverCivilization (String name){
-        for (Civilization civilization : GameController.getInstance().getCivilizations()) {
+        for (Civilization civilization : ClientDataController.getGameController().getCivilizations()) {
             if (civilization.getName().equals(name))
                 return civilization;
         }
@@ -146,7 +142,7 @@ public class DiplomacyMenuController implements Initializable {
 
     // diplomacy page methods
     public void loadDiplomacyPage (){
-        loadDiplomacyChoiceBox(GameController.getInstance() , diplomacyChooseCivilizationChoiceBox);
+        loadDiplomacyChoiceBox(ClientDataController.getGameController() , diplomacyChooseCivilizationChoiceBox);
         loadDiplomacyButtonActions() ;
         if (receiverCivilization == null)
             return;
@@ -238,7 +234,7 @@ public class DiplomacyMenuController implements Initializable {
 
     // trade page methods
     private void loadTradePage() {
-        loadDiplomacyChoiceBox(GameController.getInstance() , diplomacyChooseCivilizationChoiceBoxForTrade);
+        loadDiplomacyChoiceBox(ClientDataController.getGameController() , diplomacyChooseCivilizationChoiceBoxForTrade);
         whatYouWillGetGridPane.getChildren().clear();
         whatTheyWillGetGridPane.getChildren().clear();
         whatYouWillGetImageView.setImage(null);

@@ -3,13 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/16"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.Client.View.controller.playOnlineMenuController">
-    <Button layoutX="401.0" layoutY="335.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="175.0"
-            text="Join a game"/>
-    <Button onMouseClicked="#openFriendsLobbyMenu" layoutX="401.0" layoutY="400.0" mnemonicParsing="false"
-            prefHeight="30.0" prefWidth="175.0" text="Friends Lobby"/>
-    <Button layoutX="401.0" layoutY="271.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="175.0"
-            text="Host a game"/>
+<AnchorPane styleClass="anchorPane" prefHeight="700.0" prefWidth="1100.0" stylesheets="@../CSS/mainPage.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.Client.View.controller.playOnlineMenuController">
+    <Button layoutX="463.0" layoutY="335.0" mnemonicParsing="false" onMouseClicked="#joinGameMenu" prefHeight="30.0" prefWidth="175.0" text="Join a game" />
+    <Button layoutX="463.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#openFriendsLobbyMenu" prefHeight="30.0" prefWidth="175.0" text="Friends Lobby" />
+    <Button layoutX="463.0" layoutY="271.0" mnemonicParsing="false" onMouseClicked="#hostGameMenu" prefHeight="30.0" prefWidth="175.0" text="Host a game" />
+   <Button layoutX="463.0" layoutY="460.0" mnemonicParsing="false" onMouseClicked="#back" prefHeight="30.0" prefWidth="175.0" text="Back" />
 </AnchorPane>

@@ -2,8 +2,9 @@ package game.Common.Model;
 
 import game.Common.Enum.Network.TypeOfResponseParameter;
 import game.Common.Enum.TypeOfResponse;
+import game.Server.Controller.Chat.Message;
+import game.Server.Controller.game.GameControllerDecoy;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,6 +19,36 @@ public class ServerResponse {
     ArrayList<User> users ;
 
     ArrayList<FriendshipRequest> friendshipRequests = new ArrayList<>() ;
+
+    GameControllerDecoy gameControllerDecoy ;
+    String queuedGameUUID ;
+
+    ArrayList<String> uuids ;
+    ArrayList<Message> messagesArrayList = new ArrayList<>() ;
+
+
+    public void setUuids(ArrayList<String> uuids) {
+        this.uuids = uuids;
+    }
+
+    public ArrayList<String> getUuids() {
+        return uuids;
+    }
+
+    public ServerResponse (TypeOfResponse typeOfResponse , GameControllerDecoy gameControllerDecoy , String UUID){
+        this.typeOfResponse = typeOfResponse ;
+        this.gameControllerDecoy = gameControllerDecoy ;
+        this.queuedGameUUID = UUID ;
+    }
+
+    public ServerResponse (TypeOfResponse typeOfResponse , ArrayList<Message> messages , String message){
+        this.typeOfResponse = typeOfResponse ;
+        this.messagesArrayList = messages ;
+    }
+
+    public String getQueuedGameUUID() {
+        return queuedGameUUID;
+    }
 
     public ServerResponse (TypeOfResponse typeOfResponse , ArrayList<FriendshipRequest> friendshipRequests , boolean isFriendship){
         this.typeOfResponse = typeOfResponse ;
@@ -87,5 +118,13 @@ public class ServerResponse {
 
     public ArrayList<FriendshipRequest> getFriendshipRequests() {
         return friendshipRequests;
+    }
+
+    public GameControllerDecoy getGameControllerDecoy() {
+        return gameControllerDecoy;
+    }
+
+    public ArrayList<Message> getMessagesArrayList() {
+        return messagesArrayList ;
     }
 }

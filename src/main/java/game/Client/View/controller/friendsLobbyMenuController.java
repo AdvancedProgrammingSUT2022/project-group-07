@@ -14,6 +14,7 @@ import game.Server.Controller.game.GameController;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -51,8 +52,9 @@ public class friendsLobbyMenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        for (Tab tab : tabPane.getTabs())
+        for (Tab tab : tabPane.getTabs()) {
             tab.setOnSelectionChanged(event -> selectedPage = tabPane.getSelectionModel().getSelectedItem().getText());
+        }
 
         Thread updateScreen = new Thread(() -> {
             Runnable runnable = () -> {
@@ -99,8 +101,6 @@ public class friendsLobbyMenuController implements Initializable {
                 requestsSentForOtherPlayersVBox.getChildren().add(getRequestSentHBox(friendshipRequest));
         } else
             showAlert(Alert.AlertType.INFORMATION , "something went wrong in server !");
-
-        System.out.println("request sent loaded fully");
     }
 
     private HBox getRequestSentHBox (FriendshipRequest friendshipRequest){
@@ -130,12 +130,12 @@ public class friendsLobbyMenuController implements Initializable {
                 requestsReceivedFromOtherPlayers.getChildren().add(getRequestReceivedHBox(friendshipRequest));
         } else
             showAlert(Alert.AlertType.INFORMATION , "something went wrong in server !");
-
-        System.out.println("request received loaded fully");
     }
 
     private HBox getRequestReceivedHBox(FriendshipRequest friendshipRequest) {
         HBox hBox = new HBox();
+        hBox.getStyleClass().add("hbox");
+
         hBox.getChildren().add(new Label("from " + friendshipRequest.getSender())) ;
 
         if (friendshipRequest.isAccepted()){
@@ -146,6 +146,7 @@ public class friendsLobbyMenuController implements Initializable {
             hBox.setStyle("-fx-background-color: gray");
             // accept button
             Button accept = new Button("Accept") ;
+            accept.getStyleClass().add("acceptButton");
             accept.setOnMouseClicked(mouseEvent -> {
                 try {
                     Main.getClientHandler().sendRequest(new ClientRequest(TypeOfRequest.ACCEPT_FRIENDSHIP_REQUEST, friendshipRequest));
@@ -158,6 +159,7 @@ public class friendsLobbyMenuController implements Initializable {
             hBox.getChildren().add(accept);
             // reject button
             Button reject = new Button("Reject") ;
+            reject.getStyleClass().add("rejectButton");
             reject.setOnMouseClicked(mouseEvent -> {
                 try {
                     Main.getClientHandler().sendRequest(new ClientRequest(TypeOfRequest.REJECT_FRIENDSHIP_REQUEST, friendshipRequest));
@@ -185,7 +187,10 @@ public class friendsLobbyMenuController implements Initializable {
     }
 
     private HBox addFriendHBox (String name){
+        friendsVBox.setAlignment(Pos.CENTER);
         HBox hBox = new HBox();
+        hBox.getStyleClass().add("hbox") ;
+        hBox.setAlignment(Pos.CENTER);
         hBox.getChildren().add(new Label(name));
         return hBox ;
     }

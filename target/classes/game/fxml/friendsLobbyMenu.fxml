@@ -3,21 +3,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane fx:id="tabPane" prefHeight="700.0" prefWidth="1100.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.Client.View.controller.friendsLobbyMenuController">
+<TabPane styleClass="tabPane" stylesheets="@../CSS/friendsLobbyMenu.css" fx:id="tabPane" prefHeight="700.0" prefWidth="1100.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.Client.View.controller.friendsLobbyMenuController">
     <Tab text="Send Request">
         <AnchorPane fx:id="sendRequestAnchorPane" minHeight="0.0" minWidth="0.0">
             <TextField fx:id="playerUsernameTextField" layoutX="399.0" layoutY="165.0" prefHeight="50.0" prefWidth="250.0" />
             <Label layoutX="482.0" layoutY="129.0" text="Enter a player's Username" />
             <Button layoutX="649.0" layoutY="165.0" mnemonicParsing="false" onMouseClicked="#getPlayerByUsernameForFriendRequest" prefHeight="50.0" prefWidth="52.0" text="Search" />
             <VBox fx:id="sendRequestVBox" layoutX="400.0" layoutY="336.0" prefHeight="125.0" prefWidth="300.0" />
-         <Button onMouseClicked="#back" layoutX="89.0" layoutY="600.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="121.0" text="Back" />
+         <Button styleClass="backButton" onMouseClicked="#back" layoutX="89.0" layoutY="600.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="121.0" text="Back" />
         </AnchorPane>
     </Tab>
 
     <Tab text="Friends">
         <AnchorPane fx:id="FriendsAnchorPane" minHeight="0.0" minWidth="0.0">
             <VBox fx:id="friendsVBox" layoutX="415.0" layoutY="159.0" prefHeight="353.0" prefWidth="271.0" />
-            <Button onMouseClicked="#back" layoutX="89.0" layoutY="600.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="121.0" text="Back" />
+            <Button styleClass="backButton" onMouseClicked="#back" layoutX="89.0" layoutY="600.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="121.0" text="Back" />
         </AnchorPane>
     </Tab>
 
@@ -28,7 +28,7 @@
             <Label layoutX="724.0" layoutY="109.0" text="Requests received from other players" />
             <VBox fx:id="requestsSentForOtherPlayersVBox" layoutX="149.0" layoutY="170.0" prefHeight="328.0" prefWidth="200.0" />
          <VBox fx:id="requestsReceivedFromOtherPlayers" layoutX="723.0" layoutY="172.0" prefHeight="328.0" prefWidth="200.0" />
-            <Button onMouseClicked="#back" layoutX="89.0" layoutY="600.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="121.0" text="Back" />
+            <Button styleClass="backButton" onMouseClicked="#back" layoutX="89.0" layoutY="600.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="121.0" text="Back" />
         </AnchorPane>
     </Tab>
 

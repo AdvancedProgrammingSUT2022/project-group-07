@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane styleClass="anchorPane" stylesheets="@../CSS/mainPage.css" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.Client.View.joinGameMenu">
+   <VBox fx:id="vBox" layoutX="400.0" layoutY="180.0" prefHeight="340.0" prefWidth="300.0" />
+   <Button onMouseClicked="#back" layoutX="85.0" layoutY="607.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="112.0" text="Back" />
+</AnchorPane>

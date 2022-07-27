@@ -300,12 +300,6 @@ public class MapController {
         System.out.println(location.getY());
         gamePage.setTranslateX(-location.getY()* 80);
         gamePage.setTranslateY(-location.getX()*100);
-//        if (mapCenter == null)
-//            mapCenter = new Location(location.getX(), location.getY());
-//        else {
-//            mapCenter.setX(location.getX());
-//            mapCenter.setY(location.getY());
-//        }
     }
 
     public static String moveMap(Matcher matcher) {
@@ -359,10 +353,18 @@ public class MapController {
         return out;
     }
 
-    public static void setBackgrounds(Tile[][] map) {
+    public static void setBackgrounds(GameController gameController , Tile[][] map) {
         for (Tile[] tiles : map) {
             for (Tile tile : tiles) {
-                TileController.findBackGround(tile);
+                TileController.findBackGround(gameController , tile);
+            }
+        }
+    }
+
+    public static void setBackgroundsInClientSize(GameController gameController, Tile[][] map) {
+        for (Tile[] tiles : map) {
+            for (Tile tile : tiles) {
+                TileController.findBackGroundInClientSide(gameController , tile);
             }
         }
     }

@@ -1,5 +1,6 @@
 package game.Client.View.controller;
 
+import game.Client.ClientDataController;
 import game.Server.Controller.game.GameController;
 import game.Server.Controller.game.LogAndNotification.NotificationController;
 import game.Common.Enum.TypeOfTechnology;
@@ -183,7 +184,7 @@ public class TechnologyTreeController implements Initializable {
         for (HBox hBox : hBoxes) {
             String techName = ( (Label) hBox.getChildren().get(1)).getText() ;
             TypeOfTechnology typeOfTechnology = getTechnologyByName(techName) ;
-            Civilization currentCivilization = GameController.getInstance().getCurrentCivilization();
+            Civilization currentCivilization = ClientDataController.getGameController().getCurrentCivilization();
 
             if (currentCivilization.getGainedTypeOfTechnologies().contains(typeOfTechnology)){
                 hBox.getStyleClass().add("greenBox") ;
@@ -212,7 +213,7 @@ public class TechnologyTreeController implements Initializable {
     }
 
     public void handleClick(TypeOfTechnology typeOfTechnology){
-        Civilization currentCivilization = GameController.getInstance().getCurrentCivilization();
+        Civilization currentCivilization = ClientDataController.getGameController().getCurrentCivilization();
         if ( typeOfTechnology.getPrerequisiteTech() == null
                 || currentCivilization.getGainedTypeOfTechnologies().containsAll(List.of(typeOfTechnology.getPrerequisiteTech()))){
             if (currentCivilization.getScience()==0){

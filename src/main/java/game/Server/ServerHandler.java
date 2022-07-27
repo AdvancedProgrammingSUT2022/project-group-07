@@ -2,6 +2,8 @@ package game.Server;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import game.Common.Enum.Network.TypeOfRequest;
+import game.Common.Enum.Network.TypeOfRequestParameter;
 import game.Common.Enum.TypeOfResponse;
 import game.Common.Model.Network.ClientRequest;
 import game.Common.Model.ServerResponse;
@@ -16,6 +18,7 @@ import java.util.List;
 public class ServerHandler extends Thread {
 
     final protected Socket socket ;
+    protected String username ;
     protected DataOutputStream dataOutputStream ;
     protected DataInputStream dataInputStream ;
 
@@ -34,16 +37,22 @@ public class ServerHandler extends Thread {
         while (true){
             try {
                 // getting request from client
-
                 String request = dataInputStream.readUTF();
-                ClientRequest request1 = new Gson().fromJson(request , new TypeToken<ClientRequest>(){}.getType());
+                ClientRequest clientRequest = new Gson().fromJson(request , new TypeToken<ClientRequest>(){}.getType());
 
-                System.out.println(request1 + " received from client " + socket);
-                System.out.println(request1.getTypeOfRequest());
-                System.out.println(request1.getParams());
+                System.out.println(clientRequest + " received from client " + socket);
+                System.out.println(clientRequest.getTypeOfRequest());
+                System.out.println(clientRequest.getParams());
 
                 // handling request
-                ServerResponse serverResponse = RequestHandler.handle(request1);
+                ServerResponse serverResponse = RequestHandler.handle(clientRequest);
+
+                // setting name for this server handler for future use
+                if (clientRequest.getTypeOfRequest().equals(TypeOfRequest.LOGIN)
+                        && serverResponse.getTypeOfResponse().equals(TypeOfResponse.OK)){
+                    username = (String) clientRequest.getParams().get(TypeOfRequestParameter.USERNAME);
+                    System.out.println(username + " set as username of server handler " + this);
+                }
 
                 // sending response to client
                 String response = new Gson().toJson(serverResponse);
@@ -55,7 +64,6 @@ public class ServerHandler extends Thread {
                 break;
             }
         }
-        closeConnection();
     }
 
     public void closeConnection (){
@@ -70,4 +78,19 @@ public class ServerHandler extends Thread {
             }
         } while (!socket.isClosed()) ;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void sendResponse (ServerResponse serverResponse) throws IOException {
+        dataOutputStream.writeUTF(new Gson().toJson(serverResponse));
+        dataOutputStream.flush();
+    }
+
+    public ClientRequest getResponseFromClient () throws IOException {
+        String response = dataInputStream.readUTF();
+        return new Gson().fromJson(response, new TypeToken<ClientRequest>() {}.getType());
+    }
+
 }

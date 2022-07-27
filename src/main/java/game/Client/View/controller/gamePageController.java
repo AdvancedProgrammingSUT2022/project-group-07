@@ -1,29 +1,35 @@
 package game.Client.View.controller;
 
+import game.Client.ClientDataController;
 import game.Client.Main;
 import game.Client.View.components.Tile;
 import game.Common.Enum.Building;
+import game.Common.Enum.Network.TypeOfRequest;
+import game.Common.Enum.TypeOfResponse;
 import game.Common.Enum.TypeOfUnit;
 import game.Common.Model.*;
-import game.Server.Controller.game.GameController;
+import game.Common.Model.Network.ClientRequest;
+import game.Server.Controller.game.GameControllerDecoy;
 import game.Server.Controller.game.LogAndNotification.NotificationController;
 import game.Server.Controller.game.MapController;
 import game.Server.Controller.game.MapMovement;
 import game.Server.Controller.game.SelectController;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 public class gamePageController {
-
     public AnchorPane game;
     public double firstX;
     public double firstY;
@@ -68,35 +74,18 @@ public class gamePageController {
     // diplomacy panel stuff
     public ImageView diplomacyPanelImageView = new ImageView(new Image(getClass().getResource("/game/images/icons/DIPLOMACY_ICON.png").toExternalForm())) ;
 
-    public void initialize() {
-        Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
-        firstX = game.getTranslateX();
-        firstY = game.getTranslateY();
-        Tile[][] map = GameController.getInstance().getMap();
-        for (Tile[] tiles : map) {
-            for (Tile tile  : tiles) {
-                game.getChildren().add(tile);
-                if (tile.getFeature() != null)
-                    game.getChildren().add(tile.getFeature());
-                tile.updateUnitBackground();
-                if (tile.getCivilUnit() != null) game.getChildren().add(tile.getCivilUnit());
+    public ImageView notYourTurnImageView = new ImageView(new Image(Main.class.getResource("/game/images/icons/NOT_YOUR_TURN.gif").toExternalForm())) ;
 
-                if (tile.getTerrain().hasRuin()
-                        && GameController.getInstance().getCurrentCivilization().getVisibleTerrains().contains(tile.getTerrain()))
-                {
-                    ImageView imageView = new ImageView(new Image(getClass().getResource("/game/images/Tiles/Ruin.png").toExternalForm()));
-                    imageView.setFitWidth(60);
-                    imageView.setFitHeight(60);
-                    imageView.setLayoutX(tile.getX());
-                    imageView.setLayoutY(tile.getY());
-                    Tooltip.install(imageView , new Tooltip("Gives you " + tile.getTerrain().getTypeOfRuin().toString().replace("FREE_" , "")+" !"));
-                    game.getChildren().add(imageView);
-                }
-            }
+    public void initialize() {
+
+        ClientDataController.updateThisCivilization();
+        Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
+
+        for (Unit unit : ClientDataController.getThisCivilization().getUnits()) {
+            System.out.println(unit + " type of " + unit.getTypeOfUnit() + " at " + unit.getLocation().getX() + " and " + unit.getLocation().getY());
         }
 
-        MapController.setMapCenter(GameController.getInstance().getCurrentCivilization().getUnits().get(0).getLocation() ,
-                game);
+        drawTiles();
         // initializing panels
         initializeIconPanel();
         initializeResearchPanel();
@@ -105,12 +94,35 @@ public class gamePageController {
         initializeOthersPanel() ;
         initializeDiplomacyPanel() ;
 
-        game.getChildren().add(iconPanel);
-        game.getChildren().add(researchPanel);
-        game.getChildren().add(selectedUnitPanel);
-        game.getChildren().add(nextTurnImageView);
-        game.getChildren().add(othersPanel) ;
-        game.getChildren().add(diplomacyPanelImageView) ;
+
+        for (Civilization civilization : ClientDataController.gameController.getCivilizations()) {
+            System.out.println(civilization.getUnits());
+            System.out.println(civilization.getUnits().size());
+        }
+
+        // receiving data from server thread
+        Thread receivingThread = new Thread(() -> {
+            ServerResponse serverResponse;
+            while (true){
+                try {
+                    serverResponse = Main.getClientHandler().getResponse();
+                    System.out.println("server responses !");
+                    System.out.println("it is " + serverResponse.getTypeOfResponse());
+                    if (serverResponse.getTypeOfResponse().equals(TypeOfResponse.GAME_UNDER_ACTION)) {
+                        ClientDataController.setGameController(serverResponse.getGameControllerDecoy());
+                        ClientDataController.updateThisCivilization();
+                        Platform.runLater(this::drawTiles);
+                    } else if (serverResponse.getTypeOfResponse().equals(TypeOfResponse.GAME_ENDED)) {
+                        // close this page
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+        receivingThread.setDaemon(true);
+        receivingThread.start();
 
         // updating info panel thread
         Thread infoPanelThread = new Thread(() -> {
@@ -118,11 +130,14 @@ public class gamePageController {
                 updateLabels();
                 updateResearchPanel();
                 updateSelectedUnitPanel();
+                ClientDataController.updateThisCivilization();
             } ;
             while (true) {
                 Platform.runLater(runnable);
-                try {Thread.sleep(10);}
-                catch (InterruptedException ignored) {}
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ignored) {
+                }
             }
         });
         infoPanelThread.setDaemon(true);
@@ -150,16 +165,63 @@ public class gamePageController {
         miniPanelsThread.setDaemon(true);
         miniPanelsThread.start();
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                game.requestFocus();
-            }
-        });
+    }
 
+    public void drawTiles (){
+        firstX = game.getTranslateX();
+        firstY = game.getTranslateY();
+        Tile[][] map = ClientDataController.getGameController().getMap();
+        for (Tile[] tiles : map) {
+            for (Tile tile  : tiles) {
+                game.getChildren().remove(tile);
+                game.getChildren().add(tile);
+                if (tile.getFeature() != null) {
+                    game.getChildren().remove(tile.getFeature());
+                    game.getChildren().add(tile.getFeature());
+                }
+                tile.updateUnitBackground(ClientDataController.getGameController());
+                if (tile.getCivilUnit() != null) {
+                    game.getChildren().remove(tile.getCivilUnit());
+                    game.getChildren().add(tile.getCivilUnit());
+                }
+
+                if (tile.getTerrain().hasRuin()
+                        && ClientDataController.getThisCivilization().getVisibleTerrains().contains(tile.getTerrain()))
+                {
+                    ImageView imageView = new ImageView(new Image(getClass().getResource("/game/images/Tiles/Ruin.png").toExternalForm()));
+                    imageView.setFitWidth(60);
+                    imageView.setFitHeight(60);
+                    imageView.setLayoutX(tile.getX());
+                    imageView.setLayoutY(tile.getY());
+                    Tooltip.install(imageView , new Tooltip("Gives you " + tile.getTerrain().getTypeOfRuin().toString().replace("FREE_" , "")+" !"));
+                    game.getChildren().add(imageView);
+                }
+            }
+        }
+        MapController.setMapCenter(ClientDataController.getThisCivilization().getUnits().get(0).getLocation() , game);
+
+        game.getChildren().remove(iconPanel);
+        game.getChildren().remove(researchPanel);
+        game.getChildren().remove(selectedUnitPanel);
+        game.getChildren().remove(nextTurnImageView);
+        game.getChildren().remove(othersPanel);
+        game.getChildren().remove(diplomacyPanelImageView);
+
+        game.getChildren().add(iconPanel);
+        game.getChildren().add(researchPanel);
+        game.getChildren().add(selectedUnitPanel);
+        game.getChildren().add(nextTurnImageView);
+        game.getChildren().add(othersPanel) ;
+        game.getChildren().add(diplomacyPanelImageView) ;
+
+        if (ClientDataController.getThisCivilization().equals(ClientDataController.getGameController().getCurrentCivilization())) {
+            if (!game.getChildren().contains(notYourTurnImageView))
+                game.getChildren().add(notYourTurnImageView);
+        } else game.getChildren().remove(notYourTurnImageView);
     }
 
     public void move(KeyEvent keyEvent) {
+        System.out.println(keyEvent.getCode() + " pressed!");
         switch (keyEvent.getCode()) {
             case LEFT -> MapMovement.moveLeft(game, firstX);
             case RIGHT -> MapMovement.moveRight(game, firstX);
@@ -210,9 +272,9 @@ public class gamePageController {
     }
 
     public void updateLabels (){
-        goldLabel.setText(GameController.getInstance().getCurrentCivilization().getGold()+"");
-        scienceLabel.setText(GameController.getInstance().getCurrentCivilization().getScience()+"");
-        happinessLabel.setText(GameController.getInstance().getCurrentCivilization().getHappiness()+"");
+        goldLabel.setText(ClientDataController.getThisCivilization().getGold()+"");
+        scienceLabel.setText(ClientDataController.getThisCivilization().getScience()+"");
+        happinessLabel.setText(ClientDataController.getThisCivilization().getHappiness()+"");
     }
 
     public void updateInfoPanelPosition(){
@@ -230,6 +292,11 @@ public class gamePageController {
         othersPanel.setLayoutY(0+y);
         diplomacyPanelImageView.setLayoutX(x+1000);
         diplomacyPanelImageView.setLayoutY(y+80);
+
+            notYourTurnImageView.setFitWidth(200);
+            notYourTurnImageView.setFitHeight(200);
+            notYourTurnImageView.setLayoutX(x+400);
+            notYourTurnImageView.setLayoutY(y+250);
     }
 
     private void initializeResearchPanel() {
@@ -250,13 +317,13 @@ public class gamePageController {
 
         try {
             currentResearchImageView.setImage(new Image(
-                    Main.class.getResource("/game/images/technologies/" + GameController.getInstance().getCurrentCivilization().getCurrentResearch().getTypeOfTechnology().getName() + ".png").toExternalForm())) ;
-            int predictedTurns = GameController.getInstance().getCurrentCivilization().getCurrentResearch().getTypeOfTechnology().getScienceNeeded() / GameController.getInstance().getCurrentCivilization().getScience() ;
-            double progress = ((double) GameController.getInstance().getCurrentCivilization().getCurrentResearch().getRemainingTurns()) / ((double) predictedTurns );
+                    Main.class.getResource("/game/images/technologies/" + ClientDataController.getThisCivilization().getCurrentResearch().getTypeOfTechnology().getName() + ".png").toExternalForm())) ;
+            int predictedTurns = ClientDataController.getThisCivilization().getCurrentResearch().getTypeOfTechnology().getScienceNeeded() / ClientDataController.getGameController().getCurrentCivilization().getScience() ;
+            double progress = ((double) ClientDataController.getThisCivilization().getCurrentResearch().getRemainingTurns()) / ((double) predictedTurns );
             progressBar.setProgress(progress);
             if (!researchPanel.getItems().contains(progressBar))
                 researchPanel.getItems().add(progressBar) ;
-            progressBar.setTooltip(new Tooltip(GameController.getInstance().getCurrentCivilization().getCurrentResearch().getTypeOfTechnology().getName()));
+            progressBar.setTooltip(new Tooltip(ClientDataController.getThisCivilization().getCurrentResearch().getTypeOfTechnology().getName()));
         } catch (NullPointerException e){
             currentResearchImageView.setImage(new Image(
                     Main.class.getResource("/game/images/icons/Research.png").toExternalForm()));
@@ -313,7 +380,14 @@ public class gamePageController {
         nextTurnImageView.setFitWidth(100);
         nextTurnImageView.setPreserveRatio(true);
         nextTurnImageView.getStyleClass().add("nextTurn") ;
-        nextTurnImageView.setOnMouseClicked(mouseEvent -> GameController.getInstance().nextTurn(GameController.getInstance()));
+        // TODO : send a request to server to say that this game needs to go to next turn
+        nextTurnImageView.setOnMouseClicked(mouseEvent -> {
+            try {
+                Main.getClientHandler().sendRequest(new ClientRequest(TypeOfRequest.NEXT_TURN , new GameControllerDecoy(ClientDataController.getGameController()) , ClientDataController.uuid));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         nextTurnImageView.setImage(new Image(getClass().getResource("/game/images/icons/NEXT_TURN_ICON.png").toExternalForm()));
     }
 
@@ -358,12 +432,12 @@ public class gamePageController {
     }
 
     public void updateDemographicStatus (){
-        Civilization civilization = GameController.getInstance().getCurrentCivilization();
+        Civilization civilization = ClientDataController.getThisCivilization();
         ArrayList<City> cities = civilization.getCities();
         int numberOfTilesOwned = 0 ;
         for (City city : cities)
             numberOfTilesOwned += city.getTerrains().size();
-        float progress = ((float) numberOfTilesOwned*100) / (float)(GameController.getInstance().getMapHeight()*GameController.getInstance().getMapWidth()) ;
+        float progress = ((float) numberOfTilesOwned*100) / (float)(ClientDataController.getGameController().getMapHeight()*ClientDataController.getGameController().getMapWidth()) ;
         String demographicInfo = String.format("Total gold : %d\nTotal food : %d\nCities : %d\nTiles owned : %d\nRoad and Railroads : %d\nTotal progress : %f percent"
                 , civilization.getGold() , civilization.getFood() , cities.size() , numberOfTilesOwned
                 , civilization.getNumberOfRailroadsAndRoads() , progress);
@@ -372,7 +446,7 @@ public class gamePageController {
 
     public void updateNotificationsStatus (){
         StringBuilder notificationInfo = new StringBuilder();
-        ArrayList<Notification> currentCivilizationNotifications = NotificationController.getNotifications().get(GameController.getInstance().getCurrentCivilization()) ;
+        ArrayList<Notification> currentCivilizationNotifications = NotificationController.getNotifications().get(ClientDataController.getThisCivilization()) ;
 
         if (currentCivilizationNotifications==null){
             if (notificationInfo.toString().length()==0)
@@ -384,7 +458,7 @@ public class gamePageController {
             Notification currentCivilizationNotification = currentCivilizationNotifications.get(i);
             notificationInfo.append(String.format("%s\n\t%3d turns ago at %s\n"
                     , currentCivilizationNotification.getMessage()
-                    , GameController.getInstance().getTurn() - currentCivilizationNotification.getTurnOfCreation()
+                    , ClientDataController.getGameController().getTurn() - currentCivilizationNotification.getTurnOfCreation()
                     , currentCivilizationNotification.getRealTimeCreated()));
         }
         notificationLabel.setTooltip(new Tooltip(notificationInfo.toString()));
@@ -392,7 +466,7 @@ public class gamePageController {
 
     public void updateMilitaryStatus (){
         StringBuilder militaryInfo = new StringBuilder();
-        Civilization civilization = GameController.getInstance().getCurrentCivilization();
+        Civilization civilization = ClientDataController.getThisCivilization();
         for (Unit unit : civilization.getUnits()) {
             if (unit.getTypeOfUnit()== TypeOfUnit.WORKER || unit.getTypeOfUnit()==TypeOfUnit.SETTLER)
                 continue;
@@ -406,7 +480,7 @@ public class gamePageController {
     }
 
     public void updateEconomyStatus (){
-        Civilization civilization = GameController.getInstance().getCurrentCivilization();
+        Civilization civilization = ClientDataController.getThisCivilization();
         ArrayList<City> cities = civilization.getCities();
         int totalDefencePower = 0 ;
         int totalProduction = 0;

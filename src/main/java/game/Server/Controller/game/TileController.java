@@ -1,5 +1,6 @@
 package game.Server.Controller.game;
 
+import game.Client.ClientDataController;
 import game.Client.Main;
 import game.Common.Model.Terrain;
 import game.Client.View.components.Tile;
@@ -18,10 +19,28 @@ public class TileController {
         return tile;
     }
 
-    public static void findBackGround(Tile tile) {
-        if (!GameController.getInstance().getCurrentCivilization().getVisibleTerrains().contains(tile.getTerrain())) {
+    public static void findBackGround(GameController gameController , Tile tile) {
+        if (gameController.getCurrentCivilization().getVisibleTerrains().contains(tile.getTerrain())) {
             tile.setFill(new ImagePattern(image));
 //            tile.setFill(Color.DARKGRAY);
+            return;
+        }
+        String address1, address2 = null;
+        address1 = tile.getTerrain().getTypeOfTerrain().getName() + ".png";
+
+        if (tile.getTerrain().getTerrainFeatures() != null) {
+//            System.out.println("Type of feature = " + typeOfTerrainFeatureUsed.getName() + "    Terrain = " + typeOfTerrainUsed.getName());
+            address2 = tile.getTerrain().getTypeOfTerrain().getName() + "+"
+                    + tile.getTerrain().getTerrainFeatures().getName() + ".png";
+        }
+        tile.setBackground(address1, address2, tile.getTerrain().getResources()
+                , tile.getTerrain().getTypeOfTerrain() ,
+                tile.getTerrain().getTerrainFeatures());
+    }
+
+    public static void findBackGroundInClientSide(GameController gameController , Tile tile) {
+        if (!ClientDataController.getThisCivilization().getVisibleTerrains().contains(tile.getTerrain())) {
+            tile.setFill(new ImagePattern(image));
             return;
         }
         String address1, address2 = null;

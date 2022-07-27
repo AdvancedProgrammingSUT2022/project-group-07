@@ -5,18 +5,31 @@ import com.google.gson.reflect.TypeToken;
 import game.Common.Enum.TypeOfResponse;
 import game.Common.Model.Network.ClientRequest;
 import game.Common.Model.ServerResponse;
+import game.Server.Controller.game.GameController;
+import game.Server.Controller.game.GameControllerDecoy;
 
 import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 
-public class ClientHandler{
+public class ClientHandler extends Thread{
 
     final protected Socket socket ;
     protected DataOutputStream dataOutputStream ;
     protected DataInputStream dataInputStream ;
 
     protected ServerResponse serverResponse ;
+
+    GameControllerDecoy gameControllerDecoy ;
+    String gameUUID ;
+
+    public String getGameUUID() {
+        return gameUUID;
+    }
+
+    public GameControllerDecoy getGameControllerDecoy() {
+        return gameControllerDecoy;
+    }
 
     public Socket getSocket() {
         return socket;
@@ -43,15 +56,4 @@ public class ClientHandler{
         return serverResponse ;
     }
 
-//    @Override
-//    public void run() {
-//        String response = null;
-//
-//        while (true) {
-//            try {
-//                response = dataInputStream.readUTF();
-//                serverResponse = new Gson().fromJson(response, new TypeToken<ServerResponse>() {}.getType());
-//            } catch (IOException e) {System.out.println(e.getMessage());}
-//        }
-//    }
 }

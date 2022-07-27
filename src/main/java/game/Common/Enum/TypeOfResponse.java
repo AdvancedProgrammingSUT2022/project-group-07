@@ -5,5 +5,8 @@ public enum TypeOfResponse {
     FORBIDDEN ,
     BAD_REQUEST_FORMAT ,
     WAITING ,
-    NOT_FOUND ;
+    NOT_FOUND ,
+    GAME_UNDER_ACTION ,
+    INITIALIZE_GAME,
+    GAME_ENDED, START_GAME;
 }

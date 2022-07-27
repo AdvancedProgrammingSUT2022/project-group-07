@@ -22,4 +22,14 @@ module game {
 
     opens game.Client.View.controller.ChatControllers to javafx.fxml;
     exports game.Client;
+
+    exports game.Server.Controller.game to com.google.gson ;
+    exports game.Client.View to javafx.fxml ;
+    opens game.Client.View to javafx.fxml ;
+
+    exports game.Client.View.components to javafx.fxml ;
+
+    exports game.Server to javafx.graphics ;
+
+    exports game.Common.Model.Network ;
 }

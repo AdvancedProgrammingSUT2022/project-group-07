@@ -1,1 +1,1 @@
-[{"sender":"testMahan","receiver":"Mahan","isAccepted":true,"isRejected":false,"isHandled":true},{"sender":"Mahan","receiver":"testMahan","isAccepted":true,"isRejected":true,"isHandled":true},{"sender":"Mahan","receiver":"testMahan","isAccepted":false,"isRejected":false,"isHandled":false}]
+[{"sender":"Mahan","receiver":"testMahan","isAccepted":true,"isRejected":false,"isHandled":true},{"sender":"testMahan","receiver":"Mahan","isAccepted":true,"isRejected":false,"isHandled":true}]

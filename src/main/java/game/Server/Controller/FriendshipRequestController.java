@@ -37,6 +37,7 @@ public class FriendshipRequestController {
         catch (IOException e) {
             e.printStackTrace();
         }
+        loadFriendshipRequests();
     }
 
     public static ArrayList<FriendshipRequest> getRequestsOfPlayer (String username){

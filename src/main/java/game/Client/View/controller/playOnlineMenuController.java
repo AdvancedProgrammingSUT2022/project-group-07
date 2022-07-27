@@ -14,4 +14,12 @@ public class playOnlineMenuController {
     public void back() throws IOException {
         Main.changeScene("gameMenu");
     }
+
+    public void hostGameMenu() throws IOException {
+        Main.changeScene("hostGameMenu");
+    }
+
+    public void joinGameMenu() throws IOException {
+        Main.changeScene("joinGameMenu");
+    }
 }

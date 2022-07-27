@@ -322,11 +322,11 @@ public class Tile extends Polygon {
         return y;
     }
 
-    public void updateUnitBackground() {
-        GameController gameController = GameController.getInstance();
+    public void updateUnitBackground(GameController gameController) {
         for (Civilization civilization : gameController.getCivilizations()) {
             for (Unit unit : civilization.getUnits()) {
-                if (TerrainController.getTerrainByLocation(unit.getLocation()).equals(this.getTerrain())) {
+                if (TerrainController.getTerrainByLocation(unit.getLocation()) != null &&
+                        TerrainController.getTerrainByLocation(unit.getLocation()).equals(this.getTerrain())) {
                     setUnitBackground(unit);
                 }
             }

@@ -26,7 +26,7 @@ public class Main extends Application {
         return clientHandler;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException  {
         do {
             try {
                 Socket socket = new Socket("localhost", SERVER_PORT_NUMBER);

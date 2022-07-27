@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<?import java.net.URL?>
+<AnchorPane styleClass="anchorPane"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="game.Client.View.controller.hostGameMenuController"
+            prefHeight="700.0" prefWidth="1100.0">
+
+    <stylesheets>
+        <URL value="@../CSS/newGamePage.css"/>
+    </stylesheets>
+
+    <Button fx:id="backButton" layoutX="37.0" layoutY="626.0" mnemonicParsing="false" onAction="#goBack"
+            prefHeight="39.0" prefWidth="497.0" text="Back">
+        <font>
+            <Font name="System Bold" size="26.0"/>
+        </font>
+    </Button>
+    <Button fx:id="startButton" layoutX="549.0" layoutY="626.0" mnemonicParsing="false" onAction="#start"
+            prefHeight="33.0" prefWidth="521.0" text="Start">
+        <font>
+            <Font name="System Bold" size="27.0"/>
+        </font>
+    </Button>
+    <ListView fx:id="allFriendsOnline" layoutX="179.0" layoutY="83.0" prefHeight="462.0"
+              prefWidth="221.0"/>
+    <ListView fx:id="invitedPlayers" layoutX="635.0" layoutY="83.0" prefHeight="462.0" prefWidth="235.0"/>
+    <Text layoutX="138.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font" text="Online Friends"
+          textAlignment="CENTER" wrappingWidth="302.6708984375">
+    </Text>
+    <Text layoutX="588.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font" text="Friends Invited"
+          textAlignment="CENTER">
+    </Text>
+    <Button fx:id="addButton" layoutX="426.0" layoutY="314.0" mnemonicParsing="false" onAction="#addPlayer"
+            prefHeight="39.0" prefWidth="181.0" text="add">
+        <font>
+            <Font size="25.0"/>
+        </font>
+    </Button>
+    <Button fx:id="removeButton" layoutX="426.0" layoutY="384.0" mnemonicParsing="false" onAction="#remove"
+            prefHeight="21.0" prefWidth="181.0" text="remove">
+        <font>
+            <Font size="26.0"/>
+        </font>
+    </Button>
+</AnchorPane>

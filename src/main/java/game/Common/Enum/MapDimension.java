@@ -1,7 +1,7 @@
 package game.Common.Enum;
 
 public enum MapDimension {
-    SMALL(20 , 16) ,
+    SMALL(12 , 8) ,
     STANDARD( 24, 18) ,
     LARGE(28 , 22) ;
     MapDimension(int x , int y){

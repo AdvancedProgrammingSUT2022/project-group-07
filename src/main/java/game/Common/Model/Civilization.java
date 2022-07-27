@@ -32,7 +32,8 @@ public class Civilization {
     private int numberOfRailroadsAndRoads;
     private ArrayList<Route> routsAboutToBeBuilt;
     private ArrayList<Improvement> improvementsAboutToBeCreated;
-    private HashMap<Civilization , TypeOfRelation> relationWithOtherCivilizations = new HashMap<>() ;
+    private HashMap<String , TypeOfRelation> relationWithOtherCivilizations = new HashMap<>() ;
+    private ArrayList<DiplomacyRequest> diplomacyRequests = new ArrayList<>() ;
 
     public Civilization (String name , User owner){
         this.owner = owner;
@@ -255,15 +256,15 @@ public class Civilization {
     }
 
     public void addRelationWithCivilization (TypeOfRelation typeOfRelation , Civilization civilization){
-        this.relationWithOtherCivilizations.put(civilization , typeOfRelation);
+        this.relationWithOtherCivilizations.put(civilization.getName() , typeOfRelation);
     }
 
-    public HashMap<Civilization, TypeOfRelation> getRelationWithOtherCivilizations() {
+    public HashMap<String , TypeOfRelation> getRelationWithOtherCivilizations() {
         return relationWithOtherCivilizations;
     }
 
     public TypeOfRelation getRelationWithCivilization (Civilization civilization){
-        return relationWithOtherCivilizations.get(civilization);
+        return relationWithOtherCivilizations.get(civilization.getName());
     }
 
     public void addResource (Resources resource){
@@ -272,7 +273,7 @@ public class Civilization {
         Random random = new Random() ;
         ArrayList<Terrain> terrains = this.cities.get(random.nextInt(this.cities.size())).getTerrains() ;
         terrains.get(random.nextInt(terrains.size())).setResources(resource);
-    } 
+    }
 
     public void removeResource (Resources resources){
         for (City city : this.cities) {
@@ -296,4 +297,17 @@ public class Civilization {
         return out ;
     }
 
+    public ArrayList<DiplomacyRequest> getDiplomacyRequests() {
+        return diplomacyRequests;
+    }
+    public void addDiplomacyRequest (DiplomacyRequest diplomacyRequest){
+        this.diplomacyRequests.add(diplomacyRequest);
+    }
+    public void removeDiplomacyRequest (DiplomacyRequest diplomacyRequest){
+        this.diplomacyRequests.remove(diplomacyRequest);
+    }
+
+    public User getOwner() {
+        return owner ;
+    }
 }

@@ -19,7 +19,7 @@ public class MessageController {
 
     public static void loadMessages (){
         try {
-            ArrayList<Message> messageArrayList = new ArrayList<>();
+            ArrayList<Message> messageArrayList;
             String json = new String(Files.readAllBytes(Paths.get("./src/main/resources/game/database/messages.json")));
             messageArrayList = new Gson().fromJson(json , new TypeToken<List<Message>>(){}.getType());
             if (messageArrayList != null)
@@ -44,14 +44,29 @@ public class MessageController {
     public static void addMessage (Message message){
         messages.add(message);
         message.setSent();
+        saveMessages();
+        loadMessages();
     }
 
     public static void removeMessage (Message message){
         messages.remove(message);
+        saveMessages();
+        loadMessages();
     }
 
     public static ArrayList<Message> getMessages() {
         return messages;
+    }
+
+    public static ArrayList<Message> getMessages (String  first , String  second){
+        ArrayList<Message> out = new ArrayList<>();
+        for (Message message : messages) {
+            if ((message.getReceiver().equals(first) && message.getSender().equals(second))
+                    || (message.getReceiver().equals(second) && message.getSender().equals(first))
+            )
+                out.add(message);
+        }
+        return out;
     }
 
     public static ArrayList<Message> getMessages (User first , User second){
@@ -116,5 +131,23 @@ public class MessageController {
 
     public static Message getLastMessageToAttend() {
         return lastMessageToAttend;
+    }
+
+    public static void editMessageForOneSide(Message message , String text) {
+        for (Message message1 : messages) {
+            if (message1.equals(message))
+                message1.setSenderVersionMessage(text);
+        }
+        saveMessages();
+        loadMessages();
+    }
+
+    public static void editMessageForBothSides(Message message , String text) {
+        for (Message message1 : messages) {
+            if (message1.equals(message))
+                message1.setMessage(text);
+        }
+        saveMessages();
+        loadMessages();
     }
 }

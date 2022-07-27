@@ -3,6 +3,7 @@ package game.Common.Model;
 import java.util.ArrayList;
 import game.Common.Enum.Building;
 import game.Common.Enum.TypeOfUnit;
+import game.Server.Controller.game.GameController;
 
 public class City {
 
@@ -12,7 +13,8 @@ public class City {
     private int food;
     private int production;
     private int hp;
-    private Civilization ownership;
+    //    private Civilization ownership;
+    private String ownership ;
     private ArrayList<Building> buildings;
     private ArrayList<TypeOfUnit> wantedUnits;
     private int turnsTillGrowth ;
@@ -27,7 +29,7 @@ public class City {
         this.food = 0;
         this.production = 0;
         this.hp = 30;
-        this.ownership = ownership;
+        this.ownership = ownership.getName();
         this.buildings = new ArrayList<>();
         turnsTillGrowth = 6 ;
         this.defencePower = 10;
@@ -49,7 +51,11 @@ public class City {
         return terrains;
     }
     public Civilization getOwnership() {
-        return ownership;
+        for (Civilization civilization : GameController.getInstance().getCivilizations()) {
+            if (civilization.getName().equals(ownership))
+                return civilization ;
+        }
+        return null ;
     }
     public int getHp() {
         return hp;

@@ -30,3 +30,10 @@
     -fx-border-radius: 3px;
     -fx-text-fill: #debf09;
 }
+
+.hbox {
+    -fx-padding: 10px;
+    -fx-spacing: 10px;
+    -fx-background-color: rgba(255, 255, 255, 0.60);
+    -fx-border-radius: 80;
+}
