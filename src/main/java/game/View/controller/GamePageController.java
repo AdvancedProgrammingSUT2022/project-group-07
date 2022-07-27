@@ -11,6 +11,10 @@ import game.Main;
 import game.Model.*;
 import game.View.components.Tile;
 import javafx.application.Platform;
+
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -25,12 +29,15 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
+import javafx.stage.Popup;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class gamePageController {
+public class GamePageController {
 
     public AnchorPane game;
     public double firstX;
@@ -56,7 +63,9 @@ public class gamePageController {
     public ImageView selectedUnitImageView = new ImageView() ;
     public Label selectedUnitDataLabel = new Label() ;
     public ToolBar selectedUnitPanel = new ToolBar() ;
-
+    
+    //unit actions :
+    public ToolBar unitActions = new ToolBar();
     // next turn button
     public ImageView nextTurnImageView = new ImageView() ;
 
@@ -82,6 +91,8 @@ public class gamePageController {
     // current civilization Label
     //public Label currentCivilizationLabel = new Label() ;
 
+    public ImageView cityPanelImageView = new ImageView(new Image(getClass().getResource("/game/assets/Civ_LEADER_CATHERINE_DE_MEDICI.png").toExternalForm())) ;
+
     // cheat stage :
     final BooleanProperty controlPressed = new SimpleBooleanProperty(false);
     final BooleanProperty leftShiftPressed = new SimpleBooleanProperty(false);
@@ -89,7 +100,15 @@ public class gamePageController {
     final BooleanBinding ctrlAndShiftAndCPressed = controlPressed.and(leftShiftPressed.and(cPressed));
 
 
+
+
     public void initialize() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                GameController.getInstance().setAnchorPane(game);
+            }
+        });
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
         firstX = game.getTranslateX();
         firstY = game.getTranslateY();
@@ -100,7 +119,7 @@ public class gamePageController {
                 if (tile.getFeature() != null)
                     game.getChildren().add(tile.getFeature());
                 tile.updateUnitBackground();
-                if (tile.getCivilUnit() != null) game.getChildren().add(tile.getCivilUnit());
+                game.getChildren().add(tile.getCivilUnit());
 
                 if (tile.getTerrain().hasRuin()
                         && GameController.getInstance().getCurrentCivilization().getVisibleTerrains().contains(tile.getTerrain()))
@@ -125,14 +144,17 @@ public class gamePageController {
         initializeNextTurnButton();
         initializeOthersPanel() ;
         initializeDiplomacyPanel() ;
+        CityPanelController.initializeCityPanel(cityPanelImageView);
 
+        
         game.getChildren().add(iconPanel);
         game.getChildren().add(researchPanel);
         game.getChildren().add(selectedUnitPanel);
         game.getChildren().add(nextTurnImageView);
         game.getChildren().add(othersPanel) ;
         game.getChildren().add(diplomacyPanelImageView) ;
-
+        game.getChildren().add(cityPanelImageView);
+        game.getChildren().add(unitActions);
 //        game.getChildren().add(currentCivilizationLabel);
 //        game.getChildren().add(saveButton);
 //        saveButton.setOnMouseClicked(mouseEvent -> {
@@ -203,6 +225,18 @@ public class gamePageController {
         //Movement.initializeMovements();
     }
 
+    private void initializeUnitActions() {
+
+        unitActions.getItems().clear();
+        Button foundCity = new Button("found city");
+        Button move = new Button("move");
+        unitActions.getItems().addAll(foundCity , move);
+        ArrayList<Button> buttons = new ArrayList<>();
+        buttons.add(foundCity); buttons.add(move);
+        Movement.initializeActionButtons(buttons);
+    }
+
+
     private void initializeGameKeyboardButtons() {
         ctrlAndShiftAndCPressed.addListener(new ChangeListener<Boolean>() {
             @Override
@@ -222,6 +256,7 @@ public class gamePageController {
                 if (keyEvent.getCode() == KeyCode.SHIFT) leftShiftPressed.set(true);
                 else if (keyEvent.getCode() == KeyCode.CONTROL) controlPressed.set(true);
                 else if (keyEvent.getCode() == KeyCode.C) cPressed.set(true);
+
                 else if (keyEvent.getCode() == KeyCode.LEFT)  MapMovement.moveLeft(game, firstX);
                 else if (keyEvent.getCode() == KeyCode.RIGHT)  MapMovement.moveRight(game, firstX);
                 else if (keyEvent.getCode() == KeyCode.UP)  MapMovement.moveUp(game, firstY);
@@ -309,10 +344,14 @@ public class gamePageController {
         othersPanel.setLayoutY(0+y);
         diplomacyPanelImageView.setLayoutX(x+1000);
         diplomacyPanelImageView.setLayoutY(y+80);
+        unitActions.setLayoutX(x + 500);
+        unitActions.setLayoutY(660 + y);
 //        saveButton.setLayoutX(x+400);
 //        saveButton.setLayoutY(y+300);
 //        currentCivilizationLabel.setLayoutX(x+300);
 //        currentCivilizationLabel.setLayoutY(y+200);
+        cityPanelImageView.setLayoutX(x+1000);
+        cityPanelImageView.setLayoutY(y+180);
     }
 
     private void initializeResearchPanel() {
@@ -369,8 +408,13 @@ public class gamePageController {
             selectedUnitDataLabel.setText(unitData);
             if (!game.getChildren().contains(selectedUnitPanel))
                 game.getChildren().add(selectedUnitPanel);
+            if (!game.getChildren().contains(unitActions)) {
+                game.getChildren().add(unitActions);
+                initializeUnitActions();
+            }
         } catch (NullPointerException e){
             game.getChildren().remove(selectedUnitPanel);
+            game.getChildren().remove(unitActions);
         }
     }
 

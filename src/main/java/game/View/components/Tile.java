@@ -1,6 +1,8 @@
 package game.View.components;
 
 
+import game.Controller.game.*;
+import game.Controller.game.SelectController;
 import game.Controller.game.SelectController;
 import game.Enum.Resources;
 import game.Enum.TerrainFeatures;
@@ -13,10 +15,14 @@ import game.Main;
 import game.Model.Civilization;
 import game.Model.Terrain;
 import game.Model.Unit;
+import game.View.controller.Movement;
 import javafx.animation.Transition;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -35,6 +41,10 @@ import java.util.Locale;
 
 public class Tile extends Polygon {
 
+    // left click ---> tile info
+    // right click ---> select city center
+
+    private static ArrayList<Tile> tiles = new ArrayList<>();
     private static final double r = 75;
     private static final double n = Math.sqrt(r * r * 0.75);
     private final static double TILE_HEIGHT = 2 * r;
@@ -65,6 +75,7 @@ public class Tile extends Polygon {
     }
 
     private Popup popup;
+    private Unit unit;
 
     public Popup getPopup() {
         return popup;
@@ -113,11 +124,21 @@ public class Tile extends Polygon {
         setStrokeWidth(1);
         setStroke(Color.WHITE);
         this.terrain = terrain;
+        tiles.add(this);
+        this.civilUnit = new Circle();
+        this.civilUnit.setRadius(0);
+        this.attackUnit = new Circle();
+        this.attackUnit.setRadius(0);
+    }
+
+    public static ArrayList<Tile> getTiles() {
+        return tiles;
     }
 
 
+
     public void setBackground(String addressType, String addressTypeFeature, Resources resources,
-                              TypeOfTerrain typeOfTerrain, TerrainFeatures tFeature)
+                              TypeOfTerrain typeOfTerrain)
     {
         URL address = getClass().getResource("/game/assets/civAsset/map/Tiles/terrainsAndFeatures/" + addressTypeFeature);
         setFill(new ImagePattern((new Image(getClass().getResource("/game/assets/civAsset/map/Tiles/terrainsAndFeatures/"
@@ -133,18 +154,18 @@ public class Tile extends Polygon {
             this.feature.setImage(imagePattern.getImage());
         }
         if (resources != null) {
-            checkMouseAction(typeOfTerrain, resources, tFeature);
+            checkMouseAction(resources);
         }
         else {
-            checkMouseAction(typeOfTerrain, tFeature);
+            checkMouseAction();
         }
     }
 
-    private Text setMainTypeOfTerrain(AnchorPane anchorPane, TypeOfTerrain typeOfTerrain,
-                                      double mainPos, double typePos, double effectPos) {
+    private Text setMainTypeOfTerrain(AnchorPane anchorPane, double mainPos,
+                                      double typePos, double effectPos) {
         Text main = new Text("\"Tile Info\"");
-        Text terrainType = new Text("● Terrain Type: " + typeOfTerrain.getName() + "➙ ");
-        Text terrainTypeEffect = terrainTypeEffect(typeOfTerrain);
+        Text terrainType = new Text("● Terrain Type: " + this.terrain.getTypeOfTerrain().getName() + "➙ ");
+        Text terrainTypeEffect = terrainTypeEffect();
 
         main.setLayoutY(20);
         terrainType.setLayoutY(60);
@@ -165,88 +186,105 @@ public class Tile extends Polygon {
         return terrainType;
     }
 
-    private void checkMouseAction(TypeOfTerrain typeOfTerrain, TerrainFeatures feature) {
+    private void checkMouseAction() {
         setOnMouseClicked(mouseEvent -> {
-            Window window = Main.scene.getWindow();
-            this.popup = new Popup();
-
-            AnchorPane anchorPane = new AnchorPane();
-            anchorPane.setStyle("-fx-background-color: rgba(255,255,255,0.49)");
-            anchorPane.setMinSize(100, 100);
-
-            Text terrainType = setMainTypeOfTerrain(anchorPane, typeOfTerrain, 75.0, 60.0, 220.0);
-            Text combat, mpNumber;
-
-            if (feature != null) {
-                mpNumber = new Text("● MP: " + findMp(typeOfTerrain, feature));
-                combat = new Text("● Change of Combat: % " + findCombatChange(typeOfTerrain, feature));
-                setStyles(anchorPane, feature, 120.0, 60.0, 220.0);
-            } else {
-                combat = new Text("● Change of Combat: % " + typeOfTerrain.getChangeOfCombat() * 100);
-                mpNumber = new Text("● MP: " + typeOfTerrain.getMpNeeded());
+            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                if (Movement.isMoving) {
+                    Movement.move(this);
+                    return;
+                }
+                CityController.checkCityCenter(this);
             }
+            else {
+                Window window = Main.scene.getWindow();
+                this.popup = new Popup();
 
-            mpNumber.setLayoutY(95);
-            combat.setLayoutY(130);
+                AnchorPane anchorPane = new AnchorPane();
+                anchorPane.setStyle("-fx-background-color: rgba(255,255,255,0.49)");
+                anchorPane.setMinSize(100, 100);
 
-            mpNumber.setStyle("-fx-font-weight: bold");
-            combat.setStyle("-fx-font-weight: bold");
+                Text terrainType = setMainTypeOfTerrain(anchorPane, 75.0, 60.0, 220.0);
+                Text combat, mpNumber;
 
-            AnchorPane.setLeftAnchor(mpNumber, 60.0);
-            AnchorPane.setLeftAnchor(combat, 60.0);
+                if (feature != null) {
+                    mpNumber = new Text("● MP: " + findMp());
+                    combat = new Text("● Change of Combat: % " + findCombatChange());
+                    setStyles(anchorPane, 120.0, 60.0, 220.0);
+                } else {
+                    combat = new Text("● Change of Combat: % " + this.terrain.getTypeOfTerrain().getChangeOfCombat() * 100);
+                    mpNumber = new Text("● MP: " + this.terrain.getTypeOfTerrain().getMpNeeded());
+                }
 
-            openPopup(window, anchorPane, terrainType, mpNumber, combat);
+                mpNumber.setLayoutY(95);
+                combat.setLayoutY(130);
+
+                mpNumber.setStyle("-fx-font-weight: bold");
+                combat.setStyle("-fx-font-weight: bold");
+
+                AnchorPane.setLeftAnchor(mpNumber, 60.0);
+                AnchorPane.setLeftAnchor(combat, 60.0);
+
+                openPopup(window, anchorPane, terrainType, mpNumber, combat);
+//                CityController.checkCityCenter(this);
+            }
         });
     }
 
-    private void checkMouseAction(TypeOfTerrain typeOfTerrain, Resources resources, TerrainFeatures feature) {
+    private void checkMouseAction(Resources resources) {
         setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                if (Movement.isMoving) {
+                    Movement.move(this);
+                    return;
+                }
+                CityController.checkCityCenter(this);
+            }else {
+                Window window = Main.scene.getWindow();
+                this.popup = new Popup();
 
-            Window window = Main.scene.getWindow();
-            this.popup = new Popup();
+                AnchorPane anchorPane = new AnchorPane();
+                anchorPane.setStyle("-fx-background-color: rgba(255,255,255,0.49)");
+                Image image = (new Image(getClass().getResource("/game/assets/civAsset/resources/"
+                        + resources.getName() + ".png").toExternalForm()));
+                anchorPane.getChildren().add(new ImageView(image));
 
-            AnchorPane anchorPane = new AnchorPane();
-            anchorPane.setStyle("-fx-background-color: rgba(255,255,255,0.49)");
-            Image image = (new Image(getClass().getResource("/game/assets/civAsset/resources/"
-                    + resources.getName() + ".png").toExternalForm()));
-            anchorPane.getChildren().add(new ImageView(image));
+                Text terrainType = setMainTypeOfTerrain(anchorPane, 150.0, 150.0, 305.0);
+                Text resource = new Text("● Resources:");
+                Text type = new Text(resources.getName() + " --> " +
+                        resources.getTypeOfResource().toString().toLowerCase(Locale.ROOT) + "➙ ");
+                Text resEffect = resourceEffect(resources);
+                Text mpNumber, combat;
 
-            Text terrainType = setMainTypeOfTerrain(anchorPane, typeOfTerrain, 150.0, 150.0, 305.0);
-            Text resource = new Text("● Resources:");
-            Text type = new Text(resources.getName() + " --> " +
-                    resources.getTypeOfResource().toString().toLowerCase(Locale.ROOT) + "➙ ");
-            Text resEffect = resourceEffect(resources);
-            Text mpNumber, combat;
+                if (feature != null) {
+                    mpNumber = new Text("● MP: " + findMp());
+                    combat = new Text("● Change of Combat: % " + findCombatChange());
+                    setStyles(anchorPane, 210.0, 150.0, 305.0);
+                } else {
+                    combat = new Text("● Change of Combat: % " + this.terrain.getTypeOfTerrain().getChangeOfCombat() * 100);
+                    mpNumber = new Text("● MP: " + this.terrain.getTypeOfTerrain().getMpNeeded());
+                }
 
-            if (feature != null) {
-                mpNumber = new Text("● MP: " + findMp(typeOfTerrain, feature));
-                combat = new Text("● Change of Combat: % " + findCombatChange(typeOfTerrain, feature));
-                setStyles(anchorPane, feature, 210.0, 150.0, 305.0);
+                resource.setLayoutY(105);
+                type.setLayoutY(120);
+                mpNumber.setLayoutY(140);
+                combat.setLayoutY(160);
+
+                mpNumber.setStyle("-fx-font-weight: bold");
+                resource.setStyle("-fx-font-weight: bold");
+                combat.setStyle("-fx-font-weight: bold");
+
+                AnchorPane.setLeftAnchor(type, 170.0);
+                AnchorPane.setLeftAnchor(resource, 150.0);
+                AnchorPane.setLeftAnchor(mpNumber, 150.0);
+                AnchorPane.setLeftAnchor(resEffect, 305.0);
+                AnchorPane.setLeftAnchor(combat, 150.0);
+
+                anchorPane.getChildren().add(type);
+                anchorPane.getChildren().add(resource);
+                anchorPane.getChildren().add(mpNumber);
+                openPopup(window, anchorPane, resEffect, terrainType, combat);
             }
-            else {
-                combat = new Text("● Change of Combat: % " + typeOfTerrain.getChangeOfCombat()*100);
-                mpNumber = new Text("● MP: " + typeOfTerrain.getMpNeeded());
-            }
-
-            resource.setLayoutY(105);
-            type.setLayoutY(120);
-            mpNumber.setLayoutY(140);
-            combat.setLayoutY(160);
-
-            mpNumber.setStyle("-fx-font-weight: bold");
-            resource.setStyle("-fx-font-weight: bold");
-            combat.setStyle("-fx-font-weight: bold");
-
-            AnchorPane.setLeftAnchor(type, 170.0);
-            AnchorPane.setLeftAnchor(resource, 150.0);
-            AnchorPane.setLeftAnchor(mpNumber, 150.0);
-            AnchorPane.setLeftAnchor(resEffect, 305.0);
-            AnchorPane.setLeftAnchor(combat, 150.0);
-
-            anchorPane.getChildren().add(type);
-            anchorPane.getChildren().add(resource);
-            anchorPane.getChildren().add(mpNumber);
-            openPopup(window, anchorPane, resEffect, terrainType, combat);
+//                CityController.checkCityCenter(this);
         });
     }
 
@@ -264,20 +302,20 @@ public class Tile extends Polygon {
     }
 
 
-    private int findMp(TypeOfTerrain typeOfTerrain, TerrainFeatures feature) {
-        return typeOfTerrain.getMpNeeded() + feature.getMp();
+    private int findMp() {
+        return this.terrain.getTypeOfTerrain().getMpNeeded() + this.terrain.getTerrainFeatures().getMp();
     }
 
-    private int findCombatChange(TypeOfTerrain typeOfTerrain, TerrainFeatures feature) {
-        return (int) ((feature.getChangeOfCombat() +
-                typeOfTerrain.getChangeOfCombat()) * 100);
+    private int findCombatChange() {
+        return (int) ((this.terrain.getTerrainFeatures().getChangeOfCombat() +
+                this.terrain.getTypeOfTerrain().getChangeOfCombat()) * 100);
     }
 
-    private void setStyles(AnchorPane anchorPane, TerrainFeatures feature,
-                           double featureName, double title, double featureEffect) {
+    private void setStyles(AnchorPane anchorPane, double featureName,
+                           double title, double featureEffect) {
         Text tFeature = new Text("● Feature:");
-        Text f = new Text(feature.getName() + "➙ ");
-        Text effect = featureEffect(feature);
+        Text f = new Text(this.terrain.getTerrainFeatures().getName() + "➙ ");
+        Text effect = featureEffect();
 
         tFeature.setLayoutY(190);
         f.setLayoutY(190);
@@ -303,20 +341,20 @@ public class Tile extends Polygon {
         return text;
     }
 
-    private Text featureEffect(TerrainFeatures terrainFeature) {
-        int food = terrainFeature.getFood();
-        int production = terrainFeature.getProduction();
-        int gold = terrainFeature.getGold();
+    private Text featureEffect() {
+        int food = this.terrain.getTypeOfTerrain().getFood();
+        int production = this.terrain.getTypeOfTerrain().getProduction();
+        int gold = this.terrain.getTypeOfTerrain().getGold();
         Text text = new Text("‣ food: " + food + "\n‣ production: "
                 + production + "\n‣ gold: " + gold);
         text.setLayoutY(180);
         return text;
     }
 
-    private Text terrainTypeEffect(TypeOfTerrain typeOfTerrain) {
-        int food = typeOfTerrain.getFood();
-        int production = typeOfTerrain.getProduction();
-        int gold = typeOfTerrain.getGold();
+    private Text terrainTypeEffect() {
+        int food = this.terrain.getTypeOfTerrain().getFood();
+        int production = this.terrain.getTypeOfTerrain().getProduction();
+        int gold = this.terrain.getTypeOfTerrain().getGold();
         Text text = new Text("‣ food: " + food + "\n‣ production: "
                 + production + "\n‣ gold: " + gold);
         text.setLayoutY(45);
@@ -330,6 +368,10 @@ public class Tile extends Polygon {
 
     public Circle getCivilUnit() {
         return civilUnit;
+    }
+
+    public Unit getUnit() {
+        return unit;
     }
 
     public void setAttackUnit(Circle attackUnit) {
@@ -348,22 +390,32 @@ public class Tile extends Polygon {
         return y;
     }
 
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
     public void updateUnitBackground() {
         GameController gameController = GameController.getInstance();
         for (Civilization civilization : gameController.getCivilizations()) {
             for (Unit unit : civilization.getUnits()) {
                 if (TerrainController.getTerrainByLocation(unit.getLocation()).equals(this.getTerrain())) {
+                    this.unit = unit;
                     if (UnitController.isCivilUnit(unit)) this.civil = unit;
                     else this.attack = unit;
                     setUnitBackground(unit);
                 }
             }
+
         }
     }
 
     private void setUnitBackground(Unit unit) {
         if (UnitController.isCivilUnit(unit)) {
-            if (this.civilUnit == null) this.civilUnit = new Circle(this.x - 10, this.y, 35);
+            if (this.civilUnit.getRadius() == 0) {
+                this.civilUnit.setCenterX(this.x - 10);
+                this.civilUnit.setCenterY(this.y);
+                this.civilUnit.setRadius(35);
+            }
             this.civilUnit.setFill(new ImagePattern(new Image(Main.class.getResource(
                     "/game/assets/civAsset/units/Units/" + unit.getTypeOfUnit().getName() + ".png"
             ).toExternalForm())));
@@ -374,7 +426,7 @@ public class Tile extends Polygon {
                 }
             });
         } else {
-            if (this.attackUnit == null) {
+            if (this.attackUnit.getRadius() == 0) {
                 this.attackUnit = new Circle(this.x - 20, this.y, 35);
             }
             this.attackUnit.setFill(new ImagePattern(new Image(Main.class.getResource(
