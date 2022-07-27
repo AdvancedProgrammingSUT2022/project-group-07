@@ -77,10 +77,10 @@ public class gamePageController {
     public ImageView diplomacyPanelImageView = new ImageView(new Image(getClass().getResource("/game/images/icons/DIPLOMACY_ICON.png").toExternalForm())) ;
 
     // save button
-    public Button saveButton = new Button("Save") ;
+    //public Button saveButton = new Button("Save") ;
 
     // current civilization Label
-    public Label currentCivilizationLabel = new Label() ;
+    //public Label currentCivilizationLabel = new Label() ;
 
     // cheat stage :
     final BooleanProperty controlPressed = new SimpleBooleanProperty(false);
@@ -133,11 +133,11 @@ public class gamePageController {
         game.getChildren().add(othersPanel) ;
         game.getChildren().add(diplomacyPanelImageView) ;
 
-        game.getChildren().add(currentCivilizationLabel);
-        game.getChildren().add(saveButton);
-        saveButton.setOnMouseClicked(mouseEvent -> {
-            GameController.getInstance().saveData(GameController.getInstance() , "save1");
-        });
+//        game.getChildren().add(currentCivilizationLabel);
+//        game.getChildren().add(saveButton);
+//        saveButton.setOnMouseClicked(mouseEvent -> {
+//            GameController.getInstance().saveData(GameController.getInstance() , "save1");
+//        });
 
         // updating info panel thread
         Thread infoPanelThread = new Thread(() -> {
@@ -178,19 +178,19 @@ public class gamePageController {
         miniPanelsThread.start();
 
         // hell of a test bro
-        Thread test = new Thread(() -> {
-            Runnable runnable = () -> {
-                currentCivilizationLabel.setText(GameController.getInstance().getCurrentCivilization().getName());
-                currentCivilizationLabel.setStyle("-fx-font-size: 20");
-            } ;
-            while (true) {
-                Platform.runLater(runnable);
-                try {Thread.sleep(400);}
-                catch (InterruptedException ignored) {}
-            }
-        });
-        test.setDaemon(true);
-        test.start();
+//        Thread test = new Thread(() -> {
+//            Runnable runnable = () -> {
+//                currentCivilizationLabel.setText(GameController.getInstance().getCurrentCivilization().getName());
+//                currentCivilizationLabel.setStyle("-fx-font-size: 20");
+//            } ;
+//            while (true) {
+//                Platform.runLater(runnable);
+//                try {Thread.sleep(400);}
+//                catch (InterruptedException ignored) {}
+//            }
+//        });
+//        test.setDaemon(true);
+//        test.start();
 
         Platform.runLater(new Runnable() {
             @Override
@@ -309,10 +309,10 @@ public class gamePageController {
         othersPanel.setLayoutY(0+y);
         diplomacyPanelImageView.setLayoutX(x+1000);
         diplomacyPanelImageView.setLayoutY(y+80);
-        saveButton.setLayoutX(x+400);
-        saveButton.setLayoutY(y+300);
-        currentCivilizationLabel.setLayoutX(x+300);
-        currentCivilizationLabel.setLayoutY(y+200);
+//        saveButton.setLayoutX(x+400);
+//        saveButton.setLayoutY(y+300);
+//        currentCivilizationLabel.setLayoutX(x+300);
+//        currentCivilizationLabel.setLayoutY(y+200);
     }
 
     private void initializeResearchPanel() {
