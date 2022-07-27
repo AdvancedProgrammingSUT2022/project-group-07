@@ -24,7 +24,6 @@ public class Main extends Application {
     public static Stage otherStage;
 
     public static MediaPlayer mediaPlayer;
-    public static Stage otherStage;
 
     public static void main(String[] args) {
         launch();

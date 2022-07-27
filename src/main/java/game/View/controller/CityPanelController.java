@@ -57,6 +57,7 @@ public class CityPanelController {
     public Button changeButton;
     public TextField constructionText;
     public Button purchaseButton;
+    public AnchorPane anchorPane;
 
     public static void openCityPanel() {
         if (selectedCity == null) CityPanelController.showError("Please select a city first!");
@@ -136,21 +137,29 @@ public class CityPanelController {
     }
 
     public void showUnemployedCitizens(ActionEvent actionEvent) {
-        if (selectedCity.getCitizens().size() == 0) {
-            showError("This city doesn't have any citizen!");
+        if (selectedCity.getCitizens().size() != 0
+                && hasUnemployed()) {
+            TableView<Citizen> citizenTableView = new TableView<>();
+            TableColumn column = new TableColumn<>("number");
+
+            citizenTableView.setEditable(true);
+            citizenTableView.getColumns().add(column);
+
+            column.setCellValueFactory(new PropertyValueFactory<>("number"));
+            column.prefWidthProperty().bind(citizenTableView.widthProperty().multiply(0.5));
+            column.setResizable(false);
+            citizenTableView.setItems(getUnemployedCitizens());
+
+            anchorPane.getChildren().add(citizenTableView);
+            AnchorPane.setLeftAnchor(citizenTableView, 350.0);
+            AnchorPane.setTopAnchor(citizenTableView, 100.0);
+            anchorPane.setOnMouseClicked(mouseEvent -> citizenTableView.setVisible(false));
         }
-        else if (!hasUnemployed()) {
+        else if (selectedCity.getCitizens().size() == 0) {
+            showError("This city doesn't have any citizen!");
+        } else if (!hasUnemployed()) {
             showError("This city doesn't have any unemployed citizen!");
         }
-
-        TableView<Citizen> citizenTableView = new TableView<>();
-        TableColumn f = new TableColumn<>("citizen number");
-        citizenTableView.setEditable(true);
-        citizenTableView.getColumns().add(f);
-        f.setCellValueFactory(new PropertyValueFactory<>("number"));
-        citizenTableView.setItems(getUnemployedCitizens());
-        anchorPane.getChildren().add(citizenTableView);
-        citizenTableView.setOnMouseClicked(mouseEvent -> citizenTableView.setVisible(false));
     }
 
     private ObservableList<Citizen> getUnemployedCitizens() {
