@@ -63,7 +63,7 @@ public class GamePageController {
     public ImageView selectedUnitImageView = new ImageView() ;
     public Label selectedUnitDataLabel = new Label() ;
     public ToolBar selectedUnitPanel = new ToolBar() ;
-    
+
     //unit actions :
     public ToolBar unitActions = new ToolBar();
     // next turn button
@@ -103,12 +103,7 @@ public class GamePageController {
 
 
     public void initialize() {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                GameController.getInstance().setAnchorPane(game);
-            }
-        });
+
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
         firstX = game.getTranslateX();
         firstY = game.getTranslateY();
@@ -146,7 +141,7 @@ public class GamePageController {
         initializeDiplomacyPanel() ;
         CityPanelController.initializeCityPanel(cityPanelImageView);
 
-        
+
         game.getChildren().add(iconPanel);
         game.getChildren().add(researchPanel);
         game.getChildren().add(selectedUnitPanel);
@@ -224,6 +219,7 @@ public class GamePageController {
         Main.playMenuMusic();
         //Movement.initializeMovements();
     }
+
 
     private void initializeUnitActions() {
 
