@@ -7,9 +7,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,7 +21,7 @@ public class Main extends Application {
 
     public static Stage mainStage;
     public static Scene scene;
-
+    public static MediaPlayer mediaPlayer;
     public static void main(String[] args) {
         launch();
     }
@@ -72,5 +75,21 @@ public class Main extends Application {
         Scene newScene = new Scene(root);
         newStage.setScene(newScene);
         newStage.show();
+    }
+
+    public static void playMenuMusic() {
+        Media media = new Media(Main.class.getResource("/game/assets/music/1-02 Civilization V Theme - Menu Music.mp3").toExternalForm());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                mediaPlayer.seek(Duration.ZERO);
+            }
+        });
+    }
+
+    public static MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
     }
 }
