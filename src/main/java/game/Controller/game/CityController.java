@@ -60,7 +60,7 @@ public class CityController {
         setUnitPic();
 
         Tile tile = TileController.getTileByTerrain(SelectController.selectedCity.getTerrains().get(0));
-
+        tile.updateUnitBackground();
         return typeOfUnit + " has been created successfully in location ( "
                 + location.getX() + " , " + location.getY() + " ) !";
     }

@@ -171,9 +171,6 @@ public class BuildingPageController implements Initializable {
     }
 
     public void exitPage(MouseEvent mouseEvent) {
-//        Node  source = (Node)  mouseEvent.getSource();
-//        Stage stage  = (Stage) source.getScene().getWindow();
-//        stage.close();
         Main.otherStage.close();
         Main.loadNewStage("purchase", "purchase");
     }
