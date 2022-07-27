@@ -1,5 +1,6 @@
 package game.View.controller;
 
+import game.Controller.UserController;
 import game.Controller.game.City.CreateUnit;
 import game.Controller.game.CityController;
 import game.Controller.game.GameController;
@@ -15,6 +16,20 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import game.Model.Citizen;
+import game.Model.Civilization;
+import game.Model.User;
+import game.View.components.Tile;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -42,6 +57,7 @@ public class CityPanelController {
     public Button changeButton;
     public TextField constructionText;
     public Button purchaseButton;
+    public AnchorPane anchorPane;
 
     public static void openCityPanel() {
         if (selectedCity == null) CityPanelController.showError("Please select a city first!");
@@ -118,5 +134,47 @@ public class CityPanelController {
         Tooltip.install(cityPanelImageView , new Tooltip("City Panel"));
         cityPanelImageView.getStyleClass().add("cityPanelImageView") ;
         cityPanelImageView.setOnMouseClicked(mouseEvent -> CityPanelController.openCityPanel());
+    }
+
+    public void showUnemployedCitizens(ActionEvent actionEvent) {
+        if (selectedCity.getCitizens().size() != 0
+                && hasUnemployed()) {
+            TableView<Citizen> citizenTableView = new TableView<>();
+            TableColumn column = new TableColumn<>("number");
+
+            citizenTableView.setEditable(true);
+            citizenTableView.getColumns().add(column);
+
+            column.setCellValueFactory(new PropertyValueFactory<>("number"));
+            column.prefWidthProperty().bind(citizenTableView.widthProperty().multiply(0.5));
+            column.setResizable(false);
+            citizenTableView.setItems(getUnemployedCitizens());
+
+            anchorPane.getChildren().add(citizenTableView);
+            AnchorPane.setLeftAnchor(citizenTableView, 350.0);
+            AnchorPane.setTopAnchor(citizenTableView, 100.0);
+            anchorPane.setOnMouseClicked(mouseEvent -> citizenTableView.setVisible(false));
+        }
+        else if (selectedCity.getCitizens().size() == 0) {
+            showError("This city doesn't have any citizen!");
+        } else if (!hasUnemployed()) {
+            showError("This city doesn't have any unemployed citizen!");
+        }
+    }
+
+    private ObservableList<Citizen> getUnemployedCitizens() {
+        ObservableList<Citizen> citizens = FXCollections.observableArrayList();
+        for (Citizen citizen : selectedCity.getCitizens()) {
+            if (citizen.getTerrain() != null)
+                citizens.add(citizen);
+        }
+        return citizens;
+    }
+
+    private boolean hasUnemployed() {
+        for (Citizen citizen : selectedCity.getCitizens()) {
+            if (citizen.getTerrain() == null) return true;
+        }
+        return false;
     }
 }

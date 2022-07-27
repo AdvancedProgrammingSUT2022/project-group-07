@@ -11,6 +11,8 @@ public class PurchasePageController {
     public Button cityButton;
 
     public void buyBuilding(ActionEvent actionEvent) {
+        Main.otherStage.close();
+        Main.loadNewStage("buildingMenu", "buildingPage");
     }
 
     public void buyUnit(ActionEvent actionEvent) {

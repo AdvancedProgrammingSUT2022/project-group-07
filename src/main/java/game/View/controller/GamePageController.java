@@ -35,6 +35,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.ImagePattern;
+import javafx.stage.Popup;
+import javafx.stage.Window;
 import javafx.scene.shape.Circle;
 import javafx.stage.Popup;
 import javafx.stage.Window;
@@ -115,6 +117,7 @@ public class GamePageController {
     private Popup popup = new Popup();
 
     public void initialize() {
+
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
         firstX = game.getTranslateX();
         firstY = game.getTranslateY();
@@ -150,7 +153,6 @@ public class GamePageController {
         initializeNextTurnButton();
         initializeOthersPanel() ;
         initializeDiplomacyPanel() ;
-
         CityPanelController.initializeCityPanel(cityPanelImageView);
 
 
@@ -289,7 +291,7 @@ public class GamePageController {
                 }
             }
         });
-        
+
         String style = "   -fx-background-image: url(../resources/game/assets/Button_Normal.png);" +
                 "    -fx-background-size:  100% 100%;" +
                 "    -fx-background-repeat: no-repeat;" +

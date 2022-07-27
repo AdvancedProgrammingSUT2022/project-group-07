@@ -1,10 +1,12 @@
 package game.View.controller;
 
 import game.Controller.game.City.CreateUnit;
+import game.Controller.game.GameController;
 import game.Main;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
@@ -108,6 +110,10 @@ public class UnitMenuController {
 
     public void panzer(MouseEvent mouseEvent) {
         CreateUnit.createUnit("panzer");
+    }
+
+    public void worker(MouseEvent mouseEvent) {
+        CreateUnit.buyUnitWithGold(GameController.getInstance());
     }
 
     public static void showConfirm(String message) {

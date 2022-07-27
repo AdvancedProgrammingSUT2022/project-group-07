@@ -3,6 +3,7 @@ package game.View.controller;
 import game.Controller.game.SelectController;
 import game.Enum.Building;
 import game.Enum.TypeOfTechnology;
+import game.Main;
 import game.Model.City;
 import game.Model.UnderConstructionBuilding;
 import javafx.application.Platform;
@@ -170,9 +171,8 @@ public class BuildingPageController implements Initializable {
     }
 
     public void exitPage(MouseEvent mouseEvent) {
-        Node  source = (Node)  mouseEvent.getSource();
-        Stage stage  = (Stage) source.getScene().getWindow();
-        stage.close();
+        Main.otherStage.close();
+        Main.loadNewStage("purchase", "purchase");
     }
 
     private void handleBuyingBuilding (Building building){
