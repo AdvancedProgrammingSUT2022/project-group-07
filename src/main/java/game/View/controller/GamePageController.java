@@ -11,6 +11,16 @@ import game.Main;
 import game.Model.*;
 import game.View.components.Tile;
 import javafx.application.Platform;
+
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -21,6 +31,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.stage.Popup;
 import javafx.stage.Window;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -77,6 +88,13 @@ public class GamePageController {
     public Label currentCivilizationLabel = new Label() ;
 
     public ImageView cityPanelImageView = new ImageView(new Image(getClass().getResource("/game/assets/Civ_LEADER_CATHERINE_DE_MEDICI.png").toExternalForm())) ;
+
+    // cheat stage :
+    final BooleanProperty controlPressed = new SimpleBooleanProperty(false);
+    final BooleanProperty leftShiftPressed = new SimpleBooleanProperty(false);
+    final BooleanProperty cPressed = new SimpleBooleanProperty(false);
+    final BooleanBinding ctrlAndShiftAndCPressed = controlPressed.and(leftShiftPressed.and(cPressed));
+
 
     public void initialize() {
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
@@ -189,7 +207,46 @@ public class GamePageController {
                 game.requestFocus();
             }
         });
+        initializeGameKeyboardButtons();
+        Main.playMenuMusic();
+        //Movement.initializeMovements();
+    }
 
+
+    private void initializeGameKeyboardButtons() {
+        ctrlAndShiftAndCPressed.addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                if (ctrlAndShiftAndCPressed.get()) {
+                    try {
+                        CheatController.startUp();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        game.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode() == KeyCode.SHIFT) leftShiftPressed.set(true);
+                else if (keyEvent.getCode() == KeyCode.CONTROL) controlPressed.set(true);
+                else if (keyEvent.getCode() == KeyCode.C) cPressed.set(true);
+
+                else if (keyEvent.getCode() == KeyCode.LEFT)  MapMovement.moveLeft(game, firstX);
+                else if (keyEvent.getCode() == KeyCode.RIGHT)  MapMovement.moveRight(game, firstX);
+                else if (keyEvent.getCode() == KeyCode.UP)  MapMovement.moveUp(game, firstY);
+                else if (keyEvent.getCode() == KeyCode.DOWN)  MapMovement.moveDown(game, firstY);
+            }
+        });
+        game.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode() == KeyCode.SHIFT) leftShiftPressed.set(false);
+                else if (keyEvent.getCode() == KeyCode.CONTROL) controlPressed.set(false);
+                else if (keyEvent.getCode() == KeyCode.C) cPressed.set(false);
+            }
+        });
     }
 
     public void move(KeyEvent keyEvent) {
@@ -352,7 +409,7 @@ public class GamePageController {
         nextTurnImageView.setFitWidth(100);
         nextTurnImageView.setPreserveRatio(true);
         nextTurnImageView.getStyleClass().add("nextTurn") ;
-        nextTurnImageView.setOnMouseClicked(mouseEvent -> GameController.getInstance().nextTurn(GameController.getInstance()));
+        nextTurnImageView.setOnMouseClicked(mouseEvent -> GameController.getInstance().nextTurn(GameController.getInstance(), game));
         nextTurnImageView.setImage(new Image(getClass().getResource("/game/images/icons/NEXT_TURN_ICON.png").toExternalForm()));
     }
 

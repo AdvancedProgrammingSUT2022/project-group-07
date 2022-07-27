@@ -2,15 +2,20 @@ package game.View.components;
 
 
 import game.Controller.game.*;
+import game.Controller.game.SelectController;
 import game.Enum.Resources;
 import game.Enum.TypeOfTerrain;
 import game.Main;
 import game.Model.Civilization;
 import game.Model.Terrain;
 import game.Model.Unit;
+import javafx.animation.Transition;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -41,6 +46,25 @@ public class Tile extends Polygon {
     private Terrain terrain;
     private Circle attackUnit;
     private Circle civilUnit;
+    private Unit attack;
+    private Unit civil;
+
+    public Unit getAttack() {
+        return attack;
+    }
+
+    public void setAttack(Unit attack) {
+        this.attack = attack;
+    }
+
+    public Unit getCivil() {
+        return civil;
+    }
+
+    public void setCivil(Unit civil) {
+        this.civil = civil;
+    }
+
     private Popup popup;
     private Unit unit;
 
@@ -66,16 +90,14 @@ public class Tile extends Polygon {
         return tiles;
     }
 
-    public void setBackground(String addressType, String addressTypeFeature,
-                              Resources resources, TypeOfTerrain typeOfTerrain)
+
+    public void setBackground(String addressType, String addressTypeFeature, Resources resources,
+                              TypeOfTerrain typeOfTerrain, TerrainFeatures tFeature)
     {
         URL address = getClass().getResource("/game/assets/civAsset/map/Tiles/terrainsAndFeatures/" + addressTypeFeature);
-        try {
-            setFill(new ImagePattern((new Image(getClass().getResource("/game/assets/civAsset/map/Tiles/terrainsAndFeatures/"
-                    + addressType).toExternalForm()))));
-        } catch (Exception e) {
-            System.out.println(addressType);
-        }
+        setFill(new ImagePattern((new Image(getClass().getResource("/game/assets/civAsset/map/Tiles/terrainsAndFeatures/"
+                + addressType).toExternalForm()))));
+
         if (address != null) {
             ImagePattern imagePattern = new ImagePattern(new Image(address.toExternalForm()));
             this.feature = new ImageView();
@@ -291,6 +313,8 @@ public class Tile extends Polygon {
             for (Unit unit : civilization.getUnits()) {
                 if (TerrainController.getTerrainByLocation(unit.getLocation()).equals(this.getTerrain())) {
                     this.unit = unit;
+                    if (UnitController.isCivilUnit(unit)) this.civil = unit;
+                    else this.attack = unit;
                     setUnitBackground(unit);
                 }
             }
@@ -303,6 +327,12 @@ public class Tile extends Polygon {
             this.civilUnit.setFill(new ImagePattern(new Image(Main.class.getResource(
                     "/game/assets/civAsset/units/Units/" + unit.getTypeOfUnit().getName() + ".png"
             ).toExternalForm())));
+            this.civilUnit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    SelectController.selectedUnit = civil;
+                }
+            });
         } else {
             if (this.attackUnit == null) {
                 this.attackUnit = new Circle(this.x - 20, this.y, 35);
@@ -310,6 +340,12 @@ public class Tile extends Polygon {
             this.attackUnit.setFill(new ImagePattern(new Image(Main.class.getResource(
                     "/game/assets/civAsset/units/Units/" + unit.getTypeOfUnit().getName() + ".png"
             ).toExternalForm())));
+            this.attackUnit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    SelectController.selectedUnit = attack;
+                }
+            });
         }
     }
 
