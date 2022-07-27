@@ -66,9 +66,11 @@ public class Movement {
         String result = UnitController.moveUnit(tile, GameController.getInstance(), unit);
         if (result.startsWith("Selected unit moved to")) {
             tileFirst.getCivilUnit().setRadius(0);
+
             tileFirst.getAttackUnit().setRadius(0);
             tileFirst.setCivil(null);
             tileFirst.setAttack(null);
+
             tileFirst.setUnit(null);
             for (Tile[] tiles : GameController.getInstance().getMap()) {
                 for (Tile tile1 : tiles) {
