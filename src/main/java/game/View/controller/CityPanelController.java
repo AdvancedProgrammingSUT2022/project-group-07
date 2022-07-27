@@ -44,18 +44,18 @@ public class CityPanelController {
     public Button purchaseButton;
 
     public static void openCityPanel() {
-//        if (selectedCity == null) CityPanelController.showError("Please select a city first!");
-//        else
+        if (selectedCity == null) CityPanelController.showError("Please select a city first!");
+        else
             Main.loadNewStage("city", "cityPanel");
     }
 
     public void initialize() {
-//        name.setText(selectedCity.getName());
-//        food.setText(String.valueOf(selectedCity.getFood()));
-//        production.setText(String.valueOf(selectedCity.getProduction()));
-//        citizens.setText(String.valueOf(selectedCity.getCitizens().size()));
-//        hp.setText(String.valueOf(selectedCity.getHp()));
-//        power.setText(String.valueOf(selectedCity.getDefencePower()));
+        name.setText(selectedCity.getName());
+        food.setText(String.valueOf(selectedCity.getFood()));
+        production.setText(String.valueOf(selectedCity.getProduction()));
+        citizens.setText(String.valueOf(selectedCity.getCitizens().size()));
+        hp.setText(String.valueOf(selectedCity.getHp()));
+        power.setText(String.valueOf(selectedCity.getDefencePower()));
     }
 
     public void buyTile(ActionEvent actionEvent) {

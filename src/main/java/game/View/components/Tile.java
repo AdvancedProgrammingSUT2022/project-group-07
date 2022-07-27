@@ -3,18 +3,26 @@ package game.View.components;
 
 import game.Controller.game.*;
 import game.Controller.game.SelectController;
+import game.Controller.game.SelectController;
 import game.Enum.Resources;
 import game.Enum.TerrainFeatures;
 import game.Enum.TypeOfTerrain;
 import game.Main;
+import game.Controller.game.GameController;
+import game.Controller.game.TerrainController;
+import game.Controller.game.UnitController;
+import game.Main;
 import game.Model.Civilization;
 import game.Model.Terrain;
 import game.Model.Unit;
+import game.View.controller.Movement;
 import javafx.animation.Transition;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -69,9 +77,41 @@ public class Tile extends Polygon {
     private Popup popup;
     private Unit unit;
 
+    public Popup getPopup() {
+        return popup;
+    }
+    public ImageView getFeature() {
+        return feature;
+    }
+
+    public static double getTileHeight() {
+        return TILE_HEIGHT;
+    }
+
+    public static double getTileWidth() {
+        return TILE_WIDTH;
+    }
+
+    public static double getR() {
+        return r;
+    }
+
+    public static double getN() {
+        return n;
+    }
+
+    public Terrain getTerrain() {
+        return terrain;
+    }
+
+    public void setTerrain(Terrain terrain) {
+        this.terrain = terrain;
+    }
+
     public Tile(double x, double y, Terrain terrain) {
         this.x = x + 18;
         this.y = y - 50;
+        // creates the polygon using the corner coordinates
         getPoints().addAll(
                 x, y,
                 x + 0.5 * r, y + n,
@@ -85,11 +125,16 @@ public class Tile extends Polygon {
         setStroke(Color.WHITE);
         this.terrain = terrain;
         tiles.add(this);
+        this.civilUnit = new Circle();
+        this.civilUnit.setRadius(0);
+        this.attackUnit = new Circle();
+        this.attackUnit.setRadius(0);
     }
 
     public static ArrayList<Tile> getTiles() {
         return tiles;
     }
+
 
 
     public void setBackground(String addressType, String addressTypeFeature, Resources resources,
@@ -144,6 +189,10 @@ public class Tile extends Polygon {
     private void checkMouseAction() {
         setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                if (Movement.isMoving) {
+                    Movement.move(this);
+                    return;
+                }
                 CityController.checkCityCenter(this);
             }
             else {
@@ -184,6 +233,10 @@ public class Tile extends Polygon {
     private void checkMouseAction(Resources resources) {
         setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                if (Movement.isMoving) {
+                    Movement.move(this);
+                    return;
+                }
                 CityController.checkCityCenter(this);
             }else {
                 Window window = Main.scene.getWindow();
@@ -308,86 +361,6 @@ public class Tile extends Polygon {
         return text;
     }
 
-    public void updateUnitBackground() {
-        GameController gameController = GameController.getInstance();
-        for (Civilization civilization : gameController.getCivilizations()) {
-            for (Unit unit : civilization.getUnits()) {
-                if (TerrainController.getTerrainByLocation(unit.getLocation()).equals(this.getTerrain())) {
-                    this.unit = unit;
-                    if (UnitController.isCivilUnit(unit)) this.civil = unit;
-                    else this.attack = unit;
-                    setUnitBackground(unit);
-                }
-            }
-        }
-    }
-
-    private void setUnitBackground(Unit unit) {
-        if (UnitController.isCivilUnit(unit)) {
-            if (this.civilUnit == null) this.civilUnit = new Circle(this.x - 10, this.y, 35);
-            this.civilUnit.setFill(new ImagePattern(new Image(Main.class.getResource(
-                    "/game/assets/civAsset/units/Units/" + unit.getTypeOfUnit().getName() + ".png"
-            ).toExternalForm())));
-            this.civilUnit.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    SelectController.selectedUnit = civil;
-                }
-            });
-        } else {
-            if (this.attackUnit == null) {
-                this.attackUnit = new Circle(this.x - 20, this.y, 35);
-            }
-            this.attackUnit.setFill(new ImagePattern(new Image(Main.class.getResource(
-                    "/game/assets/civAsset/units/Units/" + unit.getTypeOfUnit().getName() + ".png"
-            ).toExternalForm())));
-            this.attackUnit.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    SelectController.selectedUnit = attack;
-                }
-            });
-        }
-    }
-
-    public Popup getPopup() {
-        return popup;
-    }
-    public ImageView getFeature() {
-        return feature;
-    }
-
-    public static double getTileHeight() {
-        return TILE_HEIGHT;
-    }
-
-    public static double getTileWidth() {
-        return TILE_WIDTH;
-    }
-
-    public static double getR() {
-        return r;
-    }
-
-    public static double getN() {
-        return n;
-    }
-
-    public Terrain getTerrain() {
-        return terrain;
-    }
-
-    public void setTerrain(Terrain terrain) {
-        this.terrain = terrain;
-    }
-
-    public Unit getUnit() {
-        return unit;
-    }
-
-    public void setUnit(Unit unit) {
-        this.unit = unit;
-    }
 
     public Circle getAttackUnit() {
         return attackUnit;
@@ -395,6 +368,10 @@ public class Tile extends Polygon {
 
     public Circle getCivilUnit() {
         return civilUnit;
+    }
+
+    public Unit getUnit() {
+        return unit;
     }
 
     public void setAttackUnit(Circle attackUnit) {
@@ -413,4 +390,54 @@ public class Tile extends Polygon {
         return y;
     }
 
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public void updateUnitBackground() {
+        GameController gameController = GameController.getInstance();
+        for (Civilization civilization : gameController.getCivilizations()) {
+            for (Unit unit : civilization.getUnits()) {
+                if (TerrainController.getTerrainByLocation(unit.getLocation()).equals(this.getTerrain())) {
+                    this.unit = unit;
+                    if (UnitController.isCivilUnit(unit)) this.civil = unit;
+                    else this.attack = unit;
+                    setUnitBackground(unit);
+                }
+            }
+
+        }
+    }
+
+    private void setUnitBackground(Unit unit) {
+        if (UnitController.isCivilUnit(unit)) {
+            if (this.civilUnit.getRadius() == 0) {
+                this.civilUnit.setCenterX(this.x - 10);
+                this.civilUnit.setCenterY(this.y);
+                this.civilUnit.setRadius(35);
+            }
+            this.civilUnit.setFill(new ImagePattern(new Image(Main.class.getResource(
+                    "/game/assets/civAsset/units/Units/" + unit.getTypeOfUnit().getName() + ".png"
+            ).toExternalForm())));
+            this.civilUnit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    SelectController.selectedUnit = civil;
+                }
+            });
+        } else {
+            if (this.attackUnit.getRadius() == 0) {
+                this.attackUnit = new Circle(this.x - 20, this.y, 35);
+            }
+            this.attackUnit.setFill(new ImagePattern(new Image(Main.class.getResource(
+                    "/game/assets/civAsset/units/Units/" + unit.getTypeOfUnit().getName() + ".png"
+            ).toExternalForm())));
+            this.attackUnit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    SelectController.selectedUnit = attack;
+                }
+            });
+        }
+    }
 }

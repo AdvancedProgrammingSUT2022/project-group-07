@@ -26,8 +26,9 @@ public class GameController {
     public int time;
     public int turn;
     public Civilization currentCivilization;
-
     private static GameController instance;
+
+
 
     public static GameController getInstance() {
         if (instance == null) instance = new GameController();
