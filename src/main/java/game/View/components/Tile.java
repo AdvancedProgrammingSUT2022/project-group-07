@@ -296,7 +296,6 @@ public class Tile extends Polygon {
         popup.getContent().add(anchorPane);
 
         setOnMouseMoved(e -> popup.hide());
-
         popup.setAutoHide(true);
         popup.show(window);
     }

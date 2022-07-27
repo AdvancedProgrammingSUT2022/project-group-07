@@ -282,8 +282,8 @@ public class MapController {
                 map[y][x] = TileController.createTile(
                          new Terrain(
                                  typeOfTerrainUsed , typeOfTerrainFeatureUsed , resources ,
-                                 new Location(x , y)
-                         ), x , y
+                                 new Location(x  , y)
+                         ), x   , y - 1
                 );
             }
         }

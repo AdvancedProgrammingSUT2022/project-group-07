@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
 <?import java.net.URL?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="game.View.controller.GamePageController"
-            prefHeight="700.0" prefWidth="1100.0" fx:id="game"
-            styleClass="anchorPane" onKeyPressed="#move">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="game" onKeyPressed="#move" prefHeight="700.0" prefWidth="1100.0" styleClass="anchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.View.controller.GamePageController">
     <stylesheets>
-        <URL value="@../css/game.css"/>
+        <URL value="@../css/game.css" />
     </stylesheets>
+
 
 </AnchorPane>
