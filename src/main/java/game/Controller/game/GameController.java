@@ -124,13 +124,12 @@ public class GameController {
     }
 
     private static MapDimension chooseRandomMap() {
-        Random rand = new Random();
-        int randomNumber = rand.nextInt(15);
-        if (randomNumber % 3 == 0)
+        int players = GameController.getInstance().getPlayers().size();
+        if (players <= 3)
             return MapDimension.SMALL;
-        if (randomNumber % 4 == 0)
-            return MapDimension.LARGE;
-        return MapDimension.STANDARD;
+        if (players <= 5)
+            return MapDimension.STANDARD;
+        return MapDimension.LARGE;
     }
 
     public void run() {
@@ -171,7 +170,7 @@ public class GameController {
         this.turn = turn;
     }
 
-    public void nextTurn(GameController gameController , AnchorPane game) {
+    public void nextTurn(GameController gameController, AnchorPane game) {
         int index = gameController.getCivilizations().indexOf(gameController.getCurrentCivilization());
         if (index == gameController.getCivilizations().size() - 1) {
             gameController.setTurn(gameController.getTurn() + 1);

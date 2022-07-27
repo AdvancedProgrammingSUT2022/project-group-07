@@ -133,21 +133,21 @@ public class UpdateCityElements {
     }
 
     public static void cityGrowth(Civilization civilization) {
-        ArrayList<City> cities = civilization.getCities();
-        for (City city : cities) {
-            if (city.getTurnsTillGrowth() == 0) {
-                ArrayList<Terrain> availableTerrains = CityController.getAvailableTilesToBuy(
-                        city, GameController.getInstance().getMap(),
-                        GameController.getInstance().getMapWidth(), GameController.getInstance().getMapHeight()
-                );
-                Terrain terrainToBuy = availableTerrains.get((new Random()).nextInt(availableTerrains.size()));
-                CityController.addTileToCity(city, terrainToBuy);
-                NotificationController.logNewTileAddedToCity(terrainToBuy, city);
-                int turnsTillGrowth = (int) (Math.log(128 * city.getTerrains().size() - city.getCitizens().size()) / Math.log(2));
-                city.setTurnsTillGrowth(turnsTillGrowth + 1);
-            } else
-                city.setTurnsTillGrowth(city.getTurnsTillGrowth() - 1);
-        }
+//        ArrayList<City> cities = civilization.getCities();
+//        for (City city : cities) {
+//            if (city.getTurnsTillGrowth() == 0) {
+//                ArrayList<Terrain> availableTerrains = CityController.getAvailableTilesToBuy(
+//                        city, GameController.getInstance().getMap(),
+//                        GameController.getInstance().getMapWidth(), GameController.getInstance().getMapHeight()
+//                );
+//                Terrain terrainToBuy = availableTerrains.get((new Random()).nextInt(availableTerrains.size()));
+//                CityController.addTileToCity(city, terrainToBuy);
+//                NotificationController.logNewTileAddedToCity(terrainToBuy, city);
+//                int turnsTillGrowth = (int) (Math.log(128 * city.getTerrains().size() - city.getCitizens().size()) / Math.log(2));
+//                city.setTurnsTillGrowth(turnsTillGrowth + 1);
+//            } else
+//                city.setTurnsTillGrowth(city.getTurnsTillGrowth() - 1);
+//        }
     }
 
     public static void citizenGrowth(Civilization civilization) {

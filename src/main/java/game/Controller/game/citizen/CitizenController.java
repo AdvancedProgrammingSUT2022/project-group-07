@@ -1,33 +1,47 @@
 package game.Controller.game.citizen;
 
-import game.Controller.game.CityController;
-import game.Controller.game.GameController;
-import game.Controller.game.TerrainController;
+import game.Controller.game.*;
 import game.Model.*;
+import game.View.components.Tile;
+import game.View.controller.CityPanelController;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
+
+import static game.View.controller.CityPanelController.showConfirm;
+import static game.View.controller.CityPanelController.showError;
 
 public class CitizenController {
 
-    public static String unlock(City city, Matcher matcher) {
-        int citizenNumber = Integer.parseInt(matcher.group("number"));
-        if (city.getCitizens().size() < citizenNumber) return "this citizen does not exist in the city selected!";
-        if (isCitizenUnemployed(city.getCitizens().get(citizenNumber - 1))) return "this citizen is unemployed already!";
+    public static void unlock(City city, String message) {
+        int citizenNumber = Integer.parseInt(message);
+        if (city.getCitizens().size() <= citizenNumber)
+            showError("this citizen does not exist in the city selected!");
+        if (isCitizenUnemployed(city.getCitizens().get(citizenNumber - 1)))
+            showError("this citizen is unemployed already!");
         city.getCitizens().get(citizenNumber - 1).removeWork();
-        return "citizen was unlocked from his tile successfully!";
+        showConfirm("citizen " + citizenNumber + " was unlocked from his tile successfully!");
     }
 
-    public static String lock(City city, Matcher matcher , GameController gameController) {
-        int citizenNumber = Integer.parseInt(matcher.group("number"));
-        Location location = new Location(Integer.parseInt(matcher.group("X")) , Integer.parseInt(matcher.group("Y")));
-        if (city.getCitizens().size() < citizenNumber) return "this citizen does not exist in the city selected!";
-        if (!isCitizenUnemployed(city.getCitizens().get(citizenNumber - 1))) return "this is not an unemployed citizen!";
-        Terrain terrain = TerrainController.getTerrainByLocation(location);
-        if (terrain == null) return "location selected is out of bound!";
-        if (!CityController.isTileInCity(city , terrain)) return "this area does not belong to the selected city!";
-        if (isSomeBodyAlreadyWorkingThere(terrain , gameController)) return "this terrain is already occupied by someone else!";
+    public static void lock(City city, String[] message) {
+        int citizenNumber = Integer.parseInt(message[0]);
+        int tileNumber = Integer.parseInt(message[1]);
+        ArrayList<Tile> tiles = Tile.getTiles();
+        Terrain terrain = tiles.get(tileNumber - 1).getTerrain();
+
+        if (city.getCitizens().size() <= citizenNumber)
+            showError("this citizen does not exist in the city selected!");
+        if (!isCitizenUnemployed(city.getCitizens().get(citizenNumber - 1)))
+            showError("this is not an unemployed citizen!");
+        if (terrain == null)
+            showError("location selected is out of bound!");
+        if (!CityController.isTileInCity(city , terrain))
+            showError("this area does not belong to the selected city!");
+        if (isSomeBodyAlreadyWorkingThere(terrain , GameController.getInstance()))
+            showError("this terrain is already occupied by someone else!");
+
         city.getCitizens().get(citizenNumber - 1).assignWork(terrain);
-        return "citizen assigned to work successfully!";
+        showConfirm("citizen " + citizenNumber + " assigned to work successfully!");
     }
 
     private static boolean isSomeBodyAlreadyWorkingThere(Terrain terrain , GameController gameController) {

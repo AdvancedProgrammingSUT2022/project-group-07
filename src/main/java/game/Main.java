@@ -21,6 +21,8 @@ public class Main extends Application {
 
     public static Stage mainStage;
     public static Scene scene;
+    public static Stage otherStage;
+
     public static MediaPlayer mediaPlayer;
     public static void main(String[] args) {
         launch();
@@ -59,6 +61,7 @@ public class Main extends Application {
 
     public static void loadNewStage (String stageTitle , String fxmlName){
         Stage newStage = new Stage();
+        otherStage = newStage;
         newStage.setOnCloseRequest(windowEvent -> {
             newStage.toBack();
             newStage.close();

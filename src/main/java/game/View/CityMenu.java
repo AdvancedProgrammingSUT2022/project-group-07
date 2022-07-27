@@ -34,35 +34,35 @@ public class CityMenu extends Menu {
             if (CityMenuCommands.getMatcher(input, CityMenuCommands.EXIT) != null)
                 break;
             else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.CREATE_UNIT)) != null) {
-                String result = CreateUnit.checkRequiredTechsAndResourcesToCreateUnit(matcher, gameController);
-                System.out.println(result);
+//                String result = CreateUnit.checkRequiredTechsAndResourcesToCreateUnit(matcher, gameController);
+//                System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.BUY_UNIT_WITH_GOLD)) != null) {
                 String result = CreateUnit.buyUnitWithGold(gameController);
                 System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.CHANGE_UNIT_CONSTRUCTION)) != null) {
-                String result = CreateUnit.changeUnitConstruction(matcher);
-                System.out.println(result);
+//                String result = CreateUnit.changeUnitConstruction(matcher);
+//                System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.REMOVE_UNIT_CONSTRUCTION)) != null) {
                 String result = CreateUnit.removeUnitConstruction(matcher);
                 System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.EMPLOY_CITIZEN_TO_TILE)) != null) {
-                String result = CitizenController.lock(city, matcher, gameController);
-                System.out.println(result);
+//                String result = CitizenController.lock(city, matcher, gameController);
+//                System.out.println(result);
             } else if ((matcher = CityMenuCommands.getMatcher(input, CityMenuCommands.UNLOCK_CITIZEN)) != null) {
-                String result = CitizenController.unlock(city, matcher);
-                System.out.println(result);
+//                String result = CitizenController.unlock(city, matcher);
+//                System.out.println(result);
             } else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.CITY_SHOW_TILES_OWNED)) != null) {
                 String result = CityController.showTilesOwned();
                 System.out.println(result);
             } else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.CITY_SHOW_TILES_AVAILABLE)) != null) {
-                String result = CityController.showTilesAvailable(GameController.getInstance().getMap(),
-                        GameController.getInstance().getMapWidth(), GameController.getInstance().getMapHeight());
-                System.out.println(result);
+//                String result = CityController.showTilesAvailable(GameController.getInstance().getMap(),
+//                        GameController.getInstance().getMapWidth(), GameController.getInstance().getMapHeight());
+//                System.out.println(result);
             } else if ((matcher = GameMenuCommands.getMatcher(input, GameMenuCommands.CITY_BUY_TILE)) != null) {
-                String result = CityController.buyTile(matcher, GameController.getInstance().getMap(),
-                        GameController.getInstance().getMapWidth(), GameController.getInstance().getMapHeight(),
-                        gameController.getCurrentCivilization());
-                System.out.println(result);
+//                String result = CityController.buyTile(matcher, GameController.getInstance().getMap(),
+//                        GameController.getInstance().getMapWidth(), GameController.getInstance().getMapHeight(),
+//                        gameController.getCurrentCivilization());
+//                System.out.println(result);
             }
             else if ((CityMenuCommands.getMatcher(input , CityMenuCommands.SHOW_UNEMPLOYED_CITIZENS)) != null) {
                 String result = CityController.showUnemployedCitizens(city);

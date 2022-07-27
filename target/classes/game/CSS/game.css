@@ -117,3 +117,9 @@
     -fx-scale-y: 110%;
     -fx-scale-z: 110%;
 }
+
+.cityPanelImageView:hover{
+    -fx-scale-x: 110%;
+    -fx-scale-y: 110%;
+    -fx-scale-z: 110%;
+}
