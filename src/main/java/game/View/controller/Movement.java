@@ -2,7 +2,7 @@ package game.View.controller;
 
 import game.Controller.game.*;
 import game.Controller.game.units.Settler;
-import game.Main;
+import game.Enum.UnitStatus;
 import game.Model.City;
 import game.Model.Civilization;
 import game.Model.Terrain;
@@ -10,13 +10,7 @@ import game.Model.Unit;
 import game.View.components.Tile;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
@@ -28,21 +22,20 @@ public class Movement {
 
     }
 
-    public static void initializeActionButtons(ArrayList<Button> buttons) {
+    public static void initializeActionButtons(ArrayList<Button> buttons, AnchorPane game) {
         Button foundCity = buttons.get(0);
         foundCity.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 String result = Settler.foundCity(null, GameController.getInstance());
                 if (result.equals("found new city!")) {
-                    ImageView cityCenter = new ImageView(new Image(
-                            getClass().getResource("/game/assets/cityInfo/city.png").toExternalForm()
-                    ));
-                    cityCenter.setFitHeight(20);
-                    cityCenter.setFitWidth(20);
+
                     Civilization civilization = GameController.getInstance().currentCivilization;
                     City city = civilization.getCities().get(civilization.getCities().size() - 1);
-                    SelectController.selectedCity = city;
+                    Unit unit = SelectController.selectedUnit;
+                    Tile tile = TileController.getTileByTerrain(TerrainController.getTerrainByLocation(unit.getLocation()));
+                    tile.setCityCenter();
+                    game.getChildren().add(tile.getCityCenter());
                     //TileController.getTileByTerrain(city.getTerrains().get(0)).
                 }
             }
@@ -57,6 +50,25 @@ public class Movement {
                 isMoving = true;
             }
         });
+        Button delete = buttons.get(2);
+        delete.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                UnitController.deleteUnit(GameController.getInstance());
+                Terrain terrain = TerrainController.getTerrainByLocation(SelectController.selectedUnit.getLocation());
+                Tile tile = TileController.getTileByTerrain(terrain);
+                tile.setUnit(null);
+                tile.getCivilUnit().setRadius(0);
+                SelectController.selectedUnit = null;
+            }
+        });
+        Button sleep = buttons.get(3);
+        sleep.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                SelectController.selectedUnit.setUnitStatus(UnitStatus.SLEEP);
+            }
+        });
     }
 
     public static void move(Tile tile) {
@@ -66,10 +78,9 @@ public class Movement {
         String result = UnitController.moveUnit(tile, GameController.getInstance(), unit);
         if (result.startsWith("Selected unit moved to")) {
             tileFirst.getCivilUnit().setRadius(0);
+            tileFirst.getAttackUnit().setRadius(0);
             tileFirst.setCivil(null);
-            tileFirst.setCivilUnit(null);
             tileFirst.setAttack(null);
-            tileFirst.setAttackUnit(null);
             tileFirst.setUnit(null);
             for (Tile[] tiles : GameController.getInstance().getMap()) {
                 for (Tile tile1 : tiles) {

@@ -30,7 +30,7 @@ public class MapMovement {
     }
 
     private static boolean canMoveLeft(double n, double firstX) {
-        return !(n >= firstX + 50);
+        return !(n >= firstX  + 200);
     }
 
     private static boolean canMoveRight(double n, double firstX) {

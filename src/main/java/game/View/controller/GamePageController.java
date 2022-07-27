@@ -20,14 +20,20 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Popup;
 import javafx.stage.Window;
@@ -56,6 +62,7 @@ public class GamePageController {
 
     // research panel and stuff
     public ImageView currentResearchImageView = new ImageView() ;
+    public ImageView setting;
     ProgressBar progressBar = new ProgressBar() ;
     public ToolBar researchPanel = new ToolBar() ;
 
@@ -95,7 +102,6 @@ public class GamePageController {
 
     public ImageView cityPanelImageView = new ImageView(new Image(getClass().getResource("/game/assets/Civ_LEADER_CATHERINE_DE_MEDICI.png").toExternalForm())) ;
 
-
     // cheat stage :
     final BooleanProperty controlPressed = new SimpleBooleanProperty(false);
     final BooleanProperty leftShiftPressed = new SimpleBooleanProperty(false);
@@ -103,7 +109,15 @@ public class GamePageController {
     final BooleanBinding ctrlAndShiftAndCPressed = controlPressed.and(leftShiftPressed.and(cPressed));
 
 
+
+    ///////////////////////////////////////////////////////////////
+    // setting panel ::
+    private AnchorPane settingPane;
+    private VBox settingBox;
+    private Popup popup = new Popup();
+
     public void initialize() {
+
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
         firstX = game.getTranslateX();
         firstY = game.getTranslateY();
@@ -141,6 +155,7 @@ public class GamePageController {
         initializeDiplomacyPanel() ;
         CityPanelController.initializeCityPanel(cityPanelImageView);
 
+
         game.getChildren().add(iconPanel);
         game.getChildren().add(researchPanel);
         game.getChildren().add(selectedUnitPanel);
@@ -149,6 +164,15 @@ public class GamePageController {
         game.getChildren().add(diplomacyPanelImageView) ;
         game.getChildren().add(cityPanelImageView);
         game.getChildren().add(unitActions);
+
+        /////////////////////////////////////////////////////////////////
+
+        setting = new ImageView(new Image(getClass().getResource("/game/assets/MainWindow/settings_gear.png").toExternalForm()));
+        setting.setOnMouseClicked(this::settingHandle);
+        setting.setPreserveRatio(true);
+        setting.setFitHeight(50);
+        setting.setFitWidth(50);
+        game.getChildren().add(setting);
 //        game.getChildren().add(currentCivilizationLabel);
 //        game.getChildren().add(saveButton);
 //        saveButton.setOnMouseClicked(mouseEvent -> {
@@ -219,16 +243,88 @@ public class GamePageController {
         //Movement.initializeMovements();
     }
 
+    private void initializeSetting() {
+        Button resume = new Button("resume");
+        resume.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                popup.hide();
+            }
+        });
+        Button autoSave = new Button("auto save");
+        autoSave.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                GameController.getInstance().saveData(GameController.getInstance() , "save1");
+            }
+        });
+        Button manualSave = new Button("save");
+        autoSave.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                GameController.getInstance().saveData(GameController.getInstance() , "save2");
+            }
+        });
+        Button muteSound = new Button("mute");
+        muteSound.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                MediaPlayer mediaPlayer = Main.getMediaPlayer();
+                if (mediaPlayer.isMute()) {
+                    muteSound.setText("mute");
+                }
+                else {
+                    muteSound.setText("unmute");
+                }
+                mediaPlayer.setMute(!mediaPlayer.isMute());
+            }
+        });
+        Button exitGame = new Button("exit");
+        exitGame.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    Main.changeScene("mainMenu");
+                    popup.hide();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        String style = "   -fx-background-image: url(../resources/game/assets/Button_Normal.png);" +
+                "    -fx-background-size:  100% 100%;" +
+                "    -fx-background-repeat: no-repeat;" +
+                "-fx-background-color: darkblue;" +
+                "    -fx-pref-height: 22;" +
+                "-fx-pref-width: 500;"+
+                "    -fx-font-size: 25;" +
+                "    -fx-font-family: \"B Nazanin\";" +
+                "    -fx-text-fill: white;" +
+                "    -fx-opacity: 80%;";
+        exitGame.setStyle(style);
+        muteSound.setStyle(style);
+        resume.setStyle(style);
+        autoSave.setStyle(style);
+        manualSave.setStyle(style);
+        settingBox = new VBox(resume , autoSave , manualSave ,muteSound , exitGame);
+        settingBox.setPadding(new Insets(10 , 10 , 10 , 10));
+        settingBox.setSpacing(10);
+        settingPane.getChildren().add(settingBox);
+    }
+
 
     private void initializeUnitActions() {
 
         unitActions.getItems().clear();
         Button foundCity = new Button("found city");
         Button move = new Button("move");
-        unitActions.getItems().addAll(foundCity , move);
+        Button deleteUnit = new Button("delete unit");
+        Button sleep = new Button("sleep");
+        unitActions.getItems().addAll(foundCity , move , deleteUnit , sleep);
         ArrayList<Button> buttons = new ArrayList<>();
-        buttons.add(foundCity); buttons.add(move);
-        Movement.initializeActionButtons(buttons);
+        buttons.add(foundCity); buttons.add(move); buttons.add(deleteUnit); buttons.add(sleep);
+        Movement.initializeActionButtons(buttons , game);
     }
 
 
@@ -335,12 +431,18 @@ public class GamePageController {
         selectedUnitPanel.setLayoutY(520+y);
         nextTurnImageView.setLayoutX(1000+x);
         nextTurnImageView.setLayoutY(600+y);
+        setting.setLayoutX(x + 1020);
+        setting.setLayoutY(300 + y);
         othersPanel.setLayoutX(300+x);
         othersPanel.setLayoutY(0+y);
         diplomacyPanelImageView.setLayoutX(x+1000);
         diplomacyPanelImageView.setLayoutY(y+80);
         unitActions.setLayoutX(x + 500);
         unitActions.setLayoutY(660 + y);
+        settingPane = new AnchorPane();
+        settingPane.setLayoutX(100);
+        settingPane.setLayoutY(100);
+        initializeSetting();
 //        saveButton.setLayoutX(x+400);
 //        saveButton.setLayoutY(y+300);
 //        currentCivilizationLabel.setLayoutX(x+300);
@@ -548,4 +650,9 @@ public class GamePageController {
         economicLabel.setTooltip(new Tooltip(economyInfo.toString()));
     }
 
+    public void settingHandle(MouseEvent mouseEvent) {
+        Window window = Main.scene.getWindow();
+        popup.getContent().add(settingPane);
+        popup.show(window);
+    }
 }

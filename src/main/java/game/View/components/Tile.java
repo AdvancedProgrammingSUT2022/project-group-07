@@ -55,7 +55,7 @@ public class Tile extends Polygon {
     private Circle civilUnit;
     private Unit attack;
     private Unit civil;
-
+    private Circle cityCenter;
     public Unit getAttack() {
         return attack;
     }
@@ -104,6 +104,14 @@ public class Tile extends Polygon {
 
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
+    }
+
+    public Circle getCityCenter() {
+        return cityCenter;
+    }
+
+    public void setCityCenter(Circle cityCenter) {
+        this.cityCenter = cityCenter;
     }
 
     public Tile(double x, double y, Terrain terrain) {
@@ -301,7 +309,6 @@ public class Tile extends Polygon {
         popup.getContent().add(anchorPane);
 
         setOnMouseMoved(e -> popup.hide());
-
         popup.setAutoHide(true);
         popup.show(window);
     }
@@ -444,5 +451,19 @@ public class Tile extends Polygon {
                 }
             });
         }
+    }
+    public void setCityCenter() {
+        cityCenter = new Circle(x - 75, y - 30 , 35);
+        cityCenter.setFill(new ImagePattern(new Image(Main.class.getResource(
+                "/game/assets/cityInfo/city.png"
+        ).toExternalForm())));
+        cityCenter.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                SelectController.selectedCity = GameController.getInstance().getCurrentCivilization().getCities().get(
+                        GameController.getInstance().getCurrentCivilization().getCities().size() - 1
+                );
+            }
+        });
     }
 }
