@@ -2,6 +2,8 @@ package game.View.components;
 
 
 import game.Controller.game.*;
+import game.Controller.game.*;
+import game.Controller.game.SelectController;
 import game.Controller.game.SelectController;
 import game.Enum.Resources;
 import game.Enum.TerrainFeatures;
@@ -10,11 +12,15 @@ import game.Main;
 import game.Model.Civilization;
 import game.Model.Terrain;
 import game.Model.Unit;
+import game.View.controller.Movement;
 import javafx.animation.Transition;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -69,9 +75,41 @@ public class Tile extends Polygon {
     private Popup popup;
     private Unit unit;
 
+    public Popup getPopup() {
+        return popup;
+    }
+    public ImageView getFeature() {
+        return feature;
+    }
+
+    public static double getTileHeight() {
+        return TILE_HEIGHT;
+    }
+
+    public static double getTileWidth() {
+        return TILE_WIDTH;
+    }
+
+    public static double getR() {
+        return r;
+    }
+
+    public static double getN() {
+        return n;
+    }
+
+    public Terrain getTerrain() {
+        return terrain;
+    }
+
+    public void setTerrain(Terrain terrain) {
+        this.terrain = terrain;
+    }
+
     public Tile(double x, double y, Terrain terrain) {
         this.x = x + 18;
         this.y = y - 50;
+        // creates the polygon using the corner coordinates
         getPoints().addAll(
                 x, y,
                 x + 0.5 * r, y + n,
@@ -85,12 +123,17 @@ public class Tile extends Polygon {
         setStroke(Color.WHITE);
         this.terrain = terrain;
         tiles.add(this);
-        if (this.equals(tiles.get(0))) TileController.changeStroke(this, Color.rgb(255,9,0), 5);
+        this.civilUnit = new Circle();
+        this.civilUnit.setRadius(0);
+        this.attackUnit = new Circle();
+        this.attackUnit.setRadius(0);
     }
+
 
     public static ArrayList<Tile> getTiles() {
         return tiles;
     }
+
 
 
     public void setBackground(String addressType, String addressTypeFeature, Resources resources,
@@ -150,6 +193,16 @@ public class Tile extends Polygon {
             else {
                 Window window = Main.scene.getWindow();
                 this.popup = new Popup();
+            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                if (Movement.isMoving) {
+                    Movement.move(this);
+                    return;
+                }
+                CityController.checkCityCenter(this);
+            }
+            else {
+                Window window = Main.scene.getWindow();
+                this.popup = new Popup();
 
                 AnchorPane anchorPane = new AnchorPane();
                 anchorPane.setStyle("-fx-background-color: rgba(255,255,255,0.49)");
@@ -185,6 +238,15 @@ public class Tile extends Polygon {
     private void checkMouseAction(Resources resources) {
         setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                CityController.checkCityCenter(this);
+            }else {
+                Window window = Main.scene.getWindow();
+                this.popup = new Popup();
+            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                if (Movement.isMoving) {
+                    Movement.move(this);
+                    return;
+                }
                 CityController.checkCityCenter(this);
             }else {
                 Window window = Main.scene.getWindow();
@@ -309,6 +371,39 @@ public class Tile extends Polygon {
         return text;
     }
 
+
+    public Circle getAttackUnit() {
+        return attackUnit;
+    }
+
+    public Circle getCivilUnit() {
+        return civilUnit;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setAttackUnit(Circle attackUnit) {
+        this.attackUnit = attackUnit;
+    }
+
+    public void setCivilUnit(Circle civilUnit) {
+        this.civilUnit = civilUnit;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
     public void updateUnitBackground() {
         GameController gameController = GameController.getInstance();
         for (Civilization civilization : gameController.getCivilizations()) {
@@ -320,12 +415,17 @@ public class Tile extends Polygon {
                     setUnitBackground(unit);
                 }
             }
+
         }
     }
 
     private void setUnitBackground(Unit unit) {
         if (UnitController.isCivilUnit(unit)) {
-            if (this.civilUnit == null) this.civilUnit = new Circle(this.x - 10, this.y, 35);
+            if (this.civilUnit.getRadius() == 0) {
+                this.civilUnit.setCenterX(this.x - 10);
+                this.civilUnit.setCenterY(this.y);
+                this.civilUnit.setRadius(35);
+            }
             this.civilUnit.setFill(new ImagePattern(new Image(Main.class.getResource(
                     "/game/assets/civAsset/units/Units/" + unit.getTypeOfUnit().getName() + ".png"
             ).toExternalForm())));
@@ -336,7 +436,7 @@ public class Tile extends Polygon {
                 }
             });
         } else {
-            if (this.attackUnit == null) {
+            if (this.attackUnit.getRadius() == 0) {
                 this.attackUnit = new Circle(this.x - 20, this.y, 35);
             }
             this.attackUnit.setFill(new ImagePattern(new Image(Main.class.getResource(

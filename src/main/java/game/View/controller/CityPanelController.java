@@ -7,6 +7,15 @@ import game.Controller.game.GameController;
 import game.Controller.game.TileController;
 import game.Controller.game.citizen.CitizenController;
 import game.Main;
+import game.Model.Civilization;
+import game.View.components.Tile;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import game.Model.Citizen;
 import game.Model.Civilization;
 import game.Model.User;
@@ -48,22 +57,20 @@ public class CityPanelController {
     public Button changeButton;
     public TextField constructionText;
     public Button purchaseButton;
-    public Button showCitizenButton;
-    public AnchorPane anchorPane;
 
     public static void openCityPanel() {
-//        if (selectedCity == null) CityPanelController.showError("Please select a city first!");
-//        else
+        if (selectedCity == null) CityPanelController.showError("Please select a city first!");
+        else
             Main.loadNewStage("city", "cityPanel");
     }
 
     public void initialize() {
-//        name.setText(selectedCity.getName());
-//        food.setText(String.valueOf(selectedCity.getFood()));
-//        production.setText(String.valueOf(selectedCity.getProduction()));
-//        citizens.setText(String.valueOf(selectedCity.getCitizens().size()));
-//        hp.setText(String.valueOf(selectedCity.getHp()));
-//        power.setText(String.valueOf(selectedCity.getDefencePower()));
+        name.setText(selectedCity.getName());
+        food.setText(String.valueOf(selectedCity.getFood()));
+        production.setText(String.valueOf(selectedCity.getProduction()));
+        citizens.setText(String.valueOf(selectedCity.getCitizens().size()));
+        hp.setText(String.valueOf(selectedCity.getHp()));
+        power.setText(String.valueOf(selectedCity.getDefencePower()));
     }
 
     public void buyTile(ActionEvent actionEvent) {

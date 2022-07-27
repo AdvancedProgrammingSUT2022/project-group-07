@@ -31,6 +31,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Popup;
 import javafx.stage.Window;
+import javafx.scene.shape.Circle;
+import javafx.stage.Popup;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,6 +66,8 @@ public class GamePageController {
     public Label selectedUnitDataLabel = new Label() ;
     public ToolBar selectedUnitPanel = new ToolBar() ;
 
+    //unit actions :
+    public ToolBar unitActions = new ToolBar();
     // next turn button
     public ImageView nextTurnImageView = new ImageView() ;
 
@@ -83,12 +88,13 @@ public class GamePageController {
     public ImageView diplomacyPanelImageView = new ImageView(new Image(getClass().getResource("/game/images/icons/DIPLOMACY_ICON.png").toExternalForm())) ;
 
     // save button
-    public Button saveButton = new Button("Save") ;
+    //public Button saveButton = new Button("Save") ;
 
     // current civilization Label
-    public Label currentCivilizationLabel = new Label() ;
+    //public Label currentCivilizationLabel = new Label() ;
 
     public ImageView cityPanelImageView = new ImageView(new Image(getClass().getResource("/game/assets/Civ_LEADER_CATHERINE_DE_MEDICI.png").toExternalForm())) ;
+
 
     // cheat stage :
     final BooleanProperty controlPressed = new SimpleBooleanProperty(false);
@@ -108,7 +114,7 @@ public class GamePageController {
                 if (tile.getFeature() != null)
                     game.getChildren().add(tile.getFeature());
                 tile.updateUnitBackground();
-                if (tile.getCivilUnit() != null) game.getChildren().add(tile.getCivilUnit());
+                game.getChildren().add(tile.getCivilUnit());
 
                 if (tile.getTerrain().hasRuin()
                         && GameController.getInstance().getCurrentCivilization().getVisibleTerrains().contains(tile.getTerrain()))
@@ -142,12 +148,12 @@ public class GamePageController {
         game.getChildren().add(othersPanel) ;
         game.getChildren().add(diplomacyPanelImageView) ;
         game.getChildren().add(cityPanelImageView);
-
-        game.getChildren().add(currentCivilizationLabel);
-        game.getChildren().add(saveButton);
-        saveButton.setOnMouseClicked(mouseEvent -> {
-            GameController.getInstance().saveData(GameController.getInstance() , "save1");
-        });
+        game.getChildren().add(unitActions);
+//        game.getChildren().add(currentCivilizationLabel);
+//        game.getChildren().add(saveButton);
+//        saveButton.setOnMouseClicked(mouseEvent -> {
+//            GameController.getInstance().saveData(GameController.getInstance() , "save1");
+//        });
 
         // updating info panel thread
         Thread infoPanelThread = new Thread(() -> {
@@ -188,19 +194,19 @@ public class GamePageController {
         miniPanelsThread.start();
 
         // hell of a test bro
-        Thread test = new Thread(() -> {
-            Runnable runnable = () -> {
-                currentCivilizationLabel.setText(GameController.getInstance().getCurrentCivilization().getName());
-                currentCivilizationLabel.setStyle("-fx-font-size: 20");
-            } ;
-            while (true) {
-                Platform.runLater(runnable);
-                try {Thread.sleep(400);}
-                catch (InterruptedException ignored) {}
-            }
-        });
-        test.setDaemon(true);
-        test.start();
+//        Thread test = new Thread(() -> {
+//            Runnable runnable = () -> {
+//                currentCivilizationLabel.setText(GameController.getInstance().getCurrentCivilization().getName());
+//                currentCivilizationLabel.setStyle("-fx-font-size: 20");
+//            } ;
+//            while (true) {
+//                Platform.runLater(runnable);
+//                try {Thread.sleep(400);}
+//                catch (InterruptedException ignored) {}
+//            }
+//        });
+//        test.setDaemon(true);
+//        test.start();
 
         Platform.runLater(new Runnable() {
             @Override
@@ -211,6 +217,18 @@ public class GamePageController {
         initializeGameKeyboardButtons();
         Main.playMenuMusic();
         //Movement.initializeMovements();
+    }
+
+
+    private void initializeUnitActions() {
+
+        unitActions.getItems().clear();
+        Button foundCity = new Button("found city");
+        Button move = new Button("move");
+        unitActions.getItems().addAll(foundCity , move);
+        ArrayList<Button> buttons = new ArrayList<>();
+        buttons.add(foundCity); buttons.add(move);
+        Movement.initializeActionButtons(buttons);
     }
 
 
@@ -321,10 +339,12 @@ public class GamePageController {
         othersPanel.setLayoutY(0+y);
         diplomacyPanelImageView.setLayoutX(x+1000);
         diplomacyPanelImageView.setLayoutY(y+80);
-        saveButton.setLayoutX(x+400);
-        saveButton.setLayoutY(y+300);
-        currentCivilizationLabel.setLayoutX(x+300);
-        currentCivilizationLabel.setLayoutY(y+200);
+        unitActions.setLayoutX(x + 500);
+        unitActions.setLayoutY(660 + y);
+//        saveButton.setLayoutX(x+400);
+//        saveButton.setLayoutY(y+300);
+//        currentCivilizationLabel.setLayoutX(x+300);
+//        currentCivilizationLabel.setLayoutY(y+200);
         cityPanelImageView.setLayoutX(x+1000);
         cityPanelImageView.setLayoutY(y+180);
     }
@@ -383,8 +403,13 @@ public class GamePageController {
             selectedUnitDataLabel.setText(unitData);
             if (!game.getChildren().contains(selectedUnitPanel))
                 game.getChildren().add(selectedUnitPanel);
+            if (!game.getChildren().contains(unitActions)) {
+                game.getChildren().add(unitActions);
+                initializeUnitActions();
+            }
         } catch (NullPointerException e){
             game.getChildren().remove(selectedUnitPanel);
+            game.getChildren().remove(unitActions);
         }
     }
 

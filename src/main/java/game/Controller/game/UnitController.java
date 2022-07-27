@@ -7,6 +7,8 @@ import game.Enum.TypeOfUnit;
 import game.Model.Location;
 import game.Model.Terrain;
 import game.Model.Unit;
+import game.View.components.Tile;
+import javafx.scene.control.Alert;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -27,6 +29,22 @@ public class UnitController {
             return "This unit does not belong to you!";
         if (!SelectController.positionIsValid(destination))
             return "Destination ( " + destination.getX() + " , " + destination.getY() + " ) is not valid!";
+        ArrayList<Terrain> path = TheShortestPath.showPath(origin, destination);
+        unit.setPathToGo(path);
+        return moveUnit(path ,  gameController , unit , destination);
+    }
+    public static String moveUnit(Tile tile, GameController gameController , Unit unit) {
+        if (unit == null)
+            return "is null";
+        Location origin = unit.getLocation();
+        Location destination = tile.getTerrain().getLocation();
+        if (!hasOwnerShip(unit, gameController))
+            return "not yours";
+        if (!SelectController.positionIsValid(destination)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("move is not valid!");
+            alert.show();
+        }
         ArrayList<Terrain> path = TheShortestPath.showPath(origin, destination);
         unit.setPathToGo(path);
         return moveUnit(path ,  gameController , unit , destination);

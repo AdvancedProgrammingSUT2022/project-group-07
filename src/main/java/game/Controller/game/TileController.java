@@ -24,7 +24,7 @@ public class TileController {
     }
 
     public static void findBackGround(Tile tile) {
-        if (!GameController.getInstance().getCurrentCivilization().getVisibleTerrains().contains(tile.getTerrain())) {
+        if (!GameController.getInstance().getCurrentCivilization().getKnownTerrains().contains(tile.getTerrain())) {
             tile.setFill(new ImagePattern(image));
             return;
         }
