@@ -108,16 +108,13 @@ public class GamePageController {
 
 
 
-
     ///////////////////////////////////////////////////////////////
     // setting panel ::
     private AnchorPane settingPane;
     private VBox settingBox;
     private Popup popup = new Popup();
 
-
     public void initialize() {
-
         Main.scene.setFill(new ImagePattern(new Image(getClass().getResource("/game/assets/Backgrounds/blue.jpg").toExternalForm())));
         firstX = game.getTranslateX();
         firstY = game.getTranslateY();
@@ -166,7 +163,6 @@ public class GamePageController {
         game.getChildren().add(cityPanelImageView);
         game.getChildren().add(unitActions);
 
-
         /////////////////////////////////////////////////////////////////
 
         setting = new ImageView(new Image(getClass().getResource("/game/assets/MainWindow/settings_gear.png").toExternalForm()));
@@ -175,7 +171,6 @@ public class GamePageController {
         setting.setFitHeight(50);
         setting.setFitWidth(50);
         game.getChildren().add(setting);
-
 //        game.getChildren().add(currentCivilizationLabel);
 //        game.getChildren().add(saveButton);
 //        saveButton.setOnMouseClicked(mouseEvent -> {
@@ -322,22 +317,12 @@ public class GamePageController {
         unitActions.getItems().clear();
         Button foundCity = new Button("found city");
         Button move = new Button("move");
-        unitActions.getItems().addAll(foundCity , move);
+        Button deleteUnit = new Button("delete unit");
+        Button sleep = new Button("sleep");
+        unitActions.getItems().addAll(foundCity , move , deleteUnit , sleep);
         ArrayList<Button> buttons = new ArrayList<>();
-        buttons.add(foundCity); buttons.add(move);
-        Movement.initializeActionButtons(buttons);
-    }
-
-
-    private void initializeUnitActions() {
-
-        unitActions.getItems().clear();
-        Button foundCity = new Button("found city");
-        Button move = new Button("move");
-        unitActions.getItems().addAll(foundCity , move);
-        ArrayList<Button> buttons = new ArrayList<>();
-        buttons.add(foundCity); buttons.add(move);
-        Movement.initializeActionButtons(buttons);
+        buttons.add(foundCity); buttons.add(move); buttons.add(deleteUnit); buttons.add(sleep);
+        Movement.initializeActionButtons(buttons , game);
     }
 
 
@@ -452,12 +437,10 @@ public class GamePageController {
         diplomacyPanelImageView.setLayoutY(y+80);
         unitActions.setLayoutX(x + 500);
         unitActions.setLayoutY(660 + y);
-
         settingPane = new AnchorPane();
         settingPane.setLayoutX(100);
         settingPane.setLayoutY(100);
         initializeSetting();
-
 //        saveButton.setLayoutX(x+400);
 //        saveButton.setLayoutY(y+300);
 //        currentCivilizationLabel.setLayoutX(x+300);
