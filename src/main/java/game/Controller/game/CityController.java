@@ -5,6 +5,7 @@ import game.Model.*;
 import game.Enum.TypeOfUnit;
 import game.Enum.UnitStatus;
 import game.View.components.Tile;
+import game.View.controller.CityPanelController;
 import javafx.scene.control.Alert;
 
 public class CityController {
@@ -46,16 +47,26 @@ public class CityController {
         else
             turn = typeOfUnit.getCost() / city.getProduction();
 
-        if (UnitController.anotherUnitIsInCenter(gameController, city))
-            return typeOfUnit + " wants to be created. Please move the unit which is in city center first!";
-
+        if (UnitController.anotherUnitIsInCenter(gameController, city)) {
+//            return typeOfUnit + " wants to be created. Please move the unit which is in city center first!";
+            CityPanelController.showError(typeOfUnit + " wants to be created. Please move the unit which is in city center first!");
+            return null;
+        }
         Unit newUnit = new Unit(typeOfUnit, UnitStatus.ACTIVE, location, typeOfUnit.getHp(), currentCivilization, turn);
         currentCivilization.addUnit(newUnit);
         city.getWantedUnits().remove(typeOfUnit);
         city.setProduction(city.getProduction() - typeOfUnit.getCost());
         NotificationController.logUnitCreated(typeOfUnit , currentCivilization);
+        setUnitPic();
+
+        Tile tile = TileController.getTileByTerrain(SelectController.selectedCity.getTerrains().get(0));
+
         return typeOfUnit + " has been created successfully in location ( "
                 + location.getX() + " , " + location.getY() + " ) !";
+    }
+
+    private static void setUnitPic() {
+
     }
 
     public static String showUnemployedCitizens(City city) {
