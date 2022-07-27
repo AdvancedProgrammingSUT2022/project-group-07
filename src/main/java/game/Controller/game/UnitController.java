@@ -62,6 +62,7 @@ public class UnitController {
         return 1;
     }
     public static boolean isCivilUnit(Unit unit) {
+        if (unit == null) return false;
         return unit.getTypeOfUnit() == TypeOfUnit.SETTLER || unit.getTypeOfUnit() == TypeOfUnit.WORKER;
     }
 
