@@ -11,6 +11,10 @@ import game.Main;
 import game.Model.*;
 import game.View.components.Tile;
 import javafx.application.Platform;
+
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -203,6 +207,7 @@ public class gamePageController {
         //Movement.initializeMovements();
     }
 
+
     private void initializeGameKeyboardButtons() {
         ctrlAndShiftAndCPressed.addListener(new ChangeListener<Boolean>() {
             @Override
@@ -222,6 +227,7 @@ public class gamePageController {
                 if (keyEvent.getCode() == KeyCode.SHIFT) leftShiftPressed.set(true);
                 else if (keyEvent.getCode() == KeyCode.CONTROL) controlPressed.set(true);
                 else if (keyEvent.getCode() == KeyCode.C) cPressed.set(true);
+
                 else if (keyEvent.getCode() == KeyCode.LEFT)  MapMovement.moveLeft(game, firstX);
                 else if (keyEvent.getCode() == KeyCode.RIGHT)  MapMovement.moveRight(game, firstX);
                 else if (keyEvent.getCode() == KeyCode.UP)  MapMovement.moveUp(game, firstY);
