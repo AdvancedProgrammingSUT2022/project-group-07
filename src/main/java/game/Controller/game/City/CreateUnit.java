@@ -1,12 +1,14 @@
 package game.Controller.game.City;
 
 import game.Controller.game.GameController;
+import game.Controller.game.TileController;
 import game.Controller.game.UnitController;
 import game.Model.*;
 import game.Enum.TypeOfUnit;
 import game.Enum.TypeOfTechnology;
 import game.Enum.Resources;
 import game.Enum.UnitStatus;
+import game.View.components.Tile;
 import game.View.controller.CityPanelController;
 import game.View.controller.UnitMenuController;
 
@@ -102,11 +104,14 @@ public class CreateUnit {
 
     public static String buyUnitWithGold(GameController gameController) {
         Civilization currentCivilization = gameController.getCurrentCivilization();
-        TypeOfUnit unit = selectedCity.getWantedUnits().get(0);
+//        TypeOfUnit unit = selectedCity.getWantedUnits().get(0);
+        TypeOfUnit unit = TypeOfUnit.WORKER;
         Location location = selectedCity.getTerrains().get(0).getLocation();
         if (currentCivilization.getGold() >= unit.getCost()) {
-            if (UnitController.anotherUnitIsInCenter(gameController, selectedCity))
+            if (UnitController.anotherUnitIsInCenter(gameController, selectedCity)) {
+                CityPanelController.showError(unit + " wants to be created. Please move the unit which is in city center first!");
                 return unit + " wants to be created. Please move the unit which is in city center first!";
+            }
             return createUnitWithGold(unit, location, currentCivilization);
         }
         return "Your city doesn't have enough gold to buy this unit!";
@@ -117,6 +122,10 @@ public class CreateUnit {
         currentCivilization.addUnit(newUnit);
         currentCivilization.setGold(currentCivilization.getGold() - unit.getCost());
         selectedCity.getWantedUnits().remove(unit);
+
+        Tile tile = TileController.getTileByTerrain(selectedCity.getTerrains().get(0));
+        tile.updateUnitBackground();
+
         return unit + " has been created successfully in location ( "
                 + location.getX() + " , " + location.getY() + " ) !";
     }
